@@ -325,10 +325,22 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     { tag: 'Compliance', title: 'The complete Garda vetting & DBS toolkit for employers', read: '11 min read', color: 'bg-emerald-50 text-emerald-700 border-emerald-100' },
   ];
 
+  const [cpdCategory, setCpdCategory] = useState('All');
+  const [cpdCourseModal, setCpdCourseModal] = useState<number | null>(null);
+
   const cpdCourses = [
-    { title: 'Antimicrobial Stewardship', hours: '3 CPD hours', icon: Award, color: 'from-green-500 to-green-600' },
-    { title: 'Safeguarding Adults at Risk', hours: '2 CPD hours', icon: ShieldCheck, color: 'from-violet-500 to-violet-600' },
-    { title: 'Emergency Contraception Consultation', hours: '4 CPD hours', icon: GraduationCap, color: 'from-emerald-500 to-emerald-600' },
+    { title: 'Antimicrobial Stewardship', hours: 3, icon: Award, color: 'from-green-500 to-green-600', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 4, desc: 'Understand responsible antibiotic prescribing, resistance mechanisms, and your role in reducing antimicrobial resistance across community and hospital settings.', outcomes: ['Define antimicrobial resistance and its public health impact', 'Apply stewardship principles in dispensing practice', 'Counsel patients on antibiotic adherence', 'Recognise red flags requiring escalation'] },
+    { title: 'Safeguarding Adults at Risk', hours: 2, icon: ShieldCheck, color: 'from-violet-500 to-violet-600', category: 'Compliance', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Recognise the signs of abuse and neglect in adult patients, understand your mandatory reporting obligations, and know how to escalate concerns through the correct channels.', outcomes: ['Identify categories of abuse and common indicators', 'Know your legal duty to report concerns', 'Follow local and national safeguarding procedures', 'Communicate sensitively with vulnerable adults'] },
+    { title: 'Emergency Contraception Consultation', hours: 4, icon: GraduationCap, color: 'from-emerald-500 to-emerald-600', category: 'Clinical', level: 'Advanced', accreditor: 'PSI / GPhC', modules: 5, desc: 'Deliver evidence-based emergency contraception consultations under PGD, covering patient assessment, product selection, counselling, and documentation in a community pharmacy setting.', outcomes: ['Assess eligibility for levonorgestrel and ulipristal acetate', 'Counsel patients on correct use and expectations', 'Document consultations to regulatory standard', 'Identify contraindications and refer appropriately'] },
+    { title: 'Medicines Reconciliation', hours: 3, icon: BookOpen, color: 'from-blue-500 to-blue-600', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 4, desc: 'Develop systematic processes for accurate medicines reconciliation at care transitions — admission, transfer, and discharge — to reduce medication errors and improve patient safety.', outcomes: ['Understand the medicines reconciliation process', 'Identify high-risk drugs at transition points', 'Conduct structured patient medication histories', 'Communicate discrepancies clearly to the clinical team'] },
+    { title: 'Controlled Drugs Management', hours: 2, icon: ShieldCheck, color: 'from-rose-500 to-rose-600', category: 'Compliance', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Master the legal framework and operational requirements for controlled drug storage, ordering, dispensing, record-keeping, and destruction in community and hospital pharmacy.', outcomes: ['Recall Schedule 2–5 regulatory requirements', 'Maintain CD registers accurately', 'Respond to CD discrepancies and incidents', 'Support supervised consumption programmes'] },
+    { title: 'Pharmacy First Consultations', hours: 4, icon: Stethoscope, color: 'from-teal-500 to-teal-600', category: 'Clinical', level: 'Intermediate', accreditor: 'GPhC', modules: 5, desc: 'Build confidence delivering NHS Pharmacy First consultations covering seven clinical pathways including sinusitis, sore throat, earache, infected insect bite, impetigo, shingles, and UTI.', outcomes: ['Apply each of the 7 Pharmacy First clinical pathways', 'Use the SBAR framework for consultation documentation', 'Identify escalation criteria for each pathway', 'Understand Patient Group Direction legal requirements'] },
+    { title: 'Dementia Awareness for Pharmacy', hours: 2, icon: Users, color: 'from-amber-500 to-amber-600', category: 'Clinical', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Develop awareness of dementia presentations, the impact on medication management, and communication strategies for working effectively with patients with dementia and their carers.', outcomes: ['Recognise common dementia types and presentations', 'Adapt communication to support patients with dementia', 'Identify medication-related challenges in dementia', 'Support carers with compliance aids and blister packs'] },
+    { title: 'Methadone & Opioid Substitution', hours: 3, icon: Award, color: 'from-indigo-500 to-indigo-600', category: 'Clinical', level: 'Advanced', accreditor: 'PSI / HPRA', modules: 4, desc: 'Gain a thorough understanding of opioid substitution therapy, supervised consumption protocols, patient counselling, and your clinical and legal responsibilities under the Misuse of Drugs Regulations.', outcomes: ['Understand pharmacology of methadone and buprenorphine', 'Apply supervised consumption best practice', 'Recognise signs of intoxication and withdrawal', 'Handle missed doses and lost prescription scenarios'] },
+    { title: 'Health & Safety for Locums', hours: 1, icon: ShieldCheck, color: 'from-slate-500 to-slate-600', category: 'Compliance', level: 'Foundation', accreditor: 'HSE / HSA', modules: 2, desc: 'A concise refresher on your health and safety rights and obligations as a locum worker, covering manual handling, COSHH, lone working, incident reporting, and PPE requirements.', outcomes: ['Know your H&S rights as an agency/locum worker', 'Apply COSHH principles in a pharmacy setting', 'Report incidents and near-misses correctly', 'Use PPE appropriately in clinical environments'] },
+    { title: 'Minor Ailments & Self-Care Advice', hours: 3, icon: Stethoscope, color: 'from-green-400 to-emerald-600', category: 'Clinical', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 4, desc: 'Sharpen your OTC advisory skills across common minor ailment categories — cold & flu, pain management, gastrointestinal, dermatology, and eye & ear — using structured consultation frameworks.', outcomes: ['Use WWHAM and ASMETHOD frameworks confidently', 'Recommend appropriate OTC products with evidence basis', 'Recognise when to refer to a GP or urgent care', 'Document OTC consultations to professional standard'] },
+    { title: 'Pharmacy Leadership & Management', hours: 5, icon: TrendingUp, color: 'from-violet-500 to-purple-600', category: 'Management', level: 'Advanced', accreditor: 'PSI / GPhC', modules: 6, desc: "Build the leadership and management competencies needed to lead a pharmacy team effectively — covering team dynamics, performance management, financial literacy, and regulatory governance.", outcomes: ['Apply key leadership models in a pharmacy context', 'Manage performance and development conversations', 'Understand pharmacy business KPIs and targets', 'Implement governance and quality improvement processes'] },
+    { title: 'Vaccination & Immunisation', hours: 4, icon: Zap, color: 'from-cyan-500 to-cyan-600', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 5, desc: 'Comprehensive training for pharmacists providing vaccination services — including patient assessment, cold chain management, anaphylaxis response, documentation, and post-vaccination advice.', outcomes: ['Assess patient eligibility for pharmacy-administered vaccines', 'Demonstrate correct vaccine preparation and administration technique', 'Manage adverse reactions including anaphylaxis', 'Maintain cold chain and vaccination records to standard'] },
   ];
 
   // ── Search bar (reused on multiple pages) ────────────────────────────────
@@ -2344,35 +2356,382 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       )}
 
       {/* ══════════════════════════════════════
-          CPD
+          CPD / TRAINING
       ══════════════════════════════════════ */}
       {page === 'cpd' && (
+        <>
         <div className="pt-[70px] min-h-screen bg-slate-50">
-          <div className="bg-gradient-to-br from-slate-900 to-green-950 pt-16 pb-14 px-6 text-center">
-            <span className="text-green-300 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-1.5 mb-3"><GraduationCap className="w-4 h-4" /> CPD Training</span>
-            <h1 className="text-4xl font-bold text-white tracking-tight">Keep your registration current</h1>
-            <p className="text-slate-400 text-sm mt-2 max-w-lg mx-auto">Earn CPD hours between shifts with accredited courses and certificates.</p>
-          </div>
-          <div className="max-w-5xl mx-auto px-6 py-12">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {cpdCourses.map(c => {
-                const Icon = c.icon;
-                return (
-                  <div key={c.title} className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md transition-all group cursor-pointer">
-                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center mb-4 shadow-md`}>
-                      <Icon className="w-5 h-5 text-white" />
+
+          {/* ── Hero ── */}
+          <section className="relative bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 overflow-hidden">
+            <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
+            <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-12 py-20 flex flex-col lg:flex-row items-center gap-14">
+              <motion.div className="flex-1 space-y-6" variants={stagger(0.12)} initial="hidden" animate="visible">
+                <motion.div variants={fadeUp}>
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold uppercase tracking-widest w-fit backdrop-blur-sm">
+                    <GraduationCap className="w-3.5 h-3.5 text-green-400" />
+                    CPD & Training · Accredited Courses
+                  </div>
+                </motion.div>
+                <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl font-bold text-white leading-[1.06] tracking-tight">
+                  Keep your registration<br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-green-500">current between shifts.</span>
+                </motion.h1>
+                <motion.p variants={fadeUp} className="text-lg text-white/70 leading-relaxed max-w-[500px]">
+                  Earn accredited CPD hours on your schedule. Courses designed for pharmacists, nurses, and allied health professionals — fully recognised by PSI and GPhC.
+                </motion.p>
+                <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
+                  <motion.button
+                    onClick={() => document.getElementById('cpd-courses')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    className="group flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-green-500 to-green-600 text-white font-semibold text-sm rounded-xl shadow-lg shadow-green-600/30"
+                    whileHover={{ scale: 1.03, boxShadow: '0 8px 30px rgba(22,163,74,0.45)' }} whileTap={{ scale: 0.97 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                  >
+                    Browse Courses <MoveRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </motion.button>
+                  <motion.button
+                    onClick={() => openAuth('signup')}
+                    className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-sm rounded-xl backdrop-blur-sm"
+                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                  >
+                    Create Free Account
+                  </motion.button>
+                </motion.div>
+              </motion.div>
+
+              {/* Floating stat cards */}
+              <div className="hidden lg:flex flex-col gap-3 shrink-0">
+                {[
+                  { val: '12+', label: 'Accredited courses', color: 'text-green-300' },
+                  { val: '40+', label: 'CPD hours available', color: 'text-amber-300' },
+                  { val: 'PSI', label: 'GPhC & PSI recognised', color: 'text-emerald-300' },
+                  { val: '100%', label: 'Online & self-paced', color: 'text-sky-300' },
+                ].map((s, i) => (
+                  <motion.div key={s.label}
+                    className="backdrop-blur-2xl bg-white/10 border border-white/15 rounded-2xl px-6 py-4 text-center w-48"
+                    initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.7, delay: 0.7 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                    whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.15)' }}
+                  >
+                    <div className={`text-3xl font-bold ${s.color}`}>{s.val}</div>
+                    <p className="text-white/65 text-xs mt-1 leading-snug">{s.label}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── Stats ribbon ── */}
+          <section className="bg-gradient-to-r from-green-600 to-green-700 border-y border-green-500/30">
+            <div className="max-w-[1280px] mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[
+                { icon: BookOpen, val: '12+', label: 'Accredited courses' },
+                { icon: Clock, val: '40+', label: 'CPD hours available' },
+                { icon: Award, val: '100%', label: 'Certificate on completion' },
+                { icon: GraduationCap, val: 'PSI & GPhC', label: 'Regulatory recognition' },
+              ].map(({ icon: Icon, val, label }) => (
+                <div key={label} className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-xl font-bold text-white">{val}</div>
+                    <div className="text-green-100 text-xs">{label}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ── Course catalogue ── */}
+          <section id="cpd-courses" className="py-20 bg-white">
+            <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+              <Reveal className="mb-10">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                  <div>
+                    <SectionLabel>Course Catalogue</SectionLabel>
+                    <h2 className="text-4xl font-bold text-slate-900 tracking-tight mt-3">
+                      {cpdCourses.filter(c => cpdCategory === 'All' || c.category === cpdCategory).length} courses available
+                    </h2>
+                  </div>
+                  {/* Category filter */}
+                  <div className="flex flex-wrap gap-2">
+                    {['All', 'Clinical', 'Compliance', 'Management'].map(cat => (
+                      <button key={cat} onClick={() => setCpdCategory(cat)}
+                        className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${cpdCategory === cat ? 'bg-[#276647] text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+
+              <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+                variants={stagger(0.07)}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+              >
+                {cpdCourses
+                  .filter(c => cpdCategory === 'All' || c.category === cpdCategory)
+                  .map((c, i) => {
+                    const Icon = c.icon;
+                    const levelColor = c.level === 'Foundation' ? 'bg-green-50 text-green-700' : c.level === 'Intermediate' ? 'bg-amber-50 text-amber-700' : 'bg-violet-50 text-violet-700';
+                    return (
+                      <motion.div key={c.title} variants={fadeUp}
+                        className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all flex flex-col group cursor-pointer"
+                        whileHover={{ y: -4, boxShadow: '0 12px 36px rgba(0,0,0,0.09)' }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                        onClick={() => setCpdCourseModal(cpdCourses.indexOf(c))}
+                      >
+                        <div className="flex items-start justify-between mb-4">
+                          <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center shadow-md`}>
+                            <Icon className="w-5 h-5 text-white" />
+                          </div>
+                          <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${levelColor}`}>{c.level}</span>
+                        </div>
+                        <h4 className="font-bold text-slate-900 mb-1.5 leading-snug">{c.title}</h4>
+                        <p className="text-xs text-slate-500 leading-relaxed mb-4 flex-1 line-clamp-2">{c.desc}</p>
+                        <div className="flex items-center justify-between pt-3 border-t border-slate-50">
+                          <div className="flex items-center gap-3 text-[11px] text-slate-400 font-medium">
+                            <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {c.hours} hrs CPD</span>
+                            <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" /> {c.modules} modules</span>
+                          </div>
+                          <span className="text-xs font-bold text-[#276647] group-hover:text-green-700 flex items-center gap-1">
+                            Preview <ChevronRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+              </motion.div>
+            </div>
+          </section>
+
+          {/* ── Learning paths ── */}
+          <section className="py-20 bg-slate-50 border-y border-slate-100">
+            <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+              <Reveal className="text-center mb-14">
+                <SectionLabel>Learning Paths</SectionLabel>
+                <h2 className="text-4xl font-bold text-slate-900 tracking-tight mt-4 mb-3">Structured routes for career growth</h2>
+                <p className="text-slate-500 text-base max-w-xl mx-auto">Bundle courses into a recognised pathway and build toward your next career milestone.</p>
+              </Reveal>
+              <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                variants={stagger(0.1)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
+                {[
+                  {
+                    title: 'Community Pharmacist Excellence', color: 'from-green-500 to-green-600', badge: 'bg-green-50 text-green-700',
+                    hours: 14, courses: 4, icon: Award,
+                    desc: 'Master the clinical and operational skills needed to excel in a busy community pharmacy — from Pharmacy First to controlled drugs to patient counselling.',
+                    tags: ['Pharmacy First', 'Minor Ailments', 'CD Management', 'Antimicrobial'],
+                  },
+                  {
+                    title: 'Clinical Compliance Bundle', color: 'from-violet-500 to-violet-600', badge: 'bg-violet-50 text-violet-700',
+                    hours: 8, courses: 3, icon: ShieldCheck,
+                    desc: 'Cover all your mandatory and recommended compliance training in one structured path — safeguarding, controlled drugs, and health & safety.',
+                    tags: ['Safeguarding', 'CD Management', 'H&S for Locums'],
+                  },
+                  {
+                    title: 'Pharmacy Leadership Track', color: 'from-amber-500 to-amber-600', badge: 'bg-amber-50 text-amber-700',
+                    hours: 10, courses: 3, icon: TrendingUp,
+                    desc: 'Develop the management and leadership competencies to take on a superintendent or management role in a pharmacy group or independent setting.',
+                    tags: ['Leadership & Management', 'Clinical Governance', 'Team Development'],
+                  },
+                ].map(({ title, color, badge, hours, courses, icon: Icon, desc, tags }) => (
+                  <motion.div key={title} variants={fadeUp}
+                    className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all group"
+                    whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
+                    <div className={`bg-gradient-to-br ${color} px-6 py-8`}>
+                      <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-lg font-bold text-white mb-1">{title}</h3>
+                      <div className="flex gap-3 text-white/80 text-xs mt-2">
+                        <span>{courses} courses</span>
+                        <span>·</span>
+                        <span>{hours} CPD hrs</span>
+                      </div>
                     </div>
-                    <h4 className="font-bold text-slate-900 mb-1">{c.title}</h4>
-                    <p className="text-xs text-slate-500 mb-4">{c.hours}</p>
-                    <button onClick={() => onBookDemo('CPD Training')} className="text-xs font-bold text-green-600 group-hover:text-green-700 flex items-center gap-1">
-                      Start course <ArrowRight className="w-3.5 h-3.5" />
+                    <div className="p-6 space-y-4">
+                      <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {tags.map(t => <span key={t} className={`text-[10px] font-bold px-2 py-1 rounded-full ${badge}`}>{t}</span>)}
+                      </div>
+                      <button onClick={() => openAuth('signup')}
+                        className="w-full py-2.5 border border-slate-200 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-50 group-hover:border-[#276647] group-hover:text-[#276647] transition-all flex items-center justify-center gap-1.5">
+                        Start learning path <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </section>
+
+          {/* ── How it works ── */}
+          <section className="py-20 bg-white">
+            <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+              <Reveal className="text-center mb-14">
+                <SectionLabel>How It Works</SectionLabel>
+                <h2 className="text-4xl font-bold text-slate-900 tracking-tight mt-4">From enrol to certificate in three steps</h2>
+              </Reveal>
+              <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8"
+                variants={stagger(0.12)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
+                {[
+                  { n: '01', icon: BookOpen, color: 'from-green-500 to-green-700', title: 'Browse & enrol', desc: 'Choose a course or learning path that matches your registration requirements. No upfront cost — all courses are included free with your MployUs account.' },
+                  { n: '02', icon: GraduationCap, color: 'from-emerald-500 to-emerald-700', title: 'Learn at your pace', desc: 'Work through video modules, case studies, and knowledge checks at whatever speed suits your schedule — start on your phone, finish on your laptop.' },
+                  { n: '03', icon: Award, color: 'from-teal-500 to-teal-700', title: 'Earn your certificate', desc: 'Pass the end-of-course assessment and download a digital certificate with your CPD hours. It lands straight in your MployUs compliance portfolio.' },
+                ].map(({ n, icon: Icon, color, title, desc }) => (
+                  <motion.div key={n} variants={fadeUp} className="flex flex-col items-center text-center gap-4">
+                    <div className="relative">
+                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center shadow-lg`}>
+                        <Icon className="w-7 h-7 text-white" />
+                      </div>
+                      <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-900 text-white text-[10px] font-bold flex items-center justify-center">{n}</div>
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900">{title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed max-w-[260px]">{desc}</p>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </section>
+
+          {/* ── Accreditation strip ── */}
+          <section className="py-14 bg-slate-50 border-y border-slate-100">
+            <div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center gap-10">
+              <div className="flex-1 space-y-3">
+                <SectionLabel>Accreditation & Recognition</SectionLabel>
+                <h3 className="text-3xl font-bold text-slate-900 tracking-tight">Courses recognised by your regulator</h3>
+                <p className="text-slate-500 text-sm leading-relaxed max-w-lg">All MployUs CPD courses are mapped to the PSI Continuing Professional Development Framework and GPhC revalidation standards, so your hours count toward your annual CPD requirement.</p>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 shrink-0">
+                {[
+                  { label: 'PSI Recognised', icon: CheckCircle2, color: 'text-green-500' },
+                  { label: 'GPhC Aligned', icon: CheckCircle2, color: 'text-green-500' },
+                  { label: 'NMBI Compatible', icon: CheckCircle2, color: 'text-green-500' },
+                  { label: 'Digital Certificate', icon: Award, color: 'text-amber-500' },
+                  { label: 'Self-Paced', icon: Clock, color: 'text-blue-500' },
+                  { label: 'Mobile Friendly', icon: Smartphone, color: 'text-violet-500' },
+                ].map(({ label, icon: Icon, color }) => (
+                  <div key={label} className="flex items-center gap-2 bg-white border border-slate-100 rounded-xl px-4 py-3 shadow-sm">
+                    <Icon className={`w-4 h-4 shrink-0 ${color}`} />
+                    <span className="text-xs font-semibold text-slate-700">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── CTA strip ── */}
+          <section className="py-20 bg-gradient-to-br from-slate-900 to-green-950">
+            <motion.div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8"
+              variants={stagger(0.12)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }}>
+              <motion.div variants={slideLeft} className="space-y-3">
+                <div className="text-xs font-bold text-green-400 uppercase tracking-widest">MployUs Training</div>
+                <h3 className="text-3xl font-bold text-white">Start earning CPD hours today</h3>
+                <p className="text-slate-400 text-sm">Free with every MployUs account. All courses, all certificates — no extra cost.</p>
+              </motion.div>
+              <motion.div variants={slideRight} className="flex flex-wrap items-center gap-3 shrink-0">
+                <motion.button onClick={() => openAuth('signup')}
+                  className="px-7 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-xl shadow-lg"
+                  whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
+                  Create Free Account
+                </motion.button>
+                <motion.button onClick={() => document.getElementById('cpd-courses')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="px-7 py-3.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-xl border border-green-500 flex items-center gap-2"
+                  whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
+                  Browse Courses <ArrowRight className="w-4 h-4" />
+                </motion.button>
+              </motion.div>
+            </motion.div>
+          </section>
+
+        </div>
+
+        {/* ── Course preview modal ── */}
+        {cpdCourseModal !== null && (() => {
+          const c = cpdCourses[cpdCourseModal];
+          const Icon = c.icon;
+          const levelColor = c.level === 'Foundation' ? 'text-green-700 bg-green-50' : c.level === 'Intermediate' ? 'text-amber-700 bg-amber-50' : 'text-violet-700 bg-violet-50';
+          return (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+              <motion.div className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} onClick={() => setCpdCourseModal(null)} />
+              <motion.div
+                className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
+                initial={{ opacity: 0, y: 40, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+              >
+                {/* Coloured header */}
+                <div className={`bg-gradient-to-br ${c.color} px-7 pt-7 pb-6 rounded-t-2xl`}>
+                  <div className="flex items-start justify-between">
+                    <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                    <button onClick={() => setCpdCourseModal(null)} className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors">
+                      <X className="w-4 h-4 text-white" />
                     </button>
                   </div>
-                );
-              })}
+                  <h2 className="text-xl font-bold text-white mt-4 leading-snug">{c.title}</h2>
+                  <div className="flex flex-wrap gap-3 mt-3 text-white/80 text-xs">
+                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {c.hours} CPD hours</span>
+                    <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" /> {c.modules} modules</span>
+                    <span className="flex items-center gap-1"><Award className="w-3 h-3" /> {c.accreditor}</span>
+                  </div>
+                </div>
+
+                <div className="px-7 py-6 space-y-5">
+                  <div className="flex items-center gap-2">
+                    <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${levelColor}`}>{c.level}</span>
+                    <span className="text-[11px] font-medium text-slate-400 bg-slate-50 px-2.5 py-1 rounded-full">{c.category}</span>
+                    <span className="text-[11px] font-medium text-slate-400 bg-slate-50 px-2.5 py-1 rounded-full">Self-paced</span>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-900 mb-2">About this course</h4>
+                    <p className="text-sm text-slate-600 leading-relaxed">{c.desc}</p>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-900 mb-3">What you'll learn</h4>
+                    <ul className="space-y-2">
+                      {c.outcomes.map(o => (
+                        <li key={o} className="flex items-start gap-2.5 text-sm text-slate-600">
+                          <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+                          {o}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-bold text-slate-900">Certificate on completion</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">Digital certificate added to your MployUs compliance portfolio automatically.</p>
+                    </div>
+                    <Award className="w-8 h-8 text-amber-400 shrink-0" />
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button onClick={() => setCpdCourseModal(null)}
+                      className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">
+                      Back
+                    </button>
+                    <button onClick={() => { setCpdCourseModal(null); openAuth('signup'); }}
+                      className="flex-1 py-3 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                      Enrol — it's free <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </div>
-        </div>
+          );
+        })()}
+        </>
       )}
 
       {/* ══════════════════════════════════════
