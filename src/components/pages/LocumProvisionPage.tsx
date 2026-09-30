@@ -2,8 +2,20 @@ import React, { useState } from 'react';
 import {
   Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, ArrowLeft, Star, Building2,
   Search, Calendar, Stethoscope, Briefcase, Mail, Lock, Linkedin, Phone, ChevronDown, ChevronRight,
-  BookOpen, GraduationCap, Cookie, FileText, Award, PlusCircle, UserPlus, Check, Activity, Menu, X, LogIn
+  BookOpen, GraduationCap, Cookie, FileText, Award, PlusCircle, UserPlus, Check, Activity, Menu, X, LogIn,
+  Apple, Play, Bell, Smartphone, Send, Zap, Wallet
 } from 'lucide-react';
+import { ImageWithFallback } from '../figma/ImageWithFallback';
+
+// Marketing imagery (Unsplash)
+const IMG_HERO = 'https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080';
+const IMG_APP = 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080';
+const GALLERY = [
+  { src: 'https://images.unsplash.com/photo-1758691463384-771db2f192b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800', alt: 'Locum doctor at a desk' },
+  { src: 'https://images.unsplash.com/photo-1683520701495-1888fa4633b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800', alt: 'Pharmacist in a community pharmacy' },
+  { src: 'https://images.unsplash.com/photo-1594819159323-b72124baafaa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800', alt: 'Healthcare colleagues together' },
+  { src: 'https://images.unsplash.com/photo-1612944095914-33fd0a85fcfc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800', alt: 'Nurse in uniform' }
+];
 
 interface LocumProvisionPageProps {
   onBackToHome: () => void;
@@ -184,20 +196,52 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
       {/* HERO + SHIFT SEARCH */}
       <section id="find-shifts" className="pt-28 lg:pt-32 pb-14 lg:pb-20 bg-white border-b border-black/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-5">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 border border-violet-200 text-violet-700 text-xs font-bold uppercase tracking-wider">
-              <Users className="w-3.5 h-3.5" /> Healthcare Locum Marketplace
-            </span>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.08]">
-              Find your next locum shift in Ireland & the UK
-            </h1>
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl">
-              MployUs Locums connects pharmacists, GPs, nurses, opticians and healthcare assistants with pharmacies and clinics needing temporary cover — flexible shifts, transparent pay, zero agency margins.
-            </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+            {/* Left: copy */}
+            <div className="space-y-5">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold uppercase tracking-wider">
+                <Users className="w-3.5 h-3.5" /> Healthcare Locum Marketplace
+              </span>
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.08]">
+                Browse & apply for flexible healthcare shifts near you
+              </h1>
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-xl">
+                MployUs Locums connects pharmacists, GPs, nurses, opticians and healthcare assistants with pharmacies and clinics needing temporary cover — flexible shifts, transparent pay, zero agency margins.
+              </p>
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <button onClick={() => scrollToId('post-shift')} className="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-lg transition-colors shadow-2xs flex items-center gap-2">
+                  Post a shift <ArrowRight className="w-4 h-4 text-slate-300" />
+                </button>
+                <button onClick={() => scrollToId('auth')} className="px-6 py-3.5 bg-white text-slate-900 font-semibold text-xs rounded-lg border border-black/10 hover:bg-slate-50 transition-colors">
+                  Create free account
+                </button>
+              </div>
+            </div>
+
+            {/* Right: image with floating stats */}
+            <div className="relative">
+              <div className="rounded-3xl overflow-hidden border border-black/10 shadow-sm">
+                <ImageWithFallback src={IMG_HERO} alt="Healthcare professional ready for a locum shift" className="w-full h-72 sm:h-96 object-cover" />
+              </div>
+              <div className="absolute -bottom-4 -left-4 bg-white border border-black/10 rounded-2xl shadow-sm px-4 py-3 flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center"><Building2 className="w-4 h-4" /></div>
+                <div className="leading-none">
+                  <div className="text-lg font-extrabold text-slate-900">25+</div>
+                  <div className="text-[10px] text-slate-500 font-medium mt-0.5">Partner facilities</div>
+                </div>
+              </div>
+              <div className="absolute -top-4 -right-4 bg-white border border-black/10 rounded-2xl shadow-sm px-4 py-3 flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center"><Users className="w-4 h-4" /></div>
+                <div className="leading-none">
+                  <div className="text-lg font-extrabold text-slate-900">140+</div>
+                  <div className="text-[10px] text-slate-500 font-medium mt-0.5">Registered pros</div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Search bar */}
-          <div className="max-w-4xl mx-auto mt-8 bg-white border border-black/10 rounded-2xl shadow-sm p-3 grid grid-cols-1 md:grid-cols-4 gap-2">
+          <div className="max-w-5xl mx-auto mt-12 lg:mt-16 bg-white border border-black/10 rounded-2xl shadow-sm p-3 grid grid-cols-1 md:grid-cols-4 gap-2">
             <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
               <Stethoscope className="w-4 h-4 text-slate-400 shrink-0" />
               <select
@@ -288,6 +332,52 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* CONNECT QUICKLY FEATURE */}
+      <section className="py-14 bg-white border-y border-black/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <div className="rounded-3xl overflow-hidden border border-black/10 shadow-sm order-last lg:order-first">
+            <ImageWithFallback src={GALLERY[1].src} alt={GALLERY[1].alt} className="w-full h-72 sm:h-80 object-cover" />
+          </div>
+          <div className="space-y-5">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Matched in minutes</span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Connect quickly to the right job</h2>
+            <p className="text-sm text-slate-600 leading-relaxed max-w-lg">
+              Tell us your profession, availability and preferred locations. We surface the shifts that fit — with the rate, distance and requirements up front — so you can apply in a single tap.
+            </p>
+            <ul className="space-y-3">
+              {[
+                { icon: Zap, text: 'Instant shift matching based on your profile' },
+                { icon: Wallet, text: 'Transparent pay — keep 100% of your rate' },
+                { icon: ShieldCheck, text: 'Verified employers, Garda-vetted & DBS-checked' }
+              ].map(item => {
+                const Icon = item.icon;
+                return (
+                  <li key={item.text} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center shrink-0"><Icon className="w-4 h-4" /></div>
+                    <span className="text-sm font-medium text-slate-700">{item.text}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* HEALTHCARE PHOTO GALLERY */}
+      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-8">
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">One community</span>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Trusted by healthcare professionals across Ireland & the UK</h2>
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {GALLERY.map(g => (
+            <div key={g.alt} className="rounded-2xl overflow-hidden border border-black/10 shadow-2xs">
+              <ImageWithFallback src={g.src} alt={g.alt} className="w-full h-48 sm:h-56 object-cover" />
+            </div>
+          ))}
         </div>
       </section>
 
@@ -636,6 +726,65 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
         </div>
       </section>
 
+      {/* MOBILE APP PROMO */}
+      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="rounded-3xl bg-gradient-to-br from-blue-600 to-blue-700 text-white overflow-hidden border border-blue-700 shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="p-8 sm:p-12 space-y-5">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-white text-xs font-bold uppercase tracking-wider">
+                <Smartphone className="w-3.5 h-3.5" /> Our Locum Mobile App
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">Book shifts on the go</h2>
+              <p className="text-sm text-blue-50 leading-relaxed max-w-md">
+                Get instant push notifications for new shifts near you, apply in one tap, submit timesheets, and track weekly payments — all from your phone.
+              </p>
+              <ul className="space-y-2">
+                {[
+                  { icon: Bell, text: 'Real-time shift alerts' },
+                  { icon: Check, text: 'One-tap apply & in-app timesheets' },
+                  { icon: Wallet, text: 'Weekly payment tracking' }
+                ].map(f => {
+                  const Icon = f.icon;
+                  return (
+                    <li key={f.text} className="flex items-center gap-2.5 text-sm text-blue-50">
+                      <Icon className="w-4 h-4 text-white shrink-0" /> {f.text}
+                    </li>
+                  );
+                })}
+              </ul>
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <button onClick={() => onBookDemo('iOS App')} className="flex items-center gap-2.5 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl border border-white/10 transition-colors">
+                  <Apple className="w-5 h-5" />
+                  <span className="text-left leading-none">
+                    <span className="block text-[9px] text-slate-300">Download on the</span>
+                    <span className="block text-xs font-bold">App Store</span>
+                  </span>
+                </button>
+                <button onClick={() => onBookDemo('Android App')} className="flex items-center gap-2.5 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl border border-white/10 transition-colors">
+                  <Play className="w-5 h-5 fill-current" />
+                  <span className="text-left leading-none">
+                    <span className="block text-[9px] text-slate-300">Get it on</span>
+                    <span className="block text-xs font-bold">Google Play</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div className="relative h-full min-h-[320px] flex items-center justify-center p-8">
+              <div className="rounded-3xl overflow-hidden border-4 border-white/20 shadow-sm w-52 sm:w-60 aspect-[9/19] bg-slate-900">
+                <ImageWithFallback src={IMG_APP} alt="Healthcare professional using the MployUs Locums app" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute top-10 right-6 bg-white text-slate-900 rounded-2xl shadow-sm px-3 py-2 flex items-center gap-2 border border-black/10">
+                <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center"><Bell className="w-3.5 h-3.5" /></div>
+                <div className="leading-none">
+                  <div className="text-[10px] font-bold">New shift nearby</div>
+                  <div className="text-[9px] text-slate-500 mt-0.5">€58/hr · Galway</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section id="faq" className="py-14 bg-white border-y border-black/10 scroll-mt-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -711,6 +860,27 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
 
       {/* STANDALONE FOOTER */}
       <footer className="mt-14 bg-slate-900 text-slate-300">
+        {/* Newsletter */}
+        <div className="border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="space-y-1">
+              <h3 className="text-lg font-bold text-white">Get new shifts in your inbox</h3>
+              <p className="text-xs text-slate-400">Weekly shift digests and rate updates for Ireland & the UK. No spam.</p>
+            </div>
+            <form
+              onSubmit={(e) => { e.preventDefault(); onBookDemo('Newsletter'); }}
+              className="flex items-center gap-2 w-full md:w-auto"
+            >
+              <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/10 border border-white/10 flex-1 md:w-72">
+                <Mail className="w-4 h-4 text-slate-400" />
+                <input type="email" required placeholder="you@email.com" className="bg-transparent text-xs text-white w-full outline-none placeholder:text-slate-500" />
+              </div>
+              <button type="submit" className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5">
+                Subscribe <Send className="w-3.5 h-3.5" />
+              </button>
+            </form>
+          </div>
+        </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1 space-y-3">
             <div className="flex items-center gap-2">
