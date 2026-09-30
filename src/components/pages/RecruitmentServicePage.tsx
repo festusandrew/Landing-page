@@ -304,51 +304,96 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const HomePage = () => (
     <Fade>
       {/* Hero */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
-          <div className="flex-1 min-w-0">
-            <Eyebrow>Recruitment · Staffing · HR Advisory</Eyebrow>
-            <H1 className="mb-5">Find the right people.<br />Build a stronger team.</H1>
-            <p className="text-[17px] leading-[1.65] max-w-lg mb-8" style={{ color: TM }}>
-              MployUs connects Irish businesses with skilled professionals across logistics, healthcare, hospitality, and education. Permanent, contract, or executive — we handle it.
-            </p>
-            <div className="flex flex-wrap gap-3 mb-10">
-              <button onClick={openContact} className="flex items-center gap-2 px-6 py-3.5 rounded-lg text-[15px] font-medium text-white hover:opacity-90" style={{ backgroundColor: P }}>
-                Request Talent <ArrowRight className="w-4 h-4" />
-              </button>
-              <button onClick={() => goTo('jobseekers')} className="flex items-center gap-2 px-6 py-3.5 rounded-lg text-[15px] font-medium border" style={{ borderColor: BD, color: TD }}>
-                Explore Vacancies
-              </button>
-            </div>
-            <div className="flex flex-wrap items-center gap-6">
-              <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#00c950' }} /><span className="text-[13px]" style={{ color: TT }}>1,200+ placements</span></div>
-              <div className="w-px h-4" style={{ backgroundColor: BD }} />
-              <span className="text-[13px]" style={{ color: TT }}>4 industry sectors</span>
-              <div className="w-px h-4" style={{ backgroundColor: BD }} />
-              <span className="text-[13px]" style={{ color: TT }}>Dublin &amp; Cork offices</span>
-            </div>
-          </div>
-          {/* Consultant card */}
-          <div className="w-full lg:w-[340px] shrink-0">
-            <div className="bg-white rounded-2xl overflow-hidden border" style={{ borderColor: BDL }}>
-              <div className="h-[340px] overflow-hidden">
-                <img src={imgLouis} alt="Louis Moses" className="w-full h-full object-cover object-top" />
-              </div>
-              <div className="p-5 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[16px] font-medium" style={{ color: P }}>Louis Moses</p>
-                    <p className="text-[13px]" style={{ color: TM }}>Talent Acquisition Specialist</p>
-                  </div>
-                  <span className="text-[11px] font-medium px-3 py-1 rounded border tracking-wide uppercase" style={{ backgroundColor: '#ecfdf5', borderColor: '#d0fae5', color: '#007a55' }}>Top Rated</span>
-                </div>
-                <div className="pt-4 border-t text-[13px] leading-relaxed" style={{ borderColor: BDL, color: TM }}>
-                  Connected 1,000+ businesses with qualified candidates across Ireland and the UK.
-                </div>
-              </div>
-            </div>
-          </div>
+      <section className="relative min-h-[88vh] flex flex-col overflow-hidden">
+        {/* Background image with scale-in */}
+        <motion.div
+          className="absolute inset-0"
+          initial={{ scale: 1.08 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <img src={imgHiring} alt="" className="w-full h-full object-cover object-center" />
+          <div className="absolute inset-0 bg-slate-950/85" />
+          <div className="absolute inset-0 bg-slate-950/55" />
+        </motion.div>
+
+        {/* Glassmorphic stat cards — right side */}
+        <div className="absolute right-[6%] top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-3 z-10">
+          {[
+            { val: '1,200+', label: 'Placements Made',      color: 'text-pink-300' },
+            { val: '4',      label: 'Industry Sectors',     color: 'text-fuchsia-300' },
+            { val: '90-day', label: 'Replacement Guarantee', color: 'text-rose-300' },
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.val}
+              className="backdrop-blur-2xl bg-white/10 border border-black/5 rounded-2xl px-6 py-5 text-center w-52"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.8 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.15)' }}
+            >
+              <div className={`text-4xl font-bold ${stat.color}`}>{stat.val}</div>
+              <p className="text-white/70 text-xs mt-1.5 leading-snug">{stat.label}</p>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Hero copy — staggered */}
+        <motion.div
+          className="relative z-10 flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-20 xl:px-28 max-w-[780px] py-24"
+          initial="hidden"
+          animate="visible"
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+        >
+          <motion.div variants={{ hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/90 text-xs font-semibold uppercase tracking-widest mb-6 w-fit backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#f472b6' }} />
+              Recruitment · Staffing · HR Advisory · Ireland &amp; UK
+            </div>
+          </motion.div>
+
+          <motion.h1
+            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-5 font-['Arimo',sans-serif]"
+            variants={{ hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
+          >
+            Find the right people.<br />
+            <span style={{ color: '#f472b6' }}>Build a stronger</span><br />
+            team.
+          </motion.h1>
+
+          <motion.p
+            className="text-lg text-white/75 leading-relaxed max-w-[520px] mb-8 font-normal"
+            variants={{ hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
+          >
+            MployUs connects Irish businesses with skilled professionals across logistics, healthcare, hospitality, and education. Permanent, contract, or executive — we handle it.
+          </motion.p>
+
+          <motion.div
+            className="flex flex-wrap gap-3"
+            variants={{ hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
+          >
+            <motion.button
+              onClick={openContact}
+              className="group flex items-center gap-2 px-7 py-3.5 text-white font-semibold text-sm rounded-xl"
+              style={{ backgroundColor: P }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+            >
+              Request Talent
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </motion.button>
+            <motion.button
+              onClick={() => goTo('jobseekers')}
+              className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-black/5 text-white font-semibold text-sm rounded-xl backdrop-blur-sm"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+            >
+              Explore Vacancies
+            </motion.button>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Features */}
