@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, Zap, Calculator, Bell, Check, PhoneCall, ArrowLeft, Star, Building2, Smartphone, LayoutDashboard, BarChart3, CalendarClock, Play } from 'lucide-react';
-import locumDashboard from '../../imports/Screenshot_2026-07-24_140350.png';
+import {
+  Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, ArrowLeft, Star, Building2,
+  Search, Calendar, Stethoscope, Briefcase, Mail, Lock, Linkedin, Phone, ChevronDown, ChevronRight,
+  BookOpen, GraduationCap, Cookie, FileText, Award, PlusCircle, UserPlus, Check
+} from 'lucide-react';
 
 interface LocumProvisionPageProps {
   onBackToHome: () => void;
@@ -8,97 +11,87 @@ interface LocumProvisionPageProps {
   onStartTrial: () => void;
 }
 
+type Profession = {
+  name: string;
+  reg: string | null;
+  region: 'UK' | 'IE' | 'Both';
+};
+
+const PROFESSIONS: Profession[] = [
+  { name: 'Locum GP', reg: 'GMC Number', region: 'UK' },
+  { name: 'Locum GP (Ireland)', reg: 'IMC Number', region: 'IE' },
+  { name: 'Agency Nurse', reg: 'NMBI Number', region: 'IE' },
+  { name: 'Locum Optician', reg: 'CORU Registration Number', region: 'Both' },
+  { name: 'Locum Pharmacist', reg: 'PSNI Number', region: 'Both' },
+  { name: 'Agency HCA', reg: null, region: 'Both' },
+  { name: 'Locum Pharmacy Technician', reg: null, region: 'Both' }
+];
+
 export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
   onBackToHome,
   onBookDemo,
   onStartTrial
 }) => {
-  // Interactive State for Shift Dispatch Simulator
-  const [activeRoleFilter, setActiveRoleFilter] = useState<'all' | 'RGN' | 'HCA' | 'Senior Carer'>('all');
-  const [bookedShiftIds, setBookedShiftIds] = useState<string[]>([]);
-  const [hourlyRate, setHourlyRate] = useState<number>(28);
-  const [shiftHours, setShiftHours] = useState<number>(12);
-  const [locumCount, setLocumCount] = useState<number>(2);
+  // Shift search
+  const [searchProfession, setSearchProfession] = useState('Locum Pharmacist');
+  const [searchLocation, setSearchLocation] = useState('Dublin');
 
-  const mockShifts = [
-    {
-      id: 'shift-101',
-      facility: 'Sunrise Care Home - West Suite',
-      role: 'RGN',
-      date: 'Today • Night Shift (20:00 - 08:00)',
-      rate: '£34.00/hr',
-      urgency: 'URGENT',
-      distance: '1.2 miles away',
-      compliance: 'NMC Validated • Enhanced DBS',
-      assignedLocum: 'Sarah Jenkins (RGN - 4.9 ★)'
-    },
-    {
-      id: 'shift-102',
-      facility: 'Meadowview Residential Unit',
-      role: 'Senior Carer',
-      date: 'Tomorrow • Day Shift (08:00 - 20:00)',
-      rate: '£22.50/hr',
-      urgency: 'HIGH PRIORITY',
-      distance: '2.8 miles away',
-      compliance: 'Level 3 NVQ • DBS Verified',
-      assignedLocum: 'David Okafor (Senior Carer - 5.0 ★)'
-    },
-    {
-      id: 'shift-103',
-      facility: 'Beacon Dementia Facility',
-      role: 'HCA',
-      date: 'Today • Late Shift (14:00 - 22:00)',
-      rate: '£18.50/hr',
-      urgency: 'URGENT',
-      distance: '0.8 miles away',
-      compliance: 'Care Certificate • Manual Handling',
-      assignedLocum: 'Elena Rostova (HCA - 4.8 ★)'
-    },
-    {
-      id: 'shift-104',
-      facility: 'St. Jude Clinical Care Wing',
-      role: 'RGN',
-      date: 'Sat, 26 Jul • Day Shift (08:00 - 20:00)',
-      rate: '£36.00/hr',
-      urgency: 'PLANNED COVER',
-      distance: '3.5 miles away',
-      compliance: 'NMC Registered • Tracheostomy Cert',
-      assignedLocum: 'Pending Dispatch'
-    }
+  // Employer posting wizard
+  const [wizardStep, setWizardStep] = useState(1);
+  const [postType, setPostType] = useState<'Locum Shift' | 'Permanent Job'>('Locum Shift');
+
+  // Auth / onboarding
+  const [role, setRole] = useState<'Locum' | 'Client' | null>(null);
+  const [setupProfession, setSetupProfession] = useState<Profession>(PROFESSIONS[4]);
+  const [smsCode, setSmsCode] = useState(['', '', '', '', '', '']);
+
+  // FAQ
+  const [faqRegion, setFaqRegion] = useState<'UK' | 'IE'>('IE');
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  // Cookie banner
+  const [cookieOpen, setCookieOpen] = useState(true);
+  const [cookiePrefsOpen, setCookiePrefsOpen] = useState(false);
+  const [cookiePrefs, setCookiePrefs] = useState({
+    necessary: true,
+    functional: true,
+    performance: true,
+    targeting: false
+  });
+
+  const shifts = [
+    { facility: 'Boots Pharmacy — Grafton St', location: 'Dublin 2, IE', date: 'Mon 27 Jul', time: '09:00 – 18:00', rate: '€55/hr', urgent: true },
+    { facility: 'McCabes Pharmacy', location: 'Cork City, IE', date: 'Tue 28 Jul', time: '08:30 – 17:30', rate: '€52/hr', urgent: false },
+    { facility: 'LloydsPharmacy', location: 'Galway, IE', date: 'Wed 29 Jul', time: '10:00 – 19:00', rate: '€58/hr', urgent: true },
+    { facility: 'Hickeys Pharmacy', location: 'Limerick, IE', date: 'Thu 30 Jul', time: '09:00 – 18:00', rate: '€50/hr', urgent: false }
   ];
 
-  const filteredShifts = mockShifts.filter(s => activeRoleFilter === 'all' || s.role === activeRoleFilter);
+  const articles = [
+    { tag: 'Market Report', title: 'How Irish SMEs are rethinking recruitment in 2026', read: '6 min read' },
+    { tag: 'Salary Guide', title: '2026 Locum Pharmacist pay rates: Ireland vs UK', read: '8 min read' },
+    { tag: 'Compliance', title: 'The complete Garda vetting & DBS toolkit for employers', read: '11 min read' }
+  ];
 
-  const totalCalculatedCost = hourlyRate * shiftHours * locumCount;
+  const cpdCourses = [
+    { title: 'Antimicrobial Stewardship', hours: '3 CPD hours', icon: Award },
+    { title: 'Safeguarding Adults at Risk', hours: '2 CPD hours', icon: ShieldCheck },
+    { title: 'Emergency Contraception Consultation', hours: '4 CPD hours', icon: GraduationCap }
+  ];
 
-  const handleBookShift = (id: string) => {
-    if (!bookedShiftIds.includes(id)) {
-      setBookedShiftIds([...bookedShiftIds, id]);
-    }
+  const faqs = {
+    IE: [
+      { q: 'What commission does MployUs Locums charge in Ireland?', a: 'Locums keep 100% of their advertised rate. Clients pay a flat platform fee per filled shift — no percentage commissions and no hidden agency margins.' },
+      { q: 'How and when do locums get paid?', a: 'Timesheets are approved in-app after each shift. Payments are processed weekly by SEPA transfer, typically within 3 working days of approval.' },
+      { q: 'What is the cancellation policy?', a: 'Shifts cancelled more than 48 hours in advance are free. Late cancellations inside 24 hours may incur a fee to protect the other party.' },
+      { q: 'Do I need Garda vetting?', a: 'Yes. All Irish healthcare locums must complete Garda vetting, which we facilitate and store securely in your compliance vault.' }
+    ],
+    UK: [
+      { q: 'What commission does MployUs Locums charge in the UK & NI?', a: 'The same transparent model applies: locums keep 100% of their rate and clients pay a flat per-shift fee with no percentage commissions.' },
+      { q: 'How and when do locums get paid?', a: 'Payments are processed weekly by Faster Payments, usually within 2 working days of timesheet approval.' },
+      { q: 'What is the cancellation policy?', a: 'Cancellations more than 48 hours ahead are free; late cancellations within 24 hours may be charged to the cancelling party.' },
+      { q: 'Do I need a DBS check?', a: 'Yes. UK & NI locums require an Enhanced DBS check, which we facilitate and store in your digital compliance vault.' }
+    ]
   };
-
-  const dashboardFeatures = [
-    {
-      icon: BarChart3,
-      title: 'Real-time shift analytics',
-      desc: 'Track fill rate, active shifts, open requests and time-to-fill at a glance — every metric updates the moment a locum is booked.'
-    },
-    {
-      icon: CalendarClock,
-      title: 'Emergency staffing alerts',
-      desc: 'Unfilled and urgent shifts surface at the top of the dashboard so your team can act on gaps before they impact care.'
-    },
-    {
-      icon: ShieldCheck,
-      title: 'Compliance & risk at a glance',
-      desc: 'Live compliance alerts flag expiring DBS checks, NMC PINs and mandatory training before they become a problem.'
-    },
-    {
-      icon: BarChart3,
-      title: 'Payroll & invoicing built in',
-      desc: 'Approve timesheets, see revenue MTD and generate invoices without ever leaving the locum dashboard.'
-    }
-  ];
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pt-20 pb-16 animate-fade-in font-['Plus_Jakarta_Sans',sans-serif]">
@@ -113,405 +106,588 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </button>
           <div className="flex items-center gap-2 text-xs font-semibold text-blue-700">
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-            <span>Locum Dashboard Live (98.4% Shift Fill Rate)</span>
+            <span>MployUs Locums · Ireland & UK Marketplace</span>
           </div>
         </div>
       </div>
 
-      {/* HERO — Dashboard-led landing */}
-      <section className="py-14 lg:py-20 bg-white border-b border-black/10 overflow-hidden">
+      {/* HERO + SHIFT SEARCH */}
+      <section className="py-14 lg:py-20 bg-white border-b border-black/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-5">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 border border-violet-200 text-violet-700 text-xs font-bold uppercase tracking-wider">
-              <LayoutDashboard className="w-3.5 h-3.5" /> The Locum Dashboard
+              <Users className="w-3.5 h-3.5" /> Healthcare Locum Marketplace
             </span>
-
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.08]">
-              Every locum shift, in one live dashboard
+              Find your next locum shift in Ireland & the UK
             </h1>
-
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl">
-              Dispatch urgent shifts, monitor fill rates, track compliance and run payroll — all from a single command centre built for UK care providers. Fill unexpected gaps in under 2 hours with zero paperwork.
+              MployUs Locums connects pharmacists, GPs, nurses, opticians and healthcare assistants with pharmacies and clinics needing temporary cover — flexible shifts, transparent pay, zero agency margins.
             </p>
-
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <button
-                onClick={() => onBookDemo('Locum Dashboard')}
-                className="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm rounded-lg transition-colors shadow-xs flex items-center gap-2"
-              >
-                Book a Dashboard Demo <ArrowRight className="w-4 h-4 text-slate-300" />
-              </button>
-              <button
-                onClick={onStartTrial}
-                className="px-6 py-3.5 bg-white hover:bg-slate-50 text-slate-900 font-semibold text-sm rounded-lg border border-black/10 shadow-2xs transition-colors flex items-center gap-2"
-              >
-                <Play className="w-3.5 h-3.5 fill-current" /> Start 14-Day Free Trial
-              </button>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-xs text-slate-600 font-medium">
-              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-blue-600" /> 100% verified DBS & NMC</span>
-              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-blue-600" /> No setup fees</span>
-              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-blue-600" /> CQC compliant</span>
-            </div>
           </div>
 
-          {/* Dashboard screenshot in browser frame */}
-          <div className="relative max-w-5xl mx-auto mt-12">
-            <div className="rounded-2xl bg-white border border-black/10 shadow-sm overflow-hidden">
-              <div className="bg-slate-50 px-4 py-3 border-b border-black/10 flex items-center gap-2">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-slate-300" />
-                  <div className="w-3 h-3 rounded-full bg-slate-300" />
-                  <div className="w-3 h-3 rounded-full bg-slate-300" />
-                </div>
-                <span className="text-xs font-mono text-slate-500 ml-2 hidden sm:inline">mployus.cloud/locum/dashboard</span>
-              </div>
-              <img
-                src={locumDashboard}
-                alt="MployUs locum dashboard showing active shifts, fill rate, emergency staffing alerts and shift fill trends"
-                className="w-full object-cover object-top"
+          {/* Search bar */}
+          <div className="max-w-4xl mx-auto mt-8 bg-white border border-black/10 rounded-2xl shadow-sm p-3 grid grid-cols-1 md:grid-cols-4 gap-2">
+            <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
+              <Stethoscope className="w-4 h-4 text-slate-400 shrink-0" />
+              <select
+                value={searchProfession}
+                onChange={(e) => setSearchProfession(e.target.value)}
+                className="bg-transparent text-xs font-semibold text-slate-800 w-full outline-none cursor-pointer"
+              >
+                {PROFESSIONS.map(p => <option key={p.name}>{p.name}</option>)}
+              </select>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
+              <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+              <input
+                value={searchLocation}
+                onChange={(e) => setSearchLocation(e.target.value)}
+                placeholder="Location"
+                className="bg-transparent text-xs font-semibold text-slate-800 w-full outline-none placeholder:text-slate-400"
               />
             </div>
-            {/* Floating stat callout */}
-            <div className="hidden sm:flex absolute -bottom-5 -left-5 items-center gap-3 bg-white border border-black/10 rounded-xl shadow-sm px-4 py-3">
-              <div className="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center">
-                <Zap className="w-4 h-4" />
+            <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
+              <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
+              <input type="date" className="bg-transparent text-xs font-semibold text-slate-600 w-full outline-none" />
+            </div>
+            <button className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-xl transition-colors flex items-center justify-center gap-2">
+              <Search className="w-4 h-4" /> Search Shifts
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* SHIFT RESULTS + IRELAND MAP */}
+      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Available now</span>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">{searchProfession} shifts near {searchLocation}</h2>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-3">
+            {shifts.map((s) => (
+              <div key={s.facility} className="p-5 rounded-xl bg-white border border-black/10 shadow-2xs flex items-center justify-between gap-4">
+                <div className="space-y-1">
+                  {s.urgent && (
+                    <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-200">Urgent</span>
+                  )}
+                  <h4 className="text-sm font-bold text-slate-900">{s.facility}</h4>
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-slate-500 font-medium">
+                    <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> {s.location}</span>
+                    <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {s.date}</span>
+                    <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {s.time}</span>
+                  </div>
+                </div>
+                <div className="text-right shrink-0">
+                  <div className="text-lg font-extrabold text-slate-900">{s.rate}</div>
+                  <button
+                    onClick={() => onBookDemo(`Shift: ${s.facility}`)}
+                    className="mt-1 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold rounded-md transition-colors"
+                  >
+                    Apply
+                  </button>
+                </div>
               </div>
-              <div className="text-left">
-                <div className="text-sm font-extrabold text-slate-900">&lt; 2 hrs</div>
-                <div className="text-[11px] text-slate-500 font-medium">Avg. shift fill time</div>
-              </div>
+            ))}
+          </div>
+
+          {/* Stylised Ireland map */}
+          <div className="rounded-2xl bg-gradient-to-br from-blue-50 to-slate-50 border border-black/10 shadow-2xs p-5 relative overflow-hidden min-h-[320px]">
+            <div className="text-xs font-bold text-slate-700 mb-2">Live shift map — Ireland</div>
+            <div className="relative h-full">
+              <svg viewBox="0 0 200 240" className="w-full h-64 mx-auto opacity-90" aria-hidden>
+                <path
+                  d="M95 15 C120 18 130 35 138 55 C150 70 160 90 152 115 C160 135 150 160 135 175 C140 195 120 215 95 220 C70 225 55 205 50 185 C35 175 30 150 42 130 C32 110 40 85 55 70 C58 45 70 20 95 15 Z"
+                  fill="#dbeafe"
+                  stroke="#93c5fd"
+                  strokeWidth="2"
+                />
+              </svg>
+              {/* Pins */}
+              {[
+                { top: '28%', left: '62%', label: 'Dublin' },
+                { top: '62%', left: '40%', label: 'Cork' },
+                { top: '40%', left: '28%', label: 'Galway' },
+                { top: '58%', left: '30%', label: 'Limerick' }
+              ].map((pin) => (
+                <div key={pin.label} className="absolute -translate-x-1/2 -translate-y-full flex flex-col items-center" style={{ top: pin.top, left: pin.left }}>
+                  <span className="text-[9px] font-bold text-slate-700 bg-white/90 px-1.5 py-0.5 rounded border border-black/10 mb-0.5 whitespace-nowrap">{pin.label}</span>
+                  <MapPin className="w-5 h-5 text-blue-600 fill-blue-200" />
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats strip */}
-      <section className="bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      {/* EMPLOYER SHIFT POSTING WIZARD */}
+      <section className="py-14 bg-white border-y border-black/10">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <span className="text-xs font-bold uppercase tracking-wider text-violet-700">For employers</span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Post an open shift in 3 steps</h2>
+          </div>
+
+          {/* Stepper */}
+          <div className="flex items-center justify-between mb-6">
+            {['Shift Type', 'Shift Details', 'Contact Details'].map((label, i) => {
+              const step = i + 1;
+              const active = wizardStep === step;
+              const done = wizardStep > step;
+              return (
+                <React.Fragment key={label}>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border ${
+                      done ? 'bg-blue-600 text-white border-blue-600' : active ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-400 border-black/10'
+                    }`}>
+                      {done ? <Check className="w-4 h-4" /> : step}
+                    </div>
+                    <span className={`text-xs font-semibold hidden sm:inline ${active || done ? 'text-slate-900' : 'text-slate-400'}`}>{label}</span>
+                  </div>
+                  {i < 2 && <div className="flex-1 h-px bg-black/10 mx-2" />}
+                </React.Fragment>
+              );
+            })}
+          </div>
+
+          <div className="bg-slate-50 border border-black/10 rounded-2xl p-6 shadow-2xs space-y-5">
+            {wizardStep === 1 && (
+              <div className="space-y-3">
+                <h4 className="text-sm font-bold text-slate-900">What are you posting?</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  {(['Locum Shift', 'Permanent Job'] as const).map(t => (
+                    <button
+                      key={t}
+                      onClick={() => setPostType(t)}
+                      className={`p-4 rounded-xl border text-left transition-all ${
+                        postType === t ? 'bg-white border-slate-900 shadow-xs' : 'bg-white border-black/10 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        {t === 'Locum Shift' ? <Clock className="w-4 h-4 text-blue-600" /> : <Briefcase className="w-4 h-4 text-violet-600" />}
+                        <span className="text-sm font-bold text-slate-900">{t}</span>
+                      </div>
+                      <p className="text-[11px] text-slate-500">{t === 'Locum Shift' ? 'Temporary cover for one or more days' : 'A full-time or part-time permanent role'}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {wizardStep === 2 && (
+              <div className="space-y-3">
+                <h4 className="text-sm font-bold text-slate-900">Shift details</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <input placeholder="Profession required" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+                  <input placeholder="Hourly rate (€ / £)" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+                  <input type="date" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs text-slate-600 outline-none" />
+                  <input placeholder="Location" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+                </div>
+                <textarea placeholder="Description & requirements" rows={3} className="w-full px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none resize-none" />
+              </div>
+            )}
+
+            {wizardStep === 3 && (
+              <div className="space-y-3">
+                <h4 className="text-sm font-bold text-slate-900">Contact details</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <input placeholder="Facility name" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+                  <input placeholder="Contact name" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+                  <input placeholder="Email" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+                  <input placeholder="Phone" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+                </div>
+              </div>
+            )}
+
+            <div className="flex items-center justify-between pt-2">
+              <button
+                onClick={() => setWizardStep(s => Math.max(1, s - 1))}
+                disabled={wizardStep === 1}
+                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 disabled:opacity-40 transition-colors"
+              >
+                Back
+              </button>
+              {wizardStep < 3 ? (
+                <button
+                  onClick={() => setWizardStep(s => Math.min(3, s + 1))}
+                  className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-1.5"
+                >
+                  Continue <ChevronRight className="w-4 h-4" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => onBookDemo(`Post ${postType}`)}
+                  className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-1.5"
+                >
+                  Publish {postType} <PlusCircle className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* LOGIN + ROLE SELECTION */}
+      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Login */}
+        <div className="bg-white border border-black/10 rounded-2xl shadow-2xs p-6 space-y-4">
+          <h3 className="text-lg font-bold text-slate-900">Log in to MployUs Locums</h3>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
+              <Mail className="w-4 h-4 text-slate-400" />
+              <input placeholder="Email address" className="bg-transparent text-xs w-full outline-none" />
+            </div>
+            <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
+              <Lock className="w-4 h-4 text-slate-400" />
+              <input type="password" placeholder="Password" className="bg-transparent text-xs w-full outline-none" />
+            </div>
+            <button className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors">Log In</button>
+            <div className="flex items-center gap-3 text-[10px] text-slate-400 uppercase tracking-wider">
+              <div className="flex-1 h-px bg-black/10" /> or <div className="flex-1 h-px bg-black/10" />
+            </div>
+            <button className="w-full py-2.5 bg-[#0a66c2] hover:bg-[#0959aa] text-white text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
+              <Linkedin className="w-4 h-4" /> Continue with LinkedIn
+            </button>
+          </div>
+        </div>
+
+        {/* Role selection */}
+        <div className="bg-white border border-black/10 rounded-2xl shadow-2xs p-6 space-y-4">
+          <h3 className="text-lg font-bold text-slate-900">New here? Choose your account type</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {([
+              { key: 'Locum', icon: Stethoscope, desc: 'A healthcare professional looking for shifts' },
+              { key: 'Client', icon: Building2, desc: 'A pharmacy or facility posting shifts' }
+            ] as const).map(r => {
+              const Icon = r.icon;
+              const active = role === r.key;
+              return (
+                <button
+                  key={r.key}
+                  onClick={() => setRole(r.key)}
+                  className={`p-4 rounded-xl border text-left transition-all ${
+                    active ? 'bg-blue-50 border-blue-500 shadow-xs' : 'bg-white border-black/10 hover:border-slate-300'
+                  }`}
+                >
+                  <Icon className={`w-6 h-6 mb-2 ${active ? 'text-blue-600' : 'text-slate-500'}`} />
+                  <div className="text-sm font-bold text-slate-900">Register as a {r.key}</div>
+                  <p className="text-[11px] text-slate-500 mt-0.5">{r.desc}</p>
+                </button>
+              );
+            })}
+          </div>
+          {role && (
+            <div className="text-[11px] text-blue-700 font-semibold flex items-center gap-1.5 animate-fade-in">
+              <CheckCircle2 className="w-4 h-4" /> Continuing as a {role} — see account setup below.
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ACCOUNT SETUP (profession-aware) + SMS VERIFICATION */}
+      <section className="py-14 bg-white border-y border-black/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Account setup */}
+          <div className="bg-slate-50 border border-black/10 rounded-2xl shadow-2xs p-6 space-y-4">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-violet-700">Onboarding</span>
+              <h3 className="text-lg font-bold text-slate-900 mt-1">Account setup — by profession</h3>
+              <p className="text-xs text-slate-500 mt-1">The form adapts to your profession and its registration body.</p>
+            </div>
+            <div className="space-y-3">
+              <label className="block text-xs font-semibold text-slate-700">Your profession</label>
+              <div className="relative">
+                <select
+                  value={setupProfession.name}
+                  onChange={(e) => setSetupProfession(PROFESSIONS.find(p => p.name === e.target.value)!)}
+                  className="w-full appearance-none px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs font-semibold text-slate-800 outline-none cursor-pointer"
+                >
+                  {PROFESSIONS.map(p => <option key={p.name}>{p.name}</option>)}
+                </select>
+                <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input placeholder="Full name" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+                <input placeholder="Email" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+              </div>
+
+              {/* Profession-specific registration number */}
+              {setupProfession.reg ? (
+                <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 space-y-2 animate-fade-in">
+                  <label className="block text-xs font-bold text-blue-800">{setupProfession.reg} <span className="text-rose-600">*</span></label>
+                  <input
+                    placeholder={`Enter your ${setupProfession.reg}`}
+                    className="w-full px-3 py-2.5 rounded-lg bg-white border border-blue-200 text-xs outline-none"
+                  />
+                  <p className="text-[10px] text-blue-700">Required for {setupProfession.name} · {setupProfession.region === 'IE' ? 'Ireland' : setupProfession.region === 'UK' ? 'UK & NI' : 'Ireland & UK'}</p>
+                </div>
+              ) : (
+                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-2 animate-fade-in">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <p className="text-[11px] text-emerald-800 font-medium">No professional registration number required for {setupProfession.name}.</p>
+                </div>
+              )}
+
+              <button className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-1.5">
+                <UserPlus className="w-4 h-4" /> Create account
+              </button>
+            </div>
+          </div>
+
+          {/* SMS Verification */}
+          <div className="bg-slate-50 border border-black/10 rounded-2xl shadow-2xs p-6 flex flex-col items-center justify-center text-center space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center">
+              <Phone className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-slate-900">Verify your phone</h3>
+              <p className="text-xs text-slate-500 mt-1">Enter the 6-digit code we texted to your mobile.</p>
+            </div>
+            <div className="flex items-center gap-2">
+              {smsCode.map((digit, i) => (
+                <input
+                  key={i}
+                  value={digit}
+                  maxLength={1}
+                  onChange={(e) => {
+                    const next = [...smsCode];
+                    next[i] = e.target.value.replace(/\D/g, '');
+                    setSmsCode(next);
+                    if (e.target.value && e.target.nextElementSibling) {
+                      (e.target.nextElementSibling as HTMLInputElement).focus();
+                    }
+                  }}
+                  className="w-11 h-12 text-center text-lg font-bold rounded-xl bg-white border border-black/10 outline-none focus:border-blue-500 transition-colors"
+                />
+              ))}
+            </div>
+            <button
+              onClick={() => onBookDemo('SMS Verification')}
+              className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors"
+            >
+              Verify & Continue
+            </button>
+            <button className="text-[11px] text-slate-500 hover:text-slate-900 font-medium">Resend code</button>
+          </div>
+        </div>
+      </section>
+
+      {/* VALUE PROP / RECRUITMENT LANDING */}
+      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Why MployUs Locums</span>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-2">Flexible work, trusted employers</h2>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {[
-            { value: '98.4%', label: 'Average shift fill rate' },
-            { value: '< 2 hrs', label: 'Time to fill urgent shifts' },
-            { value: '892', label: 'Verified locums in network' },
-            { value: '0%', label: 'Manual paperwork' }
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div className="text-3xl sm:text-4xl font-extrabold text-white">{stat.value}</div>
-              <div className="text-[11px] sm:text-xs text-slate-400 font-medium mt-1">{stat.label}</div>
+            { value: '140+', label: 'Registered professionals' },
+            { value: '2 countries', label: 'Ireland & the UK' },
+            { value: '0%', label: 'Agency commission' },
+            { value: '< 2 hrs', label: 'Avg. shift fill time' }
+          ].map(stat => (
+            <div key={stat.label} className="p-5 rounded-2xl bg-white border border-black/10 shadow-2xs text-center">
+              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900">{stat.value}</div>
+              <div className="text-[11px] text-slate-500 font-medium mt-1">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { name: 'Aoife N.', role: 'Locum Pharmacist, Dublin', quote: 'I pick the shifts that fit my week and get paid the full rate — no agency taking a cut.' },
+            { name: 'James O.', role: 'Agency Nurse, Belfast', quote: 'Onboarding took ten minutes and my NMBI details were verified the same day.' },
+            { name: 'Pharmacy Lead', role: 'McCabes, Cork', quote: 'We fill last-minute cover before lunch. It has completely replaced our old agency.' }
+          ].map(t => (
+            <div key={t.name} className="p-6 rounded-2xl bg-white border border-black/10 shadow-2xs space-y-3">
+              <div className="flex items-center gap-1 text-amber-400">
+                {[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
+              </div>
+              <p className="text-sm text-slate-800 leading-relaxed">"{t.quote}"</p>
+              <div className="text-[11px] text-slate-500"><span className="font-semibold text-slate-700">{t.name}</span> · {t.role}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Dashboard feature highlights */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Inside the dashboard</span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-2">
-            Everything your staffing team needs, on one screen
-          </h2>
-          <p className="text-slate-600 text-sm mt-3">
-            The locum dashboard brings dispatch, compliance, scheduling and finance together so nothing slips through the cracks.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {dashboardFeatures.map((f) => {
-            const Icon = f.icon;
-            return (
-              <div key={f.title} className="p-6 rounded-2xl bg-white border border-black/10 shadow-2xs space-y-3">
-                <div className="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center">
-                  <Icon className="w-5 h-5" />
-                </div>
-                <h4 className="text-sm font-bold text-slate-900">{f.title}</h4>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">{f.desc}</p>
-              </div>
-            );
-          })}
+      {/* BLOG / CONTENT HUB */}
+      <section className="py-14 bg-white border-y border-black/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-end justify-between mb-8">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-blue-700 flex items-center gap-1.5"><BookOpen className="w-3.5 h-3.5" /> Content hub</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Guides, salary reports & market insights</h2>
+            </div>
+            <button onClick={() => onBookDemo('Blog')} className="hidden sm:flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900">
+              View all <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {articles.map(a => (
+              <button
+                key={a.title}
+                onClick={() => onBookDemo(`Article: ${a.title}`)}
+                className="p-5 rounded-2xl bg-slate-50 border border-black/10 shadow-2xs text-left hover:border-slate-300 transition-all group"
+              >
+                <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-800 border border-blue-200 mb-3">{a.tag}</span>
+                <h4 className="text-sm font-bold text-slate-900 leading-snug group-hover:text-blue-700 transition-colors">{a.title}</h4>
+                <p className="text-[11px] text-slate-500 mt-2">{a.read}</p>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Interactive Locum Shift Marketplace & Dispatcher Section */}
-      <section className="py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center max-w-2xl mx-auto">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Try it live</span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
-            Dispatch a shift from the live marketplace
-          </h2>
-          <p className="text-slate-600 text-xs sm:text-sm mt-2">
-            Filter shifts by clinical role, review compliance credentials, and broadcast to matched locums — exactly as you would inside the dashboard.
-          </p>
-        </div>
-
-        <div className="bg-white rounded-2xl border border-black/10 shadow-xs p-6 space-y-6">
-          {/* Controls & Role Filter */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-black/10">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-slate-700">Filter Role:</span>
-              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-black/10 text-xs">
-                {(['all', 'RGN', 'Senior Carer', 'HCA'] as const).map(role => (
-                  <button
-                    key={role}
-                    onClick={() => setActiveRoleFilter(role)}
-                    className={`px-3 py-1 rounded-md font-semibold transition-all ${
-                      activeRoleFilter === role ? 'bg-slate-900 text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    {role === 'all' ? 'All Roles' : role}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-              <span>Smart Locum Auto-Matching Engine Active</span>
-            </div>
+      {/* CPD TRAINING */}
+      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white p-8 space-y-6 border border-slate-800 shadow-sm">
+          <div className="flex items-center gap-2 text-blue-400 font-bold text-xs uppercase tracking-wider">
+            <GraduationCap className="w-4 h-4" /> Locums CPD
           </div>
-
-          {/* Shift Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredShifts.map(s => {
-              const isBooked = bookedShiftIds.includes(s.id);
+          <div className="max-w-2xl">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">Keep your registration current with CPD</h2>
+            <p className="text-sm text-slate-300 mt-2">Accredited courses, assessments and certificates — earn Continuing Professional Development hours between shifts.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {cpdCourses.map(c => {
+              const Icon = c.icon;
               return (
-                <div
-                  key={s.id}
-                  className={`p-5 rounded-xl border transition-all ${
-                    isBooked
-                      ? 'bg-blue-50/60 border-blue-300 shadow-2xs'
-                      : 'bg-white border-black/10 hover:border-slate-300 shadow-2xs'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <div>
-                      <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider mb-1.5 ${
-                        s.urgency === 'URGENT'
-                          ? 'bg-rose-100 text-rose-800 border border-rose-200'
-                          : 'bg-amber-100 text-amber-800 border border-amber-200'
-                      }`}>
-                        {s.urgency}
-                      </span>
-                      <h4 className="text-sm font-bold text-slate-900">{s.facility}</h4>
-                      <p className="text-xs text-slate-500 font-medium">{s.date}</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-base font-extrabold text-slate-900">{s.rate}</div>
-                      <div className="text-[10px] text-slate-400 font-medium">{s.distance}</div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2 py-3 border-y border-black/10 text-xs">
-                    <div className="flex items-center justify-between text-slate-600">
-                      <span className="font-semibold text-slate-700">Required Role:</span>
-                      <span className="font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded text-[11px]">{s.role}</span>
-                    </div>
-                    <div className="flex items-center justify-between text-slate-600">
-                      <span className="font-semibold text-slate-700">Locum Assigned:</span>
-                      <span className="text-slate-800 font-medium">{s.assignedLocum}</span>
-                    </div>
-                    <div className="flex items-center justify-between text-slate-600">
-                      <span className="font-semibold text-slate-700">Compliance Vault:</span>
-                      <span className="text-blue-700 font-semibold text-[11px] flex items-center gap-1">
-                        <CheckCircle2 className="w-3.5 h-3.5" /> {s.compliance}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="pt-3 flex items-center justify-between">
-                    <span className="text-[11px] text-slate-500">
-                      {isBooked ? 'Shift Dispatched & Confirmed' : 'Instant 1-Tap Booking Ready'}
-                    </span>
-                    <button
-                      onClick={() => handleBookShift(s.id)}
-                      disabled={isBooked}
-                      className={`px-4 py-2 rounded-md font-semibold text-xs transition-colors flex items-center gap-1.5 ${
-                        isBooked
-                          ? 'bg-blue-600 text-white cursor-default'
-                          : 'bg-slate-900 hover:bg-slate-800 text-white shadow-2xs'
-                      }`}
-                    >
-                      {isBooked ? (
-                        <>
-                          <Check className="w-4 h-4" /> Dispatched
-                        </>
-                      ) : (
-                        'Broadcast to Locums'
-                      )}
-                    </button>
-                  </div>
+                <div key={c.title} className="p-5 rounded-xl bg-slate-800/80 border border-slate-700 space-y-2">
+                  <Icon className="w-6 h-6 text-blue-400" />
+                  <h4 className="text-sm font-bold text-white">{c.title}</h4>
+                  <p className="text-[11px] text-slate-400">{c.hours}</p>
                 </div>
               );
             })}
           </div>
+          <button onClick={() => onBookDemo('CPD Training')} className="px-6 py-3 bg-white text-slate-900 font-semibold text-xs rounded-lg hover:bg-slate-100 transition-colors flex items-center gap-1.5">
+            Browse all courses <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
+      </section>
 
-        {/* Interactive Locum Cost Calculator */}
-        <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border border-slate-800 shadow-sm space-y-6">
-          <div className="flex items-center gap-2 text-blue-400 font-bold text-xs uppercase tracking-wider">
-            <Calculator className="w-4 h-4" /> Facility Budget Estimator
-          </div>
-
-          <div>
-            <h3 className="text-xl sm:text-2xl font-bold text-white">
-              Locum Staffing Cost & Margin Calculator
-            </h3>
-            <p className="text-xs text-slate-400 mt-1">
-              Estimate your weekly or monthly temporary staffing expenditure with zero hidden agency surcharges.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="space-y-2 bg-slate-800/80 p-4 rounded-xl border border-slate-700">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-slate-300">Locum Hourly Pay Rate:</span>
-                <span className="text-blue-400 font-bold font-mono text-sm">£{hourlyRate}/hr</span>
-              </div>
-              <input
-                type="range"
-                min={18}
-                max={50}
-                step={1}
-                value={hourlyRate}
-                onChange={(e) => setHourlyRate(Number(e.target.value))}
-                className="w-full accent-blue-400 bg-slate-700 h-2 rounded-lg cursor-pointer"
-              />
-            </div>
-
-            <div className="space-y-2 bg-slate-800/80 p-4 rounded-xl border border-slate-700">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-slate-300">Shift Length (Hours):</span>
-                <span className="text-blue-400 font-bold font-mono text-sm">{shiftHours} Hours</span>
-              </div>
-              <input
-                type="range"
-                min={4}
-                max={14}
-                step={1}
-                value={shiftHours}
-                onChange={(e) => setShiftHours(Number(e.target.value))}
-                className="w-full accent-blue-400 bg-slate-700 h-2 rounded-lg cursor-pointer"
-              />
-            </div>
-
-            <div className="space-y-2 bg-slate-800/80 p-4 rounded-xl border border-slate-700">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-slate-300">Number of Locums Required:</span>
-                <span className="text-blue-400 font-bold font-mono text-sm">{locumCount} Staff</span>
-              </div>
-              <input
-                type="range"
-                min={1}
-                max={10}
-                step={1}
-                value={locumCount}
-                onChange={(e) => setLocumCount(Number(e.target.value))}
-                className="w-full accent-blue-400 bg-slate-700 h-2 rounded-lg cursor-pointer"
-              />
+      {/* FAQ */}
+      <section className="py-14 bg-white border-y border-black/10">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Frequently asked questions</h2>
+            <div className="inline-flex items-center gap-1 bg-slate-100 p-1 rounded-full border border-black/10 text-xs mt-4">
+              {(['IE', 'UK'] as const).map(r => (
+                <button
+                  key={r}
+                  onClick={() => { setFaqRegion(r); setOpenFaq(0); }}
+                  className={`px-4 py-1.5 rounded-full font-semibold transition-all ${
+                    faqRegion === r ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  {r === 'IE' ? 'Ireland' : 'UK & NI'}
+                </button>
+              ))}
             </div>
           </div>
-
-          <div className="p-4 bg-slate-800/90 rounded-xl border border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
-              <span className="text-[11px] text-slate-400 font-semibold uppercase tracking-wider block">Total Estimated Shift Cost</span>
-              <div className="text-3xl font-extrabold text-white font-mono">
-                £{totalCalculatedCost.toLocaleString()}
+          <div className="space-y-2">
+            {faqs[faqRegion].map((f, i) => (
+              <div key={f.q} className="rounded-xl bg-slate-50 border border-black/10 overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between gap-3 p-4 text-left"
+                >
+                  <span className="text-sm font-semibold text-slate-900">{f.q}</span>
+                  <ChevronDown className={`w-4 h-4 text-slate-400 shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
+                </button>
+                {openFaq === i && (
+                  <div className="px-4 pb-4 text-xs text-slate-600 leading-relaxed animate-fade-in">{f.a}</div>
+                )}
               </div>
-              <p className="text-[11px] text-blue-400 font-medium">Includes automated DBS checks, digital timesheets & payroll export</p>
-            </div>
-            <button
-              onClick={() => onBookDemo('Locum Budget Breakdown')}
-              className="px-6 py-3 bg-white text-slate-900 font-semibold text-xs rounded-lg hover:bg-slate-100 transition-colors shrink-0 flex items-center gap-1.5"
-            >
-              Get Custom Agency Rate Card <ArrowRight className="w-4 h-4 text-slate-900" />
-            </button>
+            ))}
           </div>
         </div>
+      </section>
 
-        {/* Core Pillars of Locum Provision */}
-        <div className="pt-6 space-y-6">
-          <h3 className="text-xl font-bold text-slate-900">Why UK Care Facilities Choose MployUs Locum Provision</h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-5 rounded-xl bg-white border border-black/10 shadow-2xs space-y-2">
-              <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold mb-3">
-                <Bell className="w-5 h-5" />
-              </div>
-              <h4 className="text-sm font-bold text-slate-900">Instant SMS Broadcast</h4>
-              <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                Publish a vacant shift and alert qualified locums within a 15-mile radius instantly via mobile push and SMS.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-xl bg-white border border-black/10 shadow-2xs space-y-2">
-              <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold mb-3">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <h4 className="text-sm font-bold text-slate-900">Digital Compliance Vault</h4>
-              <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                Automated checks for NMC PIN status, Enhanced DBS, right-to-work, and mandatory training certificates.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-xl bg-white border border-black/10 shadow-2xs space-y-2">
-              <div className="w-10 h-10 rounded-lg bg-violet-50 text-violet-600 border border-violet-200 flex items-center justify-center font-bold mb-3">
-                <MapPin className="w-5 h-5" />
-              </div>
-              <h4 className="text-sm font-bold text-slate-900">GPS Geofenced Clock-In</h4>
-              <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                Ensure locum staff are physically on-site before clocking in. Digital timesheets with manager mobile signatures.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-xl bg-white border border-black/10 shadow-2xs space-y-2">
-              <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center font-bold mb-3">
-                <Smartphone className="w-5 h-5" />
-              </div>
-              <h4 className="text-sm font-bold text-slate-900">Free Mobile Worker App</h4>
-              <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                Locum healthcare workers download the iOS/Android app to set availability, store credentials, and view pay slips.
-              </p>
-            </div>
+      {/* LEGAL NOTE */}
+      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="p-6 rounded-2xl bg-white border border-black/10 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="w-11 h-11 rounded-xl bg-slate-100 text-slate-700 border border-black/10 flex items-center justify-center shrink-0">
+            <FileText className="w-5 h-5" />
           </div>
+          <div className="flex-1">
+            <h4 className="text-sm font-bold text-slate-900">Garda vetting & DBS checks</h4>
+            <p className="text-xs text-slate-600 mt-1">Every locum is compliance-checked before their first shift — Garda vetting in Ireland and Enhanced DBS in the UK & NI. Read our full guide for employers, terms & conditions and privacy policy.</p>
+          </div>
+          <button onClick={() => onBookDemo('Legal & Compliance')} className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors shrink-0">
+            Read the guide
+          </button>
         </div>
+      </section>
 
-        {/* Testimonial */}
-        <div className="p-8 rounded-2xl bg-white border border-black/10 shadow-2xs text-center max-w-3xl mx-auto space-y-4">
-          <div className="flex items-center justify-center gap-1 text-amber-400">
-            {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
-          </div>
-          <p className="text-base sm:text-lg text-slate-800 font-medium leading-relaxed">
-            "The locum dashboard replaced three spreadsheets and two agencies. We fill night shifts before the previous carer has even clocked out — and I can see our compliance status without chasing anyone."
-          </p>
-          <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
-            <Building2 className="w-4 h-4 text-slate-400" />
-            <span className="font-semibold text-slate-700">Omar Murphy</span> · Operations Lead, Riverside Care Group
-          </div>
-        </div>
-
-        {/* CTA Banner */}
+      {/* CTA */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-8 rounded-2xl bg-slate-900 text-white shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800">
           <div className="space-y-2">
-            <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Ready to fill urgent shifts?</span>
-            <h3 className="text-2xl font-bold text-white">Start dispatching locums in minutes</h3>
-            <p className="text-xs text-slate-300">Set up your facility account today with zero upfront setup fees.</p>
+            <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Join MployUs Locums</span>
+            <h3 className="text-2xl font-bold text-white">Start finding — or filling — shifts today</h3>
+            <p className="text-xs text-slate-300">Free to join in Ireland and the UK, with zero agency commission.</p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
-            <button
-              onClick={() => onBookDemo('Locum Dashboard')}
-              className="px-6 py-3 bg-white text-slate-900 font-semibold text-xs rounded-md hover:bg-slate-100 transition-colors shadow-2xs"
-            >
-              Book Dashboard Demo
+            <button onClick={onStartTrial} className="px-6 py-3 bg-white text-slate-900 font-semibold text-xs rounded-md hover:bg-slate-100 transition-colors shadow-2xs">
+              Create free account
             </button>
-            <button
-              onClick={onBackToHome}
-              className="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs rounded-md border border-slate-700 transition-colors"
-            >
+            <button onClick={onBackToHome} className="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs rounded-md border border-slate-700 transition-colors">
               Back to Overview
             </button>
           </div>
         </div>
       </section>
+
+      {/* COOKIE CONSENT BANNER */}
+      {cookieOpen && (
+        <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-sm z-50 bg-white border border-black/10 rounded-2xl shadow-sm p-5 animate-fade-in">
+          <div className="flex items-center gap-2 mb-2">
+            <Cookie className="w-5 h-5 text-amber-500" />
+            <h4 className="text-sm font-bold text-slate-900">We value your privacy</h4>
+          </div>
+          <p className="text-[11px] text-slate-600 leading-relaxed">
+            We use cookies to improve your experience, analyse traffic and personalise content. Manage your preferences or accept all.
+          </p>
+
+          {cookiePrefsOpen && (
+            <div className="mt-3 space-y-2 animate-fade-in">
+              {([
+                { key: 'necessary', label: 'Necessary', locked: true },
+                { key: 'functional', label: 'Functional', locked: false },
+                { key: 'performance', label: 'Performance', locked: false },
+                { key: 'targeting', label: 'Targeting', locked: false }
+              ] as const).map(pref => (
+                <label key={pref.key} className="flex items-center justify-between text-xs">
+                  <span className="text-slate-700 font-medium">{pref.label}{pref.locked && <span className="text-slate-400"> (always on)</span>}</span>
+                  <input
+                    type="checkbox"
+                    disabled={pref.locked}
+                    checked={cookiePrefs[pref.key]}
+                    onChange={(e) => setCookiePrefs(prev => ({ ...prev, [pref.key]: e.target.checked }))}
+                    className="accent-blue-600 w-4 h-4 disabled:opacity-60"
+                  />
+                </label>
+              ))}
+            </div>
+          )}
+
+          <div className="flex items-center gap-2 mt-4">
+            <button
+              onClick={() => setCookiePrefsOpen(o => !o)}
+              className="flex-1 py-2 text-xs font-semibold text-slate-700 border border-black/10 rounded-lg hover:bg-slate-50 transition-colors"
+            >
+              {cookiePrefsOpen ? 'Save preferences' : 'Preferences'}
+            </button>
+            <button
+              onClick={() => setCookieOpen(false)}
+              className="flex-1 py-2 text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-white rounded-lg transition-colors"
+            >
+              Accept all
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
