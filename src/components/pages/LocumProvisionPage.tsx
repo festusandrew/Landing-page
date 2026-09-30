@@ -1783,201 +1783,33 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       ══════════════════════════════════════ */}
       {page === 'post-shift' && (
         <>
-        <div className="pt-[70px] min-h-screen bg-white">
+        <div className="pt-[70px] min-h-screen bg-slate-50">
 
-          {/* Hero */}
-          <section className="relative bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 overflow-hidden min-h-[540px] flex flex-col justify-center">
-            <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
-            <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-12 py-20 flex flex-col lg:flex-row items-center gap-14">
-              <motion.div className="flex-1 space-y-6" variants={stagger(0.12)} initial="hidden" animate="visible">
-                <motion.div variants={fadeUp}>
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold uppercase tracking-widest w-fit backdrop-blur-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                    For Employers · Pharmacies, Hospitals & Clinics
-                  </div>
-                </motion.div>
-                <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl font-bold text-white leading-[1.06] tracking-tight">
-                  Fill every open shift.<br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-green-500">Zero agency fees.</span>
-                </motion.h1>
-                <motion.p variants={fadeUp} className="text-lg text-white/70 leading-relaxed max-w-[500px]">
-                  Post a locum shift or permanent role in under two minutes. Reach verified, compliance-checked healthcare professionals across {loc.country}. No contracts. No commission.
-                </motion.p>
-                <motion.div variants={fadeUp} className="flex flex-wrap gap-3 pt-1">
-                  <motion.button
-                    onClick={() => openPostModal('Locum Shift')}
-                    className="group flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-green-500 to-green-600 text-white font-semibold text-sm rounded-xl shadow-lg shadow-green-600/30"
-                    whileHover={{ scale: 1.03, boxShadow: '0 8px 30px rgba(22,163,74,0.45)' }} whileTap={{ scale: 0.97 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                  >
-                    Post a Locum Shift <MoveRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  </motion.button>
-                  <motion.button
-                    onClick={() => openPostModal('Permanent Job')}
-                    className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-sm rounded-xl backdrop-blur-sm"
-                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                  >
-                    Post a Permanent Role
-                  </motion.button>
-                </motion.div>
-              </motion.div>
-              {/* Stat cards */}
-              <div className="hidden lg:flex flex-col gap-3 shrink-0">
-                {[
-                  { val: '< 4 hrs', label: 'Average fill time', color: 'text-green-300' },
-                  { val: '0%', label: 'Commission charged', color: 'text-amber-300' },
-                  { val: '140+', label: 'Vetted locums ready', color: 'text-emerald-300' },
-                  { val: '25+', label: 'Partner facilities', color: 'text-sky-300' },
-                ].map((s, i) => (
-                  <motion.div key={s.label}
-                    className="backdrop-blur-2xl bg-white/10 border border-white/15 rounded-2xl px-6 py-4 text-center w-48"
-                    initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.7, delay: 0.7 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                    whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.15)' }}
-                  >
-                    <div className={`text-3xl font-bold ${s.color}`}>{s.val}</div>
-                    <p className="text-white/65 text-xs mt-1 leading-snug">{s.label}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </section>
+          <div className="bg-gradient-to-br from-slate-900 to-green-950 pt-16 pb-10 px-6 text-center">
+            <span className="text-xs font-bold text-violet-300 uppercase tracking-widest">For Employers</span>
+            <h1 className="text-4xl font-bold text-white mt-2 tracking-tight">Post an open shift in 3 steps</h1>
+            <p className="text-slate-400 text-sm mt-2 max-w-lg mx-auto">List a locum shift or a permanent role and reach verified {loc.country} healthcare professionals in minutes.</p>
+          </div>
 
-          {/* Stats ribbon */}
-          <section className="bg-gradient-to-r from-green-600 to-green-700 border-y border-green-500/30">
-            <div className="max-w-[1280px] mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { icon: Clock, val: '2 min', label: 'To post a shift' },
-                { icon: Users, val: '140+', label: 'Active locums' },
-                { icon: ShieldCheck, val: '100%', label: 'Compliance-verified' },
-                { icon: Wallet, val: loc.currency + '0', label: 'Placement fee' },
-              ].map(({ icon: Icon, val, label }) => (
-                <div key={label} className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
-                    <Icon className="w-5 h-5 text-white" />
+          <div className="max-w-2xl mx-auto px-4 py-12">
+            <div className="grid grid-cols-2 gap-4">
+              {(['Locum Shift', 'Permanent Job'] as const).map(t => (
+                <motion.button key={t} onClick={() => openPostModal(t)}
+                  className={`p-6 rounded-2xl border-2 text-left transition-all ${t === 'Locum Shift' ? 'border-green-100 bg-white hover:border-green-300 hover:shadow-md' : 'border-violet-100 bg-white hover:border-violet-300 hover:shadow-md'}`}
+                  whileHover={{ y: -3 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                >
+                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 ${t === 'Locum Shift' ? 'bg-green-600' : 'bg-violet-600'}`}>
+                    {t === 'Locum Shift' ? <Clock className="w-5 h-5 text-white" /> : <Briefcase className="w-5 h-5 text-white" />}
                   </div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">{val}</div>
-                    <div className="text-green-100 text-xs">{label}</div>
-                  </div>
-                </div>
+                  <div className="font-bold text-slate-900 mb-1">{t}</div>
+                  <p className="text-xs text-slate-500 leading-relaxed mb-4">{t === 'Locum Shift' ? 'Temporary cover for one or more days' : 'Full-time or part-time permanent role'}</p>
+                  <span className={`inline-flex items-center gap-1.5 text-xs font-bold ${t === 'Locum Shift' ? 'text-green-600' : 'text-violet-600'}`}>
+                    Get started <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </motion.button>
               ))}
             </div>
-          </section>
-
-          {/* What can you post */}
-          <section className="py-24 bg-white">
-            <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
-              <Reveal className="text-center mb-14">
-                <SectionLabel>What Are You Posting?</SectionLabel>
-                <h2 className="text-4xl font-bold text-slate-900 tracking-tight mt-4 mb-3">Two types of listing, one platform</h2>
-                <p className="text-slate-500 text-base max-w-xl mx-auto">Whether you need cover for tomorrow or want to hire permanently, MployUs handles both.</p>
-              </Reveal>
-
-              <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto"
-                variants={stagger(0.1)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
-                {/* Locum Shift card */}
-                <motion.div variants={fadeUp}
-                  className="relative bg-white border-2 border-green-100 rounded-2xl p-8 shadow-sm hover:shadow-lg hover:border-green-300 transition-all group cursor-pointer"
-                  whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  onClick={() => openPostModal('Locum Shift')}
-                >
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-5 shadow-md shadow-green-500/25">
-                    <Clock className="w-7 h-7 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">Locum Shift</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed mb-5">Temporary cover for one or more days. Great for last-minute gaps, planned leave, or peak periods.</p>
-                  <ul className="space-y-2 mb-6">
-                    {['Post by date, time & rate', 'Instant notifications to local locums', 'Compliance docs included automatically', 'Fill in under 4 hours on average'].map(f => (
-                      <li key={f} className="flex items-center gap-2 text-xs text-slate-600">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-green-500 shrink-0" /> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <button className="w-full py-3 bg-green-600 group-hover:bg-green-700 text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                    Post a Locum Shift <ArrowRight className="w-4 h-4" />
-                  </button>
-                </motion.div>
-
-                {/* Permanent Job card */}
-                <motion.div variants={fadeUp}
-                  className="relative bg-white border-2 border-violet-100 rounded-2xl p-8 shadow-sm hover:shadow-lg hover:border-violet-300 transition-all group cursor-pointer"
-                  whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  onClick={() => openPostModal('Permanent Job')}
-                >
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-600 flex items-center justify-center mb-5 shadow-md shadow-violet-500/25">
-                    <Briefcase className="w-7 h-7 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">Permanent Job</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed mb-5">Full-time or part-time permanent role. Reach qualified professionals actively seeking long-term positions.</p>
-                  <ul className="space-y-2 mb-6">
-                    {['Post with salary range & contract type', 'Detailed role description & benefits', 'Active job seekers in {loc.country}', 'Manage applicants from your dashboard'].map(f => (
-                      <li key={f} className="flex items-center gap-2 text-xs text-slate-600">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-violet-500 shrink-0" /> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <button className="w-full py-3 bg-violet-600 group-hover:bg-violet-700 text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                    Post a Permanent Role <ArrowRight className="w-4 h-4" />
-                  </button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </section>
-
-          {/* How it works */}
-          <section className="py-20 bg-slate-50 border-y border-slate-100">
-            <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
-              <Reveal className="text-center mb-14">
-                <SectionLabel>How It Works</SectionLabel>
-                <h2 className="text-4xl font-bold text-slate-900 tracking-tight mt-4">From gap in the rota to covered</h2>
-              </Reveal>
-              <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                variants={stagger(0.12)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
-                {[
-                  { n: '01', icon: PlusCircle, title: 'Post your listing', desc: 'Fill in profession, date, time, rate, and facility. Under two minutes — free, no account needed to get started.' },
-                  { n: '02', icon: Users, title: 'Get matched instantly', desc: 'Verified locums near your facility are notified immediately. Applications land in your dashboard, not your inbox.' },
-                  { n: '03', icon: CheckCircle2, title: 'Shift confirmed', desc: 'Accept a locum, confirm the booking, and receive their full compliance summary — all before leaving your desk.' },
-                ].map(({ n, icon: Icon, title, desc }) => (
-                  <motion.div key={n} variants={fadeUp} className="flex flex-col items-center text-center gap-4">
-                    <div className="relative">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center shadow-lg shadow-green-600/25">
-                        <Icon className="w-7 h-7 text-white" />
-                      </div>
-                      <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-900 text-white text-[10px] font-bold flex items-center justify-center">{n}</div>
-                    </div>
-                    <h3 className="text-lg font-bold text-slate-900">{title}</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed max-w-[240px]">{desc}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-          </section>
-
-          {/* CTA strip */}
-          <section className="py-20 bg-gradient-to-br from-slate-900 to-green-950">
-            <motion.div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8"
-              variants={stagger(0.12)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }}>
-              <motion.div variants={slideLeft} className="space-y-3">
-                <div className="text-xs font-bold text-green-400 uppercase tracking-widest">Join MployUs Employers</div>
-                <h3 className="text-3xl font-bold text-white">Ready to fill your next shift?</h3>
-                <p className="text-slate-400 text-sm">Free to join across Ireland and the UK. Zero agency commission.</p>
-              </motion.div>
-              <motion.div variants={slideRight} className="flex flex-wrap items-center gap-3 shrink-0">
-                <motion.button onClick={() => openPostModal('Locum Shift')}
-                  className="px-7 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-xl shadow-lg flex items-center gap-2"
-                  whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-                  Post a Locum Shift
-                </motion.button>
-                <motion.button onClick={() => openPostModal('Permanent Job')}
-                  className="px-7 py-3.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-xl border border-green-500 flex items-center gap-2"
-                  whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-                  Post a Permanent Role <ArrowRight className="w-4 h-4" />
-                </motion.button>
-              </motion.div>
-            </motion.div>
-          </section>
+          </div>
 
         </div>
 
