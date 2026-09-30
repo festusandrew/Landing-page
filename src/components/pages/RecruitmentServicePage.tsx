@@ -1162,10 +1162,8 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {[
-                        { key: 'Permanent Placement',               icon: Users,      desc: 'Long-term hire for a core role' },
-                        { key: 'Contract / Temp Staffing',          icon: Clock,      desc: 'Flexible cover for a fixed period' },
-                        { key: 'Recruitment Process Outsourcing',   icon: Target,     desc: 'We embed in your hiring process' },
-                        { key: 'Executive Search',                  icon: Award,      desc: 'Senior leadership & C-suite' },
+                        { key: 'Permanent Placement',   icon: Users,  desc: 'Long-term hire for a core role' },
+                        { key: 'Contract / Temp Staffing', icon: Clock, desc: 'Flexible cover for a fixed period' },
                       ].map(({ key, icon: Icon, desc }) => (
                         <button key={key} type="button"
                           onClick={() => setContactForm(f => ({ ...f, role: key }))}
