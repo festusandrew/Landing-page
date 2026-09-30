@@ -64,6 +64,16 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
   // Standalone platform navbar
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
+  // Auth modal
+  const [authModal, setAuthModal] = useState<'signin' | 'signup' | null>(null);
+  const [signupStep, setSignupStep] = useState<'role' | 'details' | 'verify'>('role');
+
+  const openAuth = (mode: 'signin' | 'signup') => {
+    setMobileNavOpen(false);
+    setSignupStep('role');
+    setAuthModal(mode);
+  };
+
   const scrollToId = (id: string) => {
     setMobileNavOpen(false);
     const el = document.getElementById(id);
@@ -156,13 +166,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                 MployUs.com
               </button>
               <button
-                onClick={() => scrollToId('auth')}
+                onClick={() => openAuth('signin')}
                 className="px-4 py-2 text-xs font-semibold text-slate-900 border border-black/10 rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-1.5"
               >
                 <LogIn className="w-3.5 h-3.5" /> Sign In
               </button>
               <button
-                onClick={() => scrollToId('auth')}
+                onClick={() => openAuth('signup')}
                 className="px-4 py-2 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors"
               >
                 Sign Up
@@ -185,8 +195,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
               </button>
             ))}
             <div className="flex items-center gap-2 pt-3">
-              <button onClick={() => scrollToId('auth')} className="flex-1 py-2.5 text-xs font-semibold text-slate-900 border border-black/10 rounded-lg">Sign In</button>
-              <button onClick={() => scrollToId('auth')} className="flex-1 py-2.5 text-xs font-semibold text-white bg-slate-900 rounded-lg">Sign Up</button>
+              <button onClick={() => openAuth('signin')} className="flex-1 py-2.5 text-xs font-semibold text-slate-900 border border-black/10 rounded-lg">Sign In</button>
+              <button onClick={() => openAuth('signup')} className="flex-1 py-2.5 text-xs font-semibold text-white bg-slate-900 rounded-lg">Sign Up</button>
             </div>
             <button onClick={onBackToHome} className="block w-full text-left py-2 text-[11px] font-semibold text-slate-400">← Back to MployUs.com</button>
           </div>
@@ -212,7 +222,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                 <button onClick={() => scrollToId('post-shift')} className="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-lg transition-colors shadow-2xs flex items-center gap-2">
                   Post a shift <ArrowRight className="w-4 h-4 text-slate-300" />
                 </button>
-                <button onClick={() => scrollToId('auth')} className="px-6 py-3.5 bg-white text-slate-900 font-semibold text-xs rounded-lg border border-black/10 hover:bg-slate-50 transition-colors">
+                <button onClick={() => openAuth('signup')} className="px-6 py-3.5 bg-white text-slate-900 font-semibold text-xs rounded-lg border border-black/10 hover:bg-slate-50 transition-colors">
                   Create free account
                 </button>
               </div>
@@ -488,152 +498,6 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
         </div>
       </section>
 
-      {/* LOGIN + ROLE SELECTION */}
-      <section id="auth" className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-6 scroll-mt-20">
-        {/* Login */}
-        <div className="bg-white border border-black/10 rounded-2xl shadow-2xs p-6 space-y-4">
-          <h3 className="text-lg font-bold text-slate-900">Log in to MployUs Locums</h3>
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
-              <Mail className="w-4 h-4 text-slate-400" />
-              <input placeholder="Email address" className="bg-transparent text-xs w-full outline-none" />
-            </div>
-            <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
-              <Lock className="w-4 h-4 text-slate-400" />
-              <input type="password" placeholder="Password" className="bg-transparent text-xs w-full outline-none" />
-            </div>
-            <button className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors">Log In</button>
-            <div className="flex items-center gap-3 text-[10px] text-slate-400 uppercase tracking-wider">
-              <div className="flex-1 h-px bg-black/10" /> or <div className="flex-1 h-px bg-black/10" />
-            </div>
-            <button className="w-full py-2.5 bg-[#0a66c2] hover:bg-[#0959aa] text-white text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
-              <Linkedin className="w-4 h-4" /> Continue with LinkedIn
-            </button>
-          </div>
-        </div>
-
-        {/* Role selection */}
-        <div className="bg-white border border-black/10 rounded-2xl shadow-2xs p-6 space-y-4">
-          <h3 className="text-lg font-bold text-slate-900">New here? Choose your account type</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {([
-              { key: 'Locum', icon: Stethoscope, desc: 'A healthcare professional looking for shifts' },
-              { key: 'Client', icon: Building2, desc: 'A pharmacy or facility posting shifts' }
-            ] as const).map(r => {
-              const Icon = r.icon;
-              const active = role === r.key;
-              return (
-                <button
-                  key={r.key}
-                  onClick={() => setRole(r.key)}
-                  className={`p-4 rounded-xl border text-left transition-all ${
-                    active ? 'bg-blue-50 border-blue-500 shadow-xs' : 'bg-white border-black/10 hover:border-slate-300'
-                  }`}
-                >
-                  <Icon className={`w-6 h-6 mb-2 ${active ? 'text-blue-600' : 'text-slate-500'}`} />
-                  <div className="text-sm font-bold text-slate-900">Register as a {r.key}</div>
-                  <p className="text-[11px] text-slate-500 mt-0.5">{r.desc}</p>
-                </button>
-              );
-            })}
-          </div>
-          {role && (
-            <div className="text-[11px] text-blue-700 font-semibold flex items-center gap-1.5 animate-fade-in">
-              <CheckCircle2 className="w-4 h-4" /> Continuing as a {role} — see account setup below.
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* ACCOUNT SETUP (profession-aware) + SMS VERIFICATION */}
-      <section className="py-14 bg-white border-y border-black/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Account setup */}
-          <div className="bg-slate-50 border border-black/10 rounded-2xl shadow-2xs p-6 space-y-4">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-violet-700">Onboarding</span>
-              <h3 className="text-lg font-bold text-slate-900 mt-1">Account setup — by profession</h3>
-              <p className="text-xs text-slate-500 mt-1">The form adapts to your profession and its registration body.</p>
-            </div>
-            <div className="space-y-3">
-              <label className="block text-xs font-semibold text-slate-700">Your profession</label>
-              <div className="relative">
-                <select
-                  value={setupProfession.name}
-                  onChange={(e) => setSetupProfession(PROFESSIONS.find(p => p.name === e.target.value)!)}
-                  className="w-full appearance-none px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs font-semibold text-slate-800 outline-none cursor-pointer"
-                >
-                  {PROFESSIONS.map(p => <option key={p.name}>{p.name}</option>)}
-                </select>
-                <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <input placeholder="Full name" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
-                <input placeholder="Email" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
-              </div>
-
-              {/* Profession-specific registration number */}
-              {setupProfession.reg ? (
-                <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 space-y-2 animate-fade-in">
-                  <label className="block text-xs font-bold text-blue-800">{setupProfession.reg} <span className="text-rose-600">*</span></label>
-                  <input
-                    placeholder={`Enter your ${setupProfession.reg}`}
-                    className="w-full px-3 py-2.5 rounded-lg bg-white border border-blue-200 text-xs outline-none"
-                  />
-                  <p className="text-[10px] text-blue-700">Required for {setupProfession.name} · {setupProfession.region === 'IE' ? 'Ireland' : setupProfession.region === 'UK' ? 'UK & NI' : 'Ireland & UK'}</p>
-                </div>
-              ) : (
-                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-2 animate-fade-in">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <p className="text-[11px] text-emerald-800 font-medium">No professional registration number required for {setupProfession.name}.</p>
-                </div>
-              )}
-
-              <button className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-1.5">
-                <UserPlus className="w-4 h-4" /> Create account
-              </button>
-            </div>
-          </div>
-
-          {/* SMS Verification */}
-          <div className="bg-slate-50 border border-black/10 rounded-2xl shadow-2xs p-6 flex flex-col items-center justify-center text-center space-y-4">
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center">
-              <Phone className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-slate-900">Verify your phone</h3>
-              <p className="text-xs text-slate-500 mt-1">Enter the 6-digit code we texted to your mobile.</p>
-            </div>
-            <div className="flex items-center gap-2">
-              {smsCode.map((digit, i) => (
-                <input
-                  key={i}
-                  value={digit}
-                  maxLength={1}
-                  onChange={(e) => {
-                    const next = [...smsCode];
-                    next[i] = e.target.value.replace(/\D/g, '');
-                    setSmsCode(next);
-                    if (e.target.value && e.target.nextElementSibling) {
-                      (e.target.nextElementSibling as HTMLInputElement).focus();
-                    }
-                  }}
-                  className="w-11 h-12 text-center text-lg font-bold rounded-xl bg-white border border-black/10 outline-none focus:border-blue-500 transition-colors"
-                />
-              ))}
-            </div>
-            <button
-              onClick={() => onBookDemo('SMS Verification')}
-              className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors"
-            >
-              Verify & Continue
-            </button>
-            <button className="text-[11px] text-slate-500 hover:text-slate-900 font-medium">Resend code</button>
-          </div>
-        </div>
-      </section>
-
       {/* VALUE PROP / RECRUITMENT LANDING */}
       <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10">
@@ -848,7 +712,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
             <p className="text-xs text-slate-300">Free to join in Ireland and the UK, with zero agency commission.</p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
-            <button onClick={onStartTrial} className="px-6 py-3 bg-white text-slate-900 font-semibold text-xs rounded-md hover:bg-slate-100 transition-colors shadow-2xs">
+            <button onClick={() => openAuth('signup')} className="px-6 py-3 bg-white text-slate-900 font-semibold text-xs rounded-md hover:bg-slate-100 transition-colors shadow-2xs">
               Create free account
             </button>
             <button onClick={onBackToHome} className="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs rounded-md border border-slate-700 transition-colors">
@@ -899,9 +763,9 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </div>
           <div className="space-y-2">
             <div className="text-xs font-bold text-white uppercase tracking-wider mb-1">Account</div>
-            <button onClick={() => scrollToId('auth')} className="block text-xs text-slate-400 hover:text-white transition-colors">Sign In</button>
-            <button onClick={() => scrollToId('auth')} className="block text-xs text-slate-400 hover:text-white transition-colors">Sign Up</button>
-            <button onClick={() => scrollToId('auth')} className="block text-xs text-slate-400 hover:text-white transition-colors">Register a Facility</button>
+            <button onClick={() => openAuth('signin')} className="block text-xs text-slate-400 hover:text-white transition-colors">Sign In</button>
+            <button onClick={() => openAuth('signup')} className="block text-xs text-slate-400 hover:text-white transition-colors">Sign Up</button>
+            <button onClick={() => openAuth('signup')} className="block text-xs text-slate-400 hover:text-white transition-colors">Register a Facility</button>
           </div>
           <div className="space-y-2">
             <div className="text-xs font-bold text-white uppercase tracking-wider mb-1">Legal</div>
@@ -917,6 +781,203 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </div>
         </div>
       </footer>
+
+      {/* AUTH MODAL */}
+      {authModal && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm animate-fade-in" onClick={() => setAuthModal(null)} />
+          <div className="relative w-full max-w-md bg-white border border-black/10 rounded-2xl shadow-sm max-h-[90vh] overflow-y-auto animate-fade-in">
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 pt-6">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+                  <Activity className="w-4 h-4 text-blue-400" />
+                </div>
+                <span className="text-sm font-extrabold tracking-tight text-slate-900">MployUs <span className="text-blue-600">Locums</span></span>
+              </div>
+              <button onClick={() => setAuthModal(null)} className="p-1.5 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              {authModal === 'signin' ? (
+                /* SIGN IN */
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900">Welcome back</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">Log in to your MployUs Locums account.</p>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
+                      <Mail className="w-4 h-4 text-slate-400" />
+                      <input placeholder="Email address" className="bg-transparent text-xs w-full outline-none" />
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
+                      <Lock className="w-4 h-4 text-slate-400" />
+                      <input type="password" placeholder="Password" className="bg-transparent text-xs w-full outline-none" />
+                    </div>
+                    <button onClick={() => onBookDemo('Sign In')} className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors">Log In</button>
+                    <div className="flex items-center gap-3 text-[10px] text-slate-400 uppercase tracking-wider">
+                      <div className="flex-1 h-px bg-black/10" /> or <div className="flex-1 h-px bg-black/10" />
+                    </div>
+                    <button className="w-full py-2.5 bg-[#0a66c2] hover:bg-[#0959aa] text-white text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
+                      <Linkedin className="w-4 h-4" /> Continue with LinkedIn
+                    </button>
+                  </div>
+                  <p className="text-center text-[11px] text-slate-500">
+                    New to MployUs Locums?{' '}
+                    <button onClick={() => { setSignupStep('role'); setAuthModal('signup'); }} className="font-semibold text-blue-700 hover:underline">Create an account</button>
+                  </p>
+                </div>
+              ) : (
+                /* SIGN UP */
+                <div className="space-y-4">
+                  {/* Step indicator */}
+                  <div className="flex items-center gap-1.5">
+                    {(['role', 'details', 'verify'] as const).map((s, i) => {
+                      const order = ['role', 'details', 'verify'];
+                      const active = order.indexOf(signupStep) >= i;
+                      return <div key={s} className={`h-1.5 flex-1 rounded-full transition-colors ${active ? 'bg-blue-600' : 'bg-slate-200'}`} />;
+                    })}
+                  </div>
+
+                  {signupStep === 'role' && (
+                    <div className="space-y-4 animate-fade-in">
+                      <div>
+                        <h3 className="text-lg font-bold text-slate-900">Choose your account type</h3>
+                        <p className="text-xs text-slate-500 mt-0.5">Tell us how you'll use MployUs Locums.</p>
+                      </div>
+                      <div className="grid grid-cols-1 gap-3">
+                        {([
+                          { key: 'Locum', icon: Stethoscope, desc: 'A healthcare professional looking for shifts' },
+                          { key: 'Client', icon: Building2, desc: 'A pharmacy or facility posting shifts' }
+                        ] as const).map(r => {
+                          const Icon = r.icon;
+                          const active = role === r.key;
+                          return (
+                            <button
+                              key={r.key}
+                              onClick={() => setRole(r.key)}
+                              className={`p-4 rounded-xl border text-left transition-all flex items-start gap-3 ${
+                                active ? 'bg-blue-50 border-blue-500 shadow-xs' : 'bg-white border-black/10 hover:border-slate-300'
+                              }`}
+                            >
+                              <Icon className={`w-6 h-6 mt-0.5 ${active ? 'text-blue-600' : 'text-slate-500'}`} />
+                              <div>
+                                <div className="text-sm font-bold text-slate-900">Register as a {r.key}</div>
+                                <p className="text-[11px] text-slate-500 mt-0.5">{r.desc}</p>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <button
+                        disabled={!role}
+                        onClick={() => setSignupStep('details')}
+                        className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 disabled:opacity-40 text-white text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-1.5"
+                      >
+                        Continue <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+
+                  {signupStep === 'details' && (
+                    <div className="space-y-3 animate-fade-in">
+                      <div>
+                        <h3 className="text-lg font-bold text-slate-900">Account setup</h3>
+                        <p className="text-xs text-slate-500 mt-0.5">The form adapts to your profession and its registration body.</p>
+                      </div>
+                      {role === 'Locum' && (
+                        <>
+                          <label className="block text-xs font-semibold text-slate-700">Your profession</label>
+                          <div className="relative">
+                            <select
+                              value={setupProfession.name}
+                              onChange={(e) => setSetupProfession(PROFESSIONS.find(p => p.name === e.target.value)!)}
+                              className="w-full appearance-none px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs font-semibold text-slate-800 outline-none cursor-pointer"
+                            >
+                              {PROFESSIONS.map(p => <option key={p.name}>{p.name}</option>)}
+                            </select>
+                            <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                          </div>
+                        </>
+                      )}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input placeholder={role === 'Client' ? 'Facility name' : 'Full name'} className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+                        <input placeholder="Email" className="px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+                      </div>
+                      {role === 'Locum' && (setupProfession.reg ? (
+                        <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 space-y-2 animate-fade-in">
+                          <label className="block text-xs font-bold text-blue-800">{setupProfession.reg} <span className="text-rose-600">*</span></label>
+                          <input placeholder={`Enter your ${setupProfession.reg}`} className="w-full px-3 py-2.5 rounded-lg bg-white border border-blue-200 text-xs outline-none" />
+                          <p className="text-[10px] text-blue-700">Required for {setupProfession.name} · {setupProfession.region === 'IE' ? 'Ireland' : setupProfession.region === 'UK' ? 'UK & NI' : 'Ireland & UK'}</p>
+                        </div>
+                      ) : (
+                        <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-2 animate-fade-in">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                          <p className="text-[11px] text-emerald-800 font-medium">No professional registration number required for {setupProfession.name}.</p>
+                        </div>
+                      ))}
+                      <input placeholder="Mobile number" className="w-full px-3 py-2.5 rounded-xl bg-white border border-black/10 text-xs outline-none" />
+                      <div className="flex items-center gap-2 pt-1">
+                        <button onClick={() => setSignupStep('role')} className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors">Back</button>
+                        <button onClick={() => setSignupStep('verify')} className="flex-1 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-1.5">
+                          <UserPlus className="w-4 h-4" /> Create account
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {signupStep === 'verify' && (
+                    <div className="flex flex-col items-center text-center space-y-4 animate-fade-in py-2">
+                      <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center">
+                        <Phone className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-slate-900">Verify your phone</h3>
+                        <p className="text-xs text-slate-500 mt-1">Enter the 6-digit code we texted to your mobile.</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {smsCode.map((digit, i) => (
+                          <input
+                            key={i}
+                            value={digit}
+                            maxLength={1}
+                            onChange={(e) => {
+                              const next = [...smsCode];
+                              next[i] = e.target.value.replace(/\D/g, '');
+                              setSmsCode(next);
+                              if (e.target.value && e.target.nextElementSibling) {
+                                (e.target.nextElementSibling as HTMLInputElement).focus();
+                              }
+                            }}
+                            className="w-11 h-12 text-center text-lg font-bold rounded-xl bg-white border border-black/10 outline-none focus:border-blue-500 transition-colors"
+                          />
+                        ))}
+                      </div>
+                      <button
+                        onClick={() => { onBookDemo('Account created'); setAuthModal(null); }}
+                        className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                      >
+                        Verify & Continue
+                      </button>
+                      <button className="text-[11px] text-slate-500 hover:text-slate-900 font-medium">Resend code</button>
+                    </div>
+                  )}
+
+                  {signupStep === 'role' && (
+                    <p className="text-center text-[11px] text-slate-500">
+                      Already have an account?{' '}
+                      <button onClick={() => setAuthModal('signin')} className="font-semibold text-blue-700 hover:underline">Sign in</button>
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* COOKIE CONSENT BANNER */}
       {cookieOpen && (
