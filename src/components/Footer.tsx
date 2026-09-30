@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onBookDemo }) => {
   };
 
   return (
-    <footer className="bg-white text-slate-600 text-xs border-t border-slate-200 pt-16 pb-12">
+    <footer className="bg-white text-slate-600 text-xs border-t border-black/10 pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* 5 Columns Grid */}
@@ -115,13 +115,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onBookDemo }) => {
 
             {/* Social Links */}
             <div className="pt-2 flex items-center gap-3">
-              <a href="#" className="p-2 rounded-lg bg-slate-50 text-slate-600 hover:text-slate-900 border border-slate-200 transition-colors">
+              <a href="#" className="p-2 rounded-lg bg-slate-50 text-slate-600 hover:text-slate-900 border border-black/10 transition-colors">
                 <Linkedin className="w-4 h-4" />
               </a>
-              <a href="#" className="p-2 rounded-lg bg-slate-50 text-slate-600 hover:text-slate-900 border border-slate-200 transition-colors">
+              <a href="#" className="p-2 rounded-lg bg-slate-50 text-slate-600 hover:text-slate-900 border border-black/10 transition-colors">
                 <Twitter className="w-4 h-4" />
               </a>
-              <a href="#" className="p-2 rounded-lg bg-slate-50 text-slate-600 hover:text-slate-900 border border-slate-200 transition-colors">
+              <a href="#" className="p-2 rounded-lg bg-slate-50 text-slate-600 hover:text-slate-900 border border-black/10 transition-colors">
                 <Facebook className="w-4 h-4" />
               </a>
             </div>
@@ -130,7 +130,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onBookDemo }) => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
+        <div className="pt-8 border-t border-black/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
           
           <div className="flex items-center gap-2">
             

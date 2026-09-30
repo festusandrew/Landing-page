@@ -20,7 +20,7 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = ({ onBookDemo }) => {
   const categories = ['All', 'Recruitment & Hiring', 'Care Delivery', 'Workforce Management', 'Operations & Analytics'];
 
   return (
-    <section id="features" className="py-20 bg-slate-50 text-slate-900 relative border-t border-slate-200">
+    <section id="features" className="py-20 bg-slate-50 text-slate-900 relative border-t border-black/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
@@ -54,10 +54,10 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = ({ onBookDemo }) => {
             return (
               <div
                 key={cat.title}
-                className="p-6 rounded-xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between"
+                className="p-6 rounded-xl bg-white border border-black/10 shadow-2xs flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center gap-2.5 text-slate-900 font-bold text-sm mb-4 pb-3 border-b border-slate-100">
+                  <div className="flex items-center gap-2.5 text-slate-900 font-bold text-sm mb-4 pb-3 border-b border-black/10">
                     <Icon className="w-5 h-5 text-blue-600" />
                     <span>{cat.title}</span>
                   </div>
@@ -77,7 +77,7 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = ({ onBookDemo }) => {
                   </div>
                 </div>
 
-                <div className="mt-6 pt-3 border-t border-slate-100 text-[10px] text-slate-400 font-mono">
+                <div className="mt-6 pt-3 border-t border-black/10 text-[10px] text-slate-400 font-mono">
                   Module Sync Active
                 </div>
               </div>
@@ -89,7 +89,7 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = ({ onBookDemo }) => {
         <div className="mt-12 text-center">
           <button
             onClick={onBookDemo}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-md transition-colors shadow-xs"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-md transition-colors shadow-2xs"
           >
             Request Full Technical Features Walkthrough <ArrowRight className="w-4 h-4 text-slate-300" />
           </button>

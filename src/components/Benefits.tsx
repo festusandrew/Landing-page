@@ -23,12 +23,12 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
   };
 
   return (
-    <section id="benefits" className="py-20 bg-white text-slate-900 relative border-t border-slate-200">
+    <section id="benefits" className="py-20 bg-white text-slate-900 relative border-t border-black/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-semibold uppercase tracking-wider mb-3">
+          <span className="inline-block px-3 py-1 rounded-full bg-slate-100 border border-black/10 text-slate-800 text-xs font-semibold uppercase tracking-wider mb-3">
             Proven Operational Impact
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900">
@@ -47,10 +47,10 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
             return (
               <div
                 key={b.id}
-                className="p-6 rounded-xl bg-white border border-slate-200 hover:border-slate-300 transition-all duration-200 shadow-xs flex flex-col justify-between"
+                className="p-6 rounded-xl bg-white border border-black/10 hover:border-black/10 transition-all duration-200 shadow-2xs flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-11 h-11 rounded-lg bg-slate-100 border border-slate-200 text-slate-900 flex items-center justify-center mb-4">
+                  <div className="w-11 h-11 rounded-lg bg-slate-100 border border-black/10 text-slate-900 flex items-center justify-center mb-4">
                     <Icon className="w-5 h-5 text-slate-900" />
                   </div>
 
@@ -59,7 +59,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
                   <p className="text-xs text-slate-600 leading-relaxed mb-4">{b.description}</p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 text-[11px] font-bold text-blue-700 flex items-center gap-1.5">
+                <div className="pt-3 border-t border-black/10 text-[11px] font-bold text-blue-700 flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5" /> {b.benchmark}
                 </div>
               </div>
@@ -68,7 +68,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
         </div>
 
         {/* INTERACTIVE ROI & TIME SAVINGS CALCULATOR */}
-        <div className="bg-slate-50/80 rounded-2xl border border-slate-200 p-8 shadow-xs relative overflow-hidden">
+        <div className="bg-slate-50/80 rounded-2xl border border-black/10 p-8 shadow-2xs relative overflow-hidden">
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             
@@ -83,7 +83,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
               </h3>
 
               {/* Slider 1: Beds Count */}
-              <div className="space-y-2 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+              <div className="space-y-2 bg-white p-4 rounded-xl border border-black/10 shadow-2xs">
                 <div className="flex justify-between items-center text-xs font-semibold">
                   <span className="text-slate-700">Number of Care Beds / Service Users:</span>
                   <span className="text-slate-900 font-mono text-base font-bold">{bedsCount} Beds</span>
@@ -100,7 +100,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
               </div>
 
               {/* Slider 2: Staff Count */}
-              <div className="space-y-2 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+              <div className="space-y-2 bg-white p-4 rounded-xl border border-black/10 shadow-2xs">
                 <div className="flex justify-between items-center text-xs font-semibold">
                   <span className="text-slate-700">Active Care Staff & Carers:</span>
                   <span className="text-slate-900 font-mono text-base font-bold">{staffCount} Staff</span>
@@ -118,7 +118,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
             </div>
 
             {/* Right Calculated Results Box */}
-            <div className="lg:col-span-5 bg-white p-6 rounded-xl border border-slate-200 text-center space-y-4 shadow-xs">
+            <div className="lg:col-span-5 bg-white p-6 rounded-xl border border-black/10 text-center space-y-4 shadow-2xs">
               <span className="text-xs text-slate-500 font-bold uppercase tracking-wider block">Estimated Annual ROI</span>
               
               <div className="space-y-1">
@@ -129,11 +129,11 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
               </div>
 
               <div className="grid grid-cols-2 gap-3 pt-2 text-xs">
-                <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                <div className="p-3 bg-slate-50 rounded-lg border border-black/10">
                   <div className="text-xl font-bold text-slate-900">{adminHoursSavedWeekly} Hrs/Wk</div>
                   <div className="text-[10px] text-slate-500 font-medium">Admin Reclaimed</div>
                 </div>
-                <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                <div className="p-3 bg-slate-50 rounded-lg border border-black/10">
                   <div className="text-xl font-bold text-slate-900">{timeToFillDays} Days</div>
                   <div className="text-[10px] text-slate-500 font-medium">Time-to-Hire</div>
                 </div>
@@ -141,7 +141,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
 
               <button
                 onClick={onBookDemo}
-                className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-md transition-colors shadow-xs flex items-center justify-center gap-1.5"
+                className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-md transition-colors shadow-2xs flex items-center justify-center gap-1.5"
               >
                 Get Detailed ROI Breakdown Demo <ArrowRight className="w-4 h-4 text-slate-300" />
               </button>

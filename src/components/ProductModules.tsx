@@ -17,7 +17,7 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
   };
 
   return (
-    <section id="products" className="py-20 bg-slate-50 text-slate-900 relative border-t border-slate-200">
+    <section id="products" className="py-20 bg-slate-50 text-slate-900 relative border-t border-black/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
@@ -41,16 +41,16 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
             return (
               <div
                 key={mod.id}
-                className="group relative rounded-xl bg-white border border-slate-200 p-8 hover:border-slate-300 transition-all duration-200 shadow-xs flex flex-col justify-between"
+                className="group relative rounded-xl bg-white border border-black/10 p-8 hover:border-black/10 transition-all duration-200 shadow-2xs flex flex-col justify-between"
               >
                 <div>
                   {/* Top Badge & Icon */}
                   <div className="flex items-center justify-between mb-6">
-                    <div className="w-11 h-11 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-900">
+                    <div className="w-11 h-11 rounded-lg bg-slate-100 border border-black/10 flex items-center justify-center text-slate-900">
                       <Icon className="w-5 h-5 text-slate-900" />
                     </div>
 
-                    <span className="text-xs font-semibold px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-800 rounded-full">
+                    <span className="text-xs font-semibold px-2.5 py-1 bg-slate-100 border border-black/10 text-slate-800 rounded-full">
                       {mod.badge}
                     </span>
                   </div>
@@ -74,14 +74,14 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
                   </div>
 
                   {/* Target Use Case */}
-                  <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-600 mb-6">
+                  <div className="p-3.5 rounded-lg bg-slate-50 border border-black/10 text-xs text-slate-600 mb-6">
                     <strong className="text-slate-900 block mb-0.5 font-bold">Use Case:</strong>
                     {mod.useCase}
                   </div>
                 </div>
 
                 {/* Bottom Action CTAs */}
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                <div className="pt-4 border-t border-black/10 flex items-center justify-between">
                   <span className="text-xs font-bold text-blue-700 font-mono">
                     ★ {mod.metrics}
                   </span>

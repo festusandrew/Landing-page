@@ -51,12 +51,12 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
   const currentNode = nodes.find(n => n.id === activeNode) || nodes[0];
 
   return (
-    <section className="py-20 bg-white text-slate-900 relative border-t border-slate-200 overflow-hidden">
+    <section className="py-20 bg-white text-slate-900 relative border-t border-black/10 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-semibold uppercase tracking-wider mb-3">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 border border-black/10 text-slate-800 text-xs font-semibold uppercase tracking-wider mb-3">
              Unified Architecture
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900">
@@ -68,7 +68,7 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
         </div>
 
         {/* INTERACTIVE CONNECTED NODE DIAGRAM */}
-        <div className="bg-slate-50/80 rounded-2xl border border-slate-200 p-6 md:p-10 shadow-xs relative">
+        <div className="bg-slate-50/80 rounded-2xl border border-black/10 p-6 md:p-10 shadow-2xs relative">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
@@ -76,7 +76,7 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
             <div className="lg:col-span-7 relative flex items-center justify-center min-h-[360px] p-4">
               
               {/* Central Database Core Node */}
-              <div className="w-36 h-36 rounded-full bg-white border-2 border-slate-900 flex flex-col items-center justify-center text-center p-3 shadow-md z-20">
+              <div className="w-36 h-36 rounded-full bg-white border-2 border-slate-900 flex flex-col items-center justify-center text-center p-3 shadow-xs z-20">
                 <Database className="w-7 h-7 text-slate-900 mb-1" />
                 <span className="text-xs font-bold text-slate-900">MployUS Core</span>
                 <span className="text-[9px] text-blue-700 font-mono uppercase font-bold">1 Source of Truth</span>
@@ -89,10 +89,10 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
                   {/* Top Left: Recruitment */}
                   <button
                     onClick={() => setActiveNode('recruitment')}
-                    className={`pointer-events-auto p-3.5 rounded-xl border transition-all duration-200 shadow-xs flex items-center gap-2.5 ${
+                    className={`pointer-events-auto p-3.5 rounded-xl border transition-all duration-200 shadow-2xs flex items-center gap-2.5 ${
                       activeNode === 'recruitment'
                         ? 'bg-slate-900 border-slate-900 text-white scale-105'
-                        : 'bg-white border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300'
+                        : 'bg-white border-black/10 text-slate-700 hover:text-slate-900 hover:border-black/10'
                     }`}
                   >
                     <UserPlus className={`w-5 h-5 ${activeNode === 'recruitment' ? 'text-blue-400' : 'text-blue-600'}`} />
@@ -105,10 +105,10 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
                   {/* Top Right: Care */}
                   <button
                     onClick={() => setActiveNode('care-management')}
-                    className={`pointer-events-auto p-3.5 rounded-xl border transition-all duration-200 shadow-xs flex items-center gap-2.5 ${
+                    className={`pointer-events-auto p-3.5 rounded-xl border transition-all duration-200 shadow-2xs flex items-center gap-2.5 ${
                       activeNode === 'care-management'
                         ? 'bg-slate-900 border-slate-900 text-white scale-105'
-                        : 'bg-white border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300'
+                        : 'bg-white border-black/10 text-slate-700 hover:text-slate-900 hover:border-black/10'
                     }`}
                   >
                     <HeartPulse className={`w-5 h-5 ${activeNode === 'care-management' ? 'text-blue-400' : 'text-blue-600'}`} />
@@ -123,10 +123,10 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
                   {/* Bottom Left: Staffing */}
                   <button
                     onClick={() => setActiveNode('locums-staffing')}
-                    className={`pointer-events-auto p-3.5 rounded-xl border transition-all duration-200 shadow-xs flex items-center gap-2.5 ${
+                    className={`pointer-events-auto p-3.5 rounded-xl border transition-all duration-200 shadow-2xs flex items-center gap-2.5 ${
                       activeNode === 'locums-staffing'
                         ? 'bg-slate-900 border-slate-900 text-white scale-105'
-                        : 'bg-white border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300'
+                        : 'bg-white border-black/10 text-slate-700 hover:text-slate-900 hover:border-black/10'
                     }`}
                   >
                     <Users className={`w-5 h-5 ${activeNode === 'locums-staffing' ? 'text-violet-400' : 'text-violet-600'}`} />
@@ -139,10 +139,10 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
                   {/* Bottom Right: Facility Portal */}
                   <button
                     onClick={() => setActiveNode('facility-management')}
-                    className={`pointer-events-auto p-3.5 rounded-xl border transition-all duration-200 shadow-xs flex items-center gap-2.5 ${
+                    className={`pointer-events-auto p-3.5 rounded-xl border transition-all duration-200 shadow-2xs flex items-center gap-2.5 ${
                       activeNode === 'facility-management'
                         ? 'bg-slate-900 border-slate-900 text-white scale-105'
-                        : 'bg-white border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300'
+                        : 'bg-white border-black/10 text-slate-700 hover:text-slate-900 hover:border-black/10'
                     }`}
                   >
                     <Building2 className={`w-5 h-5 ${activeNode === 'facility-management' ? 'text-amber-400' : 'text-amber-600'}`} />
@@ -157,8 +157,8 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
             </div>
 
             {/* Right Node Details Panel */}
-            <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-xs space-y-4">
-              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200 inline-block">
+            <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-xl border border-black/10 shadow-2xs space-y-4">
+              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-800 border border-black/10 inline-block">
                 {currentNode.badge}
               </span>
 
@@ -166,7 +166,7 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
                 {currentNode.name}
               </h3>
 
-              <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+              <div className="p-3.5 rounded-lg bg-slate-50 border border-black/10 space-y-1.5">
                 <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block">Unified Data Flow:</span>
                 <p className="text-xs font-mono text-slate-800 leading-relaxed font-medium">
                   {currentNode.dataFlow}
@@ -201,7 +201,7 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
           </div>
 
           {/* Key Differentiator Callout Banner */}
-          <div className="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+          <div className="mt-8 pt-6 border-t border-black/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
             <div className="flex items-start gap-3">
               <ShieldCheck className="w-6 h-6 text-blue-600 shrink-0 mt-0.5" />
               <div>
@@ -213,7 +213,7 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
             </div>
             <button
               onClick={onBookDemo}
-              className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-900 font-semibold text-xs rounded-md border border-slate-200 shrink-0 transition-colors shadow-xs"
+              className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-900 font-semibold text-xs rounded-md border border-black/10 shrink-0 transition-colors shadow-2xs"
             >
               Request Ecosystem Architecture Demo
             </button>

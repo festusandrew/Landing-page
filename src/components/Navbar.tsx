@@ -100,8 +100,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 ${
       isScrolled 
-        ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/90 text-slate-900 shadow-sm py-3' 
-        : 'bg-white text-slate-900 py-3.5 border-b border-slate-200/80'
+        ? 'bg-white/95 backdrop-blur-md border-b border-black/10 text-slate-900 shadow-xs py-3' 
+        : 'bg-white text-slate-900 py-3.5 border-b border-black/10'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -141,7 +141,7 @@ MployUs
 
               {/* 100hires-Style Products Mega Dropdown */}
               {productsDropdownOpen && (
-                <div className="absolute top-full left-0 w-[560px] bg-white border border-slate-200 rounded-2xl shadow-2xl p-4 grid grid-cols-12 gap-4 animate-fade-in z-50">
+                <div className="absolute top-full left-0 w-[560px] bg-white border border-black/10 rounded-2xl shadow-sm p-4 grid grid-cols-12 gap-4 animate-fade-in z-50">
                   
                   {/* Left Main Products Column */}
                   <div className="col-span-7 space-y-2">
@@ -161,7 +161,7 @@ MployUs
                               isActive ? 'bg-slate-100/90' : 'hover:bg-slate-50'
                             }`}
                           >
-                            <div className={`p-2 rounded-lg bg-slate-100 border border-slate-200 ${p.color} group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all shrink-0`}>
+                            <div className={`p-2 rounded-lg bg-slate-100 border border-black/10 ${p.color} group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all shrink-0`}>
                               <Icon className="w-4 h-4" />
                             </div>
                             <div className="space-y-0.5">
@@ -228,7 +228,7 @@ MployUs
 
               {/* 100hires-Style Services Mega Dropdown */}
               {servicesDropdownOpen && (
-                <div className="absolute top-full left-0 w-[600px] bg-white border border-slate-200 rounded-2xl shadow-2xl p-4 grid grid-cols-12 gap-4 animate-fade-in z-50">
+                <div className="absolute top-full left-0 w-[600px] bg-white border border-black/10 rounded-2xl shadow-sm p-4 grid grid-cols-12 gap-4 animate-fade-in z-50">
                   
                   {/* Left Main Services List */}
                   <div className="col-span-7 space-y-2">
@@ -248,7 +248,7 @@ MployUs
                               isActive ? 'bg-slate-100/90' : 'hover:bg-slate-50'
                             }`}
                           >
-                            <div className={`p-2 rounded-lg bg-slate-100 border border-slate-200 ${s.color} group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all shrink-0`}>
+                            <div className={`p-2 rounded-lg bg-slate-100 border border-black/10 ${s.color} group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all shrink-0`}>
                               <Icon className="w-4 h-4" />
                             </div>
                             <div className="space-y-0.5">
@@ -314,7 +314,7 @@ MployUs
           <div className="hidden md:flex items-center gap-2.5">
             <button
               onClick={onStartTrial}
-              className="px-3.5 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 rounded-md transition-all"
+              className="px-3.5 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-black/10 rounded-md transition-all"
             >
               Free Trial
             </button>
@@ -337,7 +337,7 @@ MployUs
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200"
+              className="p-2 rounded-md bg-slate-100 text-slate-700 hover:text-slate-900 border border-black/10"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -346,7 +346,7 @@ MployUs
 
         {/* Mobile Dropdown Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden mt-3 pt-3 border-t border-slate-200 space-y-4 pb-3 animate-fade-in bg-white max-h-[80vh] overflow-y-auto">
+          <div className="lg:hidden mt-3 pt-3 border-t border-black/10 space-y-4 pb-3 animate-fade-in bg-white max-h-[80vh] overflow-y-auto">
             {/* Products Section */}
             <div>
               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
@@ -359,7 +359,7 @@ MployUs
                     <button
                       key={m.id}
                       onClick={() => handleNavClick(m.id)}
-                      className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-left text-xs font-semibold text-slate-800 hover:bg-slate-100 flex items-center gap-2.5"
+                      className="p-2.5 rounded-lg bg-slate-50 border border-black/10 text-left text-xs font-semibold text-slate-800 hover:bg-slate-100 flex items-center gap-2.5"
                     >
                       <Icon className={`w-4 h-4 ${m.color}`} />
                       <div>
@@ -384,7 +384,7 @@ MployUs
                     <button
                       key={s.id}
                       onClick={() => handleNavClick(s.id)}
-                      className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-left text-xs font-semibold text-slate-800 hover:bg-slate-100 flex items-center gap-2.5"
+                      className="p-2.5 rounded-lg bg-slate-50 border border-black/10 text-left text-xs font-semibold text-slate-800 hover:bg-slate-100 flex items-center gap-2.5"
                     >
                       <Icon className={`w-4 h-4 ${s.color}`} />
                       <div>
@@ -397,7 +397,7 @@ MployUs
               </div>
             </div>
 
-            <div className="flex flex-col gap-2 pt-2 border-t border-slate-100">
+            <div className="flex flex-col gap-2 pt-2 border-t border-black/10">
               <button
                 onClick={() => {
                   onBookDemo();
@@ -412,7 +412,7 @@ MployUs
                   onStartTrial();
                   setMobileMenuOpen(false);
                 }}
-                className="w-full py-2.5 border border-slate-200 text-slate-700 font-semibold text-xs rounded-md text-center hover:bg-slate-50"
+                className="w-full py-2.5 border border-black/10 text-slate-700 font-semibold text-xs rounded-md text-center hover:bg-slate-50"
               >
                 Start Free Trial
               </button>

@@ -17,7 +17,7 @@ export const FAQ: React.FC<FAQProps> = ({ onBookDemo }) => {
   const filteredFaqs = FAQS.filter(faq => selectedCategory === 'all' || faq.category === selectedCategory);
 
   return (
-    <section id="faq" className="py-20 bg-slate-50 text-slate-900 relative border-t border-slate-200">
+    <section id="faq" className="py-20 bg-slate-50 text-slate-900 relative border-t border-black/10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
@@ -44,7 +44,7 @@ export const FAQ: React.FC<FAQProps> = ({ onBookDemo }) => {
             return (
               <div
                 key={idx}
-                className="rounded-xl bg-white border border-slate-200 shadow-xs overflow-hidden transition-all duration-200"
+                className="rounded-xl bg-white border border-black/10 shadow-2xs overflow-hidden transition-all duration-200"
               >
                 <button
                   onClick={() => toggleAccordion(idx)}
@@ -58,7 +58,7 @@ export const FAQ: React.FC<FAQProps> = ({ onBookDemo }) => {
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-5 pt-2 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pl-10 font-medium">
+                  <div className="px-5 pb-5 pt-2 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-black/10 pl-10 font-medium">
                     {faq.answer}
                   </div>
                 )}
@@ -68,13 +68,13 @@ export const FAQ: React.FC<FAQProps> = ({ onBookDemo }) => {
         </div>
 
         {/* Still Have Questions Box */}
-        <div className="mt-12 p-6 rounded-xl bg-white border border-slate-200 text-center space-y-3 shadow-xs">
+        <div className="mt-12 p-6 rounded-xl bg-white border border-black/10 text-center space-y-3 shadow-2xs">
           <p className="text-xs text-slate-600 font-medium">
             Have a specific technical or compliance question not listed here?
           </p>
           <button
             onClick={onBookDemo}
-            className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-md transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-md transition-colors shadow-2xs"
           >
             Ask a Solutions Specialist <ArrowRight className="w-4 h-4 text-slate-300" />
           </button>

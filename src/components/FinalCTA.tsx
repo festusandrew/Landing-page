@@ -8,10 +8,10 @@ interface FinalCTAProps {
 
 export const FinalCTA: React.FC<FinalCTAProps> = ({ onBookDemo, onStartTrial }) => {
   return (
-    <section className="py-20 bg-white text-slate-900 relative border-t border-slate-200 overflow-hidden">
+    <section className="py-20 bg-white text-slate-900 relative border-t border-black/10 overflow-hidden">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         
-        <div className="p-8 sm:p-12 rounded-2xl bg-slate-900 text-white shadow-xl relative overflow-hidden border border-slate-800">
+        <div className="p-8 sm:p-12 rounded-2xl bg-slate-900 text-white shadow-sm relative overflow-hidden border border-slate-800">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold uppercase tracking-wider mb-4">
             <Shield className="w-3.5 h-3.5 text-blue-400" /> Start Modernizing Today
           </div>
@@ -28,7 +28,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onBookDemo, onStartTrial }) 
           <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
             <button
               onClick={onBookDemo}
-              className="px-8 py-3.5 bg-white hover:bg-slate-100 text-slate-900 font-semibold text-sm rounded-md transition-colors shadow-xs flex items-center gap-2"
+              className="px-8 py-3.5 bg-white hover:bg-slate-100 text-slate-900 font-semibold text-sm rounded-md transition-colors shadow-2xs flex items-center gap-2"
             >
               Book Your Demo <ArrowRight className="w-4 h-4 text-slate-900" />
             </button>
