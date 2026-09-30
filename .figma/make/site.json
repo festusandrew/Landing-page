@@ -1,0 +1,10 @@
+{
+  "description": "Streamline job recruitment by connecting employers with candidates through an intuitive platform that simplifies the hiring process.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
