@@ -4,7 +4,7 @@ import {
   Search, Calendar, Stethoscope, Briefcase, Mail, Lock, Linkedin, Phone,
   ChevronDown, ChevronRight, BookOpen, GraduationCap, Cookie, Award,
   PlusCircle, UserPlus, Check, Menu, X, Apple, Play, Bell, Zap, Wallet,
-  Plus, Minus, TrendingUp, Star, Sparkles, MoveRight
+  Plus, Minus, TrendingUp, Star, Sparkles, MoveRight, Smartphone
 } from 'lucide-react';
 
 // Figma-imported images
