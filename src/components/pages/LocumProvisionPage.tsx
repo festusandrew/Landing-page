@@ -23,6 +23,7 @@ import imgIPhone17 from '../../imports/MacBookPro14372/b3648975e70cf2fd988f4256f
 import imgVector from '../../imports/MacBookPro14372/f0bc36634edad22f1ba0d9dc695aff5fadeda7e7.png';
 import imgLogoWhite from '../../imports/MacBookPro14372/b8700eda655f89d95fde6a9a941327028643e451.png';
 import imgLogo from '../../imports/MacBookPro14372/b16ab5f34d40dbc6e584efa0666128eb7e0f9d4b.png';
+import { LocumRegistrationWizard } from './LocumRegistrationWizard';
 
 interface LocumProvisionPageProps {
   onBackToHome: () => void;
@@ -194,6 +195,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [authModal, setAuthModal] = useState<'signin' | 'signup' | null>(null);
+  const [regWizardOpen, setRegWizardOpen] = useState(false);
   const [signupStep, setSignupStep] = useState<'role' | 'details' | 'verify'>('role');
   const [role, setRole] = useState<'Locum' | 'Client' | null>(null);
   const [setupProfession, setSetupProfession] = useState<Profession>(PROFESSIONS[4]);
@@ -3025,7 +3027,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           );
                         })}
                       </div>
-                      <button disabled={!role} onClick={() => setSignupStep('details')} className="w-full py-3 bg-green-600 disabled:opacity-40 text-white text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-1.5">
+                      <button disabled={!role} onClick={() => { if (role === 'Locum') { setAuthModal(null); setRegWizardOpen(true); } else { setSignupStep('details'); } }} className="w-full py-3 bg-green-600 disabled:opacity-40 text-white text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-1.5">
                         Continue <ChevronRight className="w-4 h-4" />
                       </button>
                       <p className="text-center text-xs text-slate-500">Already have an account? <button onClick={() => setAuthModal('signin')} className="font-bold text-green-600 hover:underline">Sign in</button></p>
@@ -3117,6 +3119,17 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </div>
           </div>
         </div>
+      )}
+
+      {/* ══════════════════════════════════════
+          LOCUM 5-STEP REGISTRATION WIZARD
+      ══════════════════════════════════════ */}
+      {regWizardOpen && (
+        <LocumRegistrationWizard
+          initialRegion={region}
+          onClose={() => setRegWizardOpen(false)}
+          onComplete={() => onBookDemo('Locum registration')}
+        />
       )}
 
       {/* ══════════════════════════════════════
