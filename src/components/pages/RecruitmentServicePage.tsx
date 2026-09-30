@@ -1,11 +1,25 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  Briefcase, Users, ShieldCheck, Award, ArrowRight, Search, MapPin, Mail,
-  Phone, ChevronDown, ChevronRight, Check, X, Menu, Clock, Star,
-  Building2, FileText, TrendingUp, Target, Zap, CheckCircle2,
-  Plus, Minus, UserPlus, Send, Globe, BookOpen, Layers,
+  ArrowRight, Menu, X, ChevronDown, Globe, Clock, Target, Users,
+  Check, Mail, Phone, Building2, Briefcase, Send, CheckCircle2,
+  Plus, Minus, FileText, ChevronRight,
 } from 'lucide-react';
+
+// ── Figma-imported images ────────────────────────────────────────────────────
+import imgLouis from '@/src/imports/RecruitmentLandingPage/f8040af1a61ac9ad59fd58c84658cc44062206ba.png';
+import imgLogistics from '@/src/imports/RecruitmentLandingPage/aa37e48f6c02d0a65f199fa158471a8040b91305.png';
+import imgHealthcare from '@/src/imports/RecruitmentLandingPage/49d7528f8b3dc57a0295eda062854be297056b4d.png';
+import imgHospitality from '@/src/imports/RecruitmentLandingPage/8c1cea987026a18528cb0bf86f4f814bb9bd4034.png';
+import imgEducation from '@/src/imports/RecruitmentLandingPage/c511b99cc403642ea75f66bac88e333cc5768037.png';
+import imgBlog1 from '@/src/imports/RecruitmentLandingPage/91cecfeff21bc6df8c61a3e31d6514b7efb231a6.png';
+import imgBlog2 from '@/src/imports/RecruitmentLandingPage/7941db92e4d97482ed49a8f1a6fe4be0fca9562d.png';
+import imgBlog3 from '@/src/imports/RecruitmentLandingPage/aaf772a81b05c538b61b11fa0d9c097a44c4309c.png';
+import imgSarah from '@/src/imports/RecruitmentLandingPage/40b658c00757bb1aeede15376b9e7b2d32234f5c.png';
+import imgJames from '@/src/imports/RecruitmentLandingPage/99891f367ad1c536e61556060274079b908b6cc0.png';
+import imgMichael from '@/src/imports/RecruitmentLandingPage/ca27e31ef2c2e6763717010455537962ccdd0fe8.png';
+import imgMployUs from '@/src/imports/RecruitmentLandingPage/afa262f7bab0644138f6a6848b0032c4e2a7d048.png';
+import imgHiringDiscussion from '@/src/imports/RecruitmentLandingPage/d7b4f06932544d5c20501c4962c2946b7d37b4f0.png';
 
 interface RecruitmentServicePageProps {
   onBackToHome: () => void;
@@ -13,34 +27,28 @@ interface RecruitmentServicePageProps {
   onStartTrial: () => void;
 }
 
-// ── Animation helpers ────────────────────────────────────────────────────────
-const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
-};
-const stagger = (delay = 0.08) => ({
-  hidden: {},
-  visible: { transition: { staggerChildren: delay } },
-});
+// ── Design tokens (from Figma) ────────────────────────────────────────────────
+const PRIMARY = '#810161';
+const TEXT_DARK = '#364153';
+const TEXT_MED = '#6a7282';
+const TEXT_MUTED = '#99a1af';
+const BG_LIGHT = '#f9fafb';
+const BORDER = '#e5e7eb';
+const BORDER_LIGHT = '#f3f4f6';
 
-const Reveal = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
-  <motion.div
-    className={className}
-    initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}
-    variants={stagger(0.1)}
-  >
+// ── Small helpers ─────────────────────────────────────────────────────────────
+const Eyebrow = ({ children }: { children: React.ReactNode }) => (
+  <p style={{ color: TEXT_MUTED, letterSpacing: '1.56px' }}
+    className="text-[13px] font-['Inter',sans-serif] uppercase font-normal mb-3">
     {children}
-  </motion.div>
+  </p>
 );
 
-const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-  <motion.p variants={fadeUp} className="text-xs font-bold text-amber-600 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+const H2 = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+  <h2 style={{ color: PRIMARY }} className={`font-['Arimo',sans-serif] text-[36px] leading-[1.2] font-normal ${className}`}>
     {children}
-  </motion.p>
+  </h2>
 );
-
-// ── Accent colour ────────────────────────────────────────────────────────────
-const A = '#D97706'; // amber-600
 
 export const RecruitmentServicePage: React.FC<RecruitmentServicePageProps> = ({
   onBackToHome,
@@ -50,148 +58,117 @@ export const RecruitmentServicePage: React.FC<RecruitmentServicePageProps> = ({
   const [contactOpen, setContactOpen] = useState(false);
   const [cvOpen, setCvOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [roleFilter, setRoleFilter] = useState('All');
   const [contactStep, setContactStep] = useState<1 | 2 | 3>(1);
   const [contactType, setContactType] = useState<'Employer' | 'Candidate' | ''>('');
   const [cvStep, setCvStep] = useState<1 | 2>(1);
-  const [contactForm, setContactForm] = useState({
-    name: '', email: '', phone: '', company: '', role: '', message: '',
-  });
+  const [contactForm, setContactForm] = useState({ name: '', email: '', phone: '', company: '', role: '', message: '' });
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setMobileOpen(false);
   };
 
-  // ── Data ────────────────────────────────────────────────────────────────────
+  const openContact = () => {
+    setContactStep(1); setContactType('');
+    setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' });
+    setContactOpen(true);
+  };
+  const openCV = () => { setCvStep(1); setCvOpen(true); };
+
+  const features = [
+    { icon: Globe, label: 'Global Talent Access', desc: 'Source skilled professionals across multiple industries and geographies, with deep roots in the Irish market.' },
+    { icon: Target, label: 'Local & Remote Roles', desc: 'Flexible hiring models whether you need on-site staff in Dublin or remote specialists working from anywhere.' },
+    { icon: Check, label: 'Right-Fit Matching', desc: 'Our sourcing process goes beyond CVs. We evaluate culture fit, technical skills, and long-term potential.' },
+    { icon: Clock, label: 'Faster Time-to-Hire', desc: 'Streamlined workflows and a pre-vetted talent pool mean you fill roles in days, not months.' },
+  ];
+
   const services = [
-    {
-      icon: Users, title: 'Permanent Placement',
-      desc: 'End-to-end search, screening, and placement for full-time roles across all sectors and seniority levels.',
-      points: ['Multi-channel candidate sourcing', 'Structured competency interviews', '90-day replacement guarantee'],
-    },
-    {
-      icon: Clock, title: 'Temporary & Contract',
-      desc: 'Flexible short-term and contract staffing to cover peaks, projects, and planned absences — fast.',
-      points: ['Same-day cover capability', 'Fully vetted, ready-to-start candidates', 'Weekly timesheet & payroll management'],
-    },
-    {
-      icon: Target, title: 'Executive Search',
-      desc: 'Discreet headhunting for leadership, director, and C-suite positions requiring deep market knowledge.',
-      points: ['Confidential market mapping', 'Passive candidate engagement', 'Guaranteed shortlist within 3 weeks'],
-    },
-    {
-      icon: Layers, title: 'Volume Hiring',
-      desc: 'Scalable recruitment solutions for high-growth businesses, project teams, or seasonal demand spikes.',
-      points: ['Dedicated hiring project managers', 'ATS integration & bulk processing', 'SLA-backed fill-rate targets'],
-    },
-    {
-      icon: ShieldCheck, title: 'Compliance & Vetting',
-      desc: 'Comprehensive background checks, licence verification, and right-to-work audits managed for every candidate.',
-      points: ['Enhanced DBS & Garda vetting', 'NMC / PSI / GPhC licence checks', 'Digital compliance vault per candidate'],
-    },
-    {
-      icon: TrendingUp, title: 'Workforce Planning',
-      desc: 'Strategic talent pipeline consulting to help you anticipate hiring needs and reduce time-to-hire over time.',
-      points: ['Salary benchmarking reports', 'Workforce gap analysis', 'Quarterly talent market briefings'],
-    },
+    { n: '01', type: 'Permanent', title: 'Permanent Placement', desc: "Long-term hires for core roles. We identify, screen, and present candidates who'll grow with your organisation." },
+    { n: '02', type: 'Contract', title: 'Contract Staffing', desc: 'Flexible staff for project-based work, seasonal peaks, or maternity cover without the overhead of permanent hires.' },
+    { n: '03', type: 'RPO', title: 'Recruitment Process Outsourcing', desc: 'Outsource part or all of your hiring to our team. We embed in your process and work as an extension of your HR.' },
+    { n: '04', type: 'Executive', title: 'Executive Search', desc: "Discreet headhunting for C-suite and senior leadership. We access networks that job boards can't reach." },
   ];
 
   const industries = [
-    { icon: '🏥', label: 'Healthcare & Nursing' },
-    { icon: '💊', label: 'Pharmacy' },
-    { icon: '🤝', label: 'Social Care' },
-    { icon: '💻', label: 'Technology & IT' },
-    { icon: '📊', label: 'Finance & Accounting' },
-    { icon: '⚙️', label: 'Engineering' },
-    { icon: '🎓', label: 'Education' },
-    { icon: '🏨', label: 'Hospitality' },
+    { img: imgLogistics, label: 'Logistics', sub: 'Warehouse, Supply Chain, Transport' },
+    { img: imgHealthcare, label: 'Healthcare', sub: 'Nursing, Allied Health, Medical Admin' },
+    { img: imgHospitality, label: 'Hospitality', sub: 'Hotels, Restaurants, Events' },
+    { img: imgEducation, label: 'Education', sub: 'Teaching, SNA, Administration' },
   ];
 
-  const openRoles = [
-    { title: 'Home Manager', type: 'Permanent', sector: 'Healthcare', location: 'Cork, IE', salary: '€55k – €68k', urgent: false },
-    { title: 'Registered Nurse (Community)', type: 'Permanent', sector: 'Healthcare', location: 'Dublin, IE', salary: '€40k – €50k', urgent: true },
-    { title: 'Senior Software Engineer', type: 'Permanent', sector: 'Technology', location: 'Remote / Hybrid', salary: '£65k – £85k', urgent: false },
-    { title: 'Pharmacy Technician', type: 'Full-time', sector: 'Pharmacy', location: 'Manchester, UK', salary: '£28k – £34k', urgent: false },
-    { title: 'Finance Manager', type: 'Permanent', sector: 'Finance', location: 'London, UK', salary: '£72k – £88k', urgent: true },
-    { title: 'Care Coordinator', type: 'Permanent', sector: 'Social Care', location: 'Birmingham, UK', salary: '£30k – £36k', urgent: false },
-  ];
-
-  const steps = [
-    { n: '01', title: 'Brief us', desc: "Share your requirements in a 20-minute call. We'll confirm timelines, rates, and what good looks like for your role." },
-    { n: '02', title: 'We search', desc: 'Our specialists identify, approach, and screen candidates — including passive talent not on job boards.' },
-    { n: '03', title: 'You choose', desc: 'Receive a curated shortlist of pre-screened, compliance-verified candidates ready to interview.' },
-    { n: '04', title: 'Hire with confidence', desc: 'We handle offer management, referencing, and onboarding support. Every placement is backed by our 90-day guarantee.' },
+  const articles = [
+    { img: imgBlog1, cat: 'Industry', date: 'Feb 12, 2026', title: 'How Irish SMEs are rethinking recruitment in 2026' },
+    { img: imgBlog2, cat: 'Strategy', date: 'Feb 6, 2026', title: 'Contract vs. permanent: which model fits your growth stage?' },
+    { img: imgBlog3, cat: 'Trends', date: 'Jan 28, 2026', title: 'Workforce trends shaping healthcare staffing this year' },
   ];
 
   const testimonials = [
-    {
-      quote: "We placed three Home Managers in six weeks — roles we'd been trying to fill for months through other agencies. The shortlists were genuinely high quality.",
-      name: 'Sarah Brennan', role: 'Regional Director', company: 'Sláinte Care Group',
-    },
-    {
-      quote: "The compliance piece alone justified switching to MployUs Recruit. Every candidate arrived fully vetted. Zero chasing, zero surprises.",
-      name: 'James Tierney', role: 'Head of HR', company: 'HealthBridge UK',
-    },
+    { img: imgSarah, quote: '"MployUs cut our hiring timeline from eight weeks to twelve days. The candidates they presented actually understood our industry."', name: 'Sarah Jenkins', role: 'HR Director, TechFlow Solutions' },
+    { img: imgJames, quote: '"Finding a Home Manager with the right clinical background and leadership skills is notoriously hard. MployUs delivered a shortlist in under two weeks."', name: 'Dr. James Wilson', role: 'Clinical Director, Sláinte Care Group' },
+    { img: imgMichael, quote: '"We needed 14 warehouse operatives ahead of peak season. MployUs had them placed, vetted, and inducted within ten days."', name: 'Michael Chen', role: 'Operations Manager, FastFreight IE' },
   ];
 
   const faqs = [
-    { q: 'How quickly can you fill a vacancy?', a: 'For permanent roles, we typically deliver a qualified shortlist within 5–10 business days. Urgent or temporary cover can be arranged within 24–48 hours depending on the role and location. Executive searches run on a 3–4 week shortlist timeline.' },
-    { q: 'What is your placement guarantee?', a: 'Every permanent placement is backed by a 90-day free replacement guarantee. If a candidate leaves or is let go within 90 days of start date for reasons within our control, we re-recruit at no additional cost.' },
-    { q: 'How do you verify candidate compliance?', a: 'All candidates undergo enhanced DBS (UK) or Garda vetting (Ireland), right-to-work verification, professional licence checks (NMC, GPhC, PSI, CORU as applicable), and two professional references before being presented to you. Documents are stored in a secure digital compliance vault.' },
-    { q: 'What does your service cost?', a: 'Permanent placements are typically priced as a percentage of first-year salary, agreed in advance. Temporary and contract staffing is priced on a weekly pay-and-margin model with full rate transparency. Volume and retained search are priced on project terms. Contact us for a tailored quote.' },
-    { q: "I'm a candidate — can I register directly?", a: "Yes. Upload your CV and availability via our candidate portal and a specialist will contact you within one business day. We'll match you to live roles and keep you informed as new opportunities arise that fit your profile." },
-    { q: 'Do you work outside Ireland and the UK?', a: 'Currently our primary markets are Ireland (Republic and Northern Ireland) and Great Britain. We have partner networks for international placements — particularly within the EU — and can discuss cross-border requirements on a case-by-case basis.' },
-    { q: 'Can you handle RPO (Recruitment Process Outsourcing)?', a: 'Yes. For organisations looking to outsource part or all of their recruitment function, we offer dedicated RPO engagements with embedded consultants, branded hiring portals, and full reporting dashboards.' },
+    { q: 'How quickly can you fill a vacancy?', a: 'For permanent roles we typically deliver a qualified shortlist within 5–10 business days. Urgent or temporary cover can be arranged within 24–48 hours. Executive searches run on a 3–4 week shortlist timeline.' },
+    { q: 'What sectors do you recruit for?', a: 'We specialise in logistics, healthcare & nursing, hospitality, and education across Ireland and the UK. We also recruit for technology, finance, and professional services on request.' },
+    { q: 'How do you verify candidate compliance?', a: 'All candidates undergo enhanced DBS (UK) or Garda vetting (Ireland), right-to-work checks, professional licence verification, and two structured professional references before presentation.' },
+    { q: 'What does your service cost?', a: 'Permanent placements are priced as a percentage of first-year salary, agreed in writing before search begins. Contract staffing operates on a weekly pay-and-margin model with full transparency. Volume and RPO engagements are project-priced.' },
+    { q: "I'm a candidate — how do I register?", a: "Upload your CV via our candidate portal and a consultant will contact you within one business day. We'll match you to live roles and keep you on our radar as new opportunities arise." },
+    { q: 'Do you offer a placement guarantee?', a: 'Yes. Every permanent placement is backed by a 90-day free replacement guarantee. If a candidate leaves or is let go within 90 days for reasons within our control, we re-recruit at no additional cost.' },
   ];
 
-  const sectors = ['All', 'Healthcare', 'Pharmacy', 'Technology', 'Finance', 'Social Care'];
-  const filteredRoles = roleFilter === 'All' ? openRoles : openRoles.filter(r => r.sector === roleFilter);
-
-  const openContact = () => { setContactStep(1); setContactType(''); setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' }); setContactOpen(true); };
-  const openCV = () => { setCvStep(1); setCvOpen(true); };
-
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-['Plus_Jakarta_Sans',sans-serif]">
+    <div className="min-h-screen bg-white font-['Inter',sans-serif]" style={{ color: TEXT_DARK }}>
 
       {/* ══════════════════════════════════════
           NAVBAR
       ══════════════════════════════════════ */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-black/5">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 h-[70px] flex items-center justify-between gap-6">
-          {/* Logo + back */}
+      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b" style={{ borderColor: BORDER }}>
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 h-[68px] flex items-center justify-between gap-6">
+
+          {/* Logo */}
           <div className="flex items-center gap-4">
-            <button onClick={onBackToHome} className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-slate-900 transition-colors">
+            <button onClick={onBackToHome} className="flex items-center gap-1.5 text-xs font-medium transition-colors"
+              style={{ color: TEXT_MUTED }}>
               <ChevronDown className="w-3.5 h-3.5 rotate-90" /> Back
             </button>
-            <div className="w-px h-4 bg-slate-200" />
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-amber-500 flex items-center justify-center">
-                <Briefcase className="w-4 h-4 text-white" />
-              </div>
-              <span className="font-bold text-slate-900 text-sm">MployUs <span className="text-amber-600">Recruit</span></span>
+            <div className="w-px h-4" style={{ backgroundColor: BORDER }} />
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2.5">
+              <img src={imgMployUs} alt="MployUs" className="h-7 w-auto object-contain" />
             </button>
           </div>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-500">
-            {[['Services', 'services'], ['Industries', 'industries'], ['Open Roles', 'roles'], ['FAQ', 'faq']].map(([label, id]) => (
-              <button key={id} onClick={() => scrollTo(id)} className="hover:text-slate-900 transition-colors">{label}</button>
+          {/* Nav links */}
+          <nav className="hidden lg:flex items-center gap-7 text-[14px] font-medium" style={{ color: TEXT_MED }}>
+            {[['Services', 'services'], ['Industries', 'industries'], ['Insights', 'insights'], ['FAQ', 'faq']].map(([label, id]) => (
+              <button key={id} onClick={() => scrollTo(id)}
+                className="hover:transition-colors"
+                style={{ color: TEXT_MED }}
+                onMouseEnter={e => (e.currentTarget.style.color = PRIMARY)}
+                onMouseLeave={e => (e.currentTarget.style.color = TEXT_MED)}>
+                {label}
+              </button>
             ))}
           </nav>
 
           {/* CTAs */}
-          <div className="hidden lg:flex items-center gap-2">
-            <button onClick={openCV} className="px-4 py-2 text-sm font-semibold text-slate-700 border border-black/5 rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-2">
-              <FileText className="w-4 h-4 text-slate-400" /> Upload CV
+          <div className="hidden lg:flex items-center gap-2.5">
+            <button onClick={openCV}
+              className="px-4 py-2 text-[14px] font-medium rounded-lg border transition-colors"
+              style={{ borderColor: BORDER, color: TEXT_DARK }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = BG_LIGHT)}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'white')}>
+              Upload CV
             </button>
-            <button onClick={openContact} className="px-4 py-2 text-sm font-bold bg-amber-500 hover:bg-amber-600 text-white rounded-xl transition-colors flex items-center gap-2">
-              Book Consultation <ArrowRight className="w-4 h-4" />
+            <button onClick={openContact}
+              className="px-4 py-2 text-[14px] font-medium rounded-lg text-white flex items-center gap-2 transition-opacity hover:opacity-90"
+              style={{ backgroundColor: PRIMARY }}>
+              Request Talent <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Mobile menu toggle */}
-          <button onClick={() => setMobileOpen(v => !v)} className="lg:hidden p-2 rounded-lg text-slate-500">
+          {/* Mobile toggle */}
+          <button onClick={() => setMobileOpen(v => !v)} className="lg:hidden p-2 rounded-lg" style={{ color: TEXT_MED }}>
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
@@ -200,382 +177,343 @@ export const RecruitmentServicePage: React.FC<RecruitmentServicePageProps> = ({
         <AnimatePresence>
           {mobileOpen && (
             <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-              className="lg:hidden bg-white border-t border-black/5 px-6 py-4 space-y-1">
-              {[['Services', 'services'], ['Industries', 'industries'], ['Open Roles', 'roles'], ['FAQ', 'faq']].map(([label, id]) => (
-                <button key={id} onClick={() => scrollTo(id)} className="block w-full text-left py-2.5 text-sm font-semibold text-slate-700 border-b border-black/5 last:border-0">
+              className="lg:hidden bg-white border-t px-6 py-4 space-y-1" style={{ borderColor: BORDER }}>
+              {[['Services', 'services'], ['Industries', 'industries'], ['Insights', 'insights'], ['FAQ', 'faq']].map(([label, id]) => (
+                <button key={id} onClick={() => scrollTo(id)}
+                  className="block w-full text-left py-2.5 text-[14px] font-medium border-b last:border-0"
+                  style={{ color: TEXT_DARK, borderColor: BORDER_LIGHT }}>
                   {label}
                 </button>
               ))}
-              <div className="flex gap-2 pt-2">
-                <button onClick={openCV} className="flex-1 py-2.5 border border-black/5 rounded-xl text-sm font-semibold text-slate-700">Upload CV</button>
-                <button onClick={openContact} className="flex-1 py-2.5 bg-amber-500 text-white rounded-xl text-sm font-bold">Book Consultation</button>
+              <div className="flex gap-2 pt-3">
+                <button onClick={openCV} className="flex-1 py-2.5 border rounded-lg text-[14px] font-medium" style={{ borderColor: BORDER, color: TEXT_DARK }}>Upload CV</button>
+                <button onClick={openContact} className="flex-1 py-2.5 rounded-lg text-white text-[14px] font-medium" style={{ backgroundColor: PRIMARY }}>Request Talent</button>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </header>
 
-      <main className="pt-[70px]">
+      <main className="pt-[68px]">
 
         {/* ══════════════════════════════════════
             HERO
         ══════════════════════════════════════ */}
-        <section className="bg-slate-900 py-20 px-6">
-          <div className="max-w-[1280px] mx-auto lg:px-6">
-            <motion.div variants={stagger(0.1)} initial="hidden" animate="visible" className="max-w-2xl">
-              <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/80 text-xs font-semibold uppercase tracking-widest mb-6">
-                <Briefcase className="w-3.5 h-3.5 text-amber-400" /> Managed Recruitment Service
-              </motion.div>
-              <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl font-bold text-white leading-[1.06] tracking-tight mb-5">
-                Find the right people.<br />
-                <span className="text-amber-400">Faster.</span>
-              </motion.h1>
-              <motion.p variants={fadeUp} className="text-white/65 text-lg leading-relaxed mb-8 max-w-xl">
-                Specialist recruitment for healthcare, technology, and professional services across Ireland and the UK. Permanent, contract, and executive search — all compliance-verified.
-              </motion.p>
-              <motion.div variants={fadeUp} className="flex flex-wrap gap-3 mb-10">
-                <button onClick={openContact} className="flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm rounded-xl transition-colors">
-                  Book a Consultation <ArrowRight className="w-4 h-4" />
-                </button>
-                <button onClick={() => scrollTo('roles')} className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/15 text-white font-semibold text-sm rounded-xl transition-colors">
-                  Browse Open Roles
-                </button>
-              </motion.div>
-              <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
-                {['DBS & Garda Vetted', '90-Day Guarantee', 'Ireland & UK'].map(b => (
-                  <span key={b} className="flex items-center gap-1.5 text-xs text-white/50 font-medium">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" /> {b}
-                  </span>
-                ))}
-              </motion.div>
-            </motion.div>
-          </div>
-        </section>
+        <section className="py-16 lg:py-24 bg-white">
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
 
-        {/* ══════════════════════════════════════
-            STATS STRIP
-        ══════════════════════════════════════ */}
-        <section className="bg-amber-500 border-y border-black/5">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { val: '4,200+', label: 'Placements made' },
-              { val: '94%', label: 'Fill rate' },
-              { val: '12 days', label: 'Avg. time to shortlist' },
-              { val: '90-day', label: 'Placement guarantee' },
-            ].map(({ val, label }) => (
-              <div key={label} className="text-center">
-                <div className="text-2xl font-bold text-white">{val}</div>
-                <div className="text-white/75 text-xs font-medium mt-0.5">{label}</div>
+            {/* Left */}
+            <div className="flex-1 min-w-0">
+              <Eyebrow>Recruitment · Staffing · HR Advisory</Eyebrow>
+              <h1 style={{ color: PRIMARY }} className="font-['Arimo',sans-serif] text-[48px] sm:text-[56px] leading-[1.12] font-normal mb-5">
+                Find the right people.<br />Build a stronger team.
+              </h1>
+              <p className="text-[17px] leading-[1.65] max-w-lg mb-8" style={{ color: TEXT_MED }}>
+                MployUs connects Irish businesses with skilled professionals across logistics, healthcare, hospitality, and education. Permanent, contract, or executive — we handle it.
+              </p>
+              <div className="flex flex-wrap gap-3 mb-10">
+                <button onClick={openContact}
+                  className="flex items-center gap-2 px-6 py-3.5 rounded-lg text-[15px] font-medium text-white transition-opacity hover:opacity-90"
+                  style={{ backgroundColor: PRIMARY }}>
+                  Request Talent <ArrowRight className="w-4 h-4" />
+                </button>
+                <button onClick={() => scrollTo('services')}
+                  className="flex items-center gap-2 px-6 py-3.5 rounded-lg text-[15px] font-medium border transition-colors"
+                  style={{ borderColor: BORDER, color: TEXT_DARK }}>
+                  Explore Vacancies
+                </button>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ══════════════════════════════════════
-            SERVICES
-        ══════════════════════════════════════ */}
-        <section id="services" className="py-20 bg-white px-6">
-          <div className="max-w-[1280px] mx-auto lg:px-6">
-            <Reveal className="mb-12">
-              <SectionLabel><Zap className="w-3.5 h-3.5" /> What we do</SectionLabel>
-              <motion.h2 variants={fadeUp} className="text-4xl font-bold text-slate-900 tracking-tight">
-                Recruitment that covers<br />every hiring need
-              </motion.h2>
-              <motion.p variants={fadeUp} className="text-slate-500 text-base mt-3 max-w-xl leading-relaxed">
-                From a single permanent hire to a full outsourced recruitment function — we adapt to how you need to grow.
-              </motion.p>
-            </Reveal>
-
-            <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
-              variants={stagger(0.07)} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              {services.map((s) => {
-                const Icon = s.icon;
-                return (
-                  <motion.div key={s.title} variants={fadeUp}
-                    className="p-6 bg-white border border-black/5 rounded-2xl group cursor-pointer"
-                    whileHover={{ y: -3 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-                    <div className="w-10 h-10 rounded-xl bg-amber-50 border border-black/5 flex items-center justify-center mb-4">
-                      <Icon className="w-5 h-5 text-amber-600" />
-                    </div>
-                    <h3 className="font-bold text-slate-900 mb-2">{s.title}</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed mb-4">{s.desc}</p>
-                    <ul className="space-y-1.5">
-                      {s.points.map(p => (
-                        <li key={p} className="flex items-start gap-2 text-xs text-slate-600 font-medium">
-                          <Check className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" /> {p}
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ══════════════════════════════════════
-            HOW IT WORKS
-        ══════════════════════════════════════ */}
-        <section id="how-it-works" className="py-20 bg-slate-50 px-6 border-y border-black/5">
-          <div className="max-w-[1280px] mx-auto lg:px-6">
-            <Reveal className="mb-12 text-center">
-              <SectionLabel><Target className="w-3.5 h-3.5" /> Our process</SectionLabel>
-              <motion.h2 variants={fadeUp} className="text-4xl font-bold text-slate-900 tracking-tight">
-                From brief to hire — in four steps
-              </motion.h2>
-            </Reveal>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {steps.map((s, i) => (
-                <motion.div key={s.n} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }} transition={{ duration: 0.45, delay: i * 0.1 }}
-                  className="bg-white border border-black/5 rounded-2xl p-6 relative">
-                  <div className="text-4xl font-black text-amber-100 mb-3">{s.n}</div>
-                  <h3 className="font-bold text-slate-900 mb-2">{s.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{s.desc}</p>
-                  {i < steps.length - 1 && (
-                    <div className="hidden lg:block absolute top-1/2 -right-3 z-10 w-6 h-6 rounded-full bg-amber-500 border-2 border-white flex items-center justify-center">
-                      <ChevronRight className="w-3 h-3 text-white" />
-                    </div>
-                  )}
-                </motion.div>
-              ))}
+              {/* Trust strip */}
+              <div className="flex flex-wrap items-center gap-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#00c950' }} />
+                  <span className="text-[13px]" style={{ color: TEXT_MUTED }}>1,200+ placements</span>
+                </div>
+                <div className="w-px h-4" style={{ backgroundColor: BORDER }} />
+                <span className="text-[13px]" style={{ color: TEXT_MUTED }}>4 industry sectors</span>
+                <div className="w-px h-4" style={{ backgroundColor: BORDER }} />
+                <span className="text-[13px]" style={{ color: TEXT_MUTED }}>Dublin &amp; Cork offices</span>
+              </div>
             </div>
 
-            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.4 }}
-              className="mt-10 text-center">
-              <button onClick={openContact} className="inline-flex items-center gap-2 px-7 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm rounded-xl transition-colors">
-                Start with a free consultation <ArrowRight className="w-4 h-4" />
-              </button>
-            </motion.div>
+            {/* Right — consultant card */}
+            <div className="w-full lg:w-[340px] shrink-0">
+              <div className="bg-white rounded-2xl overflow-hidden border" style={{ borderColor: BORDER_LIGHT }}>
+                <div className="h-[340px] overflow-hidden">
+                  <img src={imgLouis} alt="Louis Moses — Talent Acquisition Specialist" className="w-full h-full object-cover object-top" />
+                </div>
+                <div className="p-5 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-[16px] font-medium" style={{ color: PRIMARY }}>Louis Moses</p>
+                      <p className="text-[13px]" style={{ color: TEXT_MED }}>Talent Acquisition Specialist</p>
+                    </div>
+                    <span className="text-[11px] font-medium px-3 py-1 rounded border tracking-wide uppercase"
+                      style={{ backgroundColor: '#ecfdf5', borderColor: '#d0fae5', color: '#007a55' }}>
+                      Top Rated
+                    </span>
+                  </div>
+                  <div className="pt-4 border-t text-[13px] leading-relaxed" style={{ borderColor: BORDER_LIGHT, color: TEXT_MED }}>
+                    Connected 1,000+ businesses with qualified candidates across Ireland and the UK.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ══════════════════════════════════════
+            FEATURES STRIP
+        ══════════════════════════════════════ */}
+        <section id="services" className="py-16" style={{ backgroundColor: BG_LIGHT }}>
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+            <Eyebrow>What we offer</Eyebrow>
+            <H2 className="mb-10 max-w-md">Recruitment services built around your business</H2>
+
+            {/* 4-col grid separated by hairline borders */}
+            <div className="rounded-xl overflow-hidden border" style={{ borderColor: BORDER }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-x divide-y" style={{ '--tw-divide-opacity': '1' } as React.CSSProperties}>
+                {features.map(({ icon: Icon, label, desc }) => (
+                  <div key={label} className="bg-white p-8 flex flex-col gap-6">
+                    <Icon className="w-5 h-5" style={{ color: TEXT_MUTED }} strokeWidth={1.25} />
+                    <div>
+                      <p className="text-[16px] font-medium mb-2" style={{ color: PRIMARY }}>{label}</p>
+                      <p className="text-[14px] leading-[1.65]" style={{ color: TEXT_MED }}>{desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ══════════════════════════════════════
+            TAILORED HIRING — numbered list + photo
+        ══════════════════════════════════════ */}
+        <section className="py-16 bg-white">
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row gap-12 lg:gap-16">
+
+            {/* Left: image */}
+            <div className="w-full lg:w-[420px] shrink-0 rounded-2xl overflow-hidden h-72 lg:h-auto" style={{ minHeight: '340px' }}>
+              <img src={imgHiringDiscussion} alt="Hiring discussion" className="w-full h-full object-cover" />
+            </div>
+
+            {/* Right: numbered services */}
+            <div className="flex-1 space-y-3">
+              <Eyebrow>How we help</Eyebrow>
+              <H2 className="mb-8">Tailored hiring solutions for every stage of growth</H2>
+              {services.map(s => (
+                <div key={s.n} className="flex gap-5 p-6 bg-white rounded-xl border" style={{ borderColor: BORDER_LIGHT }}>
+                  <div className="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center text-[13px]"
+                    style={{ backgroundColor: BG_LIGHT, color: TEXT_MUTED, border: `1px solid ${BORDER_LIGHT}` }}>
+                    {s.n}
+                  </div>
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[1.1px] font-normal mb-1" style={{ color: TEXT_MUTED }}>{s.type}</p>
+                    <p className="text-[17px] font-medium mb-1.5" style={{ color: PRIMARY }}>{s.title}</p>
+                    <p className="text-[14px] leading-[1.65]" style={{ color: TEXT_MED }}>{s.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* ══════════════════════════════════════
             INDUSTRIES
         ══════════════════════════════════════ */}
-        <section id="industries" className="py-20 bg-white px-6">
-          <div className="max-w-[1280px] mx-auto lg:px-6">
-            <Reveal className="mb-12">
-              <SectionLabel><Globe className="w-3.5 h-3.5" /> Sectors we serve</SectionLabel>
-              <motion.h2 variants={fadeUp} className="text-4xl font-bold text-slate-900 tracking-tight">
-                Deep expertise across<br />eight sectors
-              </motion.h2>
-              <motion.p variants={fadeUp} className="text-slate-500 text-base mt-3 max-w-lg leading-relaxed">
-                Our consultants specialise by sector — not generalists. When you brief us, you're talking to someone who knows your market.
-              </motion.p>
-            </Reveal>
+        <section id="industries" className="py-16" style={{ backgroundColor: BG_LIGHT }}>
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <Eyebrow>Industries we serve</Eyebrow>
+                <H2 className="max-w-sm">Deep expertise in sectors that matter</H2>
+              </div>
+              <button onClick={openContact} className="hidden sm:flex items-center gap-2 text-[14px] transition-colors"
+                style={{ color: TEXT_DARK }}
+                onMouseEnter={e => (e.currentTarget.style.color = PRIMARY)}
+                onMouseLeave={e => (e.currentTarget.style.color = TEXT_DARK)}>
+                View all sectors <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
 
-            <motion.div className="grid grid-cols-2 sm:grid-cols-4 gap-4"
-              variants={stagger(0.07)} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              {industries.map((ind) => (
-                <motion.div key={ind.label} variants={fadeUp}
-                  className="flex flex-col items-center gap-3 p-6 bg-slate-50 border border-black/5 rounded-2xl group cursor-default"
-                  whileHover={{ y: -3, backgroundColor: '#fffbeb' }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-                  <span className="text-3xl">{ind.icon}</span>
-                  <p className="text-sm font-bold text-slate-800 text-center leading-snug">{ind.label}</p>
-                </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {industries.map(ind => (
+                <div key={ind.label} className="relative rounded-xl overflow-hidden h-[320px] group cursor-pointer">
+                  <img src={ind.img} alt={ind.label} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  {/* Dark overlay */}
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(16,24,40,0.82) 0%, rgba(16,24,40,0.18) 50%, rgba(0,0,0,0) 100%)' }} />
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <p className="text-white text-[18px] font-medium leading-tight">{ind.label}</p>
+                    <p className="text-[13px] mt-1" style={{ color: 'rgba(255,255,255,0.65)' }}>{ind.sub}</p>
+                  </div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* ══════════════════════════════════════
-            OPEN ROLES
+            BLOG / INSIGHTS
         ══════════════════════════════════════ */}
-        <section id="roles" className="py-20 bg-slate-50 px-6 border-y border-black/5">
-          <div className="max-w-[1280px] mx-auto lg:px-6">
-            <Reveal className="mb-8">
-              <SectionLabel><Search className="w-3.5 h-3.5" /> Live vacancies</SectionLabel>
-              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                <motion.h2 variants={fadeUp} className="text-4xl font-bold text-slate-900 tracking-tight">
-                  {filteredRoles.length} open roles
-                </motion.h2>
-                <motion.div variants={fadeUp} className="flex flex-wrap gap-2">
-                  {sectors.map(s => (
-                    <button key={s} onClick={() => setRoleFilter(s)}
-                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${roleFilter === s ? 'bg-amber-500 text-white' : 'bg-white border border-black/5 text-slate-600 hover:bg-slate-100'}`}>
-                      {s}
-                    </button>
-                  ))}
-                </motion.div>
+        <section id="insights" className="py-16 bg-white">
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <Eyebrow>From the blog</Eyebrow>
+                <H2>Latest insights &amp; trends</H2>
               </div>
-            </Reveal>
-
-            <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-              variants={stagger(0.06)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
-              {filteredRoles.map((r) => (
-                <motion.div key={r.title} variants={fadeUp}
-                  className="bg-white border border-black/5 rounded-2xl p-5 flex flex-col gap-3 group"
-                  whileHover={{ y: -3 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-amber-50 border border-black/5 flex items-center justify-center shrink-0">
-                      <Briefcase className="w-5 h-5 text-amber-600" />
-                    </div>
-                    <div className="flex gap-1.5">
-                      {r.urgent && <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 text-[10px] font-bold border border-black/5">Urgent</span>}
-                      <span className="px-2 py-0.5 rounded-full bg-slate-50 text-slate-600 text-[10px] font-bold border border-black/5">{r.type}</span>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 text-sm leading-snug group-hover:text-amber-600 transition-colors">{r.title}</h3>
-                    <p className="text-[11px] text-amber-600 font-semibold mt-0.5">{r.sector}</p>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 font-medium">
-                    <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {r.location}</span>
-                    <span className="flex items-center gap-1"><TrendingUp className="w-3 h-3" /> {r.salary}</span>
-                  </div>
-                  <button onClick={openCV}
-                    className="mt-auto w-full py-2.5 bg-slate-50 hover:bg-amber-500 hover:text-white border border-black/5 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5">
-                    Apply Now <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.3 }}
-              className="mt-8 text-center">
-              <p className="text-sm text-slate-500 mb-3">Don't see the right role? Upload your CV and we'll match you to opportunities as they arise.</p>
-              <button onClick={openCV} className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl transition-colors">
-                <FileText className="w-4 h-4" /> Upload your CV
+              <button className="hidden sm:flex items-center gap-2 text-[14px]" style={{ color: TEXT_DARK }}
+                onMouseEnter={e => (e.currentTarget.style.color = PRIMARY)}
+                onMouseLeave={e => (e.currentTarget.style.color = TEXT_DARK)}>
+                All articles <ArrowRight className="w-4 h-4" />
               </button>
-            </motion.div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {articles.map(a => (
+                <button key={a.title} className="flex flex-col gap-4 text-left group">
+                  <div className="rounded-xl overflow-hidden h-[200px]">
+                    <img src={a.img} alt={a.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  </div>
+                  <div className="flex items-center gap-3 text-[12px]">
+                    <span style={{ color: PRIMARY }}>{a.cat}</span>
+                    <span style={{ color: TEXT_MUTED }}>·</span>
+                    <span style={{ color: TEXT_MUTED }}>{a.date}</span>
+                  </div>
+                  <p className="text-[16px] font-medium leading-snug transition-colors"
+                    style={{ color: PRIMARY }}>
+                    {a.title}
+                  </p>
+                </button>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* ══════════════════════════════════════
             TESTIMONIALS
         ══════════════════════════════════════ */}
-        <section className="py-20 bg-white px-6">
-          <div className="max-w-[1280px] mx-auto lg:px-6">
-            <Reveal className="mb-12 text-center">
-              <SectionLabel><Star className="w-3.5 h-3.5" /> Client stories</SectionLabel>
-              <motion.h2 variants={fadeUp} className="text-4xl font-bold text-slate-900 tracking-tight">
-                What our clients say
-              </motion.h2>
-            </Reveal>
+        <section className="py-16" style={{ backgroundColor: BG_LIGHT }}>
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+            <Eyebrow>Client stories</Eyebrow>
+            <H2 className="mb-10 max-w-sm">Trusted by companies across Ireland</H2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {testimonials.map((t, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }} transition={{ duration: 0.45, delay: i * 0.12 }}
-                  className="bg-slate-50 border border-black/5 rounded-2xl p-7">
-                  <div className="flex gap-0.5 mb-4">
-                    {[...Array(5)].map((_, si) => <Star key={si} className="w-4 h-4 text-amber-400 fill-amber-400" />)}
-                  </div>
-                  <p className="text-[15px] text-slate-700 leading-relaxed mb-5 italic">"{t.quote}"</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {testimonials.map(t => (
+                <div key={t.name} className="bg-white rounded-xl p-6 border flex flex-col gap-5" style={{ borderColor: BORDER_LIGHT }}>
+                  <p className="text-[15px] leading-[1.65] flex-1" style={{ color: '#4a5565' }}>{t.quote}</p>
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-amber-500 flex items-center justify-center text-white text-sm font-bold">
-                      {t.name[0]}
-                    </div>
+                    <img src={t.img} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
                     <div>
-                      <p className="text-sm font-bold text-slate-900">{t.name}</p>
-                      <p className="text-xs text-slate-500">{t.role} · {t.company}</p>
+                      <p className="text-[14px] font-medium" style={{ color: PRIMARY }}>{t.name}</p>
+                      <p className="text-[12px]" style={{ color: TEXT_MUTED }}>{t.role}</p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
         </section>
 
         {/* ══════════════════════════════════════
-            WHY US STRIP
+            CONTACT FORM
         ══════════════════════════════════════ */}
-        <section className="bg-slate-900 py-14 px-6">
-          <div className="max-w-[1280px] mx-auto lg:px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-              <div className="lg:col-span-1">
-                <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">Why MployUs Recruit</p>
-                <h2 className="text-2xl font-bold text-white leading-snug">What sets us apart</h2>
-              </div>
-              <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {[
-                  { icon: ShieldCheck, title: 'Full compliance stack', desc: 'DBS, Garda vetting, right-to-work, and professional licence checks on every candidate — automated and auditable.' },
-                  { icon: Award, title: '90-day guarantee', desc: 'Every permanent placement is backed by a free replacement guarantee. We stand behind every hire we make.' },
-                  { icon: UserPlus, title: 'Sector specialists', desc: 'Each consultant works exclusively within their sector. No generalists. Deep market knowledge on every brief.' },
-                ].map(({ icon: Icon, title, desc }) => (
-                  <div key={title} className="space-y-3">
-                    <div className="w-10 h-10 rounded-xl bg-white/10 border border-black/5 flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-amber-400" />
-                    </div>
-                    <h3 className="font-bold text-white text-sm">{title}</h3>
-                    <p className="text-xs text-white/55 leading-relaxed">{desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <section id="faq" className="py-16 bg-white">
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16">
 
-        {/* ══════════════════════════════════════
-            FAQ
-        ══════════════════════════════════════ */}
-        <section id="faq" className="py-20 bg-white px-6">
-          <div className="max-w-[1280px] mx-auto lg:px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-14">
-              <div className="lg:col-span-1">
-                <Reveal>
-                  <SectionLabel><BookOpen className="w-3.5 h-3.5" /> FAQs</SectionLabel>
-                  <motion.h2 variants={fadeUp} className="text-3xl font-bold text-slate-900 tracking-tight mb-4">
-                    Common questions
-                  </motion.h2>
-                  <motion.p variants={fadeUp} className="text-slate-500 text-sm leading-relaxed mb-6">
-                    Can't find your answer? Get in touch and we'll come back to you within two hours on business days.
-                  </motion.p>
-                  <motion.div variants={fadeUp}>
-                    <button onClick={openContact} className="flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm rounded-xl transition-colors">
-                      Contact us <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </motion.div>
-                </Reveal>
-              </div>
-
-              <div className="lg:col-span-2 space-y-3">
+            {/* Left: FAQ */}
+            <div>
+              <Eyebrow>Common questions</Eyebrow>
+              <H2 className="mb-8">Everything you need to know</H2>
+              <div className="space-y-2">
                 {faqs.map((f, i) => {
                   const isOpen = openFaq === i;
                   return (
-                    <motion.div key={f.q} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.05 }}
-                      className={`rounded-2xl border overflow-hidden transition-all ${isOpen ? 'border-amber-500' : 'border-black/5 bg-white hover:border-black/10'}`}>
+                    <div key={f.q} className="border rounded-xl overflow-hidden transition-all"
+                      style={{ borderColor: isOpen ? PRIMARY : BORDER_LIGHT }}>
                       <button onClick={() => setOpenFaq(isOpen ? null : i)}
-                        className={`w-full flex items-center justify-between gap-4 px-5 py-4 text-left transition-colors ${isOpen ? 'bg-amber-500' : 'bg-white'}`}>
-                        <span className={`text-sm font-semibold leading-snug ${isOpen ? 'text-white' : 'text-slate-900'}`}>{f.q}</span>
-                        <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${isOpen ? 'bg-white/20' : 'bg-slate-50 border border-black/5'}`}>
-                          {isOpen ? <Minus className="w-3.5 h-3.5 text-white" /> : <Plus className="w-3.5 h-3.5 text-slate-500" />}
+                        className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
+                        style={{ backgroundColor: isOpen ? PRIMARY : 'white' }}>
+                        <span className="text-[14px] font-medium leading-snug" style={{ color: isOpen ? 'white' : TEXT_DARK }}>{f.q}</span>
+                        <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                          style={{ backgroundColor: isOpen ? 'rgba(255,255,255,0.2)' : BG_LIGHT, border: `1px solid ${isOpen ? 'transparent' : BORDER_LIGHT}` }}>
+                          {isOpen
+                            ? <Minus className="w-3.5 h-3.5 text-white" />
+                            : <Plus className="w-3.5 h-3.5" style={{ color: TEXT_MUTED }} />}
                         </div>
                       </button>
                       {isOpen && (
-                        <div className="bg-white px-5 pb-5 pt-4 text-[14px] text-slate-600 leading-relaxed border-t border-amber-500/10">
+                        <div className="px-5 pb-5 pt-4 text-[14px] leading-relaxed border-t" style={{ color: TEXT_MED, borderColor: 'rgba(129,1,97,0.1)' }}>
                           {f.a}
                         </div>
                       )}
-                    </motion.div>
+                    </div>
                   );
                 })}
               </div>
             </div>
+
+            {/* Right: contact form */}
+            <div>
+              <Eyebrow>Get in touch</Eyebrow>
+              <H2 className="mb-2">Let's talk about your hiring needs</H2>
+              <p className="text-[14px] leading-relaxed mb-8" style={{ color: TEXT_MED }}>
+                Fill in the form and a specialist will respond within 2 business hours.
+              </p>
+              <div className="space-y-3">
+                {[
+                  { icon: Users, placeholder: 'Full name', key: 'name', type: 'text' },
+                  { icon: Mail, placeholder: 'Email address', key: 'email', type: 'email' },
+                  { icon: Phone, placeholder: 'Phone number', key: 'phone', type: 'tel' },
+                  { icon: Building2, placeholder: 'Company name', key: 'company', type: 'text' },
+                  { icon: Briefcase, placeholder: 'Role you need to fill', key: 'role', type: 'text' },
+                ].map(({ icon: Icon, placeholder, key, type }) => (
+                  <div key={key} className="flex items-center gap-3 px-4 py-3 rounded-lg border"
+                    style={{ borderColor: BORDER, backgroundColor: BG_LIGHT }}>
+                    <Icon className="w-4 h-4 shrink-0" style={{ color: TEXT_MUTED }} />
+                    <input type={type} placeholder={placeholder}
+                      value={contactForm[key as keyof typeof contactForm]}
+                      onChange={e => setContactForm(f => ({ ...f, [key]: e.target.value }))}
+                      className="bg-transparent text-[14px] outline-none w-full"
+                      style={{ color: TEXT_DARK }} />
+                  </div>
+                ))}
+                <textarea placeholder="Anything else you'd like to share…"
+                  value={contactForm.message}
+                  onChange={e => setContactForm(f => ({ ...f, message: e.target.value }))}
+                  rows={4}
+                  className="w-full px-4 py-3 rounded-lg border text-[14px] outline-none resize-none"
+                  style={{ borderColor: BORDER, backgroundColor: BG_LIGHT, color: TEXT_DARK }} />
+                <button onClick={() => { onBookDemo('Recruitment Service'); }}
+                  className="w-full py-3.5 rounded-lg text-white text-[15px] font-medium flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
+                  style={{ backgroundColor: PRIMARY }}>
+                  Send Enquiry <Send className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* ══════════════════════════════════════
-            CTA STRIP
+            NEWSLETTER STRIP
         ══════════════════════════════════════ */}
-        <section className="bg-amber-500 py-16 px-6">
-          <div className="max-w-[1280px] mx-auto lg:px-6 flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div>
-              <p className="text-xs font-bold text-white/70 uppercase tracking-widest mb-2">Get started today</p>
-              <h2 className="text-3xl font-bold text-white leading-snug">Ready to hire smarter?</h2>
-              <p className="text-white/75 text-sm mt-2 max-w-md leading-relaxed">
-                Book a free 20-minute consultation and receive a tailored recruitment proposal within 24 hours.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3 shrink-0">
-              <button onClick={openContact} className="px-7 py-3.5 bg-white text-amber-600 font-bold text-sm rounded-xl flex items-center gap-2 transition-colors hover:bg-amber-50">
-                Book a Consultation <ArrowRight className="w-4 h-4" />
-              </button>
-              <button onClick={openCV} className="px-7 py-3.5 bg-white/10 border border-white/20 text-white font-semibold text-sm rounded-xl hover:bg-white/20 transition-colors">
-                Upload CV
+        <section className="py-14 px-6 text-center text-white" style={{ backgroundColor: PRIMARY }}>
+          <div className="max-w-xl mx-auto">
+            <Eyebrow><span className="text-white/60">Stay in the loop</span></Eyebrow>
+            <h2 className="font-['Arimo',sans-serif] text-[32px] font-normal leading-snug mb-2">
+              Hiring insights, market trends &amp; salary reports
+            </h2>
+            <p className="text-[14px] mb-7 text-white/70">Delivered monthly. No spam, ever.</p>
+            <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+              <div className="flex items-center gap-2.5 flex-1 px-4 py-3 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }}>
+                <Mail className="w-4 h-4 text-white/50 shrink-0" />
+                <input placeholder="Enter your email" className="bg-transparent text-white text-[14px] placeholder-white/50 outline-none w-full" />
+              </div>
+              <button onClick={() => onBookDemo('Newsletter')}
+                className="px-5 py-3 rounded-lg font-medium text-[14px] transition-opacity hover:opacity-90"
+                style={{ backgroundColor: 'white', color: PRIMARY }}>
+                Subscribe
               </button>
             </div>
           </div>
@@ -584,47 +522,46 @@ export const RecruitmentServicePage: React.FC<RecruitmentServicePageProps> = ({
         {/* ══════════════════════════════════════
             FOOTER
         ══════════════════════════════════════ */}
-        <footer className="bg-slate-950 text-slate-400 px-6 pt-14 pb-10">
+        <footer className="bg-white border-t py-12 px-6" style={{ borderColor: BORDER }}>
           <div className="max-w-[1280px] mx-auto lg:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-10 border-b border-white/5">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-10 border-b mb-8" style={{ borderColor: BORDER_LIGHT }}>
               <div className="md:col-span-2 space-y-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-amber-500 flex items-center justify-center">
-                    <Briefcase className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="font-bold text-white text-sm">MployUs <span className="text-amber-400">Recruit</span></span>
-                </div>
-                <p className="text-sm text-slate-500 max-w-xs leading-relaxed">
-                  Specialist managed recruitment for healthcare, technology, and professional services across Ireland and the UK.
+                <img src={imgMployUs} alt="MployUs" className="h-8 w-auto object-contain" />
+                <p className="text-[14px] leading-relaxed max-w-xs" style={{ color: TEXT_MED }}>
+                  Specialist managed recruitment for logistics, healthcare, hospitality, and education across Ireland and the UK.
                 </p>
-                <div className="flex items-center gap-3">
-                  {['IE', 'UK'].map(r => (
-                    <span key={r} className="px-3 py-1 rounded-lg bg-white/5 border border-white/5 text-xs font-semibold text-slate-500">{r}</span>
-                  ))}
+                <div className="flex items-center gap-2 text-[13px]" style={{ color: TEXT_MUTED }}>
+                  <span className="flex items-center gap-1"><span>🇮🇪</span> Dublin</span>
+                  <span>·</span>
+                  <span className="flex items-center gap-1"><span>🇮🇪</span> Cork</span>
                 </div>
               </div>
               {[
-                { heading: 'Services', links: ['Permanent Placement', 'Temp & Contract', 'Executive Search', 'Volume Hiring', 'Compliance & Vetting'] },
-                { heading: 'Company', links: ['About', 'Industries', 'Open Roles', 'For Employers', 'Contact'] },
+                { heading: 'Services', links: ['Permanent Placement', 'Contract Staffing', 'RPO', 'Executive Search', 'Compliance & Vetting'] },
+                { heading: 'Company', links: ['About', 'Industries', 'Insights', 'Contact', 'Careers at MployUs'] },
               ].map(col => (
                 <div key={col.heading}>
-                  <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-4">{col.heading}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-widest mb-4" style={{ color: TEXT_MUTED }}>{col.heading}</p>
                   <ul className="space-y-2">
                     {col.links.map(l => (
                       <li key={l}>
-                        <button onClick={openContact} className="text-sm text-slate-500 hover:text-white transition-colors text-left">{l}</button>
+                        <button className="text-[14px] transition-colors" style={{ color: TEXT_MED }}
+                          onMouseEnter={e => (e.currentTarget.style.color = PRIMARY)}
+                          onMouseLeave={e => (e.currentTarget.style.color = TEXT_MED)}>
+                          {l}
+                        </button>
                       </li>
                     ))}
                   </ul>
                 </div>
               ))}
             </div>
-            <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px]" style={{ color: TEXT_MUTED }}>
               <p>© {new Date().getFullYear()} MployUs Recruit. All rights reserved.</p>
-              <div className="flex items-center gap-4">
-                <button className="hover:text-white transition-colors">Privacy Policy</button>
-                <button className="hover:text-white transition-colors">Terms of Service</button>
-                <button onClick={onBackToHome} className="hover:text-white transition-colors">Back to MployUs</button>
+              <div className="flex items-center gap-5">
+                <button className="hover:underline">Privacy Policy</button>
+                <button className="hover:underline">Terms of Service</button>
+                <button onClick={onBackToHome} className="hover:underline">Back to MployUs</button>
               </div>
             </div>
           </div>
@@ -638,133 +575,96 @@ export const RecruitmentServicePage: React.FC<RecruitmentServicePageProps> = ({
         {contactOpen && (
           <motion.div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setContactOpen(false)} />
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setContactOpen(false)} />
             <motion.div className="relative bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto"
-              initial={{ opacity: 0, y: 40, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 40, scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 280, damping: 22 }}>
-
-              {/* Header */}
-              <div className="flex items-center justify-between p-5 border-b border-black/5">
+              initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 32 }}
+              transition={{ type: 'spring', stiffness: 280, damping: 24 }}>
+              <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: BORDER_LIGHT }}>
                 <div>
-                  <p className="text-xs font-bold text-amber-600 uppercase tracking-widest">MployUs Recruit</p>
-                  <h3 className="text-lg font-bold text-slate-900">Book a consultation</h3>
+                  <p className="text-[12px] font-semibold uppercase tracking-widest" style={{ color: PRIMARY }}>MployUs Recruit</p>
+                  <h3 className="text-[18px] font-['Arimo',sans-serif]" style={{ color: PRIMARY }}>Request Talent</h3>
                 </div>
-                <button onClick={() => setContactOpen(false)} className="w-8 h-8 rounded-lg bg-slate-50 border border-black/5 flex items-center justify-center">
-                  <X className="w-4 h-4 text-slate-500" />
+                <button onClick={() => setContactOpen(false)} className="w-8 h-8 rounded-lg flex items-center justify-center border"
+                  style={{ borderColor: BORDER_LIGHT, backgroundColor: BG_LIGHT }}>
+                  <X className="w-4 h-4" style={{ color: TEXT_MED }} />
                 </button>
               </div>
-
               <div className="p-5">
-                {/* Progress */}
                 {contactStep < 3 && (
                   <div className="flex gap-1.5 mb-5">
                     {[1, 2].map(s => (
-                      <div key={s} className={`h-1 flex-1 rounded-full transition-all ${contactStep >= s ? 'bg-amber-500' : 'bg-slate-100'}`} />
+                      <div key={s} className="h-1 flex-1 rounded-full transition-all"
+                        style={{ backgroundColor: contactStep >= s ? PRIMARY : BORDER_LIGHT }} />
                     ))}
                   </div>
                 )}
-
-                {/* Step 1 — Who are you? */}
                 {contactStep === 1 && (
                   <div className="space-y-4">
-                    <div>
-                      <h4 className="font-bold text-slate-900 mb-0.5">How can we help?</h4>
-                      <p className="text-xs text-slate-500">Tell us whether you're looking to hire or looking for a role.</p>
-                    </div>
+                    <p className="text-[14px]" style={{ color: TEXT_MED }}>Are you looking to hire, or looking for a role?</p>
                     <div className="space-y-2.5">
-                      {[
-                        { key: 'Employer' as const, icon: Building2, desc: "I'm looking to hire" },
-                        { key: 'Candidate' as const, icon: Users, desc: "I'm looking for a role" },
-                      ].map(({ key, icon: Icon, desc }) => (
+                      {[{ key: 'Employer' as const, icon: Building2, desc: "I'm looking to hire" }, { key: 'Candidate' as const, icon: Users, desc: "I'm looking for a role" }].map(({ key, icon: Icon, desc }) => (
                         <button key={key} onClick={() => setContactType(key)}
-                          className={`w-full flex items-center gap-4 p-4 rounded-xl border text-left transition-all ${contactType === key ? 'border-amber-500 bg-amber-50' : 'border-black/5 bg-white hover:bg-slate-50'}`}>
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${contactType === key ? 'bg-amber-500' : 'bg-slate-100'}`}>
-                            <Icon className={`w-5 h-5 ${contactType === key ? 'text-white' : 'text-slate-500'}`} />
+                          className="w-full flex items-center gap-4 p-4 rounded-xl border text-left transition-all"
+                          style={{ borderColor: contactType === key ? PRIMARY : BORDER_LIGHT, backgroundColor: contactType === key ? 'rgba(129,1,97,0.04)' : 'white' }}>
+                          <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                            style={{ backgroundColor: contactType === key ? PRIMARY : BG_LIGHT }}>
+                            <Icon className="w-5 h-5" style={{ color: contactType === key ? 'white' : TEXT_MED }} />
                           </div>
                           <div>
-                            <p className="font-bold text-slate-900 text-sm">{key}</p>
-                            <p className="text-xs text-slate-500">{desc}</p>
+                            <p className="font-medium text-[14px]" style={{ color: TEXT_DARK }}>{key}</p>
+                            <p className="text-[12px]" style={{ color: TEXT_MED }}>{desc}</p>
                           </div>
                         </button>
                       ))}
                     </div>
                     <button disabled={!contactType} onClick={() => setContactStep(2)}
-                      className="w-full py-3 bg-amber-500 disabled:opacity-40 hover:bg-amber-600 text-white font-bold text-sm rounded-xl transition-colors flex items-center justify-center gap-1.5">
-                      Continue <ChevronRight className="w-4 h-4" />
+                      className="w-full py-3 rounded-lg text-white text-[14px] font-medium disabled:opacity-40 transition-opacity hover:opacity-90"
+                      style={{ backgroundColor: PRIMARY }}>
+                      Continue <ChevronRight className="inline w-4 h-4 ml-1" />
                     </button>
                   </div>
                 )}
-
-                {/* Step 2 — Details */}
                 {contactStep === 2 && (
                   <div className="space-y-3">
-                    <div>
-                      <h4 className="font-bold text-slate-900 mb-0.5">Your details</h4>
-                      <p className="text-xs text-slate-500">A specialist will reach out within 2 hours on business days.</p>
-                    </div>
-                    <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-amber-500 transition-colors">
-                      <Users className="w-4 h-4 text-slate-400 shrink-0" />
-                      <input placeholder="Full name" value={contactForm.name} onChange={e => setContactForm(f => ({ ...f, name: e.target.value }))}
-                        className="bg-transparent text-sm outline-none w-full" />
-                    </div>
-                    <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-amber-500 transition-colors">
-                      <Mail className="w-4 h-4 text-slate-400 shrink-0" />
-                      <input type="email" placeholder="Email address" value={contactForm.email} onChange={e => setContactForm(f => ({ ...f, email: e.target.value }))}
-                        className="bg-transparent text-sm outline-none w-full" />
-                    </div>
-                    <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-amber-500 transition-colors">
-                      <Phone className="w-4 h-4 text-slate-400 shrink-0" />
-                      <input placeholder="Phone number" value={contactForm.phone} onChange={e => setContactForm(f => ({ ...f, phone: e.target.value }))}
-                        className="bg-transparent text-sm outline-none w-full" />
-                    </div>
-                    {contactType === 'Employer' && (
-                      <>
-                        <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-amber-500 transition-colors">
-                          <Building2 className="w-4 h-4 text-slate-400 shrink-0" />
-                          <input placeholder="Company / organisation name" value={contactForm.company} onChange={e => setContactForm(f => ({ ...f, company: e.target.value }))}
-                            className="bg-transparent text-sm outline-none w-full" />
-                        </div>
-                        <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-amber-500 transition-colors">
-                          <Briefcase className="w-4 h-4 text-slate-400 shrink-0" />
-                          <input placeholder="Role you're looking to fill" value={contactForm.role} onChange={e => setContactForm(f => ({ ...f, role: e.target.value }))}
-                            className="bg-transparent text-sm outline-none w-full" />
-                        </div>
-                      </>
-                    )}
-                    {contactType === 'Candidate' && (
-                      <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-amber-500 transition-colors">
-                        <Briefcase className="w-4 h-4 text-slate-400 shrink-0" />
-                        <input placeholder="Your profession / discipline" value={contactForm.role} onChange={e => setContactForm(f => ({ ...f, role: e.target.value }))}
-                          className="bg-transparent text-sm outline-none w-full" />
+                    <p className="text-[14px] font-medium" style={{ color: TEXT_DARK }}>Your details</p>
+                    {[
+                      { icon: Users, placeholder: 'Full name', key: 'name', type: 'text' },
+                      { icon: Mail, placeholder: 'Email address', key: 'email', type: 'email' },
+                      { icon: Phone, placeholder: 'Phone number', key: 'phone', type: 'tel' },
+                      ...(contactType === 'Employer' ? [{ icon: Building2, placeholder: 'Company name', key: 'company', type: 'text' }, { icon: Briefcase, placeholder: 'Role you need to fill', key: 'role', type: 'text' }] : [{ icon: Briefcase, placeholder: 'Your profession', key: 'role', type: 'text' }]),
+                    ].map(({ icon: Icon, placeholder, key, type }) => (
+                      <div key={key} className="flex items-center gap-3 px-4 py-3 rounded-lg border"
+                        style={{ borderColor: BORDER, backgroundColor: BG_LIGHT }}>
+                        <Icon className="w-4 h-4 shrink-0" style={{ color: TEXT_MUTED }} />
+                        <input type={type} placeholder={placeholder}
+                          value={contactForm[key as keyof typeof contactForm]}
+                          onChange={e => setContactForm(f => ({ ...f, [key]: e.target.value }))}
+                          className="bg-transparent text-[14px] outline-none w-full" style={{ color: TEXT_DARK }} />
                       </div>
-                    )}
-                    <textarea placeholder="Any additional context or questions…" value={contactForm.message} onChange={e => setContactForm(f => ({ ...f, message: e.target.value }))}
-                      rows={3} className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus:border-amber-500 text-sm outline-none resize-none transition-colors" />
+                    ))}
                     <div className="flex gap-2 pt-1">
-                      <button onClick={() => setContactStep(1)} className="px-4 py-3 text-sm font-semibold text-slate-500 hover:text-slate-900 border border-black/5 rounded-xl transition-colors">← Back</button>
-                      <button disabled={!contactForm.name || !contactForm.email} onClick={() => { setContactStep(3); onBookDemo('Recruitment Service'); }}
-                        className="flex-1 py-3 bg-amber-500 disabled:opacity-40 hover:bg-amber-600 text-white font-bold text-sm rounded-xl transition-colors flex items-center justify-center gap-2">
+                      <button onClick={() => setContactStep(1)} className="px-4 py-3 text-[13px] font-medium rounded-lg border" style={{ borderColor: BORDER, color: TEXT_MED }}>← Back</button>
+                      <button disabled={!contactForm.name || !contactForm.email}
+                        onClick={() => { setContactStep(3); onBookDemo('Recruitment Service'); }}
+                        className="flex-1 py-3 rounded-lg text-white text-[14px] font-medium disabled:opacity-40 flex items-center justify-center gap-2"
+                        style={{ backgroundColor: PRIMARY }}>
                         <Send className="w-4 h-4" /> Send enquiry
                       </button>
                     </div>
                   </div>
                 )}
-
-                {/* Step 3 — Success */}
                 {contactStep === 3 && (
                   <div className="flex flex-col items-center text-center py-6 space-y-4">
-                    <div className="w-16 h-16 rounded-2xl bg-amber-50 border border-black/5 flex items-center justify-center">
-                      <CheckCircle2 className="w-8 h-8 text-amber-500" />
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ backgroundColor: 'rgba(129,1,97,0.08)' }}>
+                      <CheckCircle2 className="w-7 h-7" style={{ color: PRIMARY }} />
                     </div>
                     <div>
-                      <h4 className="text-lg font-bold text-slate-900">Enquiry received</h4>
-                      <p className="text-sm text-slate-500 mt-1 max-w-xs leading-relaxed">
-                        A specialist will be in touch within 2 business hours. We look forward to speaking with you.
+                      <h4 className="text-[18px] font-['Arimo',sans-serif]" style={{ color: PRIMARY }}>Enquiry received</h4>
+                      <p className="text-[14px] mt-1 max-w-xs leading-relaxed" style={{ color: TEXT_MED }}>
+                        A specialist will be in touch within 2 business hours.
                       </p>
                     </div>
-                    <button onClick={() => setContactOpen(false)} className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm rounded-xl transition-colors">
-                      Done
-                    </button>
+                    <button onClick={() => setContactOpen(false)} className="px-6 py-2.5 rounded-lg text-white text-[14px] font-medium" style={{ backgroundColor: PRIMARY }}>Done</button>
                   </div>
                 )}
               </div>
@@ -780,61 +680,60 @@ export const RecruitmentServicePage: React.FC<RecruitmentServicePageProps> = ({
         {cvOpen && (
           <motion.div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setCvOpen(false)} />
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setCvOpen(false)} />
             <motion.div className="relative bg-white rounded-2xl w-full max-w-sm"
-              initial={{ opacity: 0, y: 40, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 40, scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 280, damping: 22 }}>
-
-              <div className="flex items-center justify-between p-5 border-b border-black/5">
+              initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 32 }}
+              transition={{ type: 'spring', stiffness: 280, damping: 24 }}>
+              <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: BORDER_LIGHT }}>
                 <div>
-                  <p className="text-xs font-bold text-amber-600 uppercase tracking-widest">Candidates</p>
-                  <h3 className="text-lg font-bold text-slate-900">Upload your CV</h3>
+                  <p className="text-[12px] font-semibold uppercase tracking-widest" style={{ color: PRIMARY }}>Candidates</p>
+                  <h3 className="text-[18px] font-['Arimo',sans-serif]" style={{ color: PRIMARY }}>Upload your CV</h3>
                 </div>
-                <button onClick={() => setCvOpen(false)} className="w-8 h-8 rounded-lg bg-slate-50 border border-black/5 flex items-center justify-center">
-                  <X className="w-4 h-4 text-slate-500" />
+                <button onClick={() => setCvOpen(false)} className="w-8 h-8 rounded-lg flex items-center justify-center border"
+                  style={{ borderColor: BORDER_LIGHT, backgroundColor: BG_LIGHT }}>
+                  <X className="w-4 h-4" style={{ color: TEXT_MED }} />
                 </button>
               </div>
-
               <div className="p-5">
                 {cvStep === 1 ? (
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-amber-500 transition-colors">
-                      <Users className="w-4 h-4 text-slate-400 shrink-0" />
-                      <input placeholder="Full name" className="bg-transparent text-sm outline-none w-full" />
-                    </div>
-                    <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-amber-500 transition-colors">
-                      <Mail className="w-4 h-4 text-slate-400 shrink-0" />
-                      <input type="email" placeholder="Email address" className="bg-transparent text-sm outline-none w-full" />
-                    </div>
-                    <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-amber-500 transition-colors">
-                      <Briefcase className="w-4 h-4 text-slate-400 shrink-0" />
-                      <input placeholder="Profession / job title" className="bg-transparent text-sm outline-none w-full" />
-                    </div>
-                    {/* File drop zone */}
-                    <div className="border border-dashed border-black/10 rounded-xl px-5 py-8 text-center bg-slate-50 cursor-pointer hover:bg-amber-50 hover:border-amber-300 transition-colors">
-                      <FileText className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-                      <p className="text-sm font-semibold text-slate-700 mb-0.5">Drop your CV here</p>
-                      <p className="text-xs text-slate-400">PDF or Word · max 5 MB</p>
+                  <div className="space-y-3">
+                    {[
+                      { icon: Users, placeholder: 'Full name', type: 'text' },
+                      { icon: Mail, placeholder: 'Email address', type: 'email' },
+                      { icon: Briefcase, placeholder: 'Profession / job title', type: 'text' },
+                    ].map(({ icon: Icon, placeholder, type }) => (
+                      <div key={placeholder} className="flex items-center gap-3 px-4 py-3 rounded-lg border"
+                        style={{ borderColor: BORDER, backgroundColor: BG_LIGHT }}>
+                        <Icon className="w-4 h-4 shrink-0" style={{ color: TEXT_MUTED }} />
+                        <input type={type} placeholder={placeholder} className="bg-transparent text-[14px] outline-none w-full" style={{ color: TEXT_DARK }} />
+                      </div>
+                    ))}
+                    <div className="border-dashed border-2 rounded-xl px-5 py-8 text-center cursor-pointer transition-colors"
+                      style={{ borderColor: BORDER }}
+                      onMouseEnter={e => (e.currentTarget.style.borderColor = PRIMARY)}
+                      onMouseLeave={e => (e.currentTarget.style.borderColor = BORDER)}>
+                      <FileText className="w-8 h-8 mx-auto mb-2" style={{ color: TEXT_MUTED }} />
+                      <p className="text-[14px] font-medium mb-0.5" style={{ color: TEXT_DARK }}>Drop your CV here</p>
+                      <p className="text-[12px]" style={{ color: TEXT_MUTED }}>PDF or Word · max 5 MB</p>
                     </div>
                     <button onClick={() => { setCvStep(2); onBookDemo('CV Upload'); }}
-                      className="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm rounded-xl transition-colors flex items-center justify-center gap-2">
+                      className="w-full py-3 rounded-lg text-white text-[14px] font-medium flex items-center justify-center gap-2"
+                      style={{ backgroundColor: PRIMARY }}>
                       <Send className="w-4 h-4" /> Submit CV
                     </button>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center text-center py-6 space-y-4">
-                    <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-black/5 flex items-center justify-center">
-                      <CheckCircle2 className="w-7 h-7 text-amber-500" />
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ backgroundColor: 'rgba(129,1,97,0.08)' }}>
+                      <CheckCircle2 className="w-7 h-7" style={{ color: PRIMARY }} />
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-900">CV received</h4>
-                      <p className="text-sm text-slate-500 mt-1 max-w-xs leading-relaxed">
+                      <h4 className="text-[18px] font-['Arimo',sans-serif]" style={{ color: PRIMARY }}>CV received</h4>
+                      <p className="text-[14px] mt-1 leading-relaxed max-w-xs" style={{ color: TEXT_MED }}>
                         A consultant will review your profile and be in touch within one business day.
                       </p>
                     </div>
-                    <button onClick={() => setCvOpen(false)} className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm rounded-xl transition-colors">
-                      Done
-                    </button>
+                    <button onClick={() => setCvOpen(false)} className="px-6 py-2.5 rounded-lg text-white text-[14px] font-medium" style={{ backgroundColor: PRIMARY }}>Done</button>
                   </div>
                 )}
               </div>
