@@ -16,9 +16,9 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
   const [pipelineStage, setPipelineStage] = useState<'Applied' | 'Screened' | 'Interview' | 'Offered'>('Screened');
 
   const candidates = [
-    { name: 'Dr. Alistair Vance', role: 'Clinical Lead RGN', experience: '8 Yrs NHS Exp.', stage: 'Interview', score: '98% Match', status: 'DBS Verified' },
-    { name: 'Hannah Wright', role: 'Senior Care Assistant', experience: '5 Yrs NVQ L3', stage: 'Offered', score: '94% Match', status: 'Right-to-Work OK' },
-    { name: 'Marcus Bell', role: 'Domiciliary Carer', experience: '3 Yrs Care Exp.', stage: 'Screened', score: '89% Match', status: 'Checking References' },
+    { name: 'Alistair Vance', role: 'Senior Software Engineer', experience: '8 Yrs Full-Stack', stage: 'Interview', score: '98% Match', status: 'ID Verified' },
+    { name: 'Hannah Wright', role: 'Retail Store Manager', experience: '5 Yrs Multi-site', stage: 'Offered', score: '94% Match', status: 'Right-to-Work OK' },
+    { name: 'Marcus Bell', role: 'Financial Analyst', experience: '3 Yrs Fintech', stage: 'Screened', score: '89% Match', status: 'Checking References' },
     { name: 'Priya Sharma', role: 'Registered Nurse (RGN)', experience: '6 Yrs Clinical', stage: 'Applied', score: '96% Match', status: 'New Application' }
   ];
 
@@ -28,7 +28,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
     {
       icon: Rocket,
       title: '1-click multi-board posting',
-      desc: 'Publish care home and clinical vacancies to 10+ UK job boards at once and watch applications land in a single inbox.'
+      desc: 'Publish vacancies to 10+ job boards at once — from tech and retail to finance and healthcare — and watch applications land in a single inbox.'
     },
     {
       icon: Users,
@@ -37,13 +37,13 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
     },
     {
       icon: FileCheck,
-      title: 'Automated compliance checks',
-      desc: 'DBS, right-to-work and reference checks run automatically so every hire is audit-ready before day one.'
+      title: 'Automated screening & checks',
+      desc: 'ID, right-to-work and reference checks run automatically so every hire is compliant and onboard-ready before day one.'
     },
     {
       icon: BarChart3,
       title: 'Hiring analytics at a glance',
-      desc: 'Track applications, time-to-hire and active jobs from the dashboard — and auto-onboard hires into your rota.'
+      desc: 'Track applications, time-to-hire and active jobs from the dashboard — and auto-onboard new hires into your team.'
     }
   ];
 
@@ -74,11 +74,11 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
             </span>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.08]">
-              Hire healthcare staff 60% faster
+              Hire great people 60% faster
             </h1>
 
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl">
-              Post to 10+ UK job boards in one click, screen candidates with automated license checks, and manage your whole hiring pipeline from a single dashboard — then auto-onboard new hires straight into your rota.
+              Post to 10+ job boards in one click, screen candidates with automated checks, and manage your whole hiring pipeline from a single dashboard — for any role, in any industry, then auto-onboard new hires straight into your team.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
@@ -98,8 +98,8 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
 
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-xs text-slate-600 font-medium">
               <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-blue-600" /> 10+ job boards</span>
-              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-blue-600" /> Automated DBS checks</span>
-              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-blue-600" /> CQC compliant</span>
+              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-blue-600" /> Automated screening</span>
+              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-blue-600" /> Any industry</span>
             </div>
           </div>
 
@@ -139,9 +139,9 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { value: '60%', label: 'Faster time to hire' },
-            { value: '10+', label: 'UK job boards, 1 click' },
+            { value: '10+', label: 'Job boards, 1 click' },
             { value: '1,847', label: 'Candidates managed' },
-            { value: '100%', label: 'Audit-ready hires' }
+            { value: '100%', label: 'Compliant hires' }
           ].map((stat) => (
             <div key={stat.label}>
               <div className="text-3xl sm:text-4xl font-extrabold text-white">{stat.value}</div>
@@ -159,7 +159,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
             Your entire hiring funnel, on one screen
           </h2>
           <p className="text-slate-600 text-sm mt-3">
-            From job posting to signed offer, the recruitment dashboard keeps sourcing, screening and compliance in one place.
+            From job posting to signed offer, the recruitment dashboard keeps sourcing, screening and compliance in one place — for teams in every industry.
           </p>
         </div>
 
@@ -232,11 +232,11 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
             {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
           </div>
           <p className="text-base sm:text-lg text-slate-800 font-medium leading-relaxed">
-            "We cut our time-to-hire from six weeks to under two. Posting to every job board at once and having compliance checks run themselves means our managers actually spend time with candidates, not spreadsheets."
+            "We hire across engineering, retail and finance, and this replaced three separate tools. Posting to every job board at once and having checks run themselves means our managers actually spend time with candidates, not spreadsheets."
           </p>
           <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
             <Building2 className="w-4 h-4 text-slate-400" />
-            <span className="font-semibold text-slate-700">Jane Doe</span> · Head of Talent, Meadowview Group
+            <span className="font-semibold text-slate-700">Jane Doe</span> · Head of Talent, Northwind Group
           </div>
         </div>
 
