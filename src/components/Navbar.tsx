@@ -116,7 +116,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="text-lg font-extrabold tracking-tight text-slate-900 flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif]">
 MployUs
               </span>
-              <span className="text-[9px] uppercase tracking-wider text-slate-500 font-medium -mt-1">Healthcare Platform</span>
+              
             </div>
           </button>
 
