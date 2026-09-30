@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, Building2,
   Search, Calendar, Stethoscope, Briefcase, Mail, Lock, Linkedin, Phone,
@@ -108,6 +109,62 @@ const STATS = [
   { value: '< 2hr', label: 'Average shift fill', icon: Clock },
 ];
 
+// ─── Animation variants ───────────────────────────────────────────────────────
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+};
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.5 } },
+};
+const stagger = (delay = 0.1) => ({
+  hidden: {},
+  visible: { transition: { staggerChildren: delay } },
+});
+const slideLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+};
+const slideRight = {
+  hidden: { opacity: 0, x: 40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+};
+
+// Viewport-triggered wrapper
+const Reveal = ({
+  children, className = '', delay = 0, variant = fadeUp,
+}: {
+  children: React.ReactNode; className?: string; delay?: number; variant?: typeof fadeUp;
+}) => (
+  <motion.div
+    className={className}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, margin: '-60px' }}
+    variants={{ ...variant, visible: { ...variant.visible, transition: { ...(variant.visible as any).transition, delay } } }}
+  >
+    {children}
+  </motion.div>
+);
+
+// Animated counter hook
+function useCounter(target: number, duration = 1.6, inView = false) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const step = target / (duration * 60);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { setCount(target); clearInterval(timer); }
+      else setCount(Math.floor(start));
+    }, 1000 / 60);
+    return () => clearInterval(timer);
+  }, [inView, target, duration]);
+  return count;
+}
+
 // ─── Label pill used throughout sections ─────────────────────────────────────
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[11px] font-bold uppercase tracking-widest">
@@ -134,10 +191,21 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const [smsCode, setSmsCode] = useState(['', '', '', '', '', '']);
 
   const [scrolled, setScrolled] = useState(false);
+  const [statsInView, setStatsInView] = useState(false);
+  const statsRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setStatsInView(true); }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
   useEffect(() => {
@@ -330,78 +398,121 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         {/* ── HERO ── */}
         <section className="relative min-h-[88vh] flex flex-col mt-[70px] overflow-hidden">
-          {/* Background */}
-          <div className="absolute inset-0">
+          {/* Background with subtle scale-in */}
+          <motion.div
+            className="absolute inset-0"
+            initial={{ scale: 1.08 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+          >
             <img src={imgOverlay} alt="" className="w-full h-full object-cover object-center" />
             <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/75 to-slate-900/30" />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
-          </div>
+          </motion.div>
 
-          {/* Glassmorphic stat cards — right side */}
+          {/* Glassmorphic stat cards — right side, staggered in */}
           <div className="absolute right-[6%] top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-3 z-10">
             {[
               { val: '140+', label: 'Registered Professionals', color: 'text-blue-300' },
               { val: '25+', label: 'Partner Facilities', color: 'text-emerald-300' },
               { val: '0%', label: 'Agency Commission', color: 'text-amber-300' },
-            ].map(stat => (
-              <div key={stat.val} className="backdrop-blur-2xl bg-white/10 border border-white/15 rounded-2xl px-6 py-5 text-center w-52">
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.val}
+                className="backdrop-blur-2xl bg-white/10 border border-white/15 rounded-2xl px-6 py-5 text-center w-52"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, delay: 0.8 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.15)' }}
+              >
                 <div className={`text-4xl font-bold ${stat.color}`}>{stat.val}</div>
                 <p className="text-white/70 text-xs mt-1.5 leading-snug">{stat.label}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          {/* Hero copy */}
-          <div className="relative z-10 flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-20 xl:px-28 max-w-[780px] py-24">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold uppercase tracking-widest mb-6 w-fit backdrop-blur-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-              Healthcare Locum Marketplace · Ireland & UK
-            </div>
+          {/* Hero copy — staggered lines */}
+          <motion.div
+            className="relative z-10 flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-20 xl:px-28 max-w-[780px] py-24"
+            variants={stagger(0.12)}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div variants={fadeUp}>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold uppercase tracking-widest mb-6 w-fit backdrop-blur-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                Healthcare Locum Marketplace · Ireland & UK
+              </div>
+            </motion.div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-5">
+            <motion.h1
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-5"
+              variants={fadeUp}
+            >
               Browse & apply<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500">flexible shifts</span><br />
               near you.
-            </h1>
+            </motion.h1>
 
-            <p className="text-lg text-white/75 leading-relaxed max-w-[520px] mb-8 font-normal">
+            <motion.p
+              className="text-lg text-white/75 leading-relaxed max-w-[520px] mb-8 font-normal"
+              variants={fadeUp}
+            >
               Join our growing network of trusted medical professionals. Transparent pay, verified employers, zero agency margins.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-wrap gap-3">
-              <button
+            <motion.div className="flex flex-wrap gap-3" variants={fadeUp}>
+              <motion.button
                 onClick={() => goto('find-shifts')}
-                className="group flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 text-white font-semibold text-sm rounded-xl shadow-lg shadow-blue-600/30 transition-all"
+                className="group flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold text-sm rounded-xl shadow-lg shadow-blue-600/30"
+                whileHover={{ scale: 1.03, boxShadow: '0 8px 30px rgba(59,130,246,0.45)' }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               >
                 Browse Available Shifts
                 <MoveRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 onClick={() => openAuth('signup')}
-                className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-sm rounded-xl backdrop-blur-sm transition-all"
+                className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-sm rounded-xl backdrop-blur-sm"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               >
                 Register as a Locum
-              </button>
-            </div>
-          </div>
+              </motion.button>
+            </motion.div>
+          </motion.div>
 
           {/* Search bar floated at bottom */}
-          <div className="relative z-10 px-6 sm:px-12 lg:px-20 xl:px-28 pb-10">
+          <motion.div
+            className="relative z-10 px-6 sm:px-12 lg:px-20 xl:px-28 pb-10"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
+          >
             <SearchBar dark />
-          </div>
+          </motion.div>
         </section>
 
         {/* ── STATS RIBBON ── */}
         <section className="bg-gradient-to-r from-blue-600 to-blue-700 border-y border-blue-500/30">
-          <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
-            {STATS.map(stat => {
+          <div ref={statsRef} className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+            {STATS.map((stat, i) => {
               const Icon = stat.icon;
               return (
-                <div key={stat.label} className="flex flex-col items-center text-center">
+                <motion.div
+                  key={stat.label}
+                  className="flex flex-col items-center text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                >
                   <Icon className="w-5 h-5 text-blue-200 mb-2" />
                   <div className="text-3xl font-bold text-white">{stat.value}</div>
                   <p className="text-blue-100/80 text-xs mt-1 font-medium">{stat.label}</p>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -411,15 +522,30 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <section className="py-28 max-w-[1280px] mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Stacked images with offset */}
-            <div className="relative h-[520px] hidden lg:block">
-              <div className="absolute left-0 top-0 w-[330px] h-[460px] rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/15 ring-1 ring-black/5">
+            <Reveal variant={slideLeft} className="relative h-[520px] hidden lg:block">
+              <motion.div
+                className="absolute left-0 top-0 w-[330px] h-[460px] rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/15 ring-1 ring-black/5"
+                whileHover={{ scale: 1.02, rotate: -1 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              >
                 <img src={imgTjqvmx3} alt="Healthcare professional" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute right-0 bottom-0 w-[300px] h-[420px] rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/15 ring-1 ring-black/5 border-4 border-white">
+              </motion.div>
+              <motion.div
+                className="absolute right-0 bottom-0 w-[300px] h-[420px] rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/15 ring-1 ring-black/5 border-4 border-white"
+                whileHover={{ scale: 1.02, rotate: 1 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              >
                 <img src={imgImage1} alt="Medical consultation" className="w-full h-full object-cover" />
-              </div>
+              </motion.div>
               {/* Floating badge */}
-              <div className="absolute left-[270px] top-[200px] bg-white rounded-2xl shadow-xl border border-black/5 px-4 py-3 z-10">
+              <motion.div
+                className="absolute left-[270px] top-[200px] bg-white rounded-2xl shadow-xl border border-black/5 px-4 py-3 z-10"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, type: 'spring', stiffness: 350, damping: 22 }}
+                whileHover={{ y: -3 }}
+              >
                 <div className="flex items-center gap-2">
                   <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center">
                     <CheckCircle2 className="w-5 h-5 text-emerald-500" />
@@ -429,24 +555,30 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     <div className="text-[10px] text-slate-500">Garda & DBS verified</div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </Reveal>
 
             {/* Text */}
-            <div className="space-y-6">
-              <SectionLabel>About Us</SectionLabel>
-              <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 leading-[1.1] tracking-tight">
+            <motion.div
+              className="space-y-6"
+              variants={stagger(0.1)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-60px' }}
+            >
+              <motion.div variants={fadeUp}><SectionLabel>About Us</SectionLabel></motion.div>
+              <motion.h2 variants={fadeUp} className="text-4xl lg:text-5xl font-bold text-slate-900 leading-[1.1] tracking-tight">
                 MployUs connects you to the <span className="text-blue-600">right job</span>
-              </h2>
-              <div className="space-y-4 text-[15px] text-slate-600 leading-relaxed">
+              </motion.h2>
+              <motion.div variants={fadeUp} className="space-y-4 text-[15px] text-slate-600 leading-relaxed">
                 <p>
                   At MployUs Locums, we connect healthcare professionals with flexible, reliable shift opportunities at trusted medical facilities. Whether you're a nurse, doctor, pharmacist, or allied health worker, our platform helps you take control of your schedule and work on your terms.
                 </p>
                 <p>
                   Our locum provision software enables seamless scheduling, tracking, and management of locum professionals, while ensuring continuous coverage and efficient management of temporary staffing needs for medical facilities.
                 </p>
-              </div>
-              <div className="grid grid-cols-2 gap-3 pt-2">
+              </motion.div>
+              <motion.div variants={fadeUp} className="grid grid-cols-2 gap-3 pt-2">
                 {[
                   { icon: Zap, label: 'Instant shift matching' },
                   { icon: Wallet, label: 'Keep 100% of your rate' },
@@ -455,47 +587,79 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 ].map(item => {
                   const Icon = item.icon;
                   return (
-                    <div key={item.label} className="flex items-center gap-2.5 text-sm text-slate-700 font-medium">
+                    <motion.div
+                      key={item.label}
+                      className="flex items-center gap-2.5 text-sm text-slate-700 font-medium"
+                      whileHover={{ x: 3 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                    >
                       <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
                         <Icon className="w-3.5 h-3.5 text-blue-600" />
                       </div>
                       {item.label}
-                    </div>
+                    </motion.div>
                   );
                 })}
-              </div>
-              <button onClick={() => goto('find-shifts')} className="group inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
-                Browse open shifts <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-            </div>
+              </motion.div>
+              <motion.button
+                variants={fadeUp}
+                onClick={() => goto('find-shifts')}
+                className="group inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors"
+                whileHover={{ x: 4 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+              >
+                Browse open shifts <ArrowRight className="w-4 h-4" />
+              </motion.button>
+            </motion.div>
           </div>
         </section>
 
         {/* ── WHO CAN JOIN ── */}
         <section className="py-24 bg-slate-50 border-y border-slate-100">
           <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
-            <div className="text-center mb-14">
+            <Reveal className="text-center mb-14">
               <SectionLabel>Who can join MployUs Locums</SectionLabel>
               <h2 className="text-4xl font-bold text-slate-900 tracking-tight mt-4 mb-3">Built for certified healthcare professionals</h2>
               <p className="text-slate-500 text-base max-w-xl mx-auto leading-relaxed">
                 Flexible shifts at trusted hospitals and clinics. If you're qualified and passionate about care, join us today.
               </p>
-            </div>
+            </Reveal>
 
-            <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide">
+            <motion.div
+              className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide"
+              variants={stagger(0.1)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-40px' }}
+            >
               {WHO_CAN_JOIN.map((item, i) => (
-                <div key={i} className="group shrink-0 cursor-pointer">
+                <motion.div
+                  key={i}
+                  className="group shrink-0 cursor-pointer"
+                  variants={{
+                    hidden: { opacity: 0, y: 40, scale: 0.96 },
+                    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+                  }}
+                  whileHover={{ y: -6 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                >
                   <div className="relative w-[260px] h-[380px] rounded-2xl overflow-hidden shadow-lg shadow-slate-900/10 ring-1 ring-black/5">
-                    <img src={item.img} alt={item.label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <motion.img
+                      src={item.img}
+                      alt={item.label}
+                      className="w-full h-full object-cover"
+                      whileHover={{ scale: 1.08 }}
+                      transition={{ duration: 0.5 }}
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-5">
                       <div className="text-2xl mb-1">{item.emoji}</div>
                       <p className="text-white font-semibold text-[15px] leading-tight">{item.label}</p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             <div className="flex justify-center gap-2 mt-8">
               {WHO_CAN_JOIN.map((_, i) => (
@@ -509,46 +673,85 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <section className="py-28 max-w-[1280px] mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Feature list */}
-            <div className="space-y-8 order-2 lg:order-1">
-              <div className="space-y-3">
+            <motion.div
+              className="space-y-8 order-2 lg:order-1"
+              variants={stagger(0.1)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-60px' }}
+            >
+              <motion.div variants={fadeUp} className="space-y-3">
                 <SectionLabel>Why MployUs Locums?</SectionLabel>
                 <h2 className="text-4xl font-bold text-slate-900 tracking-tight leading-[1.1]">
                   Everything you need to<br /><span className="text-blue-600">work on your terms</span>
                 </h2>
-              </div>
+              </motion.div>
               <div className="space-y-5">
                 {WHY_FEATURES.map((f, i) => {
                   const Icon = f.icon;
                   return (
-                    <div key={i} className="flex gap-4 group">
-                      <div className="w-11 h-11 rounded-xl bg-blue-50 group-hover:bg-blue-100 border border-blue-100 flex items-center justify-center shrink-0 transition-colors">
+                    <motion.div
+                      key={i}
+                      className="flex gap-4 group"
+                      variants={fadeUp}
+                      whileHover={{ x: 6 }}
+                      transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+                    >
+                      <motion.div
+                        className="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0"
+                        whileHover={{ scale: 1.1, backgroundColor: '#dbeafe' }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                      >
                         <Icon className="w-5 h-5 text-blue-600" />
-                      </div>
+                      </motion.div>
                       <div>
                         <h4 className="font-bold text-slate-900 text-[15px]">{f.title}</h4>
                         <p className="text-slate-500 text-sm mt-0.5 leading-relaxed">{f.desc}</p>
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
-              <div className="flex gap-3 pt-2">
-                <button onClick={() => openAuth('signup')} className="px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl shadow-md shadow-blue-600/20 transition-all">
+              <motion.div variants={fadeUp} className="flex gap-3 pt-2">
+                <motion.button
+                  onClick={() => openAuth('signup')}
+                  className="px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl shadow-md shadow-blue-600/20"
+                  whileHover={{ scale: 1.04, boxShadow: '0 8px 24px rgba(59,130,246,0.4)' }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                >
                   Join for free
-                </button>
-                <button onClick={() => goto('find-shifts')} className="px-5 py-2.5 text-sm font-bold text-slate-700 border border-slate-200 rounded-xl hover:border-slate-300 hover:bg-slate-50 transition-all">
+                </motion.button>
+                <motion.button
+                  onClick={() => goto('find-shifts')}
+                  className="px-5 py-2.5 text-sm font-bold text-slate-700 border border-slate-200 rounded-xl"
+                  whileHover={{ scale: 1.04, borderColor: '#cbd5e1', backgroundColor: '#f8fafc' }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                >
                   Browse shifts
-                </button>
-              </div>
-            </div>
+                </motion.button>
+              </motion.div>
+            </motion.div>
 
             {/* Image */}
-            <div className="order-1 lg:order-2">
+            <Reveal variant={slideRight} className="order-1 lg:order-2">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/15 ring-1 ring-black/5 h-[520px]">
-                <img src={imgWmremoveTransformed1} alt="Healthcare professional" className="w-full h-full object-cover" />
+                <motion.img
+                  src={imgWmremoveTransformed1}
+                  alt="Healthcare professional"
+                  className="w-full h-full object-cover"
+                  whileHover={{ scale: 1.04 }}
+                  transition={{ duration: 0.5 }}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent" />
-                {/* Overlay card */}
-                <div className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg">
+                <motion.div
+                  className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                >
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Live shifts available</div>
@@ -558,14 +761,14 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       View all →
                     </button>
                   </div>
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </section>
 
         {/* ── MOBILE APP ── */}
-        <section className="py-8 px-6 lg:px-12 max-w-[1280px] mx-auto">
+        <Reveal className="py-8 px-6 lg:px-12 max-w-[1280px] mx-auto">
           <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900">
             {/* Decorative blobs */}
             <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl pointer-events-none" />
@@ -622,14 +825,26 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
               {/* Phone image */}
               <div className="relative flex items-end justify-center overflow-hidden">
-                <img
+                <motion.img
                   src={imgIPhone17}
                   alt="MployUs Locums mobile app"
                   className="relative z-10 h-[380px] w-auto object-contain"
-                  style={{ transform: 'rotate(-8deg) translateY(20px)' }}
+                  style={{ rotate: -8, y: 20 }}
+                  initial={{ opacity: 0, y: 60 }}
+                  whileInView={{ opacity: 1, y: 20 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                  whileHover={{ rotate: -4, y: 10 }}
                 />
                 {/* Notification bubble */}
-                <div className="absolute top-12 right-10 bg-white rounded-2xl shadow-xl border border-black/5 px-4 py-3 z-20">
+                <motion.div
+                  className="absolute top-12 right-10 bg-white rounded-2xl shadow-xl border border-black/5 px-4 py-3 z-20"
+                  initial={{ opacity: 0, scale: 0.7, x: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6, type: 'spring', stiffness: 350, damping: 22 }}
+                  animate={{ y: [0, -5, 0] }}
+                >
                   <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center">
                       <Bell className="w-4 h-4 text-blue-600" />
@@ -639,11 +854,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <div className="text-[10px] text-slate-500 mt-0.5">{loc.currency}55/hr · {loc.defaultCity}</div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
-        </section>
+        </Reveal>
 
         {/* ── TESTIMONIALS ── */}
         <section className="py-28 max-w-[1280px] mx-auto px-6 lg:px-12">
@@ -653,21 +868,30 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             <p className="text-slate-500 text-base max-w-md mx-auto">Hear what our community has to say about working with MployUs Locums.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5"
+            variants={stagger(0.1)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-40px' }}
+          >
             {TESTIMONIALS.map((t, i) => (
-              <div
+              <motion.div
                 key={i}
-                className="group relative bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-xl hover:shadow-slate-900/8 hover:-translate-y-1 transition-all duration-300"
+                className="group relative bg-white border border-slate-100 rounded-2xl p-6 cursor-default"
+                variants={{
+                  hidden: { opacity: 0, y: 30, scale: 0.97 },
+                  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+                }}
+                whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(15,23,42,0.10)' }}
+                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
               >
-                {/* Quote mark */}
                 <div className="text-5xl text-blue-100 font-serif leading-none mb-3 select-none">"</div>
-                {/* Stars */}
                 <div className="flex gap-0.5 mb-3">
                   {[...Array(t.stars)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}
                 </div>
                 <p className="text-slate-700 text-sm leading-relaxed mb-5">{t.quote}</p>
                 <div className="flex items-center gap-3 pt-3 border-t border-slate-50">
-                  {/* Avatar letter */}
                   <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
                     {t.name[0]}
                   </div>
@@ -676,9 +900,9 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     <div className="text-[10px] text-slate-400 mt-0.5">{t.role}</div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </section>
 
         {/* ── FAQ SECTION ── */}
@@ -686,78 +910,126 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
               {/* Left sticky */}
-              <div className="lg:col-span-2 space-y-5 lg:sticky lg:top-24 self-start">
+              <motion.div
+                className="lg:col-span-2 space-y-5 lg:sticky lg:top-24 self-start"
+                variants={slideLeft}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-60px' }}
+              >
                 <SectionLabel>FAQ</SectionLabel>
                 <h2 className="text-4xl font-bold text-slate-900 tracking-tight leading-[1.1]">Frequently asked questions</h2>
                 <p className="text-slate-500 text-[15px] leading-relaxed">
                   Everything you need to know about working with MployUs Locums, from shift requests to payments.
                 </p>
-                <button onClick={() => goto('faq')} className="group inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                <motion.button
+                  onClick={() => goto('faq')}
+                  className="group inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors"
+                  whileHover={{ x: 4 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                >
                   View all FAQs <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                </button>
-              </div>
+                </motion.button>
+              </motion.div>
 
               {/* Right: accordion */}
-              <div className="lg:col-span-3 space-y-6">
+              <motion.div
+                className="lg:col-span-3 space-y-6"
+                variants={stagger(0.08)}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+              >
                 {/* Tabs */}
-                <div className="flex items-center gap-1 bg-white border border-slate-100 rounded-xl p-1 w-fit">
+                <motion.div variants={fadeUp} className="flex items-center gap-1 bg-white border border-slate-100 rounded-xl p-1 w-fit">
                   {(['Locum', 'Employers'] as const).map(tab => (
-                    <button
+                    <motion.button
                       key={tab}
                       onClick={() => { setFaqTab(tab); setOpenFaq(0); }}
                       className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${faqTab === tab ? 'bg-blue-600 text-white shadow-md' : 'text-slate-600 hover:text-slate-900'}`}
+                      whileTap={{ scale: 0.95 }}
                     >
                       {tab}
-                    </button>
+                    </motion.button>
                   ))}
-                </div>
+                </motion.div>
 
                 <div className="space-y-2">
                   {faqs[faqTab].map((f, i) => {
                     const isOpen = openFaq === i;
                     return (
-                      <div
+                      <motion.div
                         key={f.q}
-                        className={`rounded-xl border transition-all duration-200 overflow-hidden ${isOpen ? 'bg-blue-600 border-blue-600 shadow-lg shadow-blue-600/20' : 'bg-white border-slate-100 hover:border-slate-200'}`}
+                        variants={fadeUp}
+                        className={`rounded-xl border overflow-hidden ${isOpen ? 'bg-blue-600 border-blue-600 shadow-lg shadow-blue-600/20' : 'bg-white border-slate-100 hover:border-slate-200'}`}
+                        animate={{ borderColor: isOpen ? '#2563eb' : '#f1f5f9' }}
+                        transition={{ duration: 0.2 }}
                       >
                         <button
                           onClick={() => setOpenFaq(isOpen ? null : i)}
                           className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
                         >
                           <span className={`text-sm font-semibold leading-snug ${isOpen ? 'text-white' : 'text-slate-900'}`}>{f.q}</span>
-                          <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors ${isOpen ? 'bg-white/20' : 'bg-slate-50'}`}>
-                            {isOpen ? <Minus className="w-4 h-4 text-white" /> : <Plus className="w-4 h-4 text-slate-500" />}
-                          </div>
+                          <motion.div
+                            className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors ${isOpen ? 'bg-white/20' : 'bg-slate-50'}`}
+                            animate={{ rotate: isOpen ? 45 : 0 }}
+                            transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+                          >
+                            <Plus className={`w-4 h-4 ${isOpen ? 'text-white' : 'text-slate-500'}`} />
+                          </motion.div>
                         </button>
-                        {isOpen && (
+                        <motion.div
+                          initial={false}
+                          animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+                          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                          style={{ overflow: 'hidden' }}
+                        >
                           <div className="px-5 pb-5 text-sm text-white/85 leading-relaxed">{f.a}</div>
-                        )}
-                      </div>
+                        </motion.div>
+                      </motion.div>
                     );
                   })}
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
 
         {/* ── CTA STRIP ── */}
-        <section className="py-20 bg-gradient-to-br from-slate-900 to-slate-800">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="space-y-3 text-center lg:text-left">
+        <section className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 overflow-hidden">
+          <motion.div
+            className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8"
+            variants={stagger(0.12)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-40px' }}
+          >
+            <motion.div variants={slideLeft} className="space-y-3 text-center lg:text-left">
               <div className="text-xs font-bold text-blue-400 uppercase tracking-widest">Join MployUs Locums</div>
               <h3 className="text-3xl font-bold text-white">Start finding — or filling — shifts today</h3>
               <p className="text-slate-400 text-sm">Free to join in Ireland and the UK. Zero agency commission.</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <button onClick={() => openAuth('signup')} className="px-7 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-xl hover:bg-slate-50 transition-colors shadow-lg">
+            </motion.div>
+            <motion.div variants={slideRight} className="flex flex-wrap items-center gap-3 shrink-0">
+              <motion.button
+                onClick={() => openAuth('signup')}
+                className="px-7 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-xl shadow-lg"
+                whileHover={{ scale: 1.04, backgroundColor: '#f8fafc' }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+              >
                 Create free account
-              </button>
-              <button onClick={onBackToHome} className="px-6 py-3.5 bg-white/10 hover:bg-white/15 border border-white/10 text-white font-semibold text-sm rounded-xl transition-colors">
+              </motion.button>
+              <motion.button
+                onClick={onBackToHome}
+                className="px-6 py-3.5 bg-white/10 border border-white/10 text-white font-semibold text-sm rounded-xl"
+                whileHover={{ scale: 1.03, backgroundColor: 'rgba(255,255,255,0.15)' }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+              >
                 Back to MployUs
-              </button>
-            </div>
-          </div>
+              </motion.button>
+            </motion.div>
+          </motion.div>
         </section>
 
         </>
