@@ -141,7 +141,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
   // Contact modal
   const [contactOpen, setContactOpen]   = useState(false);
-  const [contactStep, setContactStep]   = useState<1 | 2 | 3>(1);
+  const [contactStep, setContactStep]   = useState<1 | 2 | 3 | 4>(1);
   const [contactType, setContactType]   = useState<'Employer' | 'Candidate' | ''>('');
   const [contactForm, setContactForm]   = useState({ name: '', email: '', phone: '', company: '', role: '', message: '' });
 
@@ -183,7 +183,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
   const goTo = (p: Page) => { setPage(p); setMobileOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
-  const openContact = () => { setContactStep(1); setContactType(''); setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' }); setContactOpen(true); };
+  const openContact = () => { setContactStep(1); setContactType(''); setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' }); setMobileOpen(false); setContactOpen(true); };
   const openCV = () => { setCvStep(1); setCvOpen(true); };
 
   const filteredRoles = useMemo(() => ALL_ROLES.filter(r => {
@@ -1104,98 +1104,287 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         </div>
       </footer>
 
-      {/* ══ CONTACT MODAL ══ */}
+      {/* ══ REQUEST TALENT MODAL ══ */}
       <AnimatePresence>
         {contactOpen && (
-          <motion.div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setContactOpen(false)} />
-            <motion.div className="relative bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto"
-              initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 32 }}
-              transition={{ type: 'spring', stiffness: 280, damping: 24 }}>
-              <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: BDL }}>
-                <div>
-                  <p className="text-[12px] font-semibold uppercase tracking-widest" style={{ color: P }}>MployUs Recruit</p>
-                  <h3 className="text-[18px] font-['Arimo',sans-serif]" style={{ color: P }}>Request Talent</h3>
-                </div>
-                <button onClick={() => setContactOpen(false)} className="w-8 h-8 rounded-lg flex items-center justify-center border" style={{ borderColor: BDL, backgroundColor: BGL }}>
-                  <X className="w-4 h-4" style={{ color: TM }} />
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setContactOpen(false)} />
+            <motion.div
+              className="relative z-10 bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+              initial={{ opacity: 0, y: 40, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 40, scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 28 }}>
+
+              {/* Sticky header with progress bar */}
+              <div className="sticky top-0 z-10 bg-white border-b border-black/5 px-7 py-5 flex items-center justify-between rounded-t-2xl">
+                {contactStep < 4 ? (
+                  <div className="flex-1">
+                    <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: P }}>Step {contactStep} of 3</p>
+                    <div className="flex gap-1.5">
+                      {[1, 2, 3].map(n => (
+                        <div key={n} className="h-1 flex-1 rounded-full transition-all duration-400"
+                          style={{ backgroundColor: contactStep >= n ? P : '#f1f5f9' }} />
+                      ))}
+                    </div>
+                  </div>
+                ) : <div />}
+                <button onClick={() => setContactOpen(false)} className="ml-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors">
+                  <X className="w-4 h-4 text-slate-600" />
                 </button>
               </div>
-              <div className="p-5">
-                {contactStep < 3 && (
-                  <div className="flex gap-1.5 mb-5">
-                    {[1, 2].map(s => <div key={s} className="h-1 flex-1 rounded-full" style={{ backgroundColor: contactStep >= s ? P : BDL }} />)}
+
+              {/* Service type strip (steps 1–3) */}
+              {contactStep < 4 && (
+                <div className="mx-7 mt-5 mb-1 border border-black/5 rounded-xl px-4 py-3 flex items-center gap-4"
+                  style={{ backgroundColor: 'rgba(129,1,97,0.05)' }}>
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: P }}>
+                    <Building2 className="w-4 h-4 text-white" />
                   </div>
-                )}
+                  <div>
+                    <p className="text-xs text-slate-500">MployUs Recruit</p>
+                    <p className="font-bold text-sm" style={{ color: P }}>Request Talent · Employer Enquiry</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="px-7 pb-7 pt-4">
+
+                {/* ── STEP 1: Hiring need ── */}
                 {contactStep === 1 && (
-                  <div className="space-y-4">
-                    <p className="text-[14px]" style={{ color: TM }}>Are you looking to hire, or looking for a role?</p>
-                    {[{ key: 'Employer' as const, icon: Building2, desc: "I'm looking to hire" }, { key: 'Candidate' as const, icon: Users, desc: "I'm looking for a role" }].map(({ key, icon: Icon, desc }) => (
-                      <button key={key} onClick={() => setContactType(key)}
-                        className="w-full flex items-center gap-4 p-4 rounded-xl border text-left"
-                        style={{ borderColor: contactType === key ? P : BDL, backgroundColor: contactType === key ? 'rgba(129,1,97,0.04)' : 'white' }}>
-                        <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: contactType === key ? P : BGL }}>
-                          <Icon className="w-5 h-5" style={{ color: contactType === key ? 'white' : TM }} />
-                        </div>
-                        <div>
-                          <p className="font-medium text-[14px]" style={{ color: TD }}>{key}</p>
-                          <p className="text-[12px]" style={{ color: TM }}>{desc}</p>
-                        </div>
-                      </button>
-                    ))}
-                    <button disabled={!contactType} onClick={() => setContactStep(2)}
-                      className="w-full py-3 rounded-lg text-white text-[14px] font-medium disabled:opacity-40 hover:opacity-90"
-                      style={{ backgroundColor: P }}>
-                      Continue <ChevronRight className="inline w-4 h-4 ml-1" />
-                    </button>
-                  </div>
-                )}
-                {contactStep === 2 && (
-                  <div className="space-y-3">
-                    <p className="text-[14px] font-medium" style={{ color: TD }}>Your details</p>
-                    {[
-                      { icon: Users,    placeholder: 'Full name',        key: 'name',    type: 'text' },
-                      { icon: Mail,     placeholder: 'Email address',    key: 'email',   type: 'email' },
-                      { icon: Phone,    placeholder: 'Phone number',     key: 'phone',   type: 'tel' },
-                      ...(contactType === 'Employer'
-                        ? [{ icon: Building2, placeholder: 'Company name',        key: 'company', type: 'text' }, { icon: Briefcase, placeholder: 'Role to fill', key: 'role', type: 'text' }]
-                        : [{ icon: Briefcase, placeholder: 'Your profession',     key: 'role',    type: 'text' }]),
-                    ].map(({ icon: Icon, placeholder, key, type }) => (
-                      <div key={key} className="flex items-center gap-3 px-4 py-3 rounded-lg border" style={{ borderColor: BD, backgroundColor: BGL }}>
-                        <Icon className="w-4 h-4 shrink-0" style={{ color: TT }} />
-                        <input type={type} placeholder={placeholder}
-                          value={contactForm[key as keyof typeof contactForm]}
-                          onChange={e => setContactForm(f => ({ ...f, [key]: e.target.value }))}
-                          className="bg-transparent text-[14px] outline-none w-full" style={{ color: TD }} />
-                      </div>
-                    ))}
-                    <div className="flex gap-2 pt-1">
-                      <button onClick={() => setContactStep(1)} className="px-4 py-3 text-[13px] rounded-lg border" style={{ borderColor: BD, color: TM }}>← Back</button>
-                      <button disabled={!contactForm.name || !contactForm.email}
-                        onClick={() => { setContactStep(3); onBookDemo('Recruitment Service'); }}
-                        className="flex-1 py-3 rounded-lg text-white text-[14px] font-medium disabled:opacity-40 flex items-center justify-center gap-2"
-                        style={{ backgroundColor: P }}>
-                        <Send className="w-4 h-4" /> Send enquiry
-                      </button>
-                    </div>
-                  </div>
-                )}
-                {contactStep === 3 && (
-                  <div className="flex flex-col items-center text-center py-6 space-y-4">
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ backgroundColor: 'rgba(129,1,97,0.08)' }}>
-                      <CheckCircle2 className="w-7 h-7" style={{ color: P }} />
-                    </div>
+                  <motion.div key="rt-step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
                     <div>
-                      <h4 className="text-[18px] font-['Arimo',sans-serif]" style={{ color: P }}>Enquiry received</h4>
-                      <p className="text-[14px] mt-1 max-w-xs leading-relaxed" style={{ color: TM }}>A specialist will be in touch within 2 business hours.</p>
+                      <h2 className="text-xl font-bold text-slate-900">What are you looking for?</h2>
+                      <p className="text-sm text-slate-500 mt-1">Tell us about the type of recruitment support you need.</p>
                     </div>
-                    <button onClick={() => setContactOpen(false)} className="px-6 py-2.5 rounded-lg text-white text-[14px] font-medium" style={{ backgroundColor: P }}>Done</button>
-                  </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {[
+                        { key: 'Permanent Placement',               icon: Users,      desc: 'Long-term hire for a core role' },
+                        { key: 'Contract / Temp Staffing',          icon: Clock,      desc: 'Flexible cover for a fixed period' },
+                        { key: 'Recruitment Process Outsourcing',   icon: Target,     desc: 'We embed in your hiring process' },
+                        { key: 'Executive Search',                  icon: Award,      desc: 'Senior leadership & C-suite' },
+                      ].map(({ key, icon: Icon, desc }) => (
+                        <button key={key} type="button"
+                          onClick={() => setContactForm(f => ({ ...f, role: key }))}
+                          className="flex items-start gap-3 p-4 rounded-xl border-2 text-left transition-all"
+                          style={{
+                            borderColor: contactForm.role === key ? P : 'rgba(0,0,0,0.05)',
+                            backgroundColor: contactForm.role === key ? 'rgba(129,1,97,0.06)' : '#f8fafc',
+                          }}>
+                          <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
+                            style={{ backgroundColor: contactForm.role === key ? P : '#e2e8f0' }}>
+                            <Icon className="w-4 h-4" style={{ color: contactForm.role === key ? 'white' : '#64748b' }} />
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-slate-800">{key}</p>
+                            <p className="text-xs text-slate-500 mt-0.5">{desc}</p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Which sector? <span className="text-rose-500">*</span></label>
+                      <div className="relative">
+                        <select value={contactForm.company} onChange={e => setContactForm(f => ({ ...f, company: e.target.value }))}
+                          className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none bg-slate-50 cursor-pointer">
+                          <option value="">Select a sector</option>
+                          <option>Logistics &amp; Warehousing</option>
+                          <option>Healthcare &amp; Nursing</option>
+                          <option>Hospitality &amp; Catering</option>
+                          <option>Education &amp; SNAs</option>
+                          <option>Technology</option>
+                          <option>Finance &amp; Accounting</option>
+                          <option>Other</option>
+                        </select>
+                        <ChevronRight className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
+                      </div>
+                    </div>
+
+                    <button onClick={() => setContactStep(2)}
+                      disabled={!contactForm.role || !contactForm.company}
+                      className="w-full py-3 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-40"
+                      style={{ backgroundColor: P }}>
+                      Continue <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </motion.div>
                 )}
+
+                {/* ── STEP 2: Company details ── */}
+                {contactStep === 2 && (
+                  <motion.div key="rt-step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-slate-900">Your company details</h2>
+                      <p className="text-sm text-slate-500 mt-1">{"We'll use these to connect you with the right consultant."}</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold text-slate-700">First name <span className="text-rose-500">*</span></label>
+                        <input value={contactForm.name.split(' ')[0] || ''} onChange={e => setContactForm(f => ({ ...f, name: e.target.value + ' ' + (f.name.split(' ')[1] || '') }))}
+                          placeholder="e.g. Ciarán"
+                          className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none bg-slate-50" />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold text-slate-700">Last name <span className="text-rose-500">*</span></label>
+                        <input value={contactForm.name.split(' ').slice(1).join(' ') || ''} onChange={e => setContactForm(f => ({ ...f, name: (f.name.split(' ')[0] || '') + ' ' + e.target.value }))}
+                          placeholder="e.g. O'Brien"
+                          className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none bg-slate-50" />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Work email <span className="text-rose-500">*</span></label>
+                      <input type="email" value={contactForm.email} onChange={e => setContactForm(f => ({ ...f, email: e.target.value }))}
+                        placeholder="you@company.com"
+                        className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none bg-slate-50" />
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Phone number</label>
+                      <input type="tel" value={contactForm.phone} onChange={e => setContactForm(f => ({ ...f, phone: e.target.value }))}
+                        placeholder="+353 1 000 0000"
+                        className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none bg-slate-50" />
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">How many roles do you need filled?</label>
+                      <div className="grid grid-cols-4 gap-2">
+                        {['1', '2–5', '6–10', '10+'].map(n => (
+                          <button key={n} type="button"
+                            onClick={() => setContactType(n as any)}
+                            className="py-2.5 rounded-xl border-2 text-sm font-semibold transition-all"
+                            style={{
+                              borderColor: contactType === n ? P : 'rgba(0,0,0,0.05)',
+                              backgroundColor: contactType === n ? 'rgba(129,1,97,0.06)' : '#f8fafc',
+                              color: contactType === n ? P : '#334155',
+                            }}>
+                            {n}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 pt-1">
+                      <button onClick={() => setContactStep(1)} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
+                      <button onClick={() => setContactStep(3)}
+                        disabled={!contactForm.email || !contactForm.name.trim()}
+                        className="flex-1 py-3 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-40"
+                        style={{ backgroundColor: P }}>
+                        Continue <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* ── STEP 3: Message & review ── */}
+                {contactStep === 3 && (
+                  <motion.div key="rt-step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-slate-900">Additional details</h2>
+                      <p className="text-sm text-slate-500 mt-1">Give us context so we can match you with the right specialist straight away.</p>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Tell us about the role(s) <span className="text-slate-400 font-normal">(optional)</span></label>
+                      <textarea value={contactForm.message}
+                        onChange={e => setContactForm(f => ({ ...f, message: e.target.value }))}
+                        placeholder="e.g. We need a registered nurse for a care home in Dublin. The role is permanent, starting ASAP…"
+                        rows={4}
+                        className="px-3.5 py-3 rounded-xl border border-black/5 text-sm outline-none bg-slate-50 resize-none" />
+                    </div>
+
+                    {/* Enquiry summary */}
+                    <div className="bg-slate-50 border border-black/5 rounded-xl p-4 space-y-3">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Enquiry summary</p>
+                      <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                        <div><span className="text-slate-400">Contact</span><p className="font-semibold text-slate-900 mt-0.5">{contactForm.name.trim() || '—'}</p></div>
+                        <div><span className="text-slate-400">Email</span><p className="font-semibold text-slate-900 mt-0.5 break-all">{contactForm.email || '—'}</p></div>
+                        <div><span className="text-slate-400">Service</span><p className="font-semibold text-slate-900 mt-0.5">{contactForm.role || '—'}</p></div>
+                        <div><span className="text-slate-400">Sector</span><p className="font-semibold text-slate-900 mt-0.5">{contactForm.company || '—'}</p></div>
+                        <div><span className="text-slate-400">Roles needed</span><p className="font-semibold text-slate-900 mt-0.5">{contactType || '—'}</p></div>
+                        <div><span className="text-slate-400">Phone</span><p className="font-semibold text-slate-900 mt-0.5">{contactForm.phone || '—'}</p></div>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 pt-1">
+                      <button onClick={() => setContactStep(2)} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
+                      <motion.button
+                        onClick={() => { setContactStep(4 as any); onBookDemo('Recruitment Service'); }}
+                        className="flex-1 py-3 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
+                        style={{ backgroundColor: P }}
+                        whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                        transition={{ type: 'spring', stiffness: 350, damping: 22 }}>
+                        <Send className="w-4 h-4" /> Send enquiry
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* ── STEP 4: Success ── */}
+                {(contactStep as number) === 4 && (
+                  <motion.div key="rt-step4"
+                    initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex flex-col items-center text-center py-8 space-y-6">
+                    <motion.div className="w-24 h-24 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: P }}
+                      initial={{ scale: 0 }} animate={{ scale: 1 }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 18, delay: 0.1 }}>
+                      <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.35, duration: 0.25 }}>
+                        <Check className="w-12 h-12 text-white" strokeWidth={2.5} />
+                      </motion.div>
+                    </motion.div>
+
+                    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="space-y-2">
+                      <h2 className="text-2xl font-bold text-slate-900">Enquiry received!</h2>
+                      <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
+                        A MployUs specialist will review your request and be in touch within <span className="font-semibold text-slate-700">2 business hours</span>.
+                      </p>
+                    </motion.div>
+
+                    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
+                      className="w-full bg-slate-50 border border-black/5 rounded-xl p-5 text-left space-y-3">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">What happens next?</p>
+                      <div className="space-y-3">
+                        {[
+                          { icon: '📧', title: 'Confirmation email sent',    desc: `A summary has been sent to ${contactForm.email || 'your inbox'}.` },
+                          { icon: '👤', title: 'Consultant assigned',        desc: 'A specialist in your sector will be assigned to your account.' },
+                          { icon: '📱', title: "We'll be in touch shortly",  desc: 'Expect a call or email within 2 business hours to discuss your needs.' },
+                          { icon: '🎯', title: 'Shortlist delivered',         desc: 'Qualified candidates presented within 5–10 business days.' },
+                        ].map((step, i) => (
+                          <motion.div key={i} className="flex items-start gap-3"
+                            initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.4 + i * 0.08 }}>
+                            <span className="text-xl shrink-0 mt-0.5">{step.icon}</span>
+                            <div>
+                              <p className="text-sm font-semibold text-slate-800">{step.title}</p>
+                              <p className="text-xs text-slate-500 mt-0.5">{step.desc}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+
+                    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
+                      className="flex flex-col sm:flex-row gap-3 w-full pt-2">
+                      <button onClick={() => setContactOpen(false)} className="flex-1 py-3 text-white font-bold rounded-xl transition-opacity hover:opacity-90"
+                        style={{ backgroundColor: P }}>
+                        Done
+                      </button>
+                      <button onClick={() => { setContactOpen(false); goTo('contact'); }} className="flex-1 py-3 border border-black/5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
+                        Contact page
+                      </button>
+                    </motion.div>
+                  </motion.div>
+                )}
+
               </div>
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
