@@ -149,6 +149,24 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const [cvOpen, setCvOpen]   = useState(false);
   const [cvStep, setCvStep]   = useState<1 | 2>(1);
 
+  // Apply modal
+  const [applyOpen,  setApplyOpen]  = useState(false);
+  const [applyStep,  setApplyStep]  = useState<1 | 2 | 3 | 4>(1);
+  const [applyRole,  setApplyRole]  = useState<typeof ALL_ROLES[0] | null>(null);
+  const [applyForm,  setApplyForm]  = useState({
+    firstName: '', lastName: '', email: '', phone: '',
+    yearsExp: '', transport: '', coverNote: '', questions: '',
+    availabilityConfirmed: false, termsAccepted: false,
+  });
+
+  const openApply = (role: typeof ALL_ROLES[0]) => {
+    setApplyRole(role);
+    setApplyStep(1);
+    setApplyForm({ firstName: '', lastName: '', email: '', phone: '', yearsExp: '', transport: '', coverNote: '', questions: '', availabilityConfirmed: false, termsAccepted: false });
+    setApplyOpen(true);
+  };
+  const closeApply = () => setApplyOpen(false);
+
   // FAQ
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -678,7 +696,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
                 {/* Apply */}
                 <div className="pt-1 flex flex-col sm:flex-row gap-2">
-                  <motion.button onClick={openCV}
+                  <motion.button onClick={() => sel && openApply(sel)}
                     className="flex-1 py-3 text-white font-bold text-base rounded-lg transition-colors"
                     style={{ backgroundColor: P }}
                     whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
@@ -1235,6 +1253,303 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               </div>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ══ APPLY MODAL ══ */}
+      <AnimatePresence>
+        {applyOpen && applyRole && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={closeApply} />
+            <motion.div
+              className="relative z-10 bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+              initial={{ opacity: 0, y: 40, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 40, scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 28 }}>
+
+              {/* Header */}
+              <div className="sticky top-0 z-10 bg-white border-b border-black/5 px-7 py-5 flex items-center justify-between rounded-t-2xl">
+                {applyStep < 4 ? (
+                  <div className="flex-1">
+                    <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: P }}>Step {applyStep} of 3</p>
+                    <div className="flex gap-1.5">
+                      {[1, 2, 3].map(n => (
+                        <div key={n} className="h-1 flex-1 rounded-full transition-all duration-400"
+                          style={{ backgroundColor: applyStep >= n ? P : '#f1f5f9' }} />
+                      ))}
+                    </div>
+                  </div>
+                ) : <div />}
+                <button onClick={closeApply} className="ml-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors">
+                  <X className="w-4 h-4 text-slate-600" />
+                </button>
+              </div>
+
+              {/* Role summary strip */}
+              {applyStep < 4 && (
+                <div className="mx-7 mt-5 mb-1 border border-black/5 rounded-xl px-4 py-3 flex items-center justify-between gap-4"
+                  style={{ backgroundColor: 'rgba(129,1,97,0.05)' }}>
+                  <div>
+                    <p className="text-xs text-slate-500">{applyRole.sector} · {applyRole.location}</p>
+                    <p className="font-bold text-sm" style={{ color: P }}>{applyRole.title} · {applyRole.type}</p>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <p className="text-xs text-slate-500">Salary</p>
+                    <p className="font-bold text-sm" style={{ color: P }}>{applyRole.salary}</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="px-7 pb-7 pt-4">
+
+                {/* ── STEP 1: Your Details ── */}
+                {applyStep === 1 && (
+                  <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-slate-900">Your details</h2>
+                      <p className="text-sm text-slate-500 mt-1">{"We'll use these to confirm your identity and contact you about this role."}</p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold text-slate-700">First name <span className="text-rose-500">*</span></label>
+                        <input value={applyForm.firstName} onChange={e => setApplyForm(f => ({ ...f, firstName: e.target.value }))}
+                          placeholder="e.g. Aoife"
+                          className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none bg-slate-50" />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold text-slate-700">Last name <span className="text-rose-500">*</span></label>
+                        <input value={applyForm.lastName} onChange={e => setApplyForm(f => ({ ...f, lastName: e.target.value }))}
+                          placeholder="e.g. Murphy"
+                          className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none bg-slate-50" />
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Email address <span className="text-rose-500">*</span></label>
+                      <input type="email" value={applyForm.email} onChange={e => setApplyForm(f => ({ ...f, email: e.target.value }))}
+                        placeholder="your@email.com"
+                        className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none bg-slate-50" />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Mobile number <span className="text-rose-500">*</span></label>
+                      <input type="tel" value={applyForm.phone} onChange={e => setApplyForm(f => ({ ...f, phone: e.target.value }))}
+                        placeholder="+353 87 000 0000"
+                        className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none bg-slate-50" />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Years of experience</label>
+                      <div className="relative">
+                        <select value={applyForm.yearsExp} onChange={e => setApplyForm(f => ({ ...f, yearsExp: e.target.value }))}
+                          className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none bg-slate-50 cursor-pointer">
+                          <option value="">Select range</option>
+                          <option>Less than 1 year</option>
+                          <option>1–2 years</option>
+                          <option>3–5 years</option>
+                          <option>6–10 years</option>
+                          <option>10+ years</option>
+                        </select>
+                        <ChevronRight className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
+                      </div>
+                    </div>
+                    <button onClick={() => setApplyStep(2)}
+                      disabled={!applyForm.firstName || !applyForm.lastName || !applyForm.email || !applyForm.phone}
+                      className="w-full py-3 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-40"
+                      style={{ backgroundColor: P }}>
+                      Continue <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </motion.div>
+                )}
+
+                {/* ── STEP 2: Suitability ── */}
+                {applyStep === 2 && (
+                  <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-slate-900">Suitability & availability</h2>
+                      <p className="text-sm text-slate-500 mt-1">Confirm you meet the requirements and are ready to interview for this role.</p>
+                    </div>
+
+                    {/* Role confirmation card */}
+                    <div className="border border-black/5 rounded-xl p-4 space-y-3" style={{ backgroundColor: 'rgba(129,1,97,0.04)' }}>
+                      <p className="text-sm font-semibold text-slate-800">Role you are applying for</p>
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        {[
+                          { icon: Briefcase, v: applyRole.title },
+                          { icon: MapPin,    v: applyRole.location },
+                          { icon: Clock,     v: applyRole.type },
+                          { icon: Building2, v: applyRole.salary },
+                        ].map(({ icon: Icon, v }) => (
+                          <div key={v} className="flex items-center gap-2 text-slate-700">
+                            <Icon className="w-4 h-4 shrink-0" style={{ color: P }} />
+                            <span>{v}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <label className="flex items-start gap-3 cursor-pointer pt-1">
+                        <input type="checkbox" checked={applyForm.availabilityConfirmed}
+                          onChange={e => setApplyForm(f => ({ ...f, availabilityConfirmed: e.target.checked }))}
+                          className="w-4 h-4 mt-0.5 shrink-0 cursor-pointer" style={{ accentColor: P }} />
+                        <span className="text-sm text-slate-700">I confirm I am eligible to work in Ireland / UK and available to start within a reasonable timeframe.</span>
+                      </label>
+                    </div>
+
+                    {/* How did you hear */}
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-semibold text-slate-700">How will you commute? <span className="text-rose-500">*</span></label>
+                      <div className="grid grid-cols-2 gap-2.5">
+                        {[
+                          { icon: '🚗', label: 'Own car' },
+                          { icon: '🚌', label: 'Public transport' },
+                          { icon: '🚶', label: 'Walking / cycling' },
+                          { icon: '✈️', label: 'Relocating' },
+                        ].map(t => (
+                          <button key={t.label} type="button"
+                            onClick={() => setApplyForm(f => ({ ...f, transport: t.label }))}
+                            className="flex items-center gap-2.5 px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all"
+                            style={{
+                              borderColor: 'rgba(0,0,0,0.05)',
+                              backgroundColor: applyForm.transport === t.label ? 'rgba(129,1,97,0.06)' : '#f8fafc',
+                              color: applyForm.transport === t.label ? P : '#334155',
+                            }}>
+                            <span className="text-lg">{t.icon}</span> {t.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 pt-1">
+                      <button onClick={() => setApplyStep(1)} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
+                      <button onClick={() => setApplyStep(3)}
+                        disabled={!applyForm.availabilityConfirmed || !applyForm.transport}
+                        className="flex-1 py-3 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-40"
+                        style={{ backgroundColor: P }}>
+                        Continue <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* ── STEP 3: Cover Note & Review ── */}
+                {applyStep === 3 && (
+                  <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-slate-900">Cover note &amp; review</h2>
+                      <p className="text-sm text-slate-500 mt-1">Add a message to the hiring manager and review your application before submitting.</p>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Cover note <span className="text-slate-400 font-normal">(optional)</span></label>
+                      <textarea value={applyForm.coverNote}
+                        onChange={e => setApplyForm(f => ({ ...f, coverNote: e.target.value }))}
+                        placeholder={`Hi, I'm a ${applyRole.sector.toLowerCase()} professional with ${applyForm.yearsExp || 'several years of'} experience. I'm very interested in the ${applyRole.title} role based in ${applyRole.location}…`}
+                        rows={4}
+                        className="px-3.5 py-3 rounded-xl border border-black/5 text-sm outline-none bg-slate-50 resize-none" />
+                      <p className="text-[11px] text-slate-400">{applyForm.coverNote.length}/500 characters</p>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Any questions for the employer? <span className="text-slate-400 font-normal">(optional)</span></label>
+                      <textarea value={applyForm.questions}
+                        onChange={e => setApplyForm(f => ({ ...f, questions: e.target.value }))}
+                        placeholder="e.g. Is remote work available? What does the interview process look like?"
+                        rows={3}
+                        className="px-3.5 py-3 rounded-xl border border-black/5 text-sm outline-none bg-slate-50 resize-none" />
+                    </div>
+
+                    {/* Summary */}
+                    <div className="bg-slate-50 border border-black/5 rounded-xl p-4 space-y-3">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Application summary</p>
+                      <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                        <div><span className="text-slate-400">Name</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.firstName} {applyForm.lastName}</p></div>
+                        <div><span className="text-slate-400">Email</span><p className="font-semibold text-slate-900 mt-0.5 break-all">{applyForm.email}</p></div>
+                        <div><span className="text-slate-400">Phone</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.phone}</p></div>
+                        <div><span className="text-slate-400">Experience</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.yearsExp || '—'}</p></div>
+                        <div><span className="text-slate-400">Commute</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.transport || '—'}</p></div>
+                        <div><span className="text-slate-400">Role</span><p className="font-semibold text-slate-900 mt-0.5">{applyRole.title}</p></div>
+                      </div>
+                    </div>
+
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input type="checkbox" checked={applyForm.termsAccepted}
+                        onChange={e => setApplyForm(f => ({ ...f, termsAccepted: e.target.checked }))}
+                        className="w-4 h-4 mt-0.5 shrink-0 cursor-pointer" style={{ accentColor: P }} />
+                      <span className="text-sm text-slate-600">I agree to MployUs Recruit's <span className="font-semibold underline cursor-pointer" style={{ color: P }}>Terms &amp; Conditions</span> and confirm the information I have provided is accurate.</span>
+                    </label>
+
+                    <div className="flex gap-3 pt-1">
+                      <button onClick={() => setApplyStep(2)} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
+                      <motion.button onClick={() => { setApplyStep(4); onBookDemo('Job Application'); }}
+                        disabled={!applyForm.termsAccepted}
+                        className="flex-1 py-3 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-40"
+                        style={{ backgroundColor: P }}
+                        whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                        transition={{ type: 'spring', stiffness: 350, damping: 22 }}>
+                        Submit application
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* ── STEP 4: Success ── */}
+                {applyStep === 4 && (
+                  <motion.div key="step4"
+                    initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex flex-col items-center text-center py-8 space-y-6">
+                    <motion.div className="w-24 h-24 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: P }}
+                      initial={{ scale: 0 }} animate={{ scale: 1 }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 18, delay: 0.1 }}>
+                      <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.35, duration: 0.25 }}>
+                        <Check className="w-12 h-12 text-white" strokeWidth={2.5} />
+                      </motion.div>
+                    </motion.div>
+
+                    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="space-y-2">
+                      <h2 className="text-2xl font-bold text-slate-900">Application submitted!</h2>
+                      <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
+                        Your application for <span className="font-semibold text-slate-700">{applyRole.title}</span> in <span className="font-semibold text-slate-700">{applyRole.location}</span> has been sent successfully.
+                      </p>
+                    </motion.div>
+
+                    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
+                      className="w-full bg-slate-50 border border-black/5 rounded-xl p-5 text-left space-y-3">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">What happens next?</p>
+                      <div className="space-y-3">
+                        {[
+                          { icon: '📧', title: 'Confirmation email sent',  desc: `A confirmation has been sent to ${applyForm.email}` },
+                          { icon: '🔍', title: 'Consultant review',         desc: 'A MployUs consultant will review your profile within 24 hours.' },
+                          { icon: '📱', title: "You'll be contacted",       desc: "We'll call or email you to discuss the role and next steps." },
+                          { icon: '✅', title: 'Interview arranged',        desc: 'If shortlisted, we will coordinate the interview with the employer.' },
+                        ].map((step, i) => (
+                          <motion.div key={i} className="flex items-start gap-3"
+                            initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.4 + i * 0.08 }}>
+                            <span className="text-xl shrink-0 mt-0.5">{step.icon}</span>
+                            <div>
+                              <p className="text-sm font-semibold text-slate-800">{step.title}</p>
+                              <p className="text-xs text-slate-500 mt-0.5">{step.desc}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+
+                    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
+                      className="flex flex-col sm:flex-row gap-3 w-full pt-2">
+                      <button onClick={closeApply} className="flex-1 py-3 text-white font-bold rounded-xl transition-opacity hover:opacity-90"
+                        style={{ backgroundColor: P }}>
+                        Back to roles
+                      </button>
+                      <button onClick={openCV} className="flex-1 py-3 border border-black/5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
+                        Upload CV too
+                      </button>
+                    </motion.div>
+                  </motion.div>
+                )}
+
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
