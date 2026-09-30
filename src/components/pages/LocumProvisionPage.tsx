@@ -476,7 +476,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       <SearchDropdown id="location" icon={MapPin} value={searchLocation} options={loc.cities} onChange={setSearchLocation} dark={dark} />
       <div className={`flex items-center gap-2.5 px-4 py-3 rounded-xl ${dark ? 'bg-white/10 border border-black/5' : 'bg-slate-50 border border-black/5 '}`}>
         <Calendar className={`w-4 h-4 shrink-0 ${dark ? 'text-white/50' : 'text-slate-400'}`} />
-        <input type="date" className={`bg-transparent text-sm font-medium w-full outline-none ${dark ? 'text-white/70' : 'text-slate-600'}`} />
+        <input type="date" placeholder="Select date" className={`bg-transparent text-sm font-medium w-full outline-none ${dark ? 'text-white/70 [color-scheme:dark]' : 'text-slate-600'}`} />
       </div>
       <button
         onClick={() => goto('find-shifts')}
@@ -2057,30 +2057,45 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Shift date <span className="text-rose-500">*</span></label>
-                            <input type="date" value={postForm.date} onChange={e => setPostForm(f => ({ ...f, date: e.target.value }))}
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm text-slate-700 outline-none focus:border-[#368B62] transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-[#368B62] transition-colors">
+                              <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input type="date" value={postForm.date} onChange={e => setPostForm(f => ({ ...f, date: e.target.value }))}
+                                className="bg-transparent text-sm text-slate-700 outline-none w-full" />
+                            </div>
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Hourly rate ({loc.currency}) <span className="text-rose-500">*</span></label>
-                            <input value={postForm.rate} onChange={e => setPostForm(f => ({ ...f, rate: e.target.value }))}
-                              placeholder={`e.g. ${loc.currency}32`}
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#368B62] transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-[#368B62] transition-colors">
+                              <Wallet className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.rate} onChange={e => setPostForm(f => ({ ...f, rate: e.target.value }))}
+                                placeholder={`e.g. ${loc.currency}32`}
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Start time</label>
-                            <input type="time" value={postForm.startTime} onChange={e => setPostForm(f => ({ ...f, startTime: e.target.value }))}
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm text-slate-700 outline-none focus:border-[#368B62] transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-[#368B62] transition-colors">
+                              <Clock className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input type="time" value={postForm.startTime} onChange={e => setPostForm(f => ({ ...f, startTime: e.target.value }))}
+                                className="bg-transparent text-sm text-slate-700 outline-none w-full" />
+                            </div>
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">End time</label>
-                            <input type="time" value={postForm.endTime} onChange={e => setPostForm(f => ({ ...f, endTime: e.target.value }))}
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm text-slate-700 outline-none focus:border-[#368B62] transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-[#368B62] transition-colors">
+                              <Clock className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input type="time" value={postForm.endTime} onChange={e => setPostForm(f => ({ ...f, endTime: e.target.value }))}
+                                className="bg-transparent text-sm text-slate-700 outline-none w-full" />
+                            </div>
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Location / town <span className="text-rose-500">*</span></label>
-                            <input value={postForm.town} onChange={e => setPostForm(f => ({ ...f, town: e.target.value }))}
-                              placeholder={`e.g. ${loc.defaultCity}`}
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#368B62] transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-[#368B62] transition-colors">
+                              <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.town} onChange={e => setPostForm(f => ({ ...f, town: e.target.value }))}
+                                placeholder={`e.g. ${loc.defaultCity}`}
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Additional requirements <span className="text-slate-400 font-normal">(optional)</span></label>
@@ -2111,33 +2126,48 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         <div className="grid grid-cols-2 gap-4">
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Facility / pharmacy name <span className="text-rose-500">*</span></label>
-                            <input value={postForm.facility} onChange={e => setPostForm(f => ({ ...f, facility: e.target.value }))}
-                              placeholder="e.g. Boots Pharmacy — Grafton Street"
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#368B62] transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-[#368B62] transition-colors">
+                              <Building2 className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.facility} onChange={e => setPostForm(f => ({ ...f, facility: e.target.value }))}
+                                placeholder="e.g. Boots Pharmacy — Grafton Street"
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Facility address <span className="text-slate-400 font-normal">(optional)</span></label>
-                            <input value={postForm.facilityAddress} onChange={e => setPostForm(f => ({ ...f, facilityAddress: e.target.value }))}
-                              placeholder="Street address"
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#368B62] transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-[#368B62] transition-colors">
+                              <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.facilityAddress} onChange={e => setPostForm(f => ({ ...f, facilityAddress: e.target.value }))}
+                                placeholder="Street address"
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Contact name <span className="text-rose-500">*</span></label>
-                            <input value={postForm.contact} onChange={e => setPostForm(f => ({ ...f, contact: e.target.value }))}
-                              placeholder="Your name"
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#368B62] transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-[#368B62] transition-colors">
+                              <Users className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.contact} onChange={e => setPostForm(f => ({ ...f, contact: e.target.value }))}
+                                placeholder="Your name"
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Phone number <span className="text-rose-500">*</span></label>
-                            <input value={postForm.phone} onChange={e => setPostForm(f => ({ ...f, phone: e.target.value }))}
-                              placeholder="+353 / +44"
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#368B62] transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-[#368B62] transition-colors">
+                              <Phone className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.phone} onChange={e => setPostForm(f => ({ ...f, phone: e.target.value }))}
+                                placeholder="+353 / +44"
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Email address <span className="text-rose-500">*</span></label>
-                            <input type="email" value={postForm.email} onChange={e => setPostForm(f => ({ ...f, email: e.target.value }))}
-                              placeholder="manager@facility.ie"
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#368B62] transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-[#368B62] transition-colors">
+                              <Mail className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input type="email" value={postForm.email} onChange={e => setPostForm(f => ({ ...f, email: e.target.value }))}
+                                placeholder="manager@facility.ie"
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                         </div>
                         <div className="flex gap-3">
@@ -2259,9 +2289,12 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         <div className="grid grid-cols-2 gap-4">
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Job title <span className="text-rose-500">*</span></label>
-                            <input value={postForm.jobTitle} onChange={e => setPostForm(f => ({ ...f, jobTitle: e.target.value }))}
-                              placeholder="e.g. Superintendent Pharmacist"
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-amber-500 transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-amber-500 transition-colors">
+                              <Briefcase className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.jobTitle} onChange={e => setPostForm(f => ({ ...f, jobTitle: e.target.value }))}
+                                placeholder="e.g. Superintendent Pharmacist"
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Profession / discipline <span className="text-rose-500">*</span></label>
@@ -2276,21 +2309,30 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Salary min ({loc.currency})</label>
-                            <input value={postForm.salaryMin} onChange={e => setPostForm(f => ({ ...f, salaryMin: e.target.value }))}
-                              placeholder={`e.g. ${loc.currency}45,000`}
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-amber-500 transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-amber-500 transition-colors">
+                              <Wallet className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.salaryMin} onChange={e => setPostForm(f => ({ ...f, salaryMin: e.target.value }))}
+                                placeholder={`e.g. ${loc.currency}45,000`}
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Salary max ({loc.currency})</label>
-                            <input value={postForm.salaryMax} onChange={e => setPostForm(f => ({ ...f, salaryMax: e.target.value }))}
-                              placeholder={`e.g. ${loc.currency}60,000`}
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-amber-500 transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-amber-500 transition-colors">
+                              <Wallet className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.salaryMax} onChange={e => setPostForm(f => ({ ...f, salaryMax: e.target.value }))}
+                                placeholder={`e.g. ${loc.currency}60,000`}
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Location <span className="text-rose-500">*</span></label>
-                            <input value={postForm.town} onChange={e => setPostForm(f => ({ ...f, town: e.target.value }))}
-                              placeholder={`e.g. ${loc.defaultCity}`}
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-amber-500 transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-amber-500 transition-colors">
+                              <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.town} onChange={e => setPostForm(f => ({ ...f, town: e.target.value }))}
+                                placeholder={`e.g. ${loc.defaultCity}`}
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                         </div>
                         <div className="flex gap-3">
@@ -2326,34 +2368,49 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         </div>
                         <div className="flex flex-col gap-1.5">
                           <label className="text-xs font-semibold text-slate-700">Benefits <span className="text-slate-400 font-normal">(optional)</span></label>
-                          <input value={postForm.benefits} onChange={e => setPostForm(f => ({ ...f, benefits: e.target.value }))}
-                            placeholder="e.g. CPD allowance, pension, 25 days holiday, free parking…"
-                            className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-amber-500 transition-colors bg-slate-50" />
+                          <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-amber-500 transition-colors">
+                            <Star className="w-4 h-4 text-slate-400 shrink-0" />
+                            <input value={postForm.benefits} onChange={e => setPostForm(f => ({ ...f, benefits: e.target.value }))}
+                              placeholder="e.g. CPD allowance, pension, 25 days holiday, free parking…"
+                              className="bg-transparent text-sm outline-none w-full" />
+                          </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Facility name <span className="text-rose-500">*</span></label>
-                            <input value={postForm.facility} onChange={e => setPostForm(f => ({ ...f, facility: e.target.value }))}
-                              placeholder="e.g. Allcare Pharmacy Group"
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-amber-500 transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-amber-500 transition-colors">
+                              <Building2 className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.facility} onChange={e => setPostForm(f => ({ ...f, facility: e.target.value }))}
+                                placeholder="e.g. Allcare Pharmacy Group"
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Contact name <span className="text-rose-500">*</span></label>
-                            <input value={postForm.contact} onChange={e => setPostForm(f => ({ ...f, contact: e.target.value }))}
-                              placeholder="HR / Manager"
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-amber-500 transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-amber-500 transition-colors">
+                              <Users className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.contact} onChange={e => setPostForm(f => ({ ...f, contact: e.target.value }))}
+                                placeholder="HR / Manager"
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Phone number <span className="text-rose-500">*</span></label>
-                            <input value={postForm.phone} onChange={e => setPostForm(f => ({ ...f, phone: e.target.value }))}
-                              placeholder="+353 / +44"
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-amber-500 transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-amber-500 transition-colors">
+                              <Phone className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input value={postForm.phone} onChange={e => setPostForm(f => ({ ...f, phone: e.target.value }))}
+                                placeholder="+353 / +44"
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Email address <span className="text-rose-500">*</span></label>
-                            <input type="email" value={postForm.email} onChange={e => setPostForm(f => ({ ...f, email: e.target.value }))}
-                              placeholder="hr@facility.ie"
-                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-amber-500 transition-colors bg-slate-50" />
+                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-amber-500 transition-colors">
+                              <Mail className="w-4 h-4 text-slate-400 shrink-0" />
+                              <input type="email" value={postForm.email} onChange={e => setPostForm(f => ({ ...f, email: e.target.value }))}
+                                placeholder="hr@facility.ie"
+                                className="bg-transparent text-sm outline-none w-full" />
+                            </div>
                           </div>
                         </div>
                         <div className="flex gap-3">
@@ -3215,7 +3272,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   <p className="text-slate-400 text-sm">Rate benchmarks, compliance updates, and career tips — free, once a month.</p>
                 </div>
                 <div className="flex gap-2 w-full sm:w-auto">
-                  <input placeholder="your@email.com" className="flex-1 sm:w-56 px-4 py-2.5 rounded-xl bg-white/10 border border-black/5 text-white text-sm placeholder-white/40 outline-none focus:border-green-400 transition-colors" />
+                  <div className="flex items-center gap-2.5 flex-1 sm:w-56 px-4 py-2.5 rounded-xl bg-white/10 border border-black/5 focus-within:border-green-400 transition-colors">
+                    <Mail className="w-4 h-4 text-white/40 shrink-0" />
+                    <input placeholder="your@email.com" className="bg-transparent text-white text-sm placeholder-white/40 outline-none w-full" />
+                  </div>
                   <button onClick={() => onBookDemo('Newsletter')} className="shrink-0 px-5 py-2.5 bg-[#368B62] hover:bg-[#276647] text-white font-bold text-sm rounded-xl transition-colors">
                     Subscribe
                   </button>
@@ -3520,8 +3580,14 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         </div>
                       )}
                       <div className="grid grid-cols-2 gap-2.5">
-                        <input placeholder={role === 'Client' ? 'Facility name' : 'Full name'} className="px-4 py-3 rounded-xl bg-slate-50 border border-black/5 text-sm outline-none focus:border-green-400 transition-colors" />
-                        <input placeholder="Email" className="px-4 py-3 rounded-xl bg-slate-50 border border-black/5 text-sm outline-none focus:border-green-400 transition-colors" />
+                        <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-green-400 transition-colors">
+                          <Users className="w-4 h-4 text-slate-400 shrink-0" />
+                          <input placeholder={role === 'Client' ? 'Facility name' : 'Full name'} className="bg-transparent text-sm outline-none w-full" />
+                        </div>
+                        <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-green-400 transition-colors">
+                          <Mail className="w-4 h-4 text-slate-400 shrink-0" />
+                          <input placeholder="Email" className="bg-transparent text-sm outline-none w-full" />
+                        </div>
                       </div>
                       {role === 'Locum' && setupProfession.reg && (
                         <div className="p-4 rounded-xl bg-green-50 border border-black/5 space-y-2">
@@ -3529,7 +3595,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <input placeholder={`Enter your ${setupProfession.reg}`} className="w-full px-3 py-2.5 rounded-lg bg-white border border-black/5 text-sm outline-none" />
                         </div>
                       )}
-                      <input placeholder="Mobile number" className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-black/5 text-sm outline-none focus:border-green-400 transition-colors" />
+                      <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-green-400 transition-colors">
+                        <Phone className="w-4 h-4 text-slate-400 shrink-0" />
+                        <input placeholder="Mobile number" className="bg-transparent text-sm outline-none w-full" />
+                      </div>
                       <div className="flex gap-2">
                         <button onClick={() => setSignupStep('role')} className="px-4 py-3 text-sm font-semibold text-slate-500 hover:text-slate-900">← Back</button>
                         <button onClick={() => setSignupStep('verify')} className="flex-1 py-3 bg-green-600 text-white text-sm font-bold rounded-xl flex items-center justify-center gap-1.5">
