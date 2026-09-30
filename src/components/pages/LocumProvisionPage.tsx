@@ -842,8 +842,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   initial={{ opacity: 0, scale: 0.7, x: 20 }}
                   whileInView={{ opacity: 1, scale: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.6, type: 'spring', stiffness: 350, damping: 22 }}
-                  animate={{ y: [0, -5, 0] }}
+                  transition={{ delay: 0.6, type: 'spring', stiffness: 350, damping: 22, y: { type: 'tween', ease: 'easeInOut', duration: 2.4, repeat: Infinity, repeatType: 'loop', delay: 1 } }}
+                  animate={{ y: [0, -6, 0] }}
                 >
                   <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center">
