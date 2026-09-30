@@ -327,20 +327,21 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
   const [cpdCategory, setCpdCategory] = useState('All');
   const [cpdCourseModal, setCpdCourseModal] = useState<number | null>(null);
+  const [cpdOpenModule, setCpdOpenModule] = useState<number | null>(0);
 
   const cpdCourses = [
-    { title: 'Antimicrobial Stewardship', hours: 3, icon: Award, color: 'from-green-500 to-green-600', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 4, desc: 'Understand responsible antibiotic prescribing, resistance mechanisms, and your role in reducing antimicrobial resistance across community and hospital settings.', outcomes: ['Define antimicrobial resistance and its public health impact', 'Apply stewardship principles in dispensing practice', 'Counsel patients on antibiotic adherence', 'Recognise red flags requiring escalation'] },
-    { title: 'Safeguarding Adults at Risk', hours: 2, icon: ShieldCheck, color: 'from-violet-500 to-violet-600', category: 'Compliance', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Recognise the signs of abuse and neglect in adult patients, understand your mandatory reporting obligations, and know how to escalate concerns through the correct channels.', outcomes: ['Identify categories of abuse and common indicators', 'Know your legal duty to report concerns', 'Follow local and national safeguarding procedures', 'Communicate sensitively with vulnerable adults'] },
-    { title: 'Emergency Contraception Consultation', hours: 4, icon: GraduationCap, color: 'from-emerald-500 to-emerald-600', category: 'Clinical', level: 'Advanced', accreditor: 'PSI / GPhC', modules: 5, desc: 'Deliver evidence-based emergency contraception consultations under PGD, covering patient assessment, product selection, counselling, and documentation in a community pharmacy setting.', outcomes: ['Assess eligibility for levonorgestrel and ulipristal acetate', 'Counsel patients on correct use and expectations', 'Document consultations to regulatory standard', 'Identify contraindications and refer appropriately'] },
-    { title: 'Medicines Reconciliation', hours: 3, icon: BookOpen, color: 'from-blue-500 to-blue-600', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 4, desc: 'Develop systematic processes for accurate medicines reconciliation at care transitions — admission, transfer, and discharge — to reduce medication errors and improve patient safety.', outcomes: ['Understand the medicines reconciliation process', 'Identify high-risk drugs at transition points', 'Conduct structured patient medication histories', 'Communicate discrepancies clearly to the clinical team'] },
-    { title: 'Controlled Drugs Management', hours: 2, icon: ShieldCheck, color: 'from-rose-500 to-rose-600', category: 'Compliance', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Master the legal framework and operational requirements for controlled drug storage, ordering, dispensing, record-keeping, and destruction in community and hospital pharmacy.', outcomes: ['Recall Schedule 2–5 regulatory requirements', 'Maintain CD registers accurately', 'Respond to CD discrepancies and incidents', 'Support supervised consumption programmes'] },
-    { title: 'Pharmacy First Consultations', hours: 4, icon: Stethoscope, color: 'from-teal-500 to-teal-600', category: 'Clinical', level: 'Intermediate', accreditor: 'GPhC', modules: 5, desc: 'Build confidence delivering NHS Pharmacy First consultations covering seven clinical pathways including sinusitis, sore throat, earache, infected insect bite, impetigo, shingles, and UTI.', outcomes: ['Apply each of the 7 Pharmacy First clinical pathways', 'Use the SBAR framework for consultation documentation', 'Identify escalation criteria for each pathway', 'Understand Patient Group Direction legal requirements'] },
-    { title: 'Dementia Awareness for Pharmacy', hours: 2, icon: Users, color: 'from-amber-500 to-amber-600', category: 'Clinical', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Develop awareness of dementia presentations, the impact on medication management, and communication strategies for working effectively with patients with dementia and their carers.', outcomes: ['Recognise common dementia types and presentations', 'Adapt communication to support patients with dementia', 'Identify medication-related challenges in dementia', 'Support carers with compliance aids and blister packs'] },
-    { title: 'Methadone & Opioid Substitution', hours: 3, icon: Award, color: 'from-indigo-500 to-indigo-600', category: 'Clinical', level: 'Advanced', accreditor: 'PSI / HPRA', modules: 4, desc: 'Gain a thorough understanding of opioid substitution therapy, supervised consumption protocols, patient counselling, and your clinical and legal responsibilities under the Misuse of Drugs Regulations.', outcomes: ['Understand pharmacology of methadone and buprenorphine', 'Apply supervised consumption best practice', 'Recognise signs of intoxication and withdrawal', 'Handle missed doses and lost prescription scenarios'] },
-    { title: 'Health & Safety for Locums', hours: 1, icon: ShieldCheck, color: 'from-slate-500 to-slate-600', category: 'Compliance', level: 'Foundation', accreditor: 'HSE / HSA', modules: 2, desc: 'A concise refresher on your health and safety rights and obligations as a locum worker, covering manual handling, COSHH, lone working, incident reporting, and PPE requirements.', outcomes: ['Know your H&S rights as an agency/locum worker', 'Apply COSHH principles in a pharmacy setting', 'Report incidents and near-misses correctly', 'Use PPE appropriately in clinical environments'] },
-    { title: 'Minor Ailments & Self-Care Advice', hours: 3, icon: Stethoscope, color: 'from-green-400 to-emerald-600', category: 'Clinical', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 4, desc: 'Sharpen your OTC advisory skills across common minor ailment categories — cold & flu, pain management, gastrointestinal, dermatology, and eye & ear — using structured consultation frameworks.', outcomes: ['Use WWHAM and ASMETHOD frameworks confidently', 'Recommend appropriate OTC products with evidence basis', 'Recognise when to refer to a GP or urgent care', 'Document OTC consultations to professional standard'] },
-    { title: 'Pharmacy Leadership & Management', hours: 5, icon: TrendingUp, color: 'from-violet-500 to-purple-600', category: 'Management', level: 'Advanced', accreditor: 'PSI / GPhC', modules: 6, desc: "Build the leadership and management competencies needed to lead a pharmacy team effectively — covering team dynamics, performance management, financial literacy, and regulatory governance.", outcomes: ['Apply key leadership models in a pharmacy context', 'Manage performance and development conversations', 'Understand pharmacy business KPIs and targets', 'Implement governance and quality improvement processes'] },
-    { title: 'Vaccination & Immunisation', hours: 4, icon: Zap, color: 'from-cyan-500 to-cyan-600', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 5, desc: 'Comprehensive training for pharmacists providing vaccination services — including patient assessment, cold chain management, anaphylaxis response, documentation, and post-vaccination advice.', outcomes: ['Assess patient eligibility for pharmacy-administered vaccines', 'Demonstrate correct vaccine preparation and administration technique', 'Manage adverse reactions including anaphylaxis', 'Maintain cold chain and vaccination records to standard'] },
+    { title: 'Antimicrobial Stewardship', hours: 3, icon: Award, color: 'from-green-500 to-green-600', bgLight: 'bg-green-50', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 4, desc: 'Understand responsible antibiotic prescribing, resistance mechanisms, and your role in reducing antimicrobial resistance across community and hospital settings.', outcomes: ['Define antimicrobial resistance and its public health impact', 'Apply stewardship principles in dispensing practice', 'Counsel patients on antibiotic adherence', 'Recognise red flags requiring escalation'], curriculum: [{ title: 'The Global AMR Crisis', dur: '25 min', topics: ['What is AMR?', 'Why it matters to pharmacists', 'Key resistance mechanisms'] }, { title: 'Antibiotic Classes & Appropriate Use', dur: '40 min', topics: ['Spectrum of activity', 'Common clinical indications', 'Prescribing red flags'] }, { title: 'Your Role in Stewardship', dur: '35 min', topics: ['Community pharmacy interventions', 'Dispensing without a prescription', 'Patient counselling techniques'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['20-question multiple choice assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Safeguarding Adults at Risk', hours: 2, icon: ShieldCheck, color: 'from-violet-500 to-violet-600', bgLight: 'bg-violet-50', category: 'Compliance', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Recognise the signs of abuse and neglect in adult patients, understand your mandatory reporting obligations, and know how to escalate concerns through the correct channels.', outcomes: ['Identify categories of abuse and common indicators', 'Know your legal duty to report concerns', 'Follow local and national safeguarding procedures', 'Communicate sensitively with vulnerable adults'], curriculum: [{ title: 'Recognising Abuse & Neglect', dur: '30 min', topics: ['Types of abuse: physical, emotional, financial, sexual', 'Behavioural indicators in the pharmacy setting', 'Who is considered "at risk"?'] }, { title: 'Your Legal Duty & Reporting', dur: '30 min', topics: ['Mandatory reporting obligations (IE & UK)', 'Confidentiality vs duty to report', 'Escalation pathways and who to contact'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Emergency Contraception Consultation', hours: 4, icon: GraduationCap, color: 'from-emerald-500 to-emerald-600', bgLight: 'bg-emerald-50', category: 'Clinical', level: 'Advanced', accreditor: 'PSI / GPhC', modules: 5, desc: 'Deliver evidence-based emergency contraception consultations under PGD, covering patient assessment, product selection, counselling, and documentation in a community pharmacy setting.', outcomes: ['Assess eligibility for levonorgestrel and ulipristal acetate', 'Counsel patients on correct use and expectations', 'Document consultations to regulatory standard', 'Identify contraindications and refer appropriately'], curriculum: [{ title: 'EC Pharmacology & Products', dur: '35 min', topics: ['Levonorgestrel vs ulipristal acetate', 'Mechanism of action', 'Efficacy and timing windows'] }, { title: 'Patient Assessment', dur: '40 min', topics: ['UKMEC categories', 'Drug interaction screening', 'Assessing vulnerability and safeguarding'] }, { title: 'Consultation Skills', dur: '35 min', topics: ['Building a private consultation', 'Non-judgemental communication', 'Contraception going forward'] }, { title: 'Documentation & PGD Compliance', dur: '30 min', topics: ['PGD legal requirements', 'Consultation record keeping', 'Audit and governance'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Medicines Reconciliation', hours: 3, icon: BookOpen, color: 'from-blue-500 to-blue-600', bgLight: 'bg-blue-50', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 4, desc: 'Develop systematic processes for accurate medicines reconciliation at care transitions — admission, transfer, and discharge — to reduce medication errors and improve patient safety.', outcomes: ['Understand the medicines reconciliation process', 'Identify high-risk drugs at transition points', 'Conduct structured patient medication histories', 'Communicate discrepancies clearly to the clinical team'], curriculum: [{ title: 'Why Medicines Reconciliation Matters', dur: '25 min', topics: ['Medication errors at transitions of care', 'The cost of reconciliation failures', 'Regulatory and professional standards'] }, { title: 'The Reconciliation Process', dur: '40 min', topics: ['Best possible medication history (BPMH)', 'Sources of information', 'Structured reconciliation tools'] }, { title: 'High-Risk Medicines at Transition', dur: '35 min', topics: ['Anticoagulants, insulin, opioids, antiepileptics', 'Dose banding and formulary switches', 'Omission and duplication errors'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Case-based MCQ assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Controlled Drugs Management', hours: 2, icon: ShieldCheck, color: 'from-rose-500 to-rose-600', bgLight: 'bg-rose-50', category: 'Compliance', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Master the legal framework and operational requirements for controlled drug storage, ordering, dispensing, record-keeping, and destruction in community and hospital pharmacy.', outcomes: ['Recall Schedule 2–5 regulatory requirements', 'Maintain CD registers accurately', 'Respond to CD discrepancies and incidents', 'Support supervised consumption programmes'], curriculum: [{ title: 'Legal Framework', dur: '30 min', topics: ['Misuse of Drugs Act / Regulations', 'Schedules 1–5 explained', 'Prescribing and dispensing requirements'] }, { title: 'Operational Requirements', dur: '30 min', topics: ['Storage, safe, and access controls', 'CD register maintenance', 'Ordering, receiving, and destruction'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Pharmacy First Consultations', hours: 4, icon: Stethoscope, color: 'from-teal-500 to-teal-600', bgLight: 'bg-teal-50', category: 'Clinical', level: 'Intermediate', accreditor: 'GPhC', modules: 5, desc: 'Build confidence delivering NHS Pharmacy First consultations covering seven clinical pathways including sinusitis, sore throat, earache, infected insect bite, impetigo, shingles, and UTI.', outcomes: ['Apply each of the 7 Pharmacy First clinical pathways', 'Use the SBAR framework for consultation documentation', 'Identify escalation criteria for each pathway', 'Understand Patient Group Direction legal requirements'], curriculum: [{ title: 'Introduction to Pharmacy First', dur: '20 min', topics: ['Policy background and commissioning', 'Your PGD responsibilities', 'Structuring the consultation'] }, { title: 'Respiratory Pathways', dur: '40 min', topics: ['Sinusitis — assessment and management', 'Sore throat — FeverPAIN scoring', 'Acute otitis media / earache'] }, { title: 'Skin & Infection Pathways', dur: '40 min', topics: ['Infected insect bite — when to treat', 'Impetigo — topical vs oral', 'Shingles — antivirals and pain management'] }, { title: 'UTI Pathway', dur: '30 min', topics: ['Uncomplicated UTI in women 16–64', 'Dipstick testing and MSU', 'Exclusion criteria and referral'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['7-pathway case assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Dementia Awareness for Pharmacy', hours: 2, icon: Users, color: 'from-amber-500 to-amber-600', bgLight: 'bg-amber-50', category: 'Clinical', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Develop awareness of dementia presentations, the impact on medication management, and communication strategies for working effectively with patients with dementia and their carers.', outcomes: ['Recognise common dementia types and presentations', 'Adapt communication to support patients with dementia', 'Identify medication-related challenges in dementia', 'Support carers with compliance aids and blister packs'], curriculum: [{ title: 'Understanding Dementia', dur: '30 min', topics: ["Alzheimer's, vascular and Lewy body dementia", 'Behavioural and psychological symptoms', 'Dementia and capacity'] }, { title: 'Medicines in Dementia', dur: '30 min', topics: ['Medicines that worsen cognition', 'Compliance challenges and aids', 'Carer involvement in medicines management'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Case scenario assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Methadone & Opioid Substitution', hours: 3, icon: Award, color: 'from-indigo-500 to-indigo-600', bgLight: 'bg-indigo-50', category: 'Clinical', level: 'Advanced', accreditor: 'PSI / HPRA', modules: 4, desc: 'Gain a thorough understanding of opioid substitution therapy, supervised consumption protocols, patient counselling, and your clinical and legal responsibilities under the Misuse of Drugs Regulations.', outcomes: ['Understand pharmacology of methadone and buprenorphine', 'Apply supervised consumption best practice', 'Recognise signs of intoxication and withdrawal', 'Handle missed doses and lost prescription scenarios'], curriculum: [{ title: 'OST Pharmacology', dur: '35 min', topics: ['Methadone vs buprenorphine', 'Dose titration principles', 'Drug interactions and QTc prolongation'] }, { title: 'Supervised Consumption', dur: '40 min', topics: ['Standard operating procedure', 'Confirming identity and dosing', 'Take-home doses and criteria'] }, { title: 'Patient Management Scenarios', dur: '35 min', topics: ['Missed doses — assessment and decision-making', 'Intoxication and withdrawal signs', 'Lost prescription protocols'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Health & Safety for Locums', hours: 1, icon: ShieldCheck, color: 'from-slate-500 to-slate-600', bgLight: 'bg-slate-50', category: 'Compliance', level: 'Foundation', accreditor: 'HSE / HSA', modules: 2, desc: 'A concise refresher on your health and safety rights and obligations as a locum worker, covering manual handling, COSHH, lone working, incident reporting, and PPE requirements.', outcomes: ['Know your H&S rights as an agency/locum worker', 'Apply COSHH principles in a pharmacy setting', 'Report incidents and near-misses correctly', 'Use PPE appropriately in clinical environments'], curriculum: [{ title: 'H&S Rights & Responsibilities', dur: '25 min', topics: ['Your rights as a locum / agency worker', 'Manual handling and ergonomics', 'Lone working and personal safety'] }, { title: 'Assessment & Certificate', dur: '15 min', topics: ['Foundation-level MCQ assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Minor Ailments & Self-Care Advice', hours: 3, icon: Stethoscope, color: 'from-green-400 to-emerald-600', bgLight: 'bg-green-50', category: 'Clinical', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 4, desc: 'Sharpen your OTC advisory skills across common minor ailment categories — cold & flu, pain management, gastrointestinal, dermatology, and eye & ear — using structured consultation frameworks.', outcomes: ['Use WWHAM and ASMETHOD frameworks confidently', 'Recommend appropriate OTC products with evidence basis', 'Recognise when to refer to a GP or urgent care', 'Document OTC consultations to professional standard'], curriculum: [{ title: 'Consultation Frameworks', dur: '30 min', topics: ['WWHAM — When, What, Who, Action, Medication, History', 'ASMETHOD unpacked', 'When to refer — red flag symptoms'] }, { title: 'Respiratory & Pain', dur: '35 min', topics: ['Cold & flu — OTC options and limitations', 'Analgesic ladder for OTC pain', 'Cough — productive vs dry management'] }, { title: 'GI, Dermatology & Eye/Ear', dur: '40 min', topics: ['Indigestion, diarrhoea, constipation', 'Common skin conditions — eczema, acne, cold sores', 'Conjunctivitis, earwax, blocked nose'] }, { title: 'Assessment & Certificate', dur: '15 min', topics: ['Scenario-based MCQ assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Pharmacy Leadership & Management', hours: 5, icon: TrendingUp, color: 'from-violet-500 to-purple-600', bgLight: 'bg-violet-50', category: 'Management', level: 'Advanced', accreditor: 'PSI / GPhC', modules: 6, desc: "Build the leadership and management competencies needed to lead a pharmacy team effectively — covering team dynamics, performance management, financial literacy, and regulatory governance.", outcomes: ['Apply key leadership models in a pharmacy context', 'Manage performance and development conversations', 'Understand pharmacy business KPIs and targets', 'Implement governance and quality improvement processes'], curriculum: [{ title: 'Leadership Models in Healthcare', dur: '40 min', topics: ['Transformational vs transactional leadership', 'Situational leadership', 'Your leadership style'] }, { title: 'Team Dynamics & Communication', dur: '40 min', topics: ['Building psychological safety', 'Managing conflict', 'Delegation and accountability'] }, { title: 'Performance Management', dur: '35 min', topics: ['Setting SMART objectives', 'Difficult conversations', 'Appraisals and development plans'] }, { title: 'Pharmacy Business Fundamentals', dur: '40 min', topics: ['NHS contract and revenue streams', 'KPIs: dispensing, clinical services, OTC', 'Cost management and profitability'] }, { title: 'Governance & Quality', dur: '35 min', topics: ['Superintendent responsibilities', 'Significant event analysis', 'CQC / HIQA inspection readiness'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Advanced scenario assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Vaccination & Immunisation', hours: 4, icon: Zap, color: 'from-cyan-500 to-cyan-600', bgLight: 'bg-cyan-50', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 5, desc: 'Comprehensive training for pharmacists providing vaccination services — including patient assessment, cold chain management, anaphylaxis response, documentation, and post-vaccination advice.', outcomes: ['Assess patient eligibility for pharmacy-administered vaccines', 'Demonstrate correct vaccine preparation and administration technique', 'Manage adverse reactions including anaphylaxis', 'Maintain cold chain and vaccination records to standard'], curriculum: [{ title: 'Immunisation Principles', dur: '30 min', topics: ['How vaccines work', 'National immunisation schedule (IE & UK)', 'Contraindications and precautions'] }, { title: 'Patient Assessment', dur: '35 min', topics: ['Pre-vaccination screening', 'Consent and capacity', 'Identifying high-risk patients'] }, { title: 'Administration Technique', dur: '40 min', topics: ['Preparation and reconstitution', 'IM and SC injection technique', 'Needle-stick injury protocol'] }, { title: 'Cold Chain & Anaphylaxis', dur: '35 min', topics: ['Cold chain SOPs', 'Recognising and managing anaphylaxis', 'Adrenaline auto-injector use'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Practical scenario assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
   ];
 
   // ── Search bar (reused on multiple pages) ────────────────────────────────
@@ -2651,84 +2652,268 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         </div>
 
-        {/* ── Course preview modal ── */}
+        {/* ── Course page (full page overlay) ── */}
         {cpdCourseModal !== null && (() => {
           const c = cpdCourses[cpdCourseModal];
           const Icon = c.icon;
-          const levelColor = c.level === 'Foundation' ? 'text-green-700 bg-green-50' : c.level === 'Intermediate' ? 'text-amber-700 bg-amber-50' : 'text-violet-700 bg-violet-50';
+          const levelColor = c.level === 'Foundation' ? 'text-green-700 bg-green-50 border-green-100' : c.level === 'Intermediate' ? 'text-amber-700 bg-amber-50 border-amber-100' : 'text-violet-700 bg-violet-50 border-violet-100';
+          const totalDur = c.curriculum.reduce((a, m) => a + parseInt(m.dur), 0);
+          const related = cpdCourses.filter((r, i) => r.category === c.category && i !== cpdCourseModal).slice(0, 3);
+
           return (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-              <motion.div className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} onClick={() => setCpdCourseModal(null)} />
-              <motion.div
-                className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
-                initial={{ opacity: 0, y: 40, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-              >
-                {/* Coloured header */}
-                <div className={`bg-gradient-to-br ${c.color} px-7 pt-7 pb-6 rounded-t-2xl`}>
-                  <div className="flex items-start justify-between">
-                    <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    <button onClick={() => setCpdCourseModal(null)} className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors">
-                      <X className="w-4 h-4 text-white" />
-                    </button>
-                  </div>
-                  <h2 className="text-xl font-bold text-white mt-4 leading-snug">{c.title}</h2>
-                  <div className="flex flex-wrap gap-3 mt-3 text-white/80 text-xs">
-                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {c.hours} CPD hours</span>
-                    <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" /> {c.modules} modules</span>
-                    <span className="flex items-center gap-1"><Award className="w-3 h-3" /> {c.accreditor}</span>
-                  </div>
+            <motion.div
+              className="fixed inset-0 z-[100] bg-slate-50 overflow-y-auto"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {/* Sticky top bar */}
+              <div className="sticky top-0 z-20 bg-white border-b border-slate-100 shadow-sm">
+                <div className="max-w-[1280px] mx-auto px-6 py-3.5 flex items-center justify-between gap-4">
+                  <button onClick={() => { setCpdCourseModal(null); setCpdOpenModule(0); }}
+                    className="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">
+                    <ChevronDown className="w-4 h-4 rotate-90 shrink-0" />
+                    <span className="hidden sm:inline text-slate-400">Training</span>
+                    <span className="hidden sm:inline text-slate-300">/</span>
+                    <span className="text-slate-900 truncate max-w-[200px] sm:max-w-[400px]">{c.title}</span>
+                  </button>
+                  <motion.button
+                    onClick={() => openAuth('signup')}
+                    className="shrink-0 px-5 py-2 bg-[#276647] hover:bg-[#1e4f37] text-white text-sm font-bold rounded-xl transition-colors flex items-center gap-1.5"
+                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                  >
+                    Enrol free <ArrowRight className="w-3.5 h-3.5" />
+                  </motion.button>
                 </div>
+              </div>
 
-                <div className="px-7 py-6 space-y-5">
-                  <div className="flex items-center gap-2">
-                    <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${levelColor}`}>{c.level}</span>
-                    <span className="text-[11px] font-medium text-slate-400 bg-slate-50 px-2.5 py-1 rounded-full">{c.category}</span>
-                    <span className="text-[11px] font-medium text-slate-400 bg-slate-50 px-2.5 py-1 rounded-full">Self-paced</span>
+              {/* Hero banner */}
+              <div className={`bg-gradient-to-br ${c.color}`}>
+                <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-14 lg:py-20 grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
+                  <div className="lg:col-span-2 space-y-5">
+                    <div className="flex flex-wrap gap-2">
+                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/20 text-white border border-white/20">{c.category}</span>
+                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/20 text-white border border-white/20">{c.level}</span>
+                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/20 text-white border border-white/20">Self-paced</span>
+                    </div>
+                    <h1 className="text-4xl sm:text-5xl font-bold text-white leading-[1.08] tracking-tight">{c.title}</h1>
+                    <p className="text-white/80 text-base leading-relaxed max-w-2xl">{c.desc}</p>
+                    <div className="flex flex-wrap gap-5 text-white/80 text-sm font-medium pt-1">
+                      <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {c.hours} CPD hours</span>
+                      <span className="flex items-center gap-1.5"><BookOpen className="w-4 h-4" /> {c.modules} modules</span>
+                      <span className="flex items-center gap-1.5"><GraduationCap className="w-4 h-4" /> {totalDur} min total</span>
+                      <span className="flex items-center gap-1.5"><Award className="w-4 h-4" /> {c.accreditor}</span>
+                    </div>
                   </div>
-
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-900 mb-2">About this course</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">{c.desc}</p>
-                  </div>
-
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-900 mb-3">What you'll learn</h4>
-                    <ul className="space-y-2">
-                      {c.outcomes.map(o => (
-                        <li key={o} className="flex items-start gap-2.5 text-sm text-slate-600">
-                          <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
-                          {o}
+                  {/* Enrol card */}
+                  <motion.div
+                    className="bg-white rounded-2xl shadow-xl p-6 space-y-4"
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15, type: 'spring', stiffness: 300, damping: 26 }}
+                  >
+                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center shadow-md`}>
+                      <Icon className="w-7 h-7 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-slate-900">Free</p>
+                      <p className="text-xs text-slate-500 mt-0.5">Included with your MployUs account</p>
+                    </div>
+                    <button onClick={() => openAuth('signup')}
+                      className="w-full py-3.5 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
+                      Enrol now — it's free <ArrowRight className="w-4 h-4" />
+                    </button>
+                    <ul className="space-y-2 pt-1">
+                      {[
+                        `${c.hours} CPD hours on completion`,
+                        'Digital certificate issued instantly',
+                        `${c.accreditor} recognised`,
+                        'Study on any device, any time',
+                        'Progress saved automatically',
+                      ].map(f => (
+                        <li key={f} className="flex items-center gap-2 text-xs text-slate-600">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-green-500 shrink-0" /> {f}
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </motion.div>
+                </div>
+              </div>
 
-                  <div className="bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 flex items-center justify-between gap-4">
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">Certificate on completion</p>
-                      <p className="text-[11px] text-slate-500 mt-0.5">Digital certificate added to your MployUs compliance portfolio automatically.</p>
+              <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-14 grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div className="lg:col-span-2 space-y-12">
+
+                  {/* What you'll learn */}
+                  <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+                    <h2 className="text-2xl font-bold text-slate-900 mb-6">What you'll learn</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {c.outcomes.map(o => (
+                        <div key={o} className="flex items-start gap-3 p-4 bg-white border border-slate-100 rounded-xl shadow-sm">
+                          <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+                          <p className="text-sm text-slate-700 leading-snug">{o}</p>
+                        </div>
+                      ))}
                     </div>
-                    <Award className="w-8 h-8 text-amber-400 shrink-0" />
-                  </div>
+                  </motion.section>
 
-                  <div className="flex gap-3">
-                    <button onClick={() => setCpdCourseModal(null)}
-                      className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">
-                      Back
-                    </button>
-                    <button onClick={() => { setCpdCourseModal(null); openAuth('signup'); }}
-                      className="flex-1 py-3 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                      Enrol — it's free <ArrowRight className="w-4 h-4" />
-                    </button>
+                  {/* Curriculum */}
+                  <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+                    <div className="flex items-end justify-between mb-6">
+                      <h2 className="text-2xl font-bold text-slate-900">Course curriculum</h2>
+                      <span className="text-xs text-slate-400 font-medium">{c.modules} modules · {totalDur} min</span>
+                    </div>
+                    <div className="space-y-2">
+                      {c.curriculum.map((mod, mi) => {
+                        const open = cpdOpenModule === mi;
+                        return (
+                          <div key={mi} className="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-sm">
+                            <button
+                              className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-slate-50 transition-colors"
+                              onClick={() => setCpdOpenModule(open ? null : mi)}
+                            >
+                              <div className="flex items-center gap-3 min-w-0">
+                                <div className={`w-7 h-7 rounded-lg bg-gradient-to-br ${c.color} flex items-center justify-center shrink-0 text-[11px] font-bold text-white`}>{mi + 1}</div>
+                                <span className="text-sm font-bold text-slate-900 truncate">{mod.title}</span>
+                              </div>
+                              <div className="flex items-center gap-3 shrink-0 ml-4">
+                                <span className="text-xs text-slate-400 font-medium hidden sm:block">{mod.dur}</span>
+                                <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+                              </div>
+                            </button>
+                            {open && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.22 }}
+                                className="border-t border-slate-100 px-5 py-4 bg-slate-50"
+                              >
+                                <ul className="space-y-2">
+                                  {mod.topics.map(t => (
+                                    <li key={t} className="flex items-center gap-2.5 text-sm text-slate-600">
+                                      <div className="w-1.5 h-1.5 rounded-full bg-slate-300 shrink-0" />
+                                      {t}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </motion.div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </motion.section>
+
+                  {/* About */}
+                  <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+                    <h2 className="text-2xl font-bold text-slate-900 mb-4">About this course</h2>
+                    <p className="text-[15px] text-slate-600 leading-relaxed">{c.desc}</p>
+                    <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {[
+                        { label: 'Level', val: c.level },
+                        { label: 'Category', val: c.category },
+                        { label: 'CPD hours', val: `${c.hours} hrs` },
+                        { label: 'Accreditor', val: c.accreditor },
+                      ].map(({ label, val }) => (
+                        <div key={label} className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm">
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</p>
+                          <p className="text-sm font-bold text-slate-900 mt-1">{val}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.section>
+
+                  {/* Certificate */}
+                  <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+                    <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-100 rounded-2xl p-7 flex items-center gap-6">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 flex items-center justify-center shadow-lg shrink-0">
+                        <Award className="w-8 h-8 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-slate-900 mb-1">Digital certificate included</h3>
+                        <p className="text-sm text-slate-600 leading-relaxed">Pass the final assessment and your certificate is issued instantly. It's automatically added to your MployUs compliance portfolio and can be downloaded as a PDF or shared with employers.</p>
+                      </div>
+                    </div>
+                  </motion.section>
+
+                  {/* Related courses */}
+                  {related.length > 0 && (
+                    <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+                      <h2 className="text-2xl font-bold text-slate-900 mb-6">More {c.category} courses</h2>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {related.map(r => {
+                          const RIcon = r.icon;
+                          const ri = cpdCourses.indexOf(r);
+                          return (
+                            <motion.div key={r.title}
+                              className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+                              whileHover={{ y: -3 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                              onClick={() => { setCpdCourseModal(ri); setCpdOpenModule(0); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                            >
+                              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${r.color} flex items-center justify-center mb-3 shadow-sm`}>
+                                <RIcon className="w-4 h-4 text-white" />
+                              </div>
+                              <h4 className="text-sm font-bold text-slate-900 leading-snug mb-1">{r.title}</h4>
+                              <p className="text-[11px] text-slate-400 mb-3">{r.hours} hrs CPD · {r.level}</p>
+                              <span className="text-xs font-bold text-[#276647] flex items-center gap-1 group-hover:gap-2 transition-all">
+                                View course <ArrowRight className="w-3 h-3" />
+                              </span>
+                            </motion.div>
+                          );
+                        })}
+                      </div>
+                    </motion.section>
+                  )}
+                </div>
+
+                {/* Sticky sidebar (desktop) */}
+                <div className="hidden lg:block">
+                  <div className="sticky top-24 space-y-4">
+                    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-6 space-y-4">
+                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center shadow-md`}>
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xl font-bold text-slate-900">Free</p>
+                        <p className="text-xs text-slate-400 mt-0.5">With your MployUs account</p>
+                      </div>
+                      <button onClick={() => openAuth('signup')}
+                        className="w-full py-3 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
+                        Enrol now — it's free <ArrowRight className="w-4 h-4" />
+                      </button>
+                      <div className="border-t border-slate-100 pt-4 space-y-2">
+                        {[
+                          { icon: Clock, label: `${c.hours} CPD hours` },
+                          { icon: BookOpen, label: `${c.modules} modules · ${totalDur} min` },
+                          { icon: Award, label: `${c.accreditor}` },
+                          { icon: GraduationCap, label: c.level },
+                          { icon: CheckCircle2, label: 'Certificate on completion' },
+                        ].map(({ icon: FIcon, label }) => (
+                          <div key={label} className="flex items-center gap-2.5 text-xs text-slate-600">
+                            <FIcon className="w-3.5 h-3.5 text-slate-400 shrink-0" /> {label}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className={`${c.bgLight} border border-slate-100 rounded-2xl p-5`}>
+                      <p className="text-xs font-bold text-slate-700 mb-2">This course is part of:</p>
+                      <p className="text-sm font-bold text-slate-900">{c.category === 'Management' ? 'Pharmacy Leadership Track' : c.category === 'Compliance' ? 'Clinical Compliance Bundle' : 'Community Pharmacist Excellence'}</p>
+                      <button onClick={() => openAuth('signup')} className="mt-3 text-xs font-bold text-[#276647] flex items-center gap-1 hover:gap-2 transition-all">
+                        View learning path <ArrowRight className="w-3 h-3" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            </div>
+              </div>
+
+              {/* Bottom enrol bar (mobile) */}
+              <div className="lg:hidden sticky bottom-0 bg-white border-t border-slate-100 px-4 py-3 shadow-lg">
+                <button onClick={() => openAuth('signup')}
+                  className="w-full py-3.5 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
+                  Enrol free — {c.hours} CPD hours <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </motion.div>
           );
         })()}
         </>
