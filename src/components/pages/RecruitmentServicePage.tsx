@@ -124,51 +124,51 @@ export const RecruitmentServicePage: React.FC<RecruitmentServicePageProps> = ({
           NAVBAR
       ══════════════════════════════════════ */}
       <header className="fixed top-0 inset-x-0 z-50 bg-white border-b" style={{ borderColor: BORDER }}>
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 h-[68px] flex items-center justify-between gap-6">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 h-[68px] flex items-center justify-between">
 
           {/* Logo */}
-          <div className="flex items-center gap-4">
-            <button onClick={onBackToHome} className="flex items-center gap-1.5 text-xs font-medium transition-colors"
-              style={{ color: TEXT_MUTED }}>
-              <ChevronDown className="w-3.5 h-3.5 rotate-90" /> Back
-            </button>
-            <div className="w-px h-4" style={{ backgroundColor: BORDER }} />
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2.5">
-              <img src={imgMployUs} alt="MployUs" className="h-7 w-auto object-contain" />
-            </button>
-          </div>
+          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="shrink-0">
+            <img src={imgMployUs} alt="MployUs" className="h-7 w-auto object-contain" />
+          </button>
 
-          {/* Nav links */}
-          <nav className="hidden lg:flex items-center gap-7 text-[14px] font-medium" style={{ color: TEXT_MED }}>
-            {[['Services', 'services'], ['Industries', 'industries'], ['Insights', 'insights'], ['FAQ', 'faq']].map(([label, id]) => (
-              <button key={id} onClick={() => scrollTo(id)}
-                className="hover:transition-colors"
-                style={{ color: TEXT_MED }}
+          {/* Nav links — matches Figma: Home · For Jobseekers · For Employers · Blog · Contact Us */}
+          <nav className="hidden lg:flex items-center gap-8">
+            {[
+              ['Home', ''],
+              ['For Jobseekers', 'faq'],
+              ['For Employers', 'services'],
+              ['Blog', 'insights'],
+              ['Contact Us', 'faq'],
+            ].map(([label, id]) => (
+              <button key={label}
+                onClick={() => id ? scrollTo(id) : window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="text-[14px] font-normal leading-[21px] transition-colors whitespace-nowrap"
+                style={{ color: '#4a5565' }}
                 onMouseEnter={e => (e.currentTarget.style.color = PRIMARY)}
-                onMouseLeave={e => (e.currentTarget.style.color = TEXT_MED)}>
+                onMouseLeave={e => (e.currentTarget.style.color = '#4a5565')}>
                 {label}
               </button>
             ))}
           </nav>
 
-          {/* CTAs */}
-          <div className="hidden lg:flex items-center gap-2.5">
+          {/* Right CTAs — Login + Get Started */}
+          <div className="hidden lg:flex items-center gap-4">
             <button onClick={openCV}
-              className="px-4 py-2 text-[14px] font-medium rounded-lg border transition-colors"
-              style={{ borderColor: BORDER, color: TEXT_DARK }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = BG_LIGHT)}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'white')}>
-              Upload CV
+              className="text-[14px] font-normal leading-[21px] transition-colors"
+              style={{ color: '#4a5565' }}
+              onMouseEnter={e => (e.currentTarget.style.color = PRIMARY)}
+              onMouseLeave={e => (e.currentTarget.style.color = '#4a5565')}>
+              Login
             </button>
             <button onClick={openContact}
-              className="px-4 py-2 text-[14px] font-medium rounded-lg text-white flex items-center gap-2 transition-opacity hover:opacity-90"
+              className="h-[41px] px-5 rounded-lg text-white text-[14px] font-normal leading-[21px] transition-opacity hover:opacity-90 whitespace-nowrap"
               style={{ backgroundColor: PRIMARY }}>
-              Request Talent <ArrowRight className="w-4 h-4" />
+              Get Started
             </button>
           </div>
 
           {/* Mobile toggle */}
-          <button onClick={() => setMobileOpen(v => !v)} className="lg:hidden p-2 rounded-lg" style={{ color: TEXT_MED }}>
+          <button onClick={() => setMobileOpen(v => !v)} className="lg:hidden p-2 rounded-lg" style={{ color: '#4a5565' }}>
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
@@ -178,16 +178,17 @@ export const RecruitmentServicePage: React.FC<RecruitmentServicePageProps> = ({
           {mobileOpen && (
             <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
               className="lg:hidden bg-white border-t px-6 py-4 space-y-1" style={{ borderColor: BORDER }}>
-              {[['Services', 'services'], ['Industries', 'industries'], ['Insights', 'insights'], ['FAQ', 'faq']].map(([label, id]) => (
-                <button key={id} onClick={() => scrollTo(id)}
-                  className="block w-full text-left py-2.5 text-[14px] font-medium border-b last:border-0"
-                  style={{ color: TEXT_DARK, borderColor: BORDER_LIGHT }}>
+              {[['Home', ''], ['For Jobseekers', 'faq'], ['For Employers', 'services'], ['Blog', 'insights'], ['Contact Us', 'faq']].map(([label, id]) => (
+                <button key={label}
+                  onClick={() => id ? scrollTo(id) : (window.scrollTo({ top: 0, behavior: 'smooth' }), setMobileOpen(false))}
+                  className="block w-full text-left py-2.5 text-[14px] border-b last:border-0"
+                  style={{ color: '#4a5565', borderColor: BORDER_LIGHT }}>
                   {label}
                 </button>
               ))}
               <div className="flex gap-2 pt-3">
-                <button onClick={openCV} className="flex-1 py-2.5 border rounded-lg text-[14px] font-medium" style={{ borderColor: BORDER, color: TEXT_DARK }}>Upload CV</button>
-                <button onClick={openContact} className="flex-1 py-2.5 rounded-lg text-white text-[14px] font-medium" style={{ backgroundColor: PRIMARY }}>Request Talent</button>
+                <button onClick={openCV} className="flex-1 py-2.5 border rounded-lg text-[14px]" style={{ borderColor: BORDER, color: '#4a5565' }}>Login</button>
+                <button onClick={openContact} className="flex-1 py-2.5 rounded-lg text-white text-[14px]" style={{ backgroundColor: PRIMARY }}>Get Started</button>
               </div>
             </motion.div>
           )}
