@@ -174,13 +174,17 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
     setAuthModal(mode);
   };
 
-  const scrollToId = (id: string) => {
+  // Internal page routing for the standalone platform
+  type LocumPage = 'home' | 'find-shifts' | 'post-shift' | 'cpd' | 'blog' | 'faq';
+  const [page, setPage] = useState<LocumPage>('home');
+
+  const goto = (p: LocumPage) => {
     setMobileNavOpen(false);
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const navLinks = [
+  const navLinks: { id: LocumPage; label: string }[] = [
     { id: 'find-shifts', label: 'Find Shifts' },
     { id: 'post-shift', label: 'Post a Shift' },
     { id: 'cpd', label: 'CPD' },
@@ -227,6 +231,38 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
     ]
   };
 
+  const searchBarEl = (
+    <div className="max-w-5xl mx-auto bg-white border border-black/10 rounded-2xl shadow-sm p-3 grid grid-cols-1 md:grid-cols-4 gap-2">
+      <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
+        <Stethoscope className="w-4 h-4 text-slate-400 shrink-0" />
+        <select
+          value={searchProfession}
+          onChange={(e) => setSearchProfession(e.target.value)}
+          className="bg-transparent text-xs font-semibold text-slate-800 w-full outline-none cursor-pointer"
+        >
+          {PROFESSIONS.map(p => <option key={p.name}>{p.name}</option>)}
+        </select>
+      </div>
+      <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
+        <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+        <select
+          value={searchLocation}
+          onChange={(e) => setSearchLocation(e.target.value)}
+          className="bg-transparent text-xs font-semibold text-slate-800 w-full outline-none cursor-pointer"
+        >
+          {loc.cities.map(city => <option key={city}>{city}</option>)}
+        </select>
+      </div>
+      <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
+        <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
+        <input type="date" className="bg-transparent text-xs font-semibold text-slate-600 w-full outline-none" />
+      </div>
+      <button onClick={() => goto('find-shifts')} className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-xl transition-colors flex items-center justify-center gap-2">
+        <Search className="w-4 h-4" /> Search Shifts
+      </button>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-16 animate-fade-in font-['Plus_Jakarta_Sans',sans-serif]">
       {/* Standalone Platform Navbar */}
@@ -234,7 +270,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <button onClick={() => scrollToId('find-shifts')} className="flex items-center gap-2 text-left">
+            <button onClick={() => goto('home')} className="flex items-center gap-2 text-left">
               <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center">
                 <Activity className="w-4 h-4 text-blue-400" />
               </div>
@@ -249,14 +285,34 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
             {/* Center nav */}
             <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold text-slate-700">
               {navLinks.map(l => (
-                <button key={l.id} onClick={() => scrollToId(l.id)} className="hover:text-slate-900 transition-colors">
+                <button
+                  key={l.id}
+                  onClick={() => goto(l.id)}
+                  className={`transition-colors ${page === l.id ? 'text-blue-700' : 'hover:text-slate-900'}`}
+                >
                   {l.label}
                 </button>
               ))}
             </nav>
 
-            {/* Auth buttons */}
+            {/* Auth buttons + flag switcher */}
             <div className="hidden lg:flex items-center gap-2">
+              {/* Flag location switcher */}
+              <div className="flex items-center gap-0.5 bg-slate-100 border border-black/10 rounded-lg p-0.5 mr-1">
+                {(Object.keys(REGIONS) as Region[]).map(r => (
+                  <button
+                    key={r}
+                    onClick={() => applyRegion(r, 'manual')}
+                    title={REGIONS[r].country}
+                    aria-label={`Switch to ${REGIONS[r].country}`}
+                    className={`text-base leading-none w-8 h-7 rounded-md flex items-center justify-center transition-all ${
+                      region === r ? 'bg-white shadow-2xs' : 'opacity-50 hover:opacity-100'
+                    }`}
+                  >
+                    {REGIONS[r].flag}
+                  </button>
+                ))}
+              </div>
               <button onClick={onBackToHome} className="text-[11px] font-semibold text-slate-400 hover:text-slate-700 transition-colors mr-1">
                 MployUs.com
               </button>
@@ -285,10 +341,24 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
         {mobileNavOpen && (
           <div className="lg:hidden border-t border-black/10 bg-white px-4 py-4 space-y-1 animate-fade-in">
             {navLinks.map(l => (
-              <button key={l.id} onClick={() => scrollToId(l.id)} className="block w-full text-left py-2 text-sm font-semibold text-slate-700 hover:text-slate-900">
+              <button key={l.id} onClick={() => goto(l.id)} className={`block w-full text-left py-2 text-sm font-semibold ${page === l.id ? 'text-blue-700' : 'text-slate-700 hover:text-slate-900'}`}>
                 {l.label}
               </button>
             ))}
+            {/* Flag switcher */}
+            <div className="flex items-center gap-1 pt-3">
+              {(Object.keys(REGIONS) as Region[]).map(r => (
+                <button
+                  key={r}
+                  onClick={() => applyRegion(r, 'manual')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
+                    region === r ? 'bg-blue-50 border-blue-500 text-blue-700' : 'bg-white border-black/10 text-slate-700'
+                  }`}
+                >
+                  <span className="text-base leading-none">{REGIONS[r].flag}</span> {REGIONS[r].country}
+                </button>
+              ))}
+            </div>
             <div className="flex items-center gap-2 pt-3">
               <button onClick={() => openAuth('signin')} className="flex-1 py-2.5 text-xs font-semibold text-slate-900 border border-black/10 rounded-lg">Sign In</button>
               <button onClick={() => openAuth('signup')} className="flex-1 py-2.5 text-xs font-semibold text-white bg-slate-900 rounded-lg">Sign Up</button>
@@ -298,64 +368,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
         )}
       </header>
 
+      {/* ===================== HOME PAGE ===================== */}
+      {page === 'home' && (<>
       {/* HERO + SHIFT SEARCH */}
-      <section id="find-shifts" className="pt-28 lg:pt-32 pb-14 lg:pb-20 bg-white border-b border-black/10">
+      <section className="pt-28 lg:pt-32 pb-14 lg:pb-20 bg-white border-b border-black/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Location bar */}
-          <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-2xl bg-slate-50 border border-black/10">
-            <div className="flex items-center gap-2.5 px-1">
-              <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center shrink-0">
-                <MapPin className="w-4 h-4" />
-              </div>
-              <div className="leading-tight">
-                <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                  <span>{loc.flag} Showing shifts in {searchLocation}, {loc.country}</span>
-                </div>
-                <div className="text-[10px] text-slate-500 font-medium">
-                  {locationSource === 'gps' ? 'Based on your device location' : locationSource === 'manual' ? 'Location set manually' : 'Detected from your region — change it anytime'}
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={useMyLocation}
-                disabled={detecting}
-                className="px-3 py-2 text-[11px] font-semibold text-slate-900 bg-white border border-black/10 rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-1.5 disabled:opacity-60"
-              >
-                {detecting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Navigation className="w-3.5 h-3.5" />}
-                {detecting ? 'Locating…' : 'Use my location'}
-              </button>
-              <div className="relative">
-                <button
-                  onClick={() => setLocationPickerOpen(o => !o)}
-                  className="px-3 py-2 text-[11px] font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1.5"
-                >
-                  <Globe className="w-3.5 h-3.5" /> {loc.country} <ChevronDown className={`w-3.5 h-3.5 transition-transform ${locationPickerOpen ? 'rotate-180' : ''}`} />
-                </button>
-                {locationPickerOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white border border-black/10 rounded-xl shadow-sm p-2 z-30 animate-fade-in">
-                    {(Object.keys(REGIONS) as Region[]).map(r => (
-                      <div key={r} className="mb-1 last:mb-0">
-                        <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">{REGIONS[r].flag} {REGIONS[r].country}</div>
-                        {REGIONS[r].cities.map(city => (
-                          <button
-                            key={city}
-                            onClick={() => applyRegion(r, 'manual', city)}
-                            className={`w-full text-left px-2 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                              region === r && searchLocation === city ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-50'
-                            }`}
-                          >
-                            {city}
-                          </button>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
             {/* Left: copy */}
             <div className="space-y-5">
@@ -369,11 +386,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                 MployUs Locums connects pharmacists, GPs, nurses, opticians and healthcare assistants with pharmacies and clinics needing temporary cover — flexible shifts, transparent pay, zero agency margins.
               </p>
               <div className="flex flex-wrap items-center gap-3 pt-1">
-                <button onClick={() => scrollToId('post-shift')} className="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-lg transition-colors shadow-2xs flex items-center gap-2">
-                  Post a shift <ArrowRight className="w-4 h-4 text-slate-300" />
+                <button onClick={() => goto('find-shifts')} className="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-lg transition-colors shadow-2xs flex items-center gap-2">
+                  Find shifts <ArrowRight className="w-4 h-4 text-slate-300" />
                 </button>
-                <button onClick={() => openAuth('signup')} className="px-6 py-3.5 bg-white text-slate-900 font-semibold text-xs rounded-lg border border-black/10 hover:bg-slate-50 transition-colors">
-                  Create free account
+                <button onClick={() => goto('post-shift')} className="px-6 py-3.5 bg-white text-slate-900 font-semibold text-xs rounded-lg border border-black/10 hover:bg-slate-50 transition-colors">
+                  Post a shift
                 </button>
               </div>
             </div>
@@ -401,40 +418,20 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </div>
 
           {/* Search bar */}
-          <div className="max-w-5xl mx-auto mt-12 lg:mt-16 bg-white border border-black/10 rounded-2xl shadow-sm p-3 grid grid-cols-1 md:grid-cols-4 gap-2">
-            <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
-              <Stethoscope className="w-4 h-4 text-slate-400 shrink-0" />
-              <select
-                value={searchProfession}
-                onChange={(e) => setSearchProfession(e.target.value)}
-                className="bg-transparent text-xs font-semibold text-slate-800 w-full outline-none cursor-pointer"
-              >
-                {PROFESSIONS.map(p => <option key={p.name}>{p.name}</option>)}
-              </select>
-            </div>
-            <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
-              <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
-              <select
-                value={searchLocation}
-                onChange={(e) => setSearchLocation(e.target.value)}
-                className="bg-transparent text-xs font-semibold text-slate-800 w-full outline-none cursor-pointer"
-              >
-                {loc.cities.map(city => <option key={city}>{city}</option>)}
-              </select>
-            </div>
-            <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
-              <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
-              <input type="date" className="bg-transparent text-xs font-semibold text-slate-600 w-full outline-none" />
-            </div>
-            <button className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-xl transition-colors flex items-center justify-center gap-2">
-              <Search className="w-4 h-4" /> Search Shifts
-            </button>
-          </div>
+          <div className="mt-12 lg:mt-16">{searchBarEl}</div>
         </div>
       </section>
+      </>)}
 
-      {/* SHIFT RESULTS + IRELAND MAP */}
-      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ===================== FIND SHIFTS PAGE ===================== */}
+      {page === 'find-shifts' && (
+      <section className="pt-28 lg:pt-32 pb-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">{loc.flag} {loc.country}</span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-1">Find your next shift</h1>
+          <p className="text-sm text-slate-600 mt-1.5 max-w-2xl">Search live locum and permanent healthcare shifts near you. Switch country with the flags in the top bar.</p>
+        </div>
+        <div className="mb-10">{searchBarEl}</div>
         <div className="mb-6">
           <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Available now in {loc.country}</span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">{searchProfession} shifts near {searchLocation}</h2>
@@ -501,7 +498,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </div>
         </div>
       </section>
+      )}
 
+      {/* ===================== HOME: CONNECT + GALLERY ===================== */}
+      {page === 'home' && (<>
       {/* CONNECT QUICKLY FEATURE */}
       <section className="py-14 bg-white border-y border-black/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -547,13 +547,16 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           ))}
         </div>
       </section>
+      </>)}
 
-      {/* EMPLOYER SHIFT POSTING WIZARD */}
-      <section id="post-shift" className="py-14 bg-white border-y border-black/10">
+      {/* ===================== POST A SHIFT PAGE ===================== */}
+      {page === 'post-shift' && (
+      <section className="pt-28 lg:pt-32 py-14">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <span className="text-xs font-bold uppercase tracking-wider text-violet-700">For employers</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Post an open shift in 3 steps</h2>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-1 tracking-tight">Post an open shift in 3 steps</h1>
+            <p className="text-sm text-slate-600 mt-2 max-w-xl mx-auto">List a locum shift or a permanent role and reach verified {loc.country} healthcare professionals in minutes.</p>
           </div>
 
           {/* Stepper */}
@@ -654,8 +657,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </div>
         </div>
       </section>
+      )}
 
-      {/* VALUE PROP / RECRUITMENT LANDING */}
+      {/* ===================== HOME: VALUE PROP ===================== */}
+      {page === 'home' && (
       <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Why MployUs Locums</span>
@@ -690,14 +695,16 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           ))}
         </div>
       </section>
+      )}
 
-      {/* BLOG / CONTENT HUB */}
-      <section id="blog" className="py-14 bg-white border-y border-black/10 scroll-mt-16">
+      {/* ===================== BLOG PAGE ===================== */}
+      {page === 'blog' && (
+      <section className="pt-28 lg:pt-32 py-14 bg-white min-h-[70vh]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-8">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-blue-700 flex items-center gap-1.5"><BookOpen className="w-3.5 h-3.5" /> Content hub</span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Guides, salary reports & market insights</h2>
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-1 tracking-tight">Guides, salary reports & market insights</h1>
             </div>
             <button onClick={() => onBookDemo('Blog')} className="hidden sm:flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900">
               View all <ArrowRight className="w-4 h-4" />
@@ -718,9 +725,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </div>
         </div>
       </section>
+      )}
 
-      {/* CPD TRAINING */}
-      <section id="cpd" className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-16">
+      {/* ===================== CPD PAGE ===================== */}
+      {page === 'cpd' && (
+      <section className="pt-28 lg:pt-32 py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[70vh]">
         <div className="rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white p-8 space-y-6 border border-slate-800 shadow-sm">
           <div className="flex items-center gap-2 text-blue-400 font-bold text-xs uppercase tracking-wider">
             <GraduationCap className="w-4 h-4" /> Locums CPD
@@ -746,8 +755,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </button>
         </div>
       </section>
+      )}
 
-      {/* MOBILE APP PROMO */}
+      {/* ===================== HOME: MOBILE APP PROMO ===================== */}
+      {page === 'home' && (
       <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="rounded-3xl bg-gradient-to-br from-blue-600 to-blue-700 text-white overflow-hidden border border-blue-700 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -805,12 +816,14 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </div>
         </div>
       </section>
+      )}
 
-      {/* FAQ */}
-      <section id="faq" className="py-14 bg-white border-y border-black/10 scroll-mt-16">
+      {/* ===================== FAQ PAGE ===================== */}
+      {page === 'faq' && (
+      <section className="pt-28 lg:pt-32 py-14 bg-white min-h-[70vh]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Frequently asked questions</h2>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Frequently asked questions</h1>
             <div className="inline-flex items-center gap-1 bg-slate-100 p-1 rounded-full border border-black/10 text-xs mt-4">
               {(['IE', 'UK'] as const).map(r => (
                 <button
@@ -843,8 +856,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </div>
         </div>
       </section>
+      )}
 
-      {/* LEGAL NOTE */}
+      {/* ===================== POST-SHIFT: LEGAL NOTE ===================== */}
+      {page === 'post-shift' && (
       <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-6 rounded-2xl bg-white border border-black/10 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="w-11 h-11 rounded-xl bg-slate-100 text-slate-700 border border-black/10 flex items-center justify-center shrink-0">
@@ -859,8 +874,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </button>
         </div>
       </section>
+      )}
 
-      {/* CTA */}
+      {/* ===================== HOME: CTA ===================== */}
+      {page === 'home' && (
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-8 rounded-2xl bg-slate-900 text-white shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800">
           <div className="space-y-2">
@@ -878,6 +895,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </div>
         </div>
       </section>
+      )}
 
       {/* STANDALONE FOOTER */}
       <footer className="mt-14 bg-slate-900 text-slate-300">
@@ -915,7 +933,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           <div className="space-y-2">
             <div className="text-xs font-bold text-white uppercase tracking-wider mb-1">Platform</div>
             {navLinks.map(l => (
-              <button key={l.id} onClick={() => scrollToId(l.id)} className="block text-xs text-slate-400 hover:text-white transition-colors">{l.label}</button>
+              <button key={l.id} onClick={() => goto(l.id)} className="block text-xs text-slate-400 hover:text-white transition-colors">{l.label}</button>
             ))}
           </div>
           <div className="space-y-2">
