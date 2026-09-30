@@ -206,6 +206,21 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const [filterCountry, setFilterCountry] = useState<'all' | 'IE' | 'UK-eng' | 'UK-wal' | 'UK-sco' | 'UK-ni'>('all');
   const [sortBy, setSortBy] = useState<'date' | 'rate'>('date');
 
+  // Apply flow
+  const [applyOpen, setApplyOpen] = useState(false);
+  const [applyStep, setApplyStep] = useState<1 | 2 | 3 | 4>(1);
+  const [applyForm, setApplyForm] = useState({
+    firstName: '', lastName: '', email: '', phone: '',
+    regBody: '', regNumber: '', yearsExp: '',
+    transport: '', travelTime: '',
+    coverNote: '', questions: '',
+    termsAccepted: false, availabilityConfirmed: false,
+  });
+
+  const openApply = () => { setApplyStep(1); setApplyOpen(true); };
+  const closeApply = () => { setApplyOpen(false); setApplyStep(1); };
+  const applyShift = shifts[selectedShift] ?? shifts[0];
+
   const [scrolled, setScrolled] = useState(false);
   const [statsInView, setStatsInView] = useState(false);
   const statsRef = useRef<HTMLDivElement>(null);
@@ -1087,6 +1102,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           FIND SHIFTS
       ══════════════════════════════════════ */}
       {page === 'find-shifts' && (
+        <>
         <div className="pt-[70px] min-h-screen bg-white">
 
           {/* ── Hero banner with background image ── */}
@@ -1365,9 +1381,15 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
                       {/* Apply */}
                       <div className="pt-1">
-                        <button onClick={() => onBookDemo(`Apply: ${s.facility}`)} className="w-full py-3 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold text-base rounded-lg transition-colors">
+                        <motion.button
+                          onClick={openApply}
+                          className="w-full py-3 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold text-base rounded-lg transition-colors"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+                        >
                           Apply for this shift
-                        </button>
+                        </motion.button>
                       </div>
                     </div>
 
@@ -1388,6 +1410,351 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </div>
           </div>
         </div>
+
+        {/* ══ APPLY FLOW MODAL ══ */}
+        {applyOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <motion.div
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              onClick={closeApply}
+            />
+
+            <motion.div
+              className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+              initial={{ opacity: 0, y: 40, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+            >
+              {/* Modal header */}
+              <div className="sticky top-0 z-10 bg-white border-b border-slate-100 px-7 py-5 flex items-center justify-between rounded-t-2xl">
+                {applyStep < 4 ? (
+                  <div className="flex-1">
+                    <p className="text-xs font-bold text-[#276647] uppercase tracking-widest mb-1">Step {applyStep} of 3</p>
+                    <div className="flex gap-1.5">
+                      {[1,2,3].map(n => (
+                        <div key={n} className={`h-1 flex-1 rounded-full transition-all duration-400 ${applyStep >= n ? 'bg-[#276647]' : 'bg-slate-100'}`} />
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div />
+                )}
+                <button onClick={closeApply} className="ml-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors">
+                  <X className="w-4 h-4 text-slate-600" />
+                </button>
+              </div>
+
+              {/* Shift summary strip */}
+              {applyStep < 4 && (
+                <div className="mx-7 mt-5 mb-1 bg-[#276647]/5 border border-[#276647]/10 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs text-slate-500">{applyShift.facility}</p>
+                    <p className="font-bold text-[#276647] text-sm">{searchProfession || 'Locum Pharmacist'} · {applyShift.date}</p>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <p className="text-xs text-slate-500">{applyShift.time}</p>
+                    <p className="font-bold text-[#276647] text-sm">{applyShift.rate}</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="px-7 pb-7 pt-4">
+
+                {/* ── STEP 1: Your Details ── */}
+                {applyStep === 1 && (
+                  <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-slate-900">Your details</h2>
+                      <p className="text-sm text-slate-500 mt-1">We'll use these to confirm your identity and match your registration.</p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold text-slate-700">First name <span className="text-rose-500">*</span></label>
+                        <input value={applyForm.firstName} onChange={e => setApplyForm(f => ({...f, firstName: e.target.value}))} placeholder="e.g. Aoife" className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold text-slate-700">Last name <span className="text-rose-500">*</span></label>
+                        <input value={applyForm.lastName} onChange={e => setApplyForm(f => ({...f, lastName: e.target.value}))} placeholder="e.g. Murphy" className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Email address <span className="text-rose-500">*</span></label>
+                      <input type="email" value={applyForm.email} onChange={e => setApplyForm(f => ({...f, email: e.target.value}))} placeholder="your@email.com" className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Mobile number <span className="text-rose-500">*</span></label>
+                      <input type="tel" value={applyForm.phone} onChange={e => setApplyForm(f => ({...f, phone: e.target.value}))} placeholder="+353 87 000 0000" className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold text-slate-700">Registration body <span className="text-rose-500">*</span></label>
+                        <div className="relative">
+                          <select value={applyForm.regBody} onChange={e => setApplyForm(f => ({...f, regBody: e.target.value}))} className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
+                            <option value="">Select body</option>
+                            <option>PSI (Ireland)</option>
+                            <option>GPhC (UK)</option>
+                            <option>PSNI (Northern Ireland)</option>
+                            <option>IMC (Ireland)</option>
+                            <option>GMC (UK)</option>
+                            <option>NMBI (Ireland)</option>
+                            <option>NMC (UK)</option>
+                            <option>CORU (Ireland)</option>
+                          </select>
+                          <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold text-slate-700">Registration number <span className="text-rose-500">*</span></label>
+                        <input value={applyForm.regNumber} onChange={e => setApplyForm(f => ({...f, regNumber: e.target.value}))} placeholder="e.g. PSI-12345" className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Years of experience</label>
+                      <div className="relative">
+                        <select value={applyForm.yearsExp} onChange={e => setApplyForm(f => ({...f, yearsExp: e.target.value}))} className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
+                          <option value="">Select range</option>
+                          <option>Less than 1 year</option>
+                          <option>1–2 years</option>
+                          <option>3–5 years</option>
+                          <option>6–10 years</option>
+                          <option>10+ years</option>
+                        </select>
+                        <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setApplyStep(2)}
+                      disabled={!applyForm.firstName || !applyForm.lastName || !applyForm.email || !applyForm.phone || !applyForm.regBody || !applyForm.regNumber}
+                      className="w-full py-3 bg-[#276647] disabled:opacity-40 hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
+                    >
+                      Continue <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </motion.div>
+                )}
+
+                {/* ── STEP 2: Availability & Travel ── */}
+                {applyStep === 2 && (
+                  <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-slate-900">Availability & travel</h2>
+                      <p className="text-sm text-slate-500 mt-1">Confirm you can make this shift and let us know how you'll get there.</p>
+                    </div>
+                    {/* Availability confirmation */}
+                    <div className="bg-[#276647]/5 border border-[#276647]/10 rounded-xl p-4 space-y-3">
+                      <p className="text-sm font-semibold text-slate-800">Shift you're applying for</p>
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div className="flex items-center gap-2 text-slate-700">
+                          <Calendar className="w-4 h-4 text-[#276647] shrink-0" />
+                          <span>{applyShift.date}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-slate-700">
+                          <Clock className="w-4 h-4 text-[#276647] shrink-0" />
+                          <span>{applyShift.time}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-slate-700">
+                          <MapPin className="w-4 h-4 text-[#276647] shrink-0" />
+                          <span>{applyShift.location}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-slate-700">
+                          <Wallet className="w-4 h-4 text-[#276647] shrink-0" />
+                          <span className="font-bold text-[#276647]">{applyShift.rate}</span>
+                        </div>
+                      </div>
+                      <label className="flex items-start gap-3 cursor-pointer pt-1">
+                        <input type="checkbox" checked={applyForm.availabilityConfirmed} onChange={e => setApplyForm(f => ({...f, availabilityConfirmed: e.target.checked}))} className="w-4 h-4 mt-0.5 accent-[#276647] shrink-0" />
+                        <span className="text-sm text-slate-700">I confirm I am available and able to work this full shift without prior commitments.</span>
+                      </label>
+                    </div>
+                    {/* Transport */}
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-semibold text-slate-700">How will you get to the shift? <span className="text-rose-500">*</span></label>
+                      <div className="grid grid-cols-2 gap-2.5">
+                        {[
+                          { icon: '🚗', label: 'Own car' },
+                          { icon: '🚌', label: 'Public transport' },
+                          { icon: '🚶', label: 'Walking / cycling' },
+                          { icon: '🚕', label: 'Taxi / rideshare' },
+                        ].map(t => (
+                          <button
+                            key={t.label}
+                            type="button"
+                            onClick={() => setApplyForm(f => ({...f, transport: t.label}))}
+                            className={`flex items-center gap-2.5 px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all ${applyForm.transport === t.label ? 'border-[#276647] bg-[#276647]/5 text-[#276647]' : 'border-slate-100 bg-slate-50 text-slate-700 hover:border-slate-200'}`}
+                          >
+                            <span className="text-lg">{t.icon}</span> {t.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Estimated travel time to shift</label>
+                      <div className="relative">
+                        <select value={applyForm.travelTime} onChange={e => setApplyForm(f => ({...f, travelTime: e.target.value}))} className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
+                          <option value="">Select estimate</option>
+                          <option>Under 15 minutes</option>
+                          <option>15–30 minutes</option>
+                          <option>30–60 minutes</option>
+                          <option>Over 1 hour</option>
+                        </select>
+                        <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
+                    </div>
+                    <div className="flex gap-3 pt-1">
+                      <button onClick={() => setApplyStep(1)} className="px-5 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
+                      <button
+                        onClick={() => setApplyStep(3)}
+                        disabled={!applyForm.availabilityConfirmed || !applyForm.transport}
+                        className="flex-1 py-3 bg-[#276647] disabled:opacity-40 hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
+                      >
+                        Continue <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* ── STEP 3: Cover Note & Review ── */}
+                {applyStep === 3 && (
+                  <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                    <div>
+                      <h2 className="text-xl font-bold text-slate-900">Cover note & review</h2>
+                      <p className="text-sm text-slate-500 mt-1">Add a message to the hiring manager and review your application before submitting.</p>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Cover note <span className="text-slate-400 font-normal">(optional)</span></label>
+                      <textarea
+                        value={applyForm.coverNote}
+                        onChange={e => setApplyForm(f => ({...f, coverNote: e.target.value}))}
+                        placeholder={`Hi, I'm a locum pharmacist with ${applyForm.yearsExp || 'several years of'} experience in community pharmacy. I'm very interested in covering this shift at ${applyShift.facility}...`}
+                        rows={4}
+                        className="px-3.5 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 resize-none"
+                      />
+                      <p className="text-[11px] text-slate-400">{applyForm.coverNote.length}/500 characters</p>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-slate-700">Any questions for the facility? <span className="text-slate-400 font-normal">(optional)</span></label>
+                      <textarea
+                        value={applyForm.questions}
+                        onChange={e => setApplyForm(f => ({...f, questions: e.target.value}))}
+                        placeholder="e.g. Is parking available on site? Is this shift dispensary-only or will there be OTC advisory?"
+                        rows={3}
+                        className="px-3.5 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 resize-none"
+                      />
+                    </div>
+                    {/* Summary */}
+                    <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 space-y-3">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Application summary</p>
+                      <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                        <div><span className="text-slate-400">Name</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.firstName} {applyForm.lastName}</p></div>
+                        <div><span className="text-slate-400">Email</span><p className="font-semibold text-slate-900 mt-0.5 break-all">{applyForm.email}</p></div>
+                        <div><span className="text-slate-400">Phone</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.phone}</p></div>
+                        <div><span className="text-slate-400">Registration</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.regBody} · {applyForm.regNumber}</p></div>
+                        <div><span className="text-slate-400">Experience</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.yearsExp || '—'}</p></div>
+                        <div><span className="text-slate-400">Transport</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.transport} · {applyForm.travelTime || '—'}</p></div>
+                      </div>
+                    </div>
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input type="checkbox" checked={applyForm.termsAccepted} onChange={e => setApplyForm(f => ({...f, termsAccepted: e.target.checked}))} className="w-4 h-4 mt-0.5 accent-[#276647] shrink-0" />
+                      <span className="text-sm text-slate-600">I agree to MployUs Locums' <span className="text-[#276647] font-semibold underline cursor-pointer">Terms & Conditions</span> and confirm the information provided is accurate.</span>
+                    </label>
+                    <div className="flex gap-3 pt-1">
+                      <button onClick={() => setApplyStep(2)} className="px-5 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
+                      <motion.button
+                        onClick={() => setApplyStep(4)}
+                        disabled={!applyForm.termsAccepted}
+                        className="flex-1 py-3 bg-[#276647] disabled:opacity-40 hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+                      >
+                        Submit application
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* ── STEP 4: Success ── */}
+                {applyStep === 4 && (
+                  <motion.div
+                    key="step4"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex flex-col items-center text-center py-8 space-y-6"
+                  >
+                    {/* Animated checkmark */}
+                    <motion.div
+                      className="w-24 h-24 rounded-full bg-[#276647] flex items-center justify-center shadow-xl shadow-[#276647]/30"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 18, delay: 0.1 }}
+                    >
+                      <motion.div
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.35, duration: 0.25 }}
+                      >
+                        <Check className="w-12 h-12 text-white" strokeWidth={2.5} />
+                      </motion.div>
+                    </motion.div>
+
+                    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="space-y-2">
+                      <h2 className="text-2xl font-bold text-slate-900">Application submitted!</h2>
+                      <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
+                        Your application for <span className="font-semibold text-slate-700">{searchProfession || 'Locum Pharmacist'}</span> at <span className="font-semibold text-slate-700">{applyShift.facility}</span> on <span className="font-semibold text-slate-700">{applyShift.date}</span> has been sent successfully.
+                      </p>
+                    </motion.div>
+
+                    {/* What happens next */}
+                    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="w-full bg-slate-50 border border-slate-100 rounded-xl p-5 text-left space-y-3">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">What happens next?</p>
+                      <div className="space-y-3">
+                        {[
+                          { icon: '📧', title: 'Confirmation email sent', desc: `A confirmation has been sent to ${applyForm.email}` },
+                          { icon: '🔍', title: 'Employer review', desc: 'The facility will review your profile and registration within 24 hours.' },
+                          { icon: '📱', title: "You'll be notified", desc: "We'll send you an SMS and app notification once you're accepted." },
+                          { icon: '✅', title: 'Shift confirmed', desc: 'Once accepted, the shift will appear in your MployUs dashboard.' },
+                        ].map((step, i) => (
+                          <motion.div
+                            key={i}
+                            className="flex items-start gap-3"
+                            initial={{ opacity: 0, x: -12 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.4 + i * 0.08 }}
+                          >
+                            <span className="text-xl shrink-0 mt-0.5">{step.icon}</span>
+                            <div>
+                              <p className="text-sm font-semibold text-slate-800">{step.title}</p>
+                              <p className="text-xs text-slate-500 mt-0.5">{step.desc}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+
+                    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} className="flex flex-col sm:flex-row gap-3 w-full pt-2">
+                      <button
+                        onClick={closeApply}
+                        className="flex-1 py-3 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors"
+                      >
+                        Back to shifts
+                      </button>
+                      <button
+                        onClick={() => { closeApply(); goto('find-shifts'); }}
+                        className="flex-1 py-3 border border-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-50 transition-colors"
+                      >
+                        Browse more shifts
+                      </button>
+                    </motion.div>
+                  </motion.div>
+                )}
+
+              </div>
+            </motion.div>
+          </div>
+        )}
+        </>
       )}
 
       {/* ══════════════════════════════════════
