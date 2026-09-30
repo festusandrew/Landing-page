@@ -838,12 +838,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 />
                 {/* Notification bubble */}
                 <motion.div
-                  className="absolute top-12 right-10 bg-white rounded-2xl shadow-xl border border-black/5 px-4 py-3 z-20"
+                  className="absolute top-12 right-10 bg-white rounded-2xl shadow-xl border border-black/5 px-4 py-3 z-20 animate-[float_2.4s_ease-in-out_1s_infinite]"
                   initial={{ opacity: 0, scale: 0.7, x: 20 }}
                   whileInView={{ opacity: 1, scale: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.6, type: 'spring', stiffness: 350, damping: 22, y: { type: 'tween', ease: 'easeInOut', duration: 2.4, repeat: Infinity, repeatType: 'loop', delay: 1 } }}
-                  animate={{ y: [0, -6, 0] }}
+                  transition={{ delay: 0.6, type: 'spring', stiffness: 350, damping: 22 }}
                 >
                   <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center">
