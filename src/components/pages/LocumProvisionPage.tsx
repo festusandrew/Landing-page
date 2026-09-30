@@ -306,16 +306,22 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
   const faqs: Record<string, { q: string; a: string }[]> = {
     Locum: [
-      { q: 'What services does MployUs Locums offer?', a: 'Working with MployUs Locums is simple and seamless. Just register online in moments, set your location preferences and how far you\'re willing to travel, and we\'ll instantly send you relevant job opportunities. You can view, apply for, and confirm shifts in just a few clicks.' },
-      { q: 'Are there any fees involved in registering or working as a locum?', a: 'Locums keep 100% of their advertised rate. There are no registration fees. Clients pay a flat platform fee per filled shift — no percentage commissions and no hidden agency margins.' },
-      { q: 'Does MployUs Locums deduct any commission from my earnings?', a: 'No. We never deduct commission from your earnings. You receive 100% of your agreed rate.' },
-      { q: 'What is the payment process after completing a shift?', a: 'Timesheets are approved in-app after each shift. Payments are processed weekly — by SEPA in Ireland and Faster Payments in the UK — typically within 2–3 working days of approval.' },
+      { q: "What services does MployUs Locums offer?", a: "MployUs is a direct marketplace connecting locum pharmacists and pharmacy technicians with employers across Ireland and the UK. Register in minutes, set your location and availability, and receive relevant shift opportunities instantly. You can apply, confirm, and manage shifts entirely within the app — no phone calls or intermediaries." },
+      { q: "Are there any fees for locums to register?", a: "No fees, ever. Registration is completely free for locums. You keep 100% of your agreed hourly rate. Employers pay a flat platform fee per filled shift — there are no percentage commissions deducted from your earnings at any point." },
+      { q: "What compliance documents do I need to upload?", a: "At minimum: a valid PSI or GPhC registration certificate, Garda vetting (Ireland) or Enhanced DBS (UK), proof of indemnity insurance, and your CV. Once uploaded and verified, your compliance status is shown to employers automatically — you won't need to resend documents for each shift." },
+      { q: "How does payment work after completing a shift?", a: "After each shift, your timesheet is submitted and approved in-app — typically within a few hours of shift end. Payments are processed weekly via SEPA (Ireland) or Faster Payments (UK), landing in your account within 2–3 working days of approval. A full earnings summary is available in your dashboard." },
+      { q: "Can I set my own hourly rate?", a: "Yes. You set your preferred rate when applying for each shift, or set a default in your profile. MployUs data shows that 61% of locums who name their rate in applications receive it or within 5% of it. Employers see your rate before accepting, so transparency works in your favour." },
+      { q: "What types of roles can I find on MployUs?", a: "Community pharmacy locum shifts, hospital pharmacy locum cover, and permanent pharmacist and pharmacy technician positions. Roles are available across Ireland (Republic and Northern Ireland) and Great Britain. You can filter by profession, date, rate, and travel distance." },
+      { q: "How do renewal reminders for compliance documents work?", a: "MployUs tracks expiry dates for your Garda vetting / DBS, registration, and indemnity certificates. You receive in-app and email notifications 6 months and 1 month before each document expires, giving you plenty of time to renew without disrupting your bookings." },
     ],
     Employers: [
-      { q: 'How do I post a shift on MployUs Locums?', a: 'Register as an employer, complete your facility profile, and use our 3-step shift posting wizard. Shifts go live immediately and reach our network of verified professionals.' },
-      { q: 'How are locums verified?', a: 'Every locum is compliance-checked before their first shift — Garda vetting in Ireland and Enhanced DBS in the UK & NI. We store documents securely in a digital compliance vault.' },
-      { q: 'What does it cost to fill a shift?', a: 'Employers pay a flat per-shift fee. There are no percentage commissions or hidden margins. Contact us for a quote tailored to your facility.' },
-      { q: 'Can I build a pool of preferred locums?', a: 'Yes. Once you\'ve worked with a locum, you can add them to your favourites list and request them directly for future shifts.' },
+      { q: "How do I post a shift on MployUs?", a: "Register your facility, complete a brief profile, and use our guided posting flow — it takes under 3 minutes. Your shift goes live immediately and is matched to relevant locums in your region. You can optionally mark shifts as urgent to boost visibility." },
+      { q: "How are locums verified before they can apply?", a: "Every locum must upload and pass verification of: PSI or GPhC registration, Garda vetting (Ireland) or Enhanced DBS with barred list check (UK), professional indemnity insurance, and identity documents. Verification is handled by MployUs — you receive a compliance summary before any shift starts. You never need to chase documents yourself." },
+      { q: "What does it cost to fill a shift?", a: "Employers pay a flat per-shift platform fee — not a percentage of the locum's rate. This means the more senior (and higher-rate) the locum you hire, the better value the fee represents compared to a traditional agency model. Contact us for volume pricing if you fill more than 20 shifts per month." },
+      { q: "How quickly can I fill an urgent shift?", a: "MployUs data shows an average fill time of under 4 hours for urgent shifts posted on the platform — compared to an industry average of 11 hours via traditional agencies. Marking a shift as urgent surfaces it prominently to locums within your travel radius." },
+      { q: "Can I request a specific locum I have worked with before?", a: "Yes. After a completed shift, you can add a locum to your favourites and send them a direct request for future shifts. If they are available and accept, the booking is confirmed immediately — no competition with other applicants." },
+      { q: "What happens if a locum cancels close to shift time?", a: "MployUs sends an immediate notification and re-posts the shift automatically. Our network of verified locums is active around the clock, and urgent re-posts typically attract new applicants within 30–60 minutes. Your account manager is also available to assist with same-day cover." },
+      { q: "Can I post permanent positions as well as locum shifts?", a: "Yes. MployUs supports both locum shift postings and permanent job advertisements for pharmacists and pharmacy technicians. Permanent listings are displayed to candidates actively searching for career moves, with application management built into the employer dashboard." },
     ],
   };
 
@@ -325,6 +331,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const articles = [
     {
       tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-green-100', read: '8 min', date: 'Jul 2026', featured: true,
+      img: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: '2026 Locum Pharmacist pay rates: Ireland vs UK',
       subtitle: 'A comprehensive breakdown of hourly rates by region, specialisation, and experience level — with projections for the rest of the year.',
       body: [
@@ -338,6 +345,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     },
     {
       tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-emerald-100', read: '11 min', date: 'Jun 2026', featured: true,
+      img: 'https://images.unsplash.com/photo-1754548930574-6a995e5eb5a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: 'The complete Garda vetting & DBS toolkit for locums and employers',
       subtitle: 'Everything you need to know about background checks in Irish and UK healthcare — what they cover, how long they take, and how to manage renewals.',
       body: [
@@ -351,6 +359,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     },
     {
       tag: 'Market Report', tagColor: 'bg-violet-50 text-violet-700 border-violet-100', read: '6 min', date: 'Jun 2026', featured: false,
+      img: 'https://images.unsplash.com/photo-1576091358783-a212ec293ff3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: 'How Irish pharmacy groups are rethinking locum staffing in 2026',
       subtitle: 'From agency dependence to direct marketplace access — what the data says about changing employer behaviour.',
       body: [
@@ -362,6 +371,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     },
     {
       tag: 'Career', tagColor: 'bg-sky-50 text-sky-700 border-sky-100', read: '7 min', date: 'May 2026', featured: false,
+      img: 'https://images.unsplash.com/photo-1657551734497-30a09e6567bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: 'From staff pharmacist to locum: a practical transition guide',
       subtitle: 'The financial, logistical, and professional steps to make the leap — and what no one tells you about the first 90 days.',
       body: [
@@ -373,6 +383,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     },
     {
       tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-emerald-100', read: '5 min', date: 'May 2026', featured: false,
+      img: 'https://images.unsplash.com/photo-1619418602850-35ad20aa1700?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: 'PSI revalidation in 2026: what has changed and what you need to do',
       subtitle: 'A plain-English walkthrough of the PSI continuing competence framework updates effective January 2026.',
       body: [
@@ -384,6 +395,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     },
     {
       tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-green-100', read: '9 min', date: 'Apr 2026', featured: false,
+      img: 'https://images.unsplash.com/photo-1580281657527-47f249e8f4df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: 'Pharmacy technician rates 2026: community, hospital, and primary care',
       subtitle: 'Technician locum rates have risen faster than pharmacist rates in the last two years. Here is the data.',
       body: [
@@ -3165,20 +3177,24 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer group"
                           whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 280, damping: 20 }}
                           onClick={() => { setBlogPost(idx); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-                          <div className="bg-gradient-to-br from-slate-800 to-slate-900 px-7 py-10">
-                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border ${a.tagColor} mb-4`}>{a.tag}</span>
-                            <h2 className="text-xl font-bold text-white leading-snug mb-2">{a.title}</h2>
-                            <p className="text-white/55 text-sm leading-relaxed line-clamp-2">{a.subtitle}</p>
+                          <div className="relative h-44 overflow-hidden bg-slate-900">
+                            <img src={a.img} alt={a.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent" />
+                            <span className={`absolute top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border ${a.tagColor} backdrop-blur-sm`}>{a.tag}</span>
                           </div>
-                          <div className="px-7 py-5 flex items-center justify-between">
-                            <div className="flex items-center gap-3 text-xs text-slate-400 font-medium">
-                              <span>{a.date}</span>
-                              <span>·</span>
-                              <span>{a.read} read</span>
+                          <div className="px-6 py-5">
+                            <h2 className="text-base font-bold text-slate-900 leading-snug mb-1.5 group-hover:text-[#276647] transition-colors">{a.title}</h2>
+                            <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-4">{a.subtitle}</p>
+                            <div className="flex items-center justify-between pt-3 border-t border-slate-50">
+                              <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
+                                <span>{a.date}</span>
+                                <span>·</span>
+                                <span>{a.read} read</span>
+                              </div>
+                              <span className="text-xs font-bold text-[#276647] flex items-center gap-1 group-hover:gap-2 transition-all">
+                                Read <ArrowRight className="w-3.5 h-3.5" />
+                              </span>
                             </div>
-                            <span className="text-xs font-bold text-[#276647] flex items-center gap-1 group-hover:gap-2 transition-all">
-                              Read article <ArrowRight className="w-3.5 h-3.5" />
-                            </span>
                           </div>
                         </motion.div>
                       );
@@ -3198,21 +3214,26 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       const idx = articles.indexOf(a);
                       return (
                         <motion.div key={ai} variants={fadeUp}
-                          className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all cursor-pointer group flex flex-col"
+                          className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group flex flex-col"
                           whileHover={{ y: -4, boxShadow: '0 12px 36px rgba(0,0,0,0.09)' }}
                           transition={{ type: 'spring', stiffness: 280, damping: 20 }}
                           onClick={() => { setBlogPost(idx); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-                          <div className="flex items-center justify-between mb-4">
-                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold border ${a.tagColor}`}>{a.tag}</span>
-                            <span className="text-[10px] text-slate-400 font-medium">{a.read} read</span>
+                          <div className="relative h-36 overflow-hidden bg-slate-900 shrink-0">
+                            <img src={a.img} alt={a.title} className="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                            <span className={`absolute top-3 left-3 inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold border ${a.tagColor} backdrop-blur-sm`}>{a.tag}</span>
                           </div>
-                          <h3 className="text-sm font-bold text-slate-900 leading-snug mb-2 group-hover:text-[#276647] transition-colors flex-1">{a.title}</h3>
-                          <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-4">{a.subtitle}</p>
-                          <div className="flex items-center justify-between pt-3 border-t border-slate-50">
-                            <span className="text-[10px] text-slate-400 font-medium">{a.date}</span>
-                            <span className="text-xs font-bold text-[#276647] flex items-center gap-1 group-hover:gap-2 transition-all">
-                              Read <ArrowRight className="w-3 h-3" />
-                            </span>
+                          <div className="p-5 flex flex-col flex-1">
+                            <h3 className="text-sm font-bold text-slate-900 leading-snug mb-2 group-hover:text-[#276647] transition-colors flex-1">{a.title}</h3>
+                            <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-4">{a.subtitle}</p>
+                            <div className="flex items-center justify-between pt-3 border-t border-slate-50">
+                              <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium">
+                                <span>{a.date}</span><span>·</span><span>{a.read} read</span>
+                              </div>
+                              <span className="text-xs font-bold text-[#276647] flex items-center gap-1 group-hover:gap-2 transition-all">
+                                Read <ArrowRight className="w-3 h-3" />
+                              </span>
+                            </div>
                           </div>
                         </motion.div>
                       );
@@ -3247,34 +3268,126 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       ══════════════════════════════════════ */}
       {page === 'faq' && (
         <div className="pt-[70px] min-h-screen bg-slate-50">
-          <div className="bg-gradient-to-br from-slate-900 to-green-950 pt-16 pb-14 px-6 text-center">
-            <h1 className="text-4xl font-bold text-white tracking-tight">Frequently Asked Questions</h1>
-            <p className="text-slate-400 text-sm mt-2 max-w-lg mx-auto">Everything you need to know about working with MployUs Locums.</p>
-          </div>
-          <div className="max-w-3xl mx-auto px-6 py-12">
-            <div className="flex items-center gap-1 bg-white border border-slate-100 rounded-xl p-1 w-fit mb-8">
-              {(['Locum', 'Employers'] as const).map(tab => (
-                <button key={tab} onClick={() => { setFaqTab(tab); setOpenFaq(0); }} className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${faqTab === tab ? 'bg-green-600 text-white shadow-md' : 'text-slate-600 hover:text-slate-900'}`}>
-                  {tab}
-                </button>
-              ))}
+
+          {/* Hero */}
+          <section className="bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 px-6 pt-16 pb-20 relative overflow-hidden">
+            <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '28px 28px' }} />
+            <div className="max-w-[1280px] mx-auto lg:px-6 relative">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/80 text-xs font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
+                <Search className="w-3.5 h-3.5 text-green-400" /> Help Centre
+              </div>
+              <h1 className="text-5xl font-bold text-white tracking-tight leading-[1.05] mb-3">Frequently asked<br />questions</h1>
+              <p className="text-white/60 text-base max-w-lg leading-relaxed mb-8">Everything you need to know about working with MployUs Locums — for locums and employers alike.</p>
+              {/* Tab switcher in hero */}
+              <div className="flex items-center gap-2">
+                {(['Locum', 'Employers'] as const).map(tab => (
+                  <button key={tab} onClick={() => { setFaqTab(tab); setOpenFaq(null); }}
+                    className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${faqTab === tab ? 'bg-white text-slate-900 shadow-lg' : 'bg-white/10 text-white/70 border border-white/15 hover:bg-white/20'}`}>
+                    {tab === 'Locum' ? 'For Locums' : 'For Employers'}
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="space-y-2">
+          </section>
+
+          {/* Main content */}
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-14 grid grid-cols-1 lg:grid-cols-3 gap-14">
+
+            {/* FAQ accordion */}
+            <div className="lg:col-span-2 space-y-3">
               {faqs[faqTab].map((f, i) => {
                 const isOpen = openFaq === i;
                 return (
-                  <div key={f.q} className={`rounded-xl border overflow-hidden transition-all ${isOpen ? 'bg-green-600 border-green-600 shadow-lg shadow-green-600/20' : 'bg-white border-slate-100 hover:border-slate-200'}`}>
-                    <button onClick={() => setOpenFaq(isOpen ? null : i)} className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left">
-                      <span className={`text-sm font-semibold ${isOpen ? 'text-white' : 'text-slate-900'}`}>{f.q}</span>
-                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${isOpen ? 'bg-white/20' : 'bg-slate-50'}`}>
-                        {isOpen ? <Minus className="w-4 h-4 text-white" /> : <Plus className="w-4 h-4 text-slate-500" />}
+                  <motion.div key={f.q}
+                    initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.05 }}
+                    className={`rounded-2xl border overflow-hidden transition-all duration-200 ${isOpen ? 'border-[#276647] shadow-lg shadow-green-600/10' : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-sm'}`}>
+                    <button onClick={() => setOpenFaq(isOpen ? null : i)}
+                      className={`w-full flex items-center justify-between gap-4 px-6 py-5 text-left transition-colors ${isOpen ? 'bg-[#276647]' : 'bg-white'}`}>
+                      <span className={`text-sm font-semibold leading-snug ${isOpen ? 'text-white' : 'text-slate-900'}`}>{f.q}</span>
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors ${isOpen ? 'bg-white/20' : 'bg-slate-50'}`}>
+                        {isOpen
+                          ? <Minus className="w-4 h-4 text-white" />
+                          : <Plus className="w-4 h-4 text-slate-500" />}
                       </div>
                     </button>
-                    {isOpen && <div className="px-5 pb-5 text-sm text-white/85 leading-relaxed">{f.a}</div>}
-                  </div>
+                    {isOpen && (
+                      <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
+                        className="bg-white px-6 pb-6 pt-4 text-[15px] text-slate-600 leading-relaxed border-t border-[#276647]/10">
+                        {f.a}
+                      </motion.div>
+                    )}
+                  </motion.div>
                 );
               })}
+
+              {/* Still have questions */}
+              <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.3 }}
+                className="mt-4 bg-white border border-slate-100 rounded-2xl p-6 flex items-start gap-4 shadow-sm">
+                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center shrink-0">
+                  <Mail className="w-5 h-5 text-[#276647]" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-slate-900 mb-0.5">Still have questions?</p>
+                  <p className="text-xs text-slate-500 leading-relaxed mb-3">Our team typically responds within 2 hours on business days.</p>
+                  <button onClick={() => onBookDemo('FAQ contact')} className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#276647] hover:bg-[#1e4f37] text-white text-xs font-bold rounded-lg transition-colors">
+                    Contact support <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </motion.div>
             </div>
+
+            {/* Sidebar */}
+            <aside className="space-y-5">
+              {/* Quick links */}
+              <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Quick links</p>
+                <div className="space-y-2">
+                  {[
+                    { label: 'Browse shifts', icon: Search, action: () => goto('find-shifts') },
+                    { label: 'Post a shift', icon: PlusCircle, action: () => goto('post-shift') },
+                    { label: 'CPD Training', icon: GraduationCap, action: () => goto('cpd') },
+                    { label: 'Insights & guides', icon: BookOpen, action: () => goto('blog') },
+                  ].map(({ label, icon: Icon, action }) => (
+                    <button key={label} onClick={action}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 hover:bg-green-50 hover:text-[#276647] text-slate-700 text-sm font-semibold transition-all group">
+                      <Icon className="w-4 h-4 text-slate-400 group-hover:text-[#276647] transition-colors" />
+                      {label}
+                      <ArrowRight className="w-3.5 h-3.5 ml-auto text-slate-300 group-hover:text-[#276647] transition-colors" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div className="bg-gradient-to-br from-slate-900 to-green-950 rounded-2xl p-5 space-y-4">
+                <p className="text-xs font-bold text-green-400 uppercase tracking-widest">Platform by the numbers</p>
+                {[
+                  { value: '2,400+', label: 'Registered locums' },
+                  { value: '< 4 hrs', label: 'Avg urgent fill time' },
+                  { value: '100%', label: 'Compliance verified' },
+                  { value: '£0', label: "Agency fee to locums" },
+                ].map(({ value, label }) => (
+                  <div key={label} className="flex items-center justify-between">
+                    <span className="text-white/70 text-xs font-medium">{label}</span>
+                    <span className="text-white font-bold text-sm">{value}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm space-y-3">
+                <p className="text-sm font-bold text-slate-900">Ready to get started?</p>
+                <p className="text-xs text-slate-500 leading-relaxed">Join thousands of pharmacists and employers already on MployUs.</p>
+                <button onClick={() => openAuth('signup')} className="w-full py-2.5 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold text-sm rounded-xl transition-colors">
+                  Create free account
+                </button>
+                <button onClick={() => openAuth('login')} className="w-full py-2.5 border border-slate-200 text-slate-700 font-semibold text-sm rounded-xl hover:border-slate-300 transition-colors">
+                  Sign in
+                </button>
+              </div>
+            </aside>
+
           </div>
         </div>
       )}
