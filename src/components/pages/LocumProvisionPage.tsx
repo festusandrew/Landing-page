@@ -412,18 +412,18 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const [cpdOpenModule, setCpdOpenModule] = useState<number | null>(0);
 
   const cpdCourses = [
-    { title: 'Antimicrobial Stewardship', hours: 3, icon: Award, color: 'from-green-500 to-green-600', bgLight: 'bg-green-50', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 4, desc: 'Understand responsible antibiotic prescribing, resistance mechanisms, and your role in reducing antimicrobial resistance across community and hospital settings.', outcomes: ['Define antimicrobial resistance and its public health impact', 'Apply stewardship principles in dispensing practice', 'Counsel patients on antibiotic adherence', 'Recognise red flags requiring escalation'], curriculum: [{ title: 'The Global AMR Crisis', dur: '25 min', topics: ['What is AMR?', 'Why it matters to pharmacists', 'Key resistance mechanisms'] }, { title: 'Antibiotic Classes & Appropriate Use', dur: '40 min', topics: ['Spectrum of activity', 'Common clinical indications', 'Prescribing red flags'] }, { title: 'Your Role in Stewardship', dur: '35 min', topics: ['Community pharmacy interventions', 'Dispensing without a prescription', 'Patient counselling techniques'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['20-question multiple choice assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
-    { title: 'Safeguarding Adults at Risk', hours: 2, icon: ShieldCheck, color: 'from-amber-500 to-amber-600', bgLight: 'bg-amber-50', category: 'Compliance', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Recognise the signs of abuse and neglect in adult patients, understand your mandatory reporting obligations, and know how to escalate concerns through the correct channels.', outcomes: ['Identify categories of abuse and common indicators', 'Know your legal duty to report concerns', 'Follow local and national safeguarding procedures', 'Communicate sensitively with vulnerable adults'], curriculum: [{ title: 'Recognising Abuse & Neglect', dur: '30 min', topics: ['Types of abuse: physical, emotional, financial, sexual', 'Behavioural indicators in the pharmacy setting', 'Who is considered "at risk"?'] }, { title: 'Your Legal Duty & Reporting', dur: '30 min', topics: ['Mandatory reporting obligations (IE & UK)', 'Confidentiality vs duty to report', 'Escalation pathways and who to contact'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
-    { title: 'Emergency Contraception Consultation', hours: 4, icon: GraduationCap, color: 'from-emerald-500 to-emerald-600', bgLight: 'bg-emerald-50', category: 'Clinical', level: 'Advanced', accreditor: 'PSI / GPhC', modules: 5, desc: 'Deliver evidence-based emergency contraception consultations under PGD, covering patient assessment, product selection, counselling, and documentation in a community pharmacy setting.', outcomes: ['Assess eligibility for levonorgestrel and ulipristal acetate', 'Counsel patients on correct use and expectations', 'Document consultations to regulatory standard', 'Identify contraindications and refer appropriately'], curriculum: [{ title: 'EC Pharmacology & Products', dur: '35 min', topics: ['Levonorgestrel vs ulipristal acetate', 'Mechanism of action', 'Efficacy and timing windows'] }, { title: 'Patient Assessment', dur: '40 min', topics: ['UKMEC categories', 'Drug interaction screening', 'Assessing vulnerability and safeguarding'] }, { title: 'Consultation Skills', dur: '35 min', topics: ['Building a private consultation', 'Non-judgemental communication', 'Contraception going forward'] }, { title: 'Documentation & PGD Compliance', dur: '30 min', topics: ['PGD legal requirements', 'Consultation record keeping', 'Audit and governance'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
-    { title: 'Medicines Reconciliation', hours: 3, icon: BookOpen, color: 'from-green-500 to-green-600', bgLight: 'bg-green-50', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 4, desc: 'Develop systematic processes for accurate medicines reconciliation at care transitions — admission, transfer, and discharge — to reduce medication errors and improve patient safety.', outcomes: ['Understand the medicines reconciliation process', 'Identify high-risk drugs at transition points', 'Conduct structured patient medication histories', 'Communicate discrepancies clearly to the clinical team'], curriculum: [{ title: 'Why Medicines Reconciliation Matters', dur: '25 min', topics: ['Medication errors at transitions of care', 'The cost of reconciliation failures', 'Regulatory and professional standards'] }, { title: 'The Reconciliation Process', dur: '40 min', topics: ['Best possible medication history (BPMH)', 'Sources of information', 'Structured reconciliation tools'] }, { title: 'High-Risk Medicines at Transition', dur: '35 min', topics: ['Anticoagulants, insulin, opioids, antiepileptics', 'Dose banding and formulary switches', 'Omission and duplication errors'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Case-based MCQ assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
-    { title: 'Controlled Drugs Management', hours: 2, icon: ShieldCheck, color: 'from-rose-500 to-rose-600', bgLight: 'bg-rose-50', category: 'Compliance', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Master the legal framework and operational requirements for controlled drug storage, ordering, dispensing, record-keeping, and destruction in community and hospital pharmacy.', outcomes: ['Recall Schedule 2–5 regulatory requirements', 'Maintain CD registers accurately', 'Respond to CD discrepancies and incidents', 'Support supervised consumption programmes'], curriculum: [{ title: 'Legal Framework', dur: '30 min', topics: ['Misuse of Drugs Act / Regulations', 'Schedules 1–5 explained', 'Prescribing and dispensing requirements'] }, { title: 'Operational Requirements', dur: '30 min', topics: ['Storage, safe, and access controls', 'CD register maintenance', 'Ordering, receiving, and destruction'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
-    { title: 'Pharmacy First Consultations', hours: 4, icon: Stethoscope, color: 'from-teal-500 to-teal-600', bgLight: 'bg-teal-50', category: 'Clinical', level: 'Intermediate', accreditor: 'GPhC', modules: 5, desc: 'Build confidence delivering NHS Pharmacy First consultations covering seven clinical pathways including sinusitis, sore throat, earache, infected insect bite, impetigo, shingles, and UTI.', outcomes: ['Apply each of the 7 Pharmacy First clinical pathways', 'Use the SBAR framework for consultation documentation', 'Identify escalation criteria for each pathway', 'Understand Patient Group Direction legal requirements'], curriculum: [{ title: 'Introduction to Pharmacy First', dur: '20 min', topics: ['Policy background and commissioning', 'Your PGD responsibilities', 'Structuring the consultation'] }, { title: 'Respiratory Pathways', dur: '40 min', topics: ['Sinusitis — assessment and management', 'Sore throat — FeverPAIN scoring', 'Acute otitis media / earache'] }, { title: 'Skin & Infection Pathways', dur: '40 min', topics: ['Infected insect bite — when to treat', 'Impetigo — topical vs oral', 'Shingles — antivirals and pain management'] }, { title: 'UTI Pathway', dur: '30 min', topics: ['Uncomplicated UTI in women 16–64', 'Dipstick testing and MSU', 'Exclusion criteria and referral'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['7-pathway case assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
-    { title: 'Dementia Awareness for Pharmacy', hours: 2, icon: Users, color: 'from-amber-500 to-amber-600', bgLight: 'bg-amber-50', category: 'Clinical', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Develop awareness of dementia presentations, the impact on medication management, and communication strategies for working effectively with patients with dementia and their carers.', outcomes: ['Recognise common dementia types and presentations', 'Adapt communication to support patients with dementia', 'Identify medication-related challenges in dementia', 'Support carers with compliance aids and blister packs'], curriculum: [{ title: 'Understanding Dementia', dur: '30 min', topics: ["Alzheimer's, vascular and Lewy body dementia", 'Behavioural and psychological symptoms', 'Dementia and capacity'] }, { title: 'Medicines in Dementia', dur: '30 min', topics: ['Medicines that worsen cognition', 'Compliance challenges and aids', 'Carer involvement in medicines management'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Case scenario assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
-    { title: 'Methadone & Opioid Substitution', hours: 3, icon: Award, color: 'from-green-500 to-green-600', bgLight: 'bg-green-50', category: 'Clinical', level: 'Advanced', accreditor: 'PSI / HPRA', modules: 4, desc: 'Gain a thorough understanding of opioid substitution therapy, supervised consumption protocols, patient counselling, and your clinical and legal responsibilities under the Misuse of Drugs Regulations.', outcomes: ['Understand pharmacology of methadone and buprenorphine', 'Apply supervised consumption best practice', 'Recognise signs of intoxication and withdrawal', 'Handle missed doses and lost prescription scenarios'], curriculum: [{ title: 'OST Pharmacology', dur: '35 min', topics: ['Methadone vs buprenorphine', 'Dose titration principles', 'Drug interactions and QTc prolongation'] }, { title: 'Supervised Consumption', dur: '40 min', topics: ['Standard operating procedure', 'Confirming identity and dosing', 'Take-home doses and criteria'] }, { title: 'Patient Management Scenarios', dur: '35 min', topics: ['Missed doses — assessment and decision-making', 'Intoxication and withdrawal signs', 'Lost prescription protocols'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
-    { title: 'Health & Safety for Locums', hours: 1, icon: ShieldCheck, color: 'from-slate-500 to-slate-600', bgLight: 'bg-slate-50', category: 'Compliance', level: 'Foundation', accreditor: 'HSE / HSA', modules: 2, desc: 'A concise refresher on your health and safety rights and obligations as a locum worker, covering manual handling, COSHH, lone working, incident reporting, and PPE requirements.', outcomes: ['Know your H&S rights as an agency/locum worker', 'Apply COSHH principles in a pharmacy setting', 'Report incidents and near-misses correctly', 'Use PPE appropriately in clinical environments'], curriculum: [{ title: 'H&S Rights & Responsibilities', dur: '25 min', topics: ['Your rights as a locum / agency worker', 'Manual handling and ergonomics', 'Lone working and personal safety'] }, { title: 'Assessment & Certificate', dur: '15 min', topics: ['Foundation-level MCQ assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
-    { title: 'Minor Ailments & Self-Care Advice', hours: 3, icon: Stethoscope, color: 'from-green-400 to-emerald-600', bgLight: 'bg-green-50', category: 'Clinical', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 4, desc: 'Sharpen your OTC advisory skills across common minor ailment categories — cold & flu, pain management, gastrointestinal, dermatology, and eye & ear — using structured consultation frameworks.', outcomes: ['Use WWHAM and ASMETHOD frameworks confidently', 'Recommend appropriate OTC products with evidence basis', 'Recognise when to refer to a GP or urgent care', 'Document OTC consultations to professional standard'], curriculum: [{ title: 'Consultation Frameworks', dur: '30 min', topics: ['WWHAM — When, What, Who, Action, Medication, History', 'ASMETHOD unpacked', 'When to refer — red flag symptoms'] }, { title: 'Respiratory & Pain', dur: '35 min', topics: ['Cold & flu — OTC options and limitations', 'Analgesic ladder for OTC pain', 'Cough — productive vs dry management'] }, { title: 'GI, Dermatology & Eye/Ear', dur: '40 min', topics: ['Indigestion, diarrhoea, constipation', 'Common skin conditions — eczema, acne, cold sores', 'Conjunctivitis, earwax, blocked nose'] }, { title: 'Assessment & Certificate', dur: '15 min', topics: ['Scenario-based MCQ assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
-    { title: 'Pharmacy Leadership & Management', hours: 5, icon: TrendingUp, color: 'from-amber-500 to-amber-600', bgLight: 'bg-amber-50', category: 'Management', level: 'Advanced', accreditor: 'PSI / GPhC', modules: 6, desc: "Build the leadership and management competencies needed to lead a pharmacy team effectively — covering team dynamics, performance management, financial literacy, and regulatory governance.", outcomes: ['Apply key leadership models in a pharmacy context', 'Manage performance and development conversations', 'Understand pharmacy business KPIs and targets', 'Implement governance and quality improvement processes'], curriculum: [{ title: 'Leadership Models in Healthcare', dur: '40 min', topics: ['Transformational vs transactional leadership', 'Situational leadership', 'Your leadership style'] }, { title: 'Team Dynamics & Communication', dur: '40 min', topics: ['Building psychological safety', 'Managing conflict', 'Delegation and accountability'] }, { title: 'Performance Management', dur: '35 min', topics: ['Setting SMART objectives', 'Difficult conversations', 'Appraisals and development plans'] }, { title: 'Pharmacy Business Fundamentals', dur: '40 min', topics: ['NHS contract and revenue streams', 'KPIs: dispensing, clinical services, OTC', 'Cost management and profitability'] }, { title: 'Governance & Quality', dur: '35 min', topics: ['Superintendent responsibilities', 'Significant event analysis', 'CQC / HIQA inspection readiness'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Advanced scenario assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
-    { title: 'Vaccination & Immunisation', hours: 4, icon: Zap, color: 'from-teal-500 to-teal-600', bgLight: 'bg-teal-50', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 5, desc: 'Comprehensive training for pharmacists providing vaccination services — including patient assessment, cold chain management, anaphylaxis response, documentation, and post-vaccination advice.', outcomes: ['Assess patient eligibility for pharmacy-administered vaccines', 'Demonstrate correct vaccine preparation and administration technique', 'Manage adverse reactions including anaphylaxis', 'Maintain cold chain and vaccination records to standard'], curriculum: [{ title: 'Immunisation Principles', dur: '30 min', topics: ['How vaccines work', 'National immunisation schedule (IE & UK)', 'Contraindications and precautions'] }, { title: 'Patient Assessment', dur: '35 min', topics: ['Pre-vaccination screening', 'Consent and capacity', 'Identifying high-risk patients'] }, { title: 'Administration Technique', dur: '40 min', topics: ['Preparation and reconstitution', 'IM and SC injection technique', 'Needle-stick injury protocol'] }, { title: 'Cold Chain & Anaphylaxis', dur: '35 min', topics: ['Cold chain SOPs', 'Recognising and managing anaphylaxis', 'Adrenaline auto-injector use'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Practical scenario assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Antimicrobial Stewardship', hours: 3, icon: Award, color: 'bg-[#368B62]', bgLight: 'bg-green-50', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 4, desc: 'Understand responsible antibiotic prescribing, resistance mechanisms, and your role in reducing antimicrobial resistance across community and hospital settings.', outcomes: ['Define antimicrobial resistance and its public health impact', 'Apply stewardship principles in dispensing practice', 'Counsel patients on antibiotic adherence', 'Recognise red flags requiring escalation'], curriculum: [{ title: 'The Global AMR Crisis', dur: '25 min', topics: ['What is AMR?', 'Why it matters to pharmacists', 'Key resistance mechanisms'] }, { title: 'Antibiotic Classes & Appropriate Use', dur: '40 min', topics: ['Spectrum of activity', 'Common clinical indications', 'Prescribing red flags'] }, { title: 'Your Role in Stewardship', dur: '35 min', topics: ['Community pharmacy interventions', 'Dispensing without a prescription', 'Patient counselling techniques'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['20-question multiple choice assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Safeguarding Adults at Risk', hours: 2, icon: ShieldCheck, color: 'bg-amber-500', bgLight: 'bg-amber-50', category: 'Compliance', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Recognise the signs of abuse and neglect in adult patients, understand your mandatory reporting obligations, and know how to escalate concerns through the correct channels.', outcomes: ['Identify categories of abuse and common indicators', 'Know your legal duty to report concerns', 'Follow local and national safeguarding procedures', 'Communicate sensitively with vulnerable adults'], curriculum: [{ title: 'Recognising Abuse & Neglect', dur: '30 min', topics: ['Types of abuse: physical, emotional, financial, sexual', 'Behavioural indicators in the pharmacy setting', 'Who is considered "at risk"?'] }, { title: 'Your Legal Duty & Reporting', dur: '30 min', topics: ['Mandatory reporting obligations (IE & UK)', 'Confidentiality vs duty to report', 'Escalation pathways and who to contact'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Emergency Contraception Consultation', hours: 4, icon: GraduationCap, color: 'bg-emerald-500', bgLight: 'bg-emerald-50', category: 'Clinical', level: 'Advanced', accreditor: 'PSI / GPhC', modules: 5, desc: 'Deliver evidence-based emergency contraception consultations under PGD, covering patient assessment, product selection, counselling, and documentation in a community pharmacy setting.', outcomes: ['Assess eligibility for levonorgestrel and ulipristal acetate', 'Counsel patients on correct use and expectations', 'Document consultations to regulatory standard', 'Identify contraindications and refer appropriately'], curriculum: [{ title: 'EC Pharmacology & Products', dur: '35 min', topics: ['Levonorgestrel vs ulipristal acetate', 'Mechanism of action', 'Efficacy and timing windows'] }, { title: 'Patient Assessment', dur: '40 min', topics: ['UKMEC categories', 'Drug interaction screening', 'Assessing vulnerability and safeguarding'] }, { title: 'Consultation Skills', dur: '35 min', topics: ['Building a private consultation', 'Non-judgemental communication', 'Contraception going forward'] }, { title: 'Documentation & PGD Compliance', dur: '30 min', topics: ['PGD legal requirements', 'Consultation record keeping', 'Audit and governance'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Medicines Reconciliation', hours: 3, icon: BookOpen, color: 'bg-[#368B62]', bgLight: 'bg-green-50', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 4, desc: 'Develop systematic processes for accurate medicines reconciliation at care transitions — admission, transfer, and discharge — to reduce medication errors and improve patient safety.', outcomes: ['Understand the medicines reconciliation process', 'Identify high-risk drugs at transition points', 'Conduct structured patient medication histories', 'Communicate discrepancies clearly to the clinical team'], curriculum: [{ title: 'Why Medicines Reconciliation Matters', dur: '25 min', topics: ['Medication errors at transitions of care', 'The cost of reconciliation failures', 'Regulatory and professional standards'] }, { title: 'The Reconciliation Process', dur: '40 min', topics: ['Best possible medication history (BPMH)', 'Sources of information', 'Structured reconciliation tools'] }, { title: 'High-Risk Medicines at Transition', dur: '35 min', topics: ['Anticoagulants, insulin, opioids, antiepileptics', 'Dose banding and formulary switches', 'Omission and duplication errors'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Case-based MCQ assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Controlled Drugs Management', hours: 2, icon: ShieldCheck, color: 'bg-rose-500', bgLight: 'bg-rose-50', category: 'Compliance', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Master the legal framework and operational requirements for controlled drug storage, ordering, dispensing, record-keeping, and destruction in community and hospital pharmacy.', outcomes: ['Recall Schedule 2–5 regulatory requirements', 'Maintain CD registers accurately', 'Respond to CD discrepancies and incidents', 'Support supervised consumption programmes'], curriculum: [{ title: 'Legal Framework', dur: '30 min', topics: ['Misuse of Drugs Act / Regulations', 'Schedules 1–5 explained', 'Prescribing and dispensing requirements'] }, { title: 'Operational Requirements', dur: '30 min', topics: ['Storage, safe, and access controls', 'CD register maintenance', 'Ordering, receiving, and destruction'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Pharmacy First Consultations', hours: 4, icon: Stethoscope, color: 'bg-teal-500', bgLight: 'bg-teal-50', category: 'Clinical', level: 'Intermediate', accreditor: 'GPhC', modules: 5, desc: 'Build confidence delivering NHS Pharmacy First consultations covering seven clinical pathways including sinusitis, sore throat, earache, infected insect bite, impetigo, shingles, and UTI.', outcomes: ['Apply each of the 7 Pharmacy First clinical pathways', 'Use the SBAR framework for consultation documentation', 'Identify escalation criteria for each pathway', 'Understand Patient Group Direction legal requirements'], curriculum: [{ title: 'Introduction to Pharmacy First', dur: '20 min', topics: ['Policy background and commissioning', 'Your PGD responsibilities', 'Structuring the consultation'] }, { title: 'Respiratory Pathways', dur: '40 min', topics: ['Sinusitis — assessment and management', 'Sore throat — FeverPAIN scoring', 'Acute otitis media / earache'] }, { title: 'Skin & Infection Pathways', dur: '40 min', topics: ['Infected insect bite — when to treat', 'Impetigo — topical vs oral', 'Shingles — antivirals and pain management'] }, { title: 'UTI Pathway', dur: '30 min', topics: ['Uncomplicated UTI in women 16–64', 'Dipstick testing and MSU', 'Exclusion criteria and referral'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['7-pathway case assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Dementia Awareness for Pharmacy', hours: 2, icon: Users, color: 'bg-amber-500', bgLight: 'bg-amber-50', category: 'Clinical', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 3, desc: 'Develop awareness of dementia presentations, the impact on medication management, and communication strategies for working effectively with patients with dementia and their carers.', outcomes: ['Recognise common dementia types and presentations', 'Adapt communication to support patients with dementia', 'Identify medication-related challenges in dementia', 'Support carers with compliance aids and blister packs'], curriculum: [{ title: 'Understanding Dementia', dur: '30 min', topics: ["Alzheimer's, vascular and Lewy body dementia", 'Behavioural and psychological symptoms', 'Dementia and capacity'] }, { title: 'Medicines in Dementia', dur: '30 min', topics: ['Medicines that worsen cognition', 'Compliance challenges and aids', 'Carer involvement in medicines management'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Case scenario assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Methadone & Opioid Substitution', hours: 3, icon: Award, color: 'bg-[#368B62]', bgLight: 'bg-green-50', category: 'Clinical', level: 'Advanced', accreditor: 'PSI / HPRA', modules: 4, desc: 'Gain a thorough understanding of opioid substitution therapy, supervised consumption protocols, patient counselling, and your clinical and legal responsibilities under the Misuse of Drugs Regulations.', outcomes: ['Understand pharmacology of methadone and buprenorphine', 'Apply supervised consumption best practice', 'Recognise signs of intoxication and withdrawal', 'Handle missed doses and lost prescription scenarios'], curriculum: [{ title: 'OST Pharmacology', dur: '35 min', topics: ['Methadone vs buprenorphine', 'Dose titration principles', 'Drug interactions and QTc prolongation'] }, { title: 'Supervised Consumption', dur: '40 min', topics: ['Standard operating procedure', 'Confirming identity and dosing', 'Take-home doses and criteria'] }, { title: 'Patient Management Scenarios', dur: '35 min', topics: ['Missed doses — assessment and decision-making', 'Intoxication and withdrawal signs', 'Lost prescription protocols'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Scenario-based assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Health & Safety for Locums', hours: 1, icon: ShieldCheck, color: 'bg-slate-500', bgLight: 'bg-slate-50', category: 'Compliance', level: 'Foundation', accreditor: 'HSE / HSA', modules: 2, desc: 'A concise refresher on your health and safety rights and obligations as a locum worker, covering manual handling, COSHH, lone working, incident reporting, and PPE requirements.', outcomes: ['Know your H&S rights as an agency/locum worker', 'Apply COSHH principles in a pharmacy setting', 'Report incidents and near-misses correctly', 'Use PPE appropriately in clinical environments'], curriculum: [{ title: 'H&S Rights & Responsibilities', dur: '25 min', topics: ['Your rights as a locum / agency worker', 'Manual handling and ergonomics', 'Lone working and personal safety'] }, { title: 'Assessment & Certificate', dur: '15 min', topics: ['Foundation-level MCQ assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Minor Ailments & Self-Care Advice', hours: 3, icon: Stethoscope, color: 'bg-[#368B62]', bgLight: 'bg-green-50', category: 'Clinical', level: 'Foundation', accreditor: 'PSI / GPhC', modules: 4, desc: 'Sharpen your OTC advisory skills across common minor ailment categories — cold & flu, pain management, gastrointestinal, dermatology, and eye & ear — using structured consultation frameworks.', outcomes: ['Use WWHAM and ASMETHOD frameworks confidently', 'Recommend appropriate OTC products with evidence basis', 'Recognise when to refer to a GP or urgent care', 'Document OTC consultations to professional standard'], curriculum: [{ title: 'Consultation Frameworks', dur: '30 min', topics: ['WWHAM — When, What, Who, Action, Medication, History', 'ASMETHOD unpacked', 'When to refer — red flag symptoms'] }, { title: 'Respiratory & Pain', dur: '35 min', topics: ['Cold & flu — OTC options and limitations', 'Analgesic ladder for OTC pain', 'Cough — productive vs dry management'] }, { title: 'GI, Dermatology & Eye/Ear', dur: '40 min', topics: ['Indigestion, diarrhoea, constipation', 'Common skin conditions — eczema, acne, cold sores', 'Conjunctivitis, earwax, blocked nose'] }, { title: 'Assessment & Certificate', dur: '15 min', topics: ['Scenario-based MCQ assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Pharmacy Leadership & Management', hours: 5, icon: TrendingUp, color: 'bg-amber-500', bgLight: 'bg-amber-50', category: 'Management', level: 'Advanced', accreditor: 'PSI / GPhC', modules: 6, desc: "Build the leadership and management competencies needed to lead a pharmacy team effectively — covering team dynamics, performance management, financial literacy, and regulatory governance.", outcomes: ['Apply key leadership models in a pharmacy context', 'Manage performance and development conversations', 'Understand pharmacy business KPIs and targets', 'Implement governance and quality improvement processes'], curriculum: [{ title: 'Leadership Models in Healthcare', dur: '40 min', topics: ['Transformational vs transactional leadership', 'Situational leadership', 'Your leadership style'] }, { title: 'Team Dynamics & Communication', dur: '40 min', topics: ['Building psychological safety', 'Managing conflict', 'Delegation and accountability'] }, { title: 'Performance Management', dur: '35 min', topics: ['Setting SMART objectives', 'Difficult conversations', 'Appraisals and development plans'] }, { title: 'Pharmacy Business Fundamentals', dur: '40 min', topics: ['NHS contract and revenue streams', 'KPIs: dispensing, clinical services, OTC', 'Cost management and profitability'] }, { title: 'Governance & Quality', dur: '35 min', topics: ['Superintendent responsibilities', 'Significant event analysis', 'CQC / HIQA inspection readiness'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Advanced scenario assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
+    { title: 'Vaccination & Immunisation', hours: 4, icon: Zap, color: 'bg-teal-500', bgLight: 'bg-teal-50', category: 'Clinical', level: 'Intermediate', accreditor: 'PSI / GPhC', modules: 5, desc: 'Comprehensive training for pharmacists providing vaccination services — including patient assessment, cold chain management, anaphylaxis response, documentation, and post-vaccination advice.', outcomes: ['Assess patient eligibility for pharmacy-administered vaccines', 'Demonstrate correct vaccine preparation and administration technique', 'Manage adverse reactions including anaphylaxis', 'Maintain cold chain and vaccination records to standard'], curriculum: [{ title: 'Immunisation Principles', dur: '30 min', topics: ['How vaccines work', 'National immunisation schedule (IE & UK)', 'Contraindications and precautions'] }, { title: 'Patient Assessment', dur: '35 min', topics: ['Pre-vaccination screening', 'Consent and capacity', 'Identifying high-risk patients'] }, { title: 'Administration Technique', dur: '40 min', topics: ['Preparation and reconstitution', 'IM and SC injection technique', 'Needle-stick injury protocol'] }, { title: 'Cold Chain & Anaphylaxis', dur: '35 min', topics: ['Cold chain SOPs', 'Recognising and managing anaphylaxis', 'Adrenaline auto-injector use'] }, { title: 'Assessment & Certificate', dur: '20 min', topics: ['Practical scenario assessment', 'Minimum pass mark: 80%', 'Digital certificate on completion'] }] },
   ];
 
   // ── Search bar (reused on multiple pages) ────────────────────────────────
@@ -480,7 +480,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       </div>
       <button
         onClick={() => goto('find-shifts')}
-        className="px-4 py-3 bg-gradient-to-br from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-semibold text-sm rounded-xl transition-all flex items-center justify-center gap-2"
+        className="px-4 py-3 bg-green-600 hover:bg-green-500 text-white font-semibold text-sm rounded-xl transition-all flex items-center justify-center gap-2"
       >
         <Search className="w-4 h-4" /> Search Shifts
       </button>
@@ -536,7 +536,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               <button onClick={() => openAuth('signup')} className="px-4 py-2 text-sm font-semibold text-slate-700 border border-black/5 rounded-lg hover:border-black/5 hover:bg-slate-50 transition-all">
                 Register
               </button>
-              <button onClick={() => openAuth('signin')} className="px-4 py-2 text-sm font-semibold text-white bg-gradient-to-br from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 rounded-lg transition-all">
+              <button onClick={() => openAuth('signin')} className="px-4 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-500 rounded-lg transition-all">
                 Login
               </button>
             </div>
@@ -586,8 +586,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
           >
             <img src={imgOverlay} alt="" className="w-full h-full object-cover object-center" />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/75 to-slate-900/30" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-slate-950/90" />
+            <div className="absolute inset-0 bg-slate-950/60" />
           </motion.div>
 
           {/* Glassmorphic stat cards — right side, staggered in */}
@@ -630,7 +630,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               variants={fadeUp}
             >
               Browse & apply<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-green-500">flexible shifts</span><br />
+              <span className="text-green-300">flexible shifts</span><br />
               near you.
             </motion.h1>
 
@@ -644,7 +644,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             <motion.div className="flex flex-wrap gap-3" variants={fadeUp}>
               <motion.button
                 onClick={() => goto('find-shifts')}
-                className="group flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-green-500 to-green-600 text-white font-semibold text-sm rounded-xl"
+                className="group flex items-center gap-2 px-7 py-3.5 bg-[#368B62] text-white font-semibold text-sm rounded-xl"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
@@ -676,7 +676,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── STATS RIBBON ── */}
-        <section className="bg-gradient-to-r from-green-600 to-green-700 border-y border-black/5">
+        <section className="bg-green-600 border-y border-black/5">
           <div ref={statsRef} className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
             {STATS.map((stat, i) => {
               const Icon = stat.icon;
@@ -831,7 +831,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       whileHover={{ scale: 1.08 }}
                       transition={{ duration: 0.5 }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent" />
+                    <div className="absolute inset-0 bg-slate-900/80" />
                     <div className="absolute bottom-0 left-0 right-0 p-5">
                       <div className="text-2xl mb-1">{item.emoji}</div>
                       <p className="text-white font-semibold text-[15px] leading-tight">{item.label}</p>
@@ -895,7 +895,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               <motion.div variants={fadeUp} className="flex gap-3 pt-2">
                 <motion.button
                   onClick={() => openAuth('signup')}
-                  className="px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-br from-green-600 to-green-700 rounded-xl"
+                  className="px-5 py-2.5 text-sm font-bold text-white bg-green-600 rounded-xl"
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 20 }}
@@ -924,7 +924,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   whileHover={{ scale: 1.04 }}
                   transition={{ duration: 0.5 }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent" />
+                <div className="absolute inset-0 bg-slate-900/30" />
                 <motion.div
                   className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-sm rounded-2xl p-4 border border-black/5 "
                   initial={{ opacity: 0, y: 20 }}
@@ -949,7 +949,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         {/* ── MOBILE APP ── */}
         <Reveal className="py-8 px-6 lg:px-12 max-w-[1280px] mx-auto">
-          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-slate-900 via-green-950 to-slate-900">
+          <div className="relative rounded-3xl overflow-hidden bg-slate-900">
             {/* Decorative blobs */}
             <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-green-600/20 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-green-500/15 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl pointer-events-none" />
@@ -1071,7 +1071,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 </div>
                 <p className="text-slate-700 text-sm leading-relaxed mb-5">{t.quote}</p>
                 <div className="flex items-center gap-3 pt-3 border-t border-black/5">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                  <div className="w-9 h-9 rounded-full bg-[#368B62] flex items-center justify-center text-white text-sm font-bold shrink-0">
                     {t.name[0]}
                   </div>
                   <div>
@@ -1175,7 +1175,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── CTA STRIP ── */}
-        <section className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 overflow-hidden">
+        <section className="py-20 bg-slate-900 overflow-hidden">
           <motion.div
             className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8"
             variants={stagger(0.12)}
@@ -1235,7 +1235,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
           {/* ── Filter bar ── */}
           <div className="bg-white border-b border-black/5">
-            <div className="max-w-[1286px] mx-auto px-10 py-6 flex flex-wrap items-end justify-between gap-4" style={{ backgroundImage: 'linear-gradient(90deg, rgba(54,139,98,0.03) 0%, rgba(54,139,98,0.03) 100%), linear-gradient(90deg, #fff 0%, #fff 100%)' }}>
+            <div className="max-w-[1286px] mx-auto px-10 py-6 flex flex-wrap items-end justify-between gap-4">
               <div className="flex flex-wrap gap-6 items-end">
                 {/* Profession */}
                 <div className="flex flex-col gap-1.5">
@@ -1880,7 +1880,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <>
         <div className="pt-[70px] min-h-screen bg-slate-50">
 
-          <div className="bg-gradient-to-br from-slate-900 to-green-950 pt-16 pb-10 px-6 text-center">
+          <div className="bg-slate-900 pt-16 pb-10 px-6 text-center">
             <span className="text-xs font-bold text-amber-300 uppercase tracking-widest">For Employers</span>
             <h1 className="text-4xl font-bold text-white mt-2 tracking-tight">Post an open shift in 3 steps</h1>
             <p className="text-slate-400 text-sm mt-2 max-w-lg mx-auto">List a locum shift or a permanent role and reach verified {loc.country} healthcare professionals in minutes.</p>
@@ -1945,7 +1945,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 {postSuccess && (
                   <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 25 }} className="py-6 flex flex-col items-center text-center gap-5">
-                    <motion.div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center"
+                    <motion.div className="w-20 h-20 rounded-full bg-[#368B62] flex items-center justify-center"
                       initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 350, damping: 18, delay: 0.1 }}>
                       <Check className="w-9 h-9 text-white" />
                     </motion.div>
@@ -2446,8 +2446,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <div className="pt-[70px] min-h-screen bg-slate-50">
 
           {/* ── Hero ── */}
-          <section className="relative bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 overflow-hidden">
-            <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
+          <section className="relative bg-slate-900 overflow-hidden">
+            <div className="absolute inset-0 opacity-[0.04]" />
             <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-12 py-20 flex flex-col lg:flex-row items-center gap-14">
               <motion.div className="flex-1 space-y-6" variants={stagger(0.12)} initial="hidden" animate="visible">
                 <motion.div variants={fadeUp}>
@@ -2458,7 +2458,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 </motion.div>
                 <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl font-bold text-white leading-[1.06] tracking-tight">
                   Keep your registration<br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-green-500">current between shifts.</span>
+                  <span className="text-green-300">current between shifts.</span>
                 </motion.h1>
                 <motion.p variants={fadeUp} className="text-lg text-white/70 leading-relaxed max-w-[500px]">
                   Earn accredited CPD hours on your schedule. Courses designed for pharmacists, nurses, and allied health professionals — fully recognised by PSI and GPhC.
@@ -2466,7 +2466,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
                   <motion.button
                     onClick={() => document.getElementById('cpd-courses')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="group flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-green-500 to-green-600 text-white font-semibold text-sm rounded-xl"
+                    className="group flex items-center gap-2 px-7 py-3.5 bg-[#368B62] text-white font-semibold text-sm rounded-xl"
                     whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                   >
@@ -2506,7 +2506,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </section>
 
           {/* ── Stats ribbon ── */}
-          <section className="bg-gradient-to-r from-green-600 to-green-700 border-y border-black/5">
+          <section className="bg-green-600 border-y border-black/5">
             <div className="max-w-[1280px] mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
                 { icon: BookOpen, val: '12+', label: 'Accredited courses' },
@@ -2570,7 +2570,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         onClick={() => setCpdCourseModal(cpdCourses.indexOf(c))}
                       >
                         <div className="flex items-start justify-between mb-4">
-                          <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center`}>
+                          <div className={`w-12 h-12 rounded-xl ${c.bgLight} flex items-center justify-center`}>
                             <Icon className="w-5 h-5 text-white" />
                           </div>
                           <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${levelColor}`}>{c.level}</span>
@@ -2605,19 +2605,19 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 variants={stagger(0.1)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
                 {[
                   {
-                    title: 'Community Pharmacist Excellence', color: 'from-green-500 to-green-600', badge: 'bg-green-50 text-green-700',
+                    title: 'Community Pharmacist Excellence', color: 'bg-[#368B62]', badge: 'bg-green-50 text-green-700',
                     hours: 14, courses: 4, icon: Award,
                     desc: 'Master the clinical and operational skills needed to excel in a busy community pharmacy — from Pharmacy First to controlled drugs to patient counselling.',
                     tags: ['Pharmacy First', 'Minor Ailments', 'CD Management', 'Antimicrobial'],
                   },
                   {
-                    title: 'Clinical Compliance Bundle', color: 'from-amber-500 to-amber-600', badge: 'bg-amber-50 text-amber-700',
+                    title: 'Clinical Compliance Bundle', color: 'bg-amber-500', badge: 'bg-amber-50 text-amber-700',
                     hours: 8, courses: 3, icon: ShieldCheck,
                     desc: 'Cover all your mandatory and recommended compliance training in one structured path — safeguarding, controlled drugs, and health & safety.',
                     tags: ['Safeguarding', 'CD Management', 'H&S for Locums'],
                   },
                   {
-                    title: 'Pharmacy Leadership Track', color: 'from-amber-500 to-amber-600', badge: 'bg-amber-50 text-amber-700',
+                    title: 'Pharmacy Leadership Track', color: 'bg-amber-500', badge: 'bg-amber-50 text-amber-700',
                     hours: 10, courses: 3, icon: TrendingUp,
                     desc: 'Develop the management and leadership competencies to take on a superintendent or management role in a pharmacy group or independent setting.',
                     tags: ['Leadership & Management', 'Clinical Governance', 'Team Development'],
@@ -2626,7 +2626,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   <motion.div key={title} variants={fadeUp}
                     className="bg-white border border-black/5 rounded-2xl overflow-hidden transition-all group"
                     whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-                    <div className={`bg-gradient-to-br ${color} px-6 py-8`}>
+                    <div className={`${color} px-6 py-8`}>
                       <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
                         <Icon className="w-6 h-6 text-white" />
                       </div>
@@ -2663,13 +2663,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8"
                 variants={stagger(0.12)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
                 {[
-                  { n: '01', icon: BookOpen, color: 'from-green-500 to-green-700', title: 'Browse & enrol', desc: 'Choose a course or learning path that matches your registration requirements. No upfront cost — all courses are included free with your MployUs account.' },
-                  { n: '02', icon: GraduationCap, color: 'from-emerald-500 to-emerald-700', title: 'Learn at your pace', desc: 'Work through video modules, case studies, and knowledge checks at whatever speed suits your schedule — start on your phone, finish on your laptop.' },
-                  { n: '03', icon: Award, color: 'from-teal-500 to-teal-700', title: 'Earn your certificate', desc: 'Pass the end-of-course assessment and download a digital certificate with your CPD hours. It lands straight in your MployUs compliance portfolio.' },
+                  { n: '01', icon: BookOpen, color: 'bg-[#368B62]', title: 'Browse & enrol', desc: 'Choose a course or learning path that matches your registration requirements. No upfront cost — all courses are included free with your MployUs account.' },
+                  { n: '02', icon: GraduationCap, color: 'bg-emerald-500', title: 'Learn at your pace', desc: 'Work through video modules, case studies, and knowledge checks at whatever speed suits your schedule — start on your phone, finish on your laptop.' },
+                  { n: '03', icon: Award, color: 'bg-teal-500', title: 'Earn your certificate', desc: 'Pass the end-of-course assessment and download a digital certificate with your CPD hours. It lands straight in your MployUs compliance portfolio.' },
                 ].map(({ n, icon: Icon, color, title, desc }) => (
                   <motion.div key={n} variants={fadeUp} className="flex flex-col items-center text-center gap-4">
                     <div className="relative">
-                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center`}>
+                      <div className={`w-16 h-16 rounded-2xl ${color} flex items-center justify-center`}>
                         <Icon className="w-7 h-7 text-white" />
                       </div>
                       <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-900 text-white text-[10px] font-bold flex items-center justify-center">{n}</div>
@@ -2709,7 +2709,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </section>
 
           {/* ── CTA strip ── */}
-          <section className="py-20 bg-gradient-to-br from-slate-900 to-green-950">
+          <section className="py-20 bg-slate-900">
             <motion.div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8"
               variants={stagger(0.12)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }}>
               <motion.div variants={slideLeft} className="space-y-3">
@@ -2771,7 +2771,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </div>
 
               {/* Hero banner */}
-              <div className={`bg-gradient-to-br ${c.color}`}>
+              <div className={`${c.color}`}>
                 <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-14 lg:py-20 grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
                   <div className="lg:col-span-2 space-y-5">
                     <div className="flex flex-wrap gap-2">
@@ -2794,7 +2794,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.15, type: 'spring', stiffness: 300, damping: 26 }}
                   >
-                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center`}>
+                    <div className={`w-14 h-14 rounded-xl ${c.color} flex items-center justify-center`}>
                       <Icon className="w-7 h-7 text-white" />
                     </div>
                     <div>
@@ -2854,7 +2854,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                               onClick={() => setCpdOpenModule(open ? null : mi)}
                             >
                               <div className="flex items-center gap-3 min-w-0">
-                                <div className={`w-7 h-7 rounded-lg bg-gradient-to-br ${c.color} flex items-center justify-center shrink-0 text-[11px] font-bold text-white`}>{mi + 1}</div>
+                                <div className={`w-7 h-7 rounded-lg ${c.color} flex items-center justify-center shrink-0 text-[11px] font-bold text-white`}>{mi + 1}</div>
                                 <span className="text-sm font-bold text-slate-900 truncate">{mod.title}</span>
                               </div>
                               <div className="flex items-center gap-3 shrink-0 ml-4">
@@ -2907,8 +2907,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
                   {/* Certificate */}
                   <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-                    <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-black/5 rounded-2xl p-7 flex items-center gap-6">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 flex items-center justify-center shrink-0">
+                    <div className="bg-amber-50 border border-black/5 rounded-2xl p-7 flex items-center gap-6">
+                      <div className="w-16 h-16 rounded-2xl bg-amber-400 flex items-center justify-center shrink-0">
                         <Award className="w-8 h-8 text-white" />
                       </div>
                       <div>
@@ -2932,7 +2932,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                               whileHover={{ y: -3 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                               onClick={() => { setCpdCourseModal(ri); setCpdOpenModule(0); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                             >
-                              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${r.color} flex items-center justify-center mb-3`}>
+                              <div className={`w-10 h-10 rounded-xl ${r.color} flex items-center justify-center mb-3`}>
                                 <RIcon className="w-4 h-4 text-white" />
                               </div>
                               <h4 className="text-sm font-bold text-slate-900 leading-snug mb-1">{r.title}</h4>
@@ -2952,7 +2952,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 <div className="hidden lg:block">
                   <div className="sticky top-24 space-y-4">
                     <div className="bg-white border border-black/5 rounded-2xl p-6 space-y-4">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center`}>
+                      <div className={`w-12 h-12 rounded-xl ${c.color} flex items-center justify-center`}>
                         <Icon className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -3030,7 +3030,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </div>
 
               {/* Article hero */}
-              <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 px-6 pt-14 pb-16">
+              <div className="bg-slate-900 px-6 pt-14 pb-16">
                 <div className="max-w-[860px] mx-auto">
                   <div className="flex flex-wrap items-center gap-3 mb-5">
                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border ${a.tagColor}`}>{a.tag}</span>
@@ -3062,7 +3062,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
                   {/* Bottom CTA */}
                   <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45 }}
-                    className="mt-10 bg-gradient-to-br from-slate-900 to-green-950 rounded-2xl p-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+                    className="mt-10 bg-slate-900 rounded-2xl p-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
                     <div>
                       <p className="text-xs font-bold text-green-400 uppercase tracking-widest mb-1">MployUs Locums</p>
                       <p className="text-white font-bold text-lg leading-snug">Ready to find your next shift?</p>
@@ -3142,7 +3142,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           <div className="pt-[70px] min-h-screen bg-slate-50">
 
             {/* Hero */}
-            <section className="bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 px-6 pt-16 pb-14">
+            <section className="bg-slate-900 px-6 pt-16 pb-14">
               <div className="max-w-[1280px] mx-auto lg:px-6 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
                 <div>
                   <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/80 text-xs font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
@@ -3179,7 +3179,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           onClick={() => { setBlogPost(idx); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                           <div className="relative h-44 overflow-hidden bg-slate-900">
                             <img src={a.img} alt={a.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent" />
+                            <div className="absolute inset-0 bg-slate-900/80" />
                             <span className={`absolute top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border ${a.tagColor} backdrop-blur-sm`}>{a.tag}</span>
                           </div>
                           <div className="px-6 py-5">
@@ -3220,7 +3220,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           onClick={() => { setBlogPost(idx); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                           <div className="relative h-36 overflow-hidden bg-slate-900 shrink-0">
                             <img src={a.img} alt={a.title} className="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                            <div className="absolute inset-0 bg-slate-900/60" />
                             <span className={`absolute top-3 left-3 inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold border ${a.tagColor} backdrop-blur-sm`}>{a.tag}</span>
                           </div>
                           <div className="p-5 flex flex-col flex-1">
@@ -3243,7 +3243,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
               {/* Newsletter strip */}
               <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-                className="bg-gradient-to-br from-slate-900 to-green-950 rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                className="bg-slate-900 rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                 <div className="space-y-1.5">
                   <div className="text-xs font-bold text-green-400 uppercase tracking-widest">MployUs Insights</div>
                   <h3 className="text-xl font-bold text-white">Get the monthly salary &amp; market report</h3>
@@ -3270,8 +3270,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <div className="pt-[70px] min-h-screen bg-slate-50">
 
           {/* Hero */}
-          <section className="bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 px-6 pt-16 pb-20 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '28px 28px' }} />
+          <section className="bg-slate-900 px-6 pt-16 pb-20 relative overflow-hidden">
+            <div className="absolute inset-0 opacity-[0.04]" />
             <div className="max-w-[1280px] mx-auto lg:px-6 relative">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/80 text-xs font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
                 <Search className="w-3.5 h-3.5 text-green-400" /> Help Centre
@@ -3360,7 +3360,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </div>
 
               {/* Stats */}
-              <div className="bg-gradient-to-br from-slate-900 to-green-950 rounded-2xl p-5 space-y-4">
+              <div className="bg-slate-900 rounded-2xl p-5 space-y-4">
                 <p className="text-xs font-bold text-green-400 uppercase tracking-widest">Platform by the numbers</p>
                 {[
                   { value: '2,400+', label: 'Registered locums' },
@@ -3485,7 +3485,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <Lock className="w-4 h-4 text-slate-400" />
                       <input type="password" placeholder="Password" className="bg-transparent text-sm w-full outline-none" />
                     </div>
-                    <button onClick={() => onBookDemo('Sign In')} className="w-full py-3 bg-gradient-to-br from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white text-sm font-bold rounded-xl transition-all">
+                    <button onClick={() => onBookDemo('Sign In')} className="w-full py-3 bg-green-600 hover:bg-green-500 text-white text-sm font-bold rounded-xl transition-all">
                       Log In
                     </button>
                     <div className="flex items-center gap-3 text-[10px] text-slate-300 uppercase tracking-wider">
@@ -3533,7 +3533,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           );
                         })}
                       </div>
-                      <button disabled={!role} onClick={() => setSignupStep('details')} className="w-full py-3 bg-gradient-to-br from-green-600 to-green-700 disabled:opacity-40 text-white text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-1.5">
+                      <button disabled={!role} onClick={() => setSignupStep('details')} className="w-full py-3 bg-green-600 disabled:opacity-40 text-white text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-1.5">
                         Continue <ChevronRight className="w-4 h-4" />
                       </button>
                       <p className="text-center text-xs text-slate-500">Already have an account? <button onClick={() => setAuthModal('signin')} className="font-bold text-green-600 hover:underline">Sign in</button></p>
@@ -3567,7 +3567,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <input placeholder="Mobile number" className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-black/5 text-sm outline-none focus:border-green-400 transition-colors" />
                       <div className="flex gap-2">
                         <button onClick={() => setSignupStep('role')} className="px-4 py-3 text-sm font-semibold text-slate-500 hover:text-slate-900">← Back</button>
-                        <button onClick={() => setSignupStep('verify')} className="flex-1 py-3 bg-gradient-to-br from-green-600 to-green-700 text-white text-sm font-bold rounded-xl flex items-center justify-center gap-1.5">
+                        <button onClick={() => setSignupStep('verify')} className="flex-1 py-3 bg-green-600 text-white text-sm font-bold rounded-xl flex items-center justify-center gap-1.5">
                           <UserPlus className="w-4 h-4" /> Create account
                         </button>
                       </div>
@@ -3599,7 +3599,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           />
                         ))}
                       </div>
-                      <button onClick={() => { onBookDemo('Account created'); setAuthModal(null); }} className="w-full py-3 bg-gradient-to-br from-green-600 to-green-700 text-white text-sm font-bold rounded-xl">
+                      <button onClick={() => { onBookDemo('Account created'); setAuthModal(null); }} className="w-full py-3 bg-green-600 text-white text-sm font-bold rounded-xl">
                         Verify & Continue
                       </button>
                       <button className="text-xs text-slate-400 hover:text-slate-700 font-medium">Resend code</button>
