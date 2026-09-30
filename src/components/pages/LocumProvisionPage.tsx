@@ -177,7 +177,7 @@ function useCounter(target: number, duration = 1.6, inView = false) {
 
 // ─── Label pill used throughout sections ─────────────────────────────────────
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 border border-green-100 text-green-600 text-[11px] font-bold uppercase tracking-widest">
+  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 border border-black/5 text-green-600 text-[11px] font-bold uppercase tracking-widest">
     {children}
   </span>
 );
@@ -330,7 +330,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
   const articles = [
     {
-      tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-green-100', read: '8 min', date: 'Jul 2026', featured: true,
+      tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-black/5', read: '8 min', date: 'Jul 2026', featured: true,
       img: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: '2026 Locum Pharmacist pay rates: Ireland vs UK',
       subtitle: 'A comprehensive breakdown of hourly rates by region, specialisation, and experience level — with projections for the rest of the year.',
@@ -344,7 +344,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       callout: 'Rates quoted are for community pharmacy locum cover. Hospital, clinic, and primary care rates vary significantly by Trust and HSE CHO area.',
     },
     {
-      tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-emerald-100', read: '11 min', date: 'Jun 2026', featured: true,
+      tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-black/5', read: '11 min', date: 'Jun 2026', featured: true,
       img: 'https://images.unsplash.com/photo-1754548930574-6a995e5eb5a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: 'The complete Garda vetting & DBS toolkit for locums and employers',
       subtitle: 'Everything you need to know about background checks in Irish and UK healthcare — what they cover, how long they take, and how to manage renewals.',
@@ -358,7 +358,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       callout: 'MployUs verifies Garda vetting and DBS for all registered locums automatically. Employers always receive a compliance summary before a shift starts.',
     },
     {
-      tag: 'Market Report', tagColor: 'bg-violet-50 text-violet-700 border-violet-100', read: '6 min', date: 'Jun 2026', featured: false,
+      tag: 'Market Report', tagColor: 'bg-violet-50 text-violet-700 border-black/5', read: '6 min', date: 'Jun 2026', featured: false,
       img: 'https://images.unsplash.com/photo-1576091358783-a212ec293ff3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: 'How Irish pharmacy groups are rethinking locum staffing in 2026',
       subtitle: 'From agency dependence to direct marketplace access — what the data says about changing employer behaviour.',
@@ -370,7 +370,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       callout: null,
     },
     {
-      tag: 'Career', tagColor: 'bg-sky-50 text-sky-700 border-sky-100', read: '7 min', date: 'May 2026', featured: false,
+      tag: 'Career', tagColor: 'bg-sky-50 text-sky-700 border-black/5', read: '7 min', date: 'May 2026', featured: false,
       img: 'https://images.unsplash.com/photo-1657551734497-30a09e6567bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: 'From staff pharmacist to locum: a practical transition guide',
       subtitle: 'The financial, logistical, and professional steps to make the leap — and what no one tells you about the first 90 days.',
@@ -382,7 +382,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       callout: null,
     },
     {
-      tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-emerald-100', read: '5 min', date: 'May 2026', featured: false,
+      tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-black/5', read: '5 min', date: 'May 2026', featured: false,
       img: 'https://images.unsplash.com/photo-1619418602850-35ad20aa1700?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: 'PSI revalidation in 2026: what has changed and what you need to do',
       subtitle: 'A plain-English walkthrough of the PSI continuing competence framework updates effective January 2026.',
@@ -394,7 +394,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       callout: 'Complete your PSI CPD requirements with MployUs Training — all courses are PSI-approved and automatically logged to your compliance portfolio.',
     },
     {
-      tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-green-100', read: '9 min', date: 'Apr 2026', featured: false,
+      tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-black/5', read: '9 min', date: 'Apr 2026', featured: false,
       img: 'https://images.unsplash.com/photo-1580281657527-47f249e8f4df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
       title: 'Pharmacy technician rates 2026: community, hospital, and primary care',
       subtitle: 'Technician locum rates have risen faster than pharmacist rates in the last two years. Here is the data.',
@@ -443,14 +443,14 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <button
           type="button"
           onClick={() => setDropdownOpen(open ? null : id)}
-          className={`w-full flex items-center gap-2.5 px-4 py-3 rounded-xl text-left ${dark ? 'bg-white/10 border border-white/10' : 'bg-slate-50 border border-slate-100 hover:border-slate-200'} transition-colors`}
+          className={`w-full flex items-center gap-2.5 px-4 py-3 rounded-xl text-left ${dark ? 'bg-white/10 border border-black/5' : 'bg-slate-50 border border-black/5 hover:border-black/5'} transition-colors`}
         >
           <Icon className={`w-4 h-4 shrink-0 ${dark ? 'text-white/50' : 'text-slate-400'}`} />
           <span className={`text-sm font-medium flex-1 select-text ${dark ? 'text-white' : 'text-slate-800'}`}>{value}</span>
           <ChevronDown className={`w-3.5 h-3.5 shrink-0 transition-transform ${dark ? 'text-white/40' : 'text-slate-400'} ${open ? 'rotate-180' : ''}`} />
         </button>
         {open && (
-          <div className="absolute top-full left-0 right-0 mt-1.5 bg-white border border-slate-100 rounded-xl shadow-xl shadow-slate-900/10 z-50 overflow-hidden max-h-52 overflow-y-auto">
+          <div className="absolute top-full left-0 right-0 mt-1.5 bg-white border border-black/5 rounded-xl z-50 overflow-hidden max-h-52 overflow-y-auto">
             {options.map(o => (
               <button
                 key={o}
@@ -469,18 +469,18 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
   const SearchBar = ({ dark = false }: { dark?: boolean }) => (
     <div
-      className={`rounded-2xl ${dark ? 'bg-white/10 backdrop-blur-xl border border-white/20 p-2' : 'bg-white border border-black/10 shadow-lg shadow-green-900/5 p-2'} grid grid-cols-1 md:grid-cols-4 gap-2`}
+      className={`rounded-2xl ${dark ? 'bg-white/10 backdrop-blur-xl border border-black/5 p-2' : 'bg-white border border-black/5 p-2'} grid grid-cols-1 md:grid-cols-4 gap-2`}
       onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setDropdownOpen(null); }}
     >
       <SearchDropdown id="profession" icon={Stethoscope} value={searchProfession} options={PROFESSIONS.map(p => p.name)} onChange={setSearchProfession} dark={dark} />
       <SearchDropdown id="location" icon={MapPin} value={searchLocation} options={loc.cities} onChange={setSearchLocation} dark={dark} />
-      <div className={`flex items-center gap-2.5 px-4 py-3 rounded-xl ${dark ? 'bg-white/10 border border-white/10' : 'bg-slate-50 border border-slate-100'}`}>
+      <div className={`flex items-center gap-2.5 px-4 py-3 rounded-xl ${dark ? 'bg-white/10 border border-black/5' : 'bg-slate-50 border border-black/5 '}`}>
         <Calendar className={`w-4 h-4 shrink-0 ${dark ? 'text-white/50' : 'text-slate-400'}`} />
         <input type="date" className={`bg-transparent text-sm font-medium w-full outline-none ${dark ? 'text-white/70' : 'text-slate-600'}`} />
       </div>
       <button
         onClick={() => goto('find-shifts')}
-        className="px-4 py-3 bg-gradient-to-br from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-semibold text-sm rounded-xl transition-all flex items-center justify-center gap-2 shadow-md shadow-green-600/30"
+        className="px-4 py-3 bg-gradient-to-br from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-semibold text-sm rounded-xl transition-all flex items-center justify-center gap-2"
       >
         <Search className="w-4 h-4" /> Search Shifts
       </button>
@@ -493,7 +493,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       {/* ══════════════════════════════════════
           NAVBAR
       ══════════════════════════════════════ */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-lg shadow-sm border-b border-black/5' : 'bg-white border-b border-black/8'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-lg border-b border-black/5' : 'bg-white border-b border-black/5'}`}>
         <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
           <div className="flex items-center justify-between h-[70px]">
 
@@ -518,13 +518,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </nav>
 
             <div className="hidden lg:flex items-center gap-2">
-              <div className="flex items-center bg-slate-50 border border-slate-100 rounded-lg p-0.5 mr-1">
+              <div className="flex items-center bg-slate-50 border border-black/5 rounded-lg p-0.5 mr-1">
                 {(Object.keys(REGIONS) as Region[]).map(r => (
                   <button
                     key={r}
                     onClick={() => applyRegion(r)}
                     title={REGIONS[r].country}
-                    className={`w-8 h-7 rounded-md text-base flex items-center justify-center transition-all ${region === r ? 'bg-white shadow-sm' : 'opacity-40 hover:opacity-80'}`}
+                    className={`w-8 h-7 rounded-md text-base flex items-center justify-center transition-all ${region === r ? 'bg-white' : 'opacity-40 hover:opacity-80'}`}
                   >
                     {REGIONS[r].flag}
                   </button>
@@ -533,10 +533,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               <button onClick={onBackToHome} className="text-[11px] font-medium text-slate-400 hover:text-slate-600 mr-1 transition-colors">
                 MployUs.com ↗
               </button>
-              <button onClick={() => openAuth('signup')} className="px-4 py-2 text-sm font-semibold text-slate-700 border border-slate-200 rounded-lg hover:border-slate-300 hover:bg-slate-50 transition-all">
+              <button onClick={() => openAuth('signup')} className="px-4 py-2 text-sm font-semibold text-slate-700 border border-black/5 rounded-lg hover:border-black/5 hover:bg-slate-50 transition-all">
                 Register
               </button>
-              <button onClick={() => openAuth('signin')} className="px-4 py-2 text-sm font-semibold text-white bg-gradient-to-br from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 rounded-lg shadow-md shadow-green-600/20 transition-all">
+              <button onClick={() => openAuth('signin')} className="px-4 py-2 text-sm font-semibold text-white bg-gradient-to-br from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 rounded-lg transition-all">
                 Login
               </button>
             </div>
@@ -548,7 +548,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </div>
 
         {mobileNavOpen && (
-          <div className="lg:hidden border-t border-slate-100 bg-white/98 backdrop-blur-xl px-4 py-4 space-y-1">
+          <div className="lg:hidden border-t border-black/5 bg-white/98 backdrop-blur-xl px-4 py-4 space-y-1">
             {navLinks.map(l => (
               <button key={l.id} onClick={() => goto(l.id)} className={`block w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold ${page === l.id ? 'bg-green-50 text-green-700' : 'text-slate-700 hover:bg-slate-50'}`}>
                 {l.label}
@@ -556,13 +556,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             ))}
             <div className="flex gap-1.5 pt-3">
               {(Object.keys(REGIONS) as Region[]).map(r => (
-                <button key={r} onClick={() => applyRegion(r)} className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold border transition-colors ${region === r ? 'bg-green-50 border-green-200 text-green-700' : 'bg-white border-slate-100 text-slate-600'}`}>
+                <button key={r} onClick={() => applyRegion(r)} className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold border transition-colors ${region === r ? 'bg-green-50 border-black/5 text-green-700' : 'bg-white border-black/5 text-slate-600'}`}>
                   <span className="text-base">{REGIONS[r].flag}</span> {REGIONS[r].country}
                 </button>
               ))}
             </div>
             <div className="flex gap-2 pt-2">
-              <button onClick={() => openAuth('signup')} className="flex-1 py-2.5 text-sm font-semibold border border-slate-200 rounded-lg">Register</button>
+              <button onClick={() => openAuth('signup')} className="flex-1 py-2.5 text-sm font-semibold border border-black/5 rounded-lg">Register</button>
               <button onClick={() => openAuth('signin')} className="flex-1 py-2.5 text-sm font-semibold text-white bg-green-600 rounded-lg">Login</button>
             </div>
             <button onClick={onBackToHome} className="block w-full text-left px-3 py-2 text-[11px] text-slate-400">← Back to MployUs.com</button>
@@ -599,7 +599,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             ].map((stat, i) => (
               <motion.div
                 key={stat.val}
-                className="backdrop-blur-2xl bg-white/10 border border-white/15 rounded-2xl px-6 py-5 text-center w-52"
+                className="backdrop-blur-2xl bg-white/10 border border-black/5 rounded-2xl px-6 py-5 text-center w-52"
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.8 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
@@ -619,7 +619,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             animate="visible"
           >
             <motion.div variants={fadeUp}>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold uppercase tracking-widest mb-6 w-fit backdrop-blur-sm">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/90 text-xs font-semibold uppercase tracking-widest mb-6 w-fit backdrop-blur-sm">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                 Healthcare Locum Marketplace · Ireland & UK
               </div>
@@ -644,8 +644,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             <motion.div className="flex flex-wrap gap-3" variants={fadeUp}>
               <motion.button
                 onClick={() => goto('find-shifts')}
-                className="group flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-green-500 to-green-600 text-white font-semibold text-sm rounded-xl shadow-lg shadow-green-600/30"
-                whileHover={{ scale: 1.03, boxShadow: '0 8px 30px rgba(22,163,74,0.45)' }}
+                className="group flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-green-500 to-green-600 text-white font-semibold text-sm rounded-xl"
+                whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               >
@@ -654,7 +654,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </motion.button>
               <motion.button
                 onClick={() => openAuth('signup')}
-                className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-sm rounded-xl backdrop-blur-sm"
+                className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-black/5 text-white font-semibold text-sm rounded-xl backdrop-blur-sm"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
@@ -676,7 +676,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── STATS RIBBON ── */}
-        <section className="bg-gradient-to-r from-green-600 to-green-700 border-y border-green-500/30">
+        <section className="bg-gradient-to-r from-green-600 to-green-700 border-y border-black/5">
           <div ref={statsRef} className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
             {STATS.map((stat, i) => {
               const Icon = stat.icon;
@@ -704,14 +704,14 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             {/* Stacked images with offset */}
             <Reveal variant={slideLeft} className="relative h-[520px] hidden lg:block">
               <motion.div
-                className="absolute left-0 top-0 w-[330px] h-[460px] rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/15 ring-1 ring-black/5"
+                className="absolute left-0 top-0 w-[330px] h-[460px] rounded-3xl overflow-hidden ring-1 ring-black/5"
                 whileHover={{ scale: 1.02, rotate: -1 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               >
                 <img src={imgTjqvmx3} alt="Healthcare professional" className="w-full h-full object-cover" />
               </motion.div>
               <motion.div
-                className="absolute right-0 bottom-0 w-[300px] h-[420px] rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/15 ring-1 ring-black/5 border-4 border-white"
+                className="absolute right-0 bottom-0 w-[300px] h-[420px] rounded-3xl overflow-hidden ring-1 ring-black/5 border-4 border-white"
                 whileHover={{ scale: 1.02, rotate: 1 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               >
@@ -719,7 +719,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </motion.div>
               {/* Floating badge */}
               <motion.div
-                className="absolute left-[270px] top-[200px] bg-white rounded-2xl shadow-xl border border-black/5 px-4 py-3 z-10"
+                className="absolute left-[270px] top-[200px] bg-white rounded-2xl border border-black/5 px-4 py-3 z-10"
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -795,7 +795,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── WHO CAN JOIN ── */}
-        <section className="py-24 bg-slate-50 border-y border-slate-100">
+        <section className="py-24 bg-slate-50 border-y border-black/5">
           <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
             <Reveal className="text-center mb-14">
               <SectionLabel>Who can join MployUs Locums</SectionLabel>
@@ -823,7 +823,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   whileHover={{ y: -6 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                 >
-                  <div className="relative w-[260px] h-[380px] rounded-2xl overflow-hidden shadow-lg shadow-slate-900/10 ring-1 ring-black/5">
+                  <div className="relative w-[260px] h-[380px] rounded-2xl overflow-hidden ring-1 ring-black/5">
                     <motion.img
                       src={item.img}
                       alt={item.label}
@@ -878,7 +878,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       transition={{ type: 'spring', stiffness: 350, damping: 22 }}
                     >
                       <motion.div
-                        className="w-11 h-11 rounded-xl bg-green-50 border border-green-100 flex items-center justify-center shrink-0"
+                        className="w-11 h-11 rounded-xl bg-green-50 border border-black/5 flex items-center justify-center shrink-0"
                         whileHover={{ scale: 1.1, backgroundColor: '#dcfce7' }}
                         transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                       >
@@ -895,8 +895,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               <motion.div variants={fadeUp} className="flex gap-3 pt-2">
                 <motion.button
                   onClick={() => openAuth('signup')}
-                  className="px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-br from-green-600 to-green-700 rounded-xl shadow-md shadow-green-600/20"
-                  whileHover={{ scale: 1.04, boxShadow: '0 8px 24px rgba(22,163,74,0.4)' }}
+                  className="px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-br from-green-600 to-green-700 rounded-xl"
+                  whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                 >
@@ -904,8 +904,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 </motion.button>
                 <motion.button
                   onClick={() => goto('find-shifts')}
-                  className="px-5 py-2.5 text-sm font-bold text-slate-700 border border-slate-200 rounded-xl"
-                  whileHover={{ scale: 1.04, borderColor: '#cbd5e1', backgroundColor: '#f8fafc' }}
+                  className="px-5 py-2.5 text-sm font-bold text-slate-700 border border-black/5 rounded-xl"
+                  whileHover={{ scale: 1.04, backgroundColor: '#f8fafc' }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                 >
@@ -916,7 +916,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
             {/* Image */}
             <Reveal variant={slideRight} className="order-1 lg:order-2">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/15 ring-1 ring-black/5 h-[520px]">
+              <div className="relative rounded-3xl overflow-hidden ring-1 ring-black/5 h-[520px]">
                 <motion.img
                   src={imgWmremoveTransformed1}
                   alt="Healthcare professional"
@@ -926,7 +926,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent" />
                 <motion.div
-                  className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg"
+                  className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-sm rounded-2xl p-4 border border-black/5 "
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -957,7 +957,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-[420px]">
               {/* Text */}
               <div className="p-10 lg:p-14 flex flex-col justify-center space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 text-white/80 text-[11px] font-semibold uppercase tracking-widest w-fit">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/80 text-[11px] font-semibold uppercase tracking-widest w-fit">
                   <Smartphone className="w-3 h-3" /> Mobile App
                 </div>
                 <h2 className="text-4xl font-bold text-white leading-tight">
@@ -990,7 +990,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <button
                         key={btn.key}
                         onClick={() => onBookDemo(btn.key)}
-                        className="flex items-center gap-3 px-5 py-3 bg-white/10 hover:bg-white/20 border border-white/15 rounded-xl transition-all group"
+                        className="flex items-center gap-3 px-5 py-3 bg-white/10 hover:bg-white/20 border border-black/5 rounded-xl transition-all group"
                       >
                         <Icon className="w-5 h-5 text-white fill-current" />
                         <span className="text-left">
@@ -1018,7 +1018,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 />
                 {/* Notification bubble */}
                 <motion.div
-                  className="absolute top-12 right-10 bg-white rounded-2xl shadow-xl border border-black/5 px-4 py-3 z-20 animate-[float_2.4s_ease-in-out_1s_infinite]"
+                  className="absolute top-12 right-10 bg-white rounded-2xl border border-black/5 px-4 py-3 z-20 animate-[float_2.4s_ease-in-out_1s_infinite]"
                   initial={{ opacity: 0, scale: 0.7, x: 20 }}
                   whileInView={{ opacity: 1, scale: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -1057,12 +1057,12 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             {TESTIMONIALS.map((t, i) => (
               <motion.div
                 key={i}
-                className="group relative bg-white border border-slate-100 rounded-2xl p-6 cursor-default"
+                className="group relative bg-white border border-black/5 rounded-2xl p-6 cursor-default"
                 variants={{
                   hidden: { opacity: 0, y: 30, scale: 0.97 },
                   visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
                 }}
-                whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(15,23,42,0.10)' }}
+                whileHover={{ y: -6 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 22 }}
               >
                 <div className="text-5xl text-green-100 font-serif leading-none mb-3 select-none">"</div>
@@ -1070,7 +1070,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   {[...Array(t.stars)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}
                 </div>
                 <p className="text-slate-700 text-sm leading-relaxed mb-5">{t.quote}</p>
-                <div className="flex items-center gap-3 pt-3 border-t border-slate-50">
+                <div className="flex items-center gap-3 pt-3 border-t border-black/5">
                   <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
                     {t.name[0]}
                   </div>
@@ -1085,7 +1085,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── FAQ SECTION ── */}
-        <section className="py-28 bg-slate-50 border-t border-slate-100">
+        <section className="py-28 bg-slate-50 border-t border-black/5">
           <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
               {/* Left sticky */}
@@ -1120,12 +1120,12 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 viewport={{ once: true, margin: '-40px' }}
               >
                 {/* Tabs */}
-                <motion.div variants={fadeUp} className="flex items-center gap-1 bg-white border border-slate-100 rounded-xl p-1 w-fit">
+                <motion.div variants={fadeUp} className="flex items-center gap-1 bg-white border border-black/5 rounded-xl p-1 w-fit">
                   {(['Locum', 'Employers'] as const).map(tab => (
                     <motion.button
                       key={tab}
                       onClick={() => { setFaqTab(tab); setOpenFaq(0); }}
-                      className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${faqTab === tab ? 'bg-green-600 text-white shadow-md' : 'text-slate-600 hover:text-slate-900'}`}
+                      className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${faqTab === tab ? 'bg-green-600 text-white' : 'text-slate-600 hover:text-slate-900'}`}
                       whileTap={{ scale: 0.95 }}
                     >
                       {tab}
@@ -1140,7 +1140,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <motion.div
                         key={f.q}
                         variants={fadeUp}
-                        className={`rounded-xl border overflow-hidden ${isOpen ? 'bg-green-600 border-green-600 shadow-lg shadow-green-600/20' : 'bg-white border-slate-100 hover:border-slate-200'}`}
+                        className={`rounded-xl border overflow-hidden ${isOpen ? 'bg-green-600 border-black/5' : 'bg-white border-black/5 hover:border-black/5'}`}
                         animate={{ borderColor: isOpen ? '#16a34a' : '#f1f5f9' }}
                         transition={{ duration: 0.2 }}
                       >
@@ -1191,7 +1191,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             <motion.div variants={slideRight} className="flex flex-wrap items-center gap-3 shrink-0">
               <motion.button
                 onClick={() => openAuth('signup')}
-                className="px-7 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-xl shadow-lg"
+                className="px-7 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-xl"
                 whileHover={{ scale: 1.04, backgroundColor: '#f8fafc' }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 350, damping: 22 }}
@@ -1200,7 +1200,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </motion.button>
               <motion.button
                 onClick={onBackToHome}
-                className="px-6 py-3.5 bg-white/10 border border-white/10 text-white font-semibold text-sm rounded-xl"
+                className="px-6 py-3.5 bg-white/10 border border-black/5 text-white font-semibold text-sm rounded-xl"
                 whileHover={{ scale: 1.03, backgroundColor: 'rgba(255,255,255,0.15)' }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 350, damping: 22 }}
@@ -1234,7 +1234,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </div>
 
           {/* ── Filter bar ── */}
-          <div className="bg-white border-b border-slate-100 shadow-sm">
+          <div className="bg-white border-b border-black/5">
             <div className="max-w-[1286px] mx-auto px-10 py-6 flex flex-wrap items-end justify-between gap-4" style={{ backgroundImage: 'linear-gradient(90deg, rgba(39,102,71,0.03) 0%, rgba(39,102,71,0.03) 100%), linear-gradient(90deg, #fff 0%, #fff 100%)' }}>
               <div className="flex flex-wrap gap-6 items-end">
                 {/* Profession */}
@@ -1308,7 +1308,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </div>
 
           {/* ── Country filter tabs ── */}
-          <div className="border-b border-slate-100 bg-white">
+          <div className="border-b border-black/5 bg-white">
             <div className="max-w-[1286px] mx-auto px-10 py-4 flex flex-col gap-2">
               <p className="text-[#3d3d3d] text-sm">Select Country</p>
               <div className="flex flex-wrap gap-8 items-center">
@@ -1427,21 +1427,21 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 return (
                   <div className="flex flex-col gap-4">
                     {/* Detail card */}
-                    <div className="bg-white border border-slate-100 rounded-xl shadow-sm p-6 space-y-5">
+                    <div className="bg-white border border-black/5 rounded-xl p-6 space-y-5">
                       {/* Header */}
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <p className="text-sm text-slate-500">{s.facility}</p>
                           <h2 className="text-2xl font-bold text-[#276647] mt-0.5">{searchProfession || 'Locum Pharmacist'}</h2>
-                          <span className="inline-block mt-1.5 px-2.5 py-0.5 rounded-full bg-green-50 border border-green-100 text-[11px] font-semibold text-[#276647]">{s.specialisation}</span>
+                          <span className="inline-block mt-1.5 px-2.5 py-0.5 rounded-full bg-green-50 border border-black/5 text-[11px] font-semibold text-[#276647]">{s.specialisation}</span>
                         </div>
-                        <button className="flex items-center gap-1.5 px-3 py-1.5 border border-[#276647] text-[#276647] rounded text-xs font-semibold hover:bg-green-50 transition-colors shrink-0">
+                        <button className="flex items-center gap-1.5 px-3 py-1.5 border border-black/5 text-[#276647] rounded text-xs font-semibold hover:bg-green-50 transition-colors shrink-0">
                           <ArrowRight className="w-3.5 h-3.5" /> Share link
                         </button>
                       </div>
 
                       {/* Key details grid */}
-                      <div className="grid grid-cols-2 gap-4 text-sm border-t border-slate-50 pt-4">
+                      <div className="grid grid-cols-2 gap-4 text-sm border-t border-black/5 pt-4">
                         <div className="space-y-3">
                           <div className="flex items-center gap-2.5 text-slate-700">
                             <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
@@ -1477,13 +1477,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       </div>
 
                       {/* Description */}
-                      <div className="border-t border-slate-50 pt-4 space-y-2">
+                      <div className="border-t border-black/5 pt-4 space-y-2">
                         <h4 className="text-sm font-bold text-slate-900">About this shift</h4>
                         <p className="text-sm text-slate-600 leading-relaxed">{s.description}</p>
                       </div>
 
                       {/* Requirements */}
-                      <div className="border-t border-slate-50 pt-4 space-y-2">
+                      <div className="border-t border-black/5 pt-4 space-y-2">
                         <h4 className="text-sm font-bold text-slate-900">Requirements</h4>
                         <ul className="space-y-1.5">
                           {s.requirements.map((r, i) => (
@@ -1510,11 +1510,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     </div>
 
                     {/* Map */}
-                    <div className="rounded-xl overflow-hidden border border-slate-100 shadow-sm">
-                      <p className="px-4 py-2.5 bg-white text-sm font-semibold text-slate-700 border-b border-slate-100">Shift Location</p>
+                    <div className="rounded-xl overflow-hidden border border-black/5 ">
+                      <p className="px-4 py-2.5 bg-white text-sm font-semibold text-slate-700 border-b border-black/5">Shift Location</p>
                       <div className="relative h-[320px] bg-[#e8f4ec]">
                         <img src={imgIrelandMap} alt="Shift location map" className="w-full h-full object-cover object-center" />
-                        <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md">
+                        <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2">
                           <p className="text-xs font-bold text-slate-900">{s.location}</p>
                           <p className="text-[10px] text-slate-500">{s.facility}</p>
                         </div>
@@ -1538,13 +1538,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             />
 
             <motion.div
-              className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+              className="relative z-10 bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
               initial={{ opacity: 0, y: 40, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ type: 'spring', stiffness: 320, damping: 28 }}
             >
               {/* Modal header */}
-              <div className="sticky top-0 z-10 bg-white border-b border-slate-100 px-7 py-5 flex items-center justify-between rounded-t-2xl">
+              <div className="sticky top-0 z-10 bg-white border-b border-black/5 px-7 py-5 flex items-center justify-between rounded-t-2xl">
                 {applyStep < 4 ? (
                   <div className="flex-1">
                     <p className="text-xs font-bold text-[#276647] uppercase tracking-widest mb-1">Step {applyStep} of 3</p>
@@ -1564,7 +1564,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
               {/* Shift summary strip */}
               {applyStep < 4 && (
-                <div className="mx-7 mt-5 mb-1 bg-[#276647]/5 border border-[#276647]/10 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
+                <div className="mx-7 mt-5 mb-1 bg-[#276647]/5 border border-black/5 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
                   <div>
                     <p className="text-xs text-slate-500">{applyShift.facility}</p>
                     <p className="font-bold text-[#276647] text-sm">{searchProfession || 'Locum Pharmacist'} · {applyShift.date}</p>
@@ -1588,26 +1588,26 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     <div className="grid grid-cols-2 gap-4">
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold text-slate-700">First name <span className="text-rose-500">*</span></label>
-                        <input value={applyForm.firstName} onChange={e => setApplyForm(f => ({...f, firstName: e.target.value}))} placeholder="e.g. Aoife" className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                        <input value={applyForm.firstName} onChange={e => setApplyForm(f => ({...f, firstName: e.target.value}))} placeholder="e.g. Aoife" className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                       </div>
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold text-slate-700">Last name <span className="text-rose-500">*</span></label>
-                        <input value={applyForm.lastName} onChange={e => setApplyForm(f => ({...f, lastName: e.target.value}))} placeholder="e.g. Murphy" className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                        <input value={applyForm.lastName} onChange={e => setApplyForm(f => ({...f, lastName: e.target.value}))} placeholder="e.g. Murphy" className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                       </div>
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-semibold text-slate-700">Email address <span className="text-rose-500">*</span></label>
-                      <input type="email" value={applyForm.email} onChange={e => setApplyForm(f => ({...f, email: e.target.value}))} placeholder="your@email.com" className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                      <input type="email" value={applyForm.email} onChange={e => setApplyForm(f => ({...f, email: e.target.value}))} placeholder="your@email.com" className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-semibold text-slate-700">Mobile number <span className="text-rose-500">*</span></label>
-                      <input type="tel" value={applyForm.phone} onChange={e => setApplyForm(f => ({...f, phone: e.target.value}))} placeholder="+353 87 000 0000" className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                      <input type="tel" value={applyForm.phone} onChange={e => setApplyForm(f => ({...f, phone: e.target.value}))} placeholder="+353 87 000 0000" className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold text-slate-700">Registration body <span className="text-rose-500">*</span></label>
                         <div className="relative">
-                          <select value={applyForm.regBody} onChange={e => setApplyForm(f => ({...f, regBody: e.target.value}))} className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
+                          <select value={applyForm.regBody} onChange={e => setApplyForm(f => ({...f, regBody: e.target.value}))} className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
                             <option value="">Select body</option>
                             <option>PSI (Ireland)</option>
                             <option>GPhC (UK)</option>
@@ -1623,13 +1623,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       </div>
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold text-slate-700">Registration number <span className="text-rose-500">*</span></label>
-                        <input value={applyForm.regNumber} onChange={e => setApplyForm(f => ({...f, regNumber: e.target.value}))} placeholder="e.g. PSI-12345" className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                        <input value={applyForm.regNumber} onChange={e => setApplyForm(f => ({...f, regNumber: e.target.value}))} placeholder="e.g. PSI-12345" className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                       </div>
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-semibold text-slate-700">Years of experience</label>
                       <div className="relative">
-                        <select value={applyForm.yearsExp} onChange={e => setApplyForm(f => ({...f, yearsExp: e.target.value}))} className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
+                        <select value={applyForm.yearsExp} onChange={e => setApplyForm(f => ({...f, yearsExp: e.target.value}))} className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
                           <option value="">Select range</option>
                           <option>Less than 1 year</option>
                           <option>1–2 years</option>
@@ -1658,7 +1658,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <p className="text-sm text-slate-500 mt-1">Confirm you can make this shift and let us know how you'll get there.</p>
                     </div>
                     {/* Availability confirmation */}
-                    <div className="bg-[#276647]/5 border border-[#276647]/10 rounded-xl p-4 space-y-3">
+                    <div className="bg-[#276647]/5 border border-black/5 rounded-xl p-4 space-y-3">
                       <p className="text-sm font-semibold text-slate-800">Shift you're applying for</p>
                       <div className="grid grid-cols-2 gap-3 text-sm">
                         <div className="flex items-center gap-2 text-slate-700">
@@ -1697,7 +1697,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                             key={t.label}
                             type="button"
                             onClick={() => setApplyForm(f => ({...f, transport: t.label}))}
-                            className={`flex items-center gap-2.5 px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all ${applyForm.transport === t.label ? 'border-[#276647] bg-[#276647]/5 text-[#276647]' : 'border-slate-100 bg-slate-50 text-slate-700 hover:border-slate-200'}`}
+                            className={`flex items-center gap-2.5 px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all ${applyForm.transport === t.label ? 'border-black/5 bg-[#276647]/5 text-[#276647]' : 'border-black/5 bg-slate-50 text-slate-700 hover:border-black/5'}`}
                           >
                             <span className="text-lg">{t.icon}</span> {t.label}
                           </button>
@@ -1707,7 +1707,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-semibold text-slate-700">Estimated travel time to shift</label>
                       <div className="relative">
-                        <select value={applyForm.travelTime} onChange={e => setApplyForm(f => ({...f, travelTime: e.target.value}))} className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
+                        <select value={applyForm.travelTime} onChange={e => setApplyForm(f => ({...f, travelTime: e.target.value}))} className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
                           <option value="">Select estimate</option>
                           <option>Under 15 minutes</option>
                           <option>15–30 minutes</option>
@@ -1718,7 +1718,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       </div>
                     </div>
                     <div className="flex gap-3 pt-1">
-                      <button onClick={() => setApplyStep(1)} className="px-5 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
+                      <button onClick={() => setApplyStep(1)} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
                       <button
                         onClick={() => setApplyStep(3)}
                         disabled={!applyForm.availabilityConfirmed || !applyForm.transport}
@@ -1744,7 +1744,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         onChange={e => setApplyForm(f => ({...f, coverNote: e.target.value}))}
                         placeholder={`Hi, I'm a locum pharmacist with ${applyForm.yearsExp || 'several years of'} experience in community pharmacy. I'm very interested in covering this shift at ${applyShift.facility}...`}
                         rows={4}
-                        className="px-3.5 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 resize-none"
+                        className="px-3.5 py-3 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 resize-none"
                       />
                       <p className="text-[11px] text-slate-400">{applyForm.coverNote.length}/500 characters</p>
                     </div>
@@ -1755,11 +1755,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         onChange={e => setApplyForm(f => ({...f, questions: e.target.value}))}
                         placeholder="e.g. Is parking available on site? Is this shift dispensary-only or will there be OTC advisory?"
                         rows={3}
-                        className="px-3.5 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 resize-none"
+                        className="px-3.5 py-3 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 resize-none"
                       />
                     </div>
                     {/* Summary */}
-                    <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 space-y-3">
+                    <div className="bg-slate-50 border border-black/5 rounded-xl p-4 space-y-3">
                       <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Application summary</p>
                       <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
                         <div><span className="text-slate-400">Name</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.firstName} {applyForm.lastName}</p></div>
@@ -1775,7 +1775,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <span className="text-sm text-slate-600">I agree to MployUs Locums' <span className="text-[#276647] font-semibold underline cursor-pointer">Terms & Conditions</span> and confirm the information provided is accurate.</span>
                     </label>
                     <div className="flex gap-3 pt-1">
-                      <button onClick={() => setApplyStep(2)} className="px-5 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
+                      <button onClick={() => setApplyStep(2)} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
                       <motion.button
                         onClick={() => setApplyStep(4)}
                         disabled={!applyForm.termsAccepted}
@@ -1801,7 +1801,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   >
                     {/* Animated checkmark */}
                     <motion.div
-                      className="w-24 h-24 rounded-full bg-[#276647] flex items-center justify-center shadow-xl shadow-[#276647]/30"
+                      className="w-24 h-24 rounded-full bg-[#276647] flex items-center justify-center"
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ type: 'spring', stiffness: 300, damping: 18, delay: 0.1 }}
@@ -1823,7 +1823,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     </motion.div>
 
                     {/* What happens next */}
-                    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="w-full bg-slate-50 border border-slate-100 rounded-xl p-5 text-left space-y-3">
+                    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="w-full bg-slate-50 border border-black/5 rounded-xl p-5 text-left space-y-3">
                       <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">What happens next?</p>
                       <div className="space-y-3">
                         {[
@@ -1858,7 +1858,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       </button>
                       <button
                         onClick={() => { closeApply(); goto('find-shifts'); }}
-                        className="flex-1 py-3 border border-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-50 transition-colors"
+                        className="flex-1 py-3 border border-black/5 text-slate-700 font-semibold rounded-xl hover:bg-slate-50 transition-colors"
                       >
                         Browse more shifts
                       </button>
@@ -1890,7 +1890,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             <div className="grid grid-cols-2 gap-4">
               {(['Locum Shift', 'Permanent Job'] as const).map(t => (
                 <motion.button key={t} onClick={() => openPostModal(t)}
-                  className={`p-6 rounded-2xl border-2 text-left transition-all ${t === 'Locum Shift' ? 'border-green-100 bg-white hover:border-green-300 hover:shadow-md' : 'border-violet-100 bg-white hover:border-violet-300 hover:shadow-md'}`}
+                  className={`p-6 rounded-2xl border-2 text-left transition-all ${t === 'Locum Shift' ? 'border-black/5 bg-white hover:border-black/5' : 'border-black/5 bg-white hover:border-black/5'}`}
                   whileHover={{ y: -3 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 >
                   <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 ${t === 'Locum Shift' ? 'bg-green-600' : 'bg-violet-600'}`}>
@@ -1915,13 +1915,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} onClick={closePostModal} />
 
             <motion.div
-              className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+              className="relative z-10 bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
               initial={{ opacity: 0, y: 40, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ type: 'spring', stiffness: 320, damping: 28 }}
             >
               {/* Header */}
-              <div className="sticky top-0 z-10 bg-white border-b border-slate-100 px-7 py-5 flex items-center justify-between rounded-t-2xl">
+              <div className="sticky top-0 z-10 bg-white border-b border-black/5 px-7 py-5 flex items-center justify-between rounded-t-2xl">
                 {!postSuccess ? (
                   <div className="flex-1">
                     <p className="text-xs font-bold text-[#276647] uppercase tracking-widest mb-1">
@@ -1945,7 +1945,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 {postSuccess && (
                   <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 25 }} className="py-6 flex flex-col items-center text-center gap-5">
-                    <motion.div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-lg shadow-green-500/30"
+                    <motion.div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center"
                       initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 350, damping: 18, delay: 0.1 }}>
                       <Check className="w-9 h-9 text-white" />
                     </motion.div>
@@ -1959,7 +1959,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           : `Your ${postForm.jobTitle || 'role'} listing is now live. Qualified candidates in ${loc.country} will be able to apply directly.`}
                       </p>
                     </div>
-                    <div className="w-full bg-slate-50 border border-slate-100 rounded-xl p-5 text-left space-y-2">
+                    <div className="w-full bg-slate-50 border border-black/5 rounded-xl p-5 text-left space-y-2">
                       <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">What happens next</p>
                       {(postType === 'Locum Shift' ? [
                         { icon: '🔔', title: 'Locums notified immediately', desc: `Registered ${postForm.profession || 'professionals'} within range receive a push and SMS alert.` },
@@ -1974,7 +1974,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       ]).map((step, i) => (
                         <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.3 + i * 0.08 }}
-                          className="flex items-start gap-3 py-2.5 border-b border-slate-100 last:border-0">
+                          className="flex items-start gap-3 py-2.5 border-b border-black/5 last:border-0">
                           <span className="text-lg leading-none mt-0.5">{step.icon}</span>
                           <div>
                             <p className="text-sm font-bold text-slate-900">{step.title}</p>
@@ -1985,7 +1985,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     </div>
                     <div className="flex gap-3 w-full">
                       <button onClick={closePostModal}
-                        className="flex-1 py-3 border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">
+                        className="flex-1 py-3 border border-black/5 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">
                         Back to Employers
                       </button>
                       <button onClick={() => openPostModal(postType)}
@@ -2010,7 +2010,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         <div className="grid grid-cols-2 gap-3">
                           {(['Locum Shift', 'Permanent Job'] as const).map(t => (
                             <button key={t} onClick={() => setPostType(t)}
-                              className={`p-5 rounded-xl border-2 text-left transition-all ${postType === t ? (t === 'Locum Shift' ? 'border-green-500 bg-green-50' : 'border-violet-500 bg-violet-50') : 'border-slate-100 bg-white hover:border-slate-200'}`}>
+                              className={`p-5 rounded-xl border-2 text-left transition-all ${postType === t ? (t === 'Locum Shift' ? 'border-black/5 bg-green-50' : 'border-black/5 bg-violet-50') : 'border-black/5 bg-white hover:border-black/5'}`}>
                               {t === 'Locum Shift'
                                 ? <Clock className={`w-5 h-5 mb-2 ${postType === t ? 'text-green-600' : 'text-slate-400'}`} />
                                 : <Briefcase className={`w-5 h-5 mb-2 ${postType === t ? 'text-violet-600' : 'text-slate-400'}`} />}
@@ -2019,7 +2019,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                             </button>
                           ))}
                         </div>
-                        <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-slate-50">
+                        <div className="flex items-center justify-between p-4 rounded-xl border border-black/5 bg-slate-50">
                           <div>
                             <p className="text-sm font-bold text-slate-900">Mark as urgent</p>
                             <p className="text-xs text-slate-500 mt-0.5">Urgent shifts are pinned to the top and trigger SMS alerts.</p>
@@ -2048,7 +2048,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                             <label className="text-xs font-semibold text-slate-700">Profession required <span className="text-rose-500">*</span></label>
                             <div className="relative">
                               <select value={postForm.profession} onChange={e => setPostForm(f => ({ ...f, profession: e.target.value }))}
-                                className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
+                                className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
                                 <option value="">Select profession…</option>
                                 {['Locum Pharmacist', 'Pharmacy Technician', 'Locum GP', 'Agency Nurse', 'Healthcare Assistant', 'Locum Optician', 'Allied Health Worker'].map(p => <option key={p}>{p}</option>)}
                               </select>
@@ -2058,39 +2058,39 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Shift date <span className="text-rose-500">*</span></label>
                             <input type="date" value={postForm.date} onChange={e => setPostForm(f => ({ ...f, date: e.target.value }))}
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-700 outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm text-slate-700 outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Hourly rate ({loc.currency}) <span className="text-rose-500">*</span></label>
                             <input value={postForm.rate} onChange={e => setPostForm(f => ({ ...f, rate: e.target.value }))}
                               placeholder={`e.g. ${loc.currency}32`}
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Start time</label>
                             <input type="time" value={postForm.startTime} onChange={e => setPostForm(f => ({ ...f, startTime: e.target.value }))}
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-700 outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm text-slate-700 outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">End time</label>
                             <input type="time" value={postForm.endTime} onChange={e => setPostForm(f => ({ ...f, endTime: e.target.value }))}
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-700 outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm text-slate-700 outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Location / town <span className="text-rose-500">*</span></label>
                             <input value={postForm.town} onChange={e => setPostForm(f => ({ ...f, town: e.target.value }))}
                               placeholder={`e.g. ${loc.defaultCity}`}
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Additional requirements <span className="text-slate-400 font-normal">(optional)</span></label>
                             <textarea value={postForm.description} onChange={e => setPostForm(f => ({ ...f, description: e.target.value }))}
                               placeholder="Any specific skills, software experience, or clinical requirements…"
-                              rows={3} className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none resize-none focus:border-[#276647] transition-colors bg-slate-50" />
+                              rows={3} className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none resize-none focus:border-[#276647] transition-colors bg-slate-50" />
                           </div>
                         </div>
                         <div className="flex gap-3">
-                          <button onClick={() => setPostStep(1)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                          <button onClick={() => setPostStep(1)} className="px-5 py-3 border border-black/5 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
                             <ChevronDown className="w-4 h-4 rotate-90" /> Back
                           </button>
                           <button onClick={() => setPostStep(3)} disabled={!postForm.profession || !postForm.date || !postForm.rate || !postForm.town}
@@ -2113,35 +2113,35 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                             <label className="text-xs font-semibold text-slate-700">Facility / pharmacy name <span className="text-rose-500">*</span></label>
                             <input value={postForm.facility} onChange={e => setPostForm(f => ({ ...f, facility: e.target.value }))}
                               placeholder="e.g. Boots Pharmacy — Grafton Street"
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Facility address <span className="text-slate-400 font-normal">(optional)</span></label>
                             <input value={postForm.facilityAddress} onChange={e => setPostForm(f => ({ ...f, facilityAddress: e.target.value }))}
                               placeholder="Street address"
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Contact name <span className="text-rose-500">*</span></label>
                             <input value={postForm.contact} onChange={e => setPostForm(f => ({ ...f, contact: e.target.value }))}
                               placeholder="Your name"
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Phone number <span className="text-rose-500">*</span></label>
                             <input value={postForm.phone} onChange={e => setPostForm(f => ({ ...f, phone: e.target.value }))}
                               placeholder="+353 / +44"
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Email address <span className="text-rose-500">*</span></label>
                             <input type="email" value={postForm.email} onChange={e => setPostForm(f => ({ ...f, email: e.target.value }))}
                               placeholder="manager@facility.ie"
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
                           </div>
                         </div>
                         <div className="flex gap-3">
-                          <button onClick={() => setPostStep(2)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                          <button onClick={() => setPostStep(2)} className="px-5 py-3 border border-black/5 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
                             <ChevronDown className="w-4 h-4 rotate-90" /> Back
                           </button>
                           <button onClick={() => setPostStep(4)} disabled={!postForm.facility || !postForm.contact || !postForm.phone || !postForm.email}
@@ -2159,7 +2159,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <h2 className="text-xl font-bold text-slate-900">Review & publish</h2>
                           <p className="text-sm text-slate-500 mt-1">Check everything looks right before going live.</p>
                         </div>
-                        <div className="bg-green-50 border border-green-100 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
+                        <div className="bg-green-50 border border-black/5 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
                           <div>
                             <p className="text-xs text-slate-500">{postForm.facility}</p>
                             <p className="font-bold text-[#276647] text-sm">{postForm.profession} · {postForm.date || 'Date TBC'}</p>
@@ -2169,7 +2169,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                             <p className="font-bold text-[#276647] text-sm">{postForm.rate ? `${loc.currency}${postForm.rate}/hr` : '—'}</p>
                           </div>
                         </div>
-                        <div className="bg-slate-50 border border-slate-100 rounded-xl divide-y divide-slate-100">
+                        <div className="bg-slate-50 border border-black/5 rounded-xl divide-y divide-slate-100">
                           {[
                             { label: 'Profession', val: postForm.profession || '—' },
                             { label: 'Location', val: postForm.town || '—' },
@@ -2194,7 +2194,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           </span>
                         </label>
                         <div className="flex gap-3">
-                          <button onClick={() => setPostStep(3)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                          <button onClick={() => setPostStep(3)} className="px-5 py-3 border border-black/5 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
                             <ChevronDown className="w-4 h-4 rotate-90" /> Back
                           </button>
                           <button onClick={() => { if (postForm.termsAccepted) setPostSuccess(true); }}
@@ -2222,7 +2222,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         <div className="grid grid-cols-2 gap-3">
                           {(['Locum Shift', 'Permanent Job'] as const).map(t => (
                             <button key={t} onClick={() => setPostType(t)}
-                              className={`p-5 rounded-xl border-2 text-left transition-all ${postType === t ? (t === 'Locum Shift' ? 'border-green-500 bg-green-50' : 'border-violet-500 bg-violet-50') : 'border-slate-100 bg-white hover:border-slate-200'}`}>
+                              className={`p-5 rounded-xl border-2 text-left transition-all ${postType === t ? (t === 'Locum Shift' ? 'border-black/5 bg-green-50' : 'border-black/5 bg-violet-50') : 'border-black/5 bg-white hover:border-black/5'}`}>
                               {t === 'Locum Shift'
                                 ? <Clock className={`w-5 h-5 mb-2 ${postType === t ? 'text-green-600' : 'text-slate-400'}`} />
                                 : <Briefcase className={`w-5 h-5 mb-2 ${postType === t ? 'text-violet-600' : 'text-slate-400'}`} />}
@@ -2236,7 +2236,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <div className="grid grid-cols-3 gap-2">
                             {['Full-time', 'Part-time', 'Contract'].map(ct => (
                               <button key={ct} onClick={() => setPostForm(f => ({ ...f, contractType: ct }))}
-                                className={`py-2.5 px-3 rounded-xl border-2 text-xs font-bold transition-all ${postForm.contractType === ct ? 'border-violet-500 bg-violet-50 text-violet-700' : 'border-slate-100 text-slate-500 hover:border-slate-200'}`}>
+                                className={`py-2.5 px-3 rounded-xl border-2 text-xs font-bold transition-all ${postForm.contractType === ct ? 'border-violet-500 bg-violet-50 text-violet-700' : 'border-black/5 text-slate-500 hover:border-black/5'}`}>
                                 {ct}
                               </button>
                             ))}
@@ -2261,13 +2261,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                             <label className="text-xs font-semibold text-slate-700">Job title <span className="text-rose-500">*</span></label>
                             <input value={postForm.jobTitle} onChange={e => setPostForm(f => ({ ...f, jobTitle: e.target.value }))}
                               placeholder="e.g. Superintendent Pharmacist"
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Profession / discipline <span className="text-rose-500">*</span></label>
                             <div className="relative">
                               <select value={postForm.profession} onChange={e => setPostForm(f => ({ ...f, profession: e.target.value }))}
-                                className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50 cursor-pointer">
+                                className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50 cursor-pointer">
                                 <option value="">Select profession…</option>
                                 {['Pharmacist', 'Pharmacy Technician', 'GP / Doctor', 'Nurse', 'Healthcare Assistant', 'Optician', 'Allied Health Worker'].map(p => <option key={p}>{p}</option>)}
                               </select>
@@ -2278,23 +2278,23 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                             <label className="text-xs font-semibold text-slate-700">Salary min ({loc.currency})</label>
                             <input value={postForm.salaryMin} onChange={e => setPostForm(f => ({ ...f, salaryMin: e.target.value }))}
                               placeholder={`e.g. ${loc.currency}45,000`}
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Salary max ({loc.currency})</label>
                             <input value={postForm.salaryMax} onChange={e => setPostForm(f => ({ ...f, salaryMax: e.target.value }))}
                               placeholder={`e.g. ${loc.currency}60,000`}
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Location <span className="text-rose-500">*</span></label>
                             <input value={postForm.town} onChange={e => setPostForm(f => ({ ...f, town: e.target.value }))}
                               placeholder={`e.g. ${loc.defaultCity}`}
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
                           </div>
                         </div>
                         <div className="flex gap-3">
-                          <button onClick={() => setPostStep(1)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                          <button onClick={() => setPostStep(1)} className="px-5 py-3 border border-black/5 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
                             <ChevronDown className="w-4 h-4 rotate-90" /> Back
                           </button>
                           <button onClick={() => setPostStep(3)} disabled={!postForm.jobTitle || !postForm.profession || !postForm.town}
@@ -2316,48 +2316,48 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <label className="text-xs font-semibold text-slate-700">Role description <span className="text-rose-500">*</span></label>
                           <textarea value={postForm.description} onChange={e => setPostForm(f => ({ ...f, description: e.target.value }))}
                             placeholder="Describe the role, working environment, team, and day-to-day responsibilities…"
-                            rows={4} className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none resize-none focus:border-violet-500 transition-colors bg-slate-50" />
+                            rows={4} className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none resize-none focus:border-violet-500 transition-colors bg-slate-50" />
                         </div>
                         <div className="flex flex-col gap-1.5">
                           <label className="text-xs font-semibold text-slate-700">Key requirements <span className="text-slate-400 font-normal">(optional)</span></label>
                           <textarea value={postForm.requirements} onChange={e => setPostForm(f => ({ ...f, requirements: e.target.value }))}
                             placeholder="e.g. GPhC registration, 2+ years community pharmacy, full driving licence…"
-                            rows={3} className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none resize-none focus:border-violet-500 transition-colors bg-slate-50" />
+                            rows={3} className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none resize-none focus:border-violet-500 transition-colors bg-slate-50" />
                         </div>
                         <div className="flex flex-col gap-1.5">
                           <label className="text-xs font-semibold text-slate-700">Benefits <span className="text-slate-400 font-normal">(optional)</span></label>
                           <input value={postForm.benefits} onChange={e => setPostForm(f => ({ ...f, benefits: e.target.value }))}
                             placeholder="e.g. CPD allowance, pension, 25 days holiday, free parking…"
-                            className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                            className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Facility name <span className="text-rose-500">*</span></label>
                             <input value={postForm.facility} onChange={e => setPostForm(f => ({ ...f, facility: e.target.value }))}
                               placeholder="e.g. Allcare Pharmacy Group"
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Contact name <span className="text-rose-500">*</span></label>
                             <input value={postForm.contact} onChange={e => setPostForm(f => ({ ...f, contact: e.target.value }))}
                               placeholder="HR / Manager"
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Phone number <span className="text-rose-500">*</span></label>
                             <input value={postForm.phone} onChange={e => setPostForm(f => ({ ...f, phone: e.target.value }))}
                               placeholder="+353 / +44"
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
                           </div>
                           <div className="col-span-2 flex flex-col gap-1.5">
                             <label className="text-xs font-semibold text-slate-700">Email address <span className="text-rose-500">*</span></label>
                             <input type="email" value={postForm.email} onChange={e => setPostForm(f => ({ ...f, email: e.target.value }))}
                               placeholder="hr@facility.ie"
-                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                              className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
                           </div>
                         </div>
                         <div className="flex gap-3">
-                          <button onClick={() => setPostStep(2)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                          <button onClick={() => setPostStep(2)} className="px-5 py-3 border border-black/5 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
                             <ChevronDown className="w-4 h-4 rotate-90" /> Back
                           </button>
                           <button onClick={() => setPostStep(4)} disabled={!postForm.description || !postForm.facility || !postForm.contact || !postForm.phone || !postForm.email}
@@ -2375,7 +2375,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <h2 className="text-xl font-bold text-slate-900">Review & post</h2>
                           <p className="text-sm text-slate-500 mt-1">Check everything before your listing goes live.</p>
                         </div>
-                        <div className="bg-violet-50 border border-violet-100 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
+                        <div className="bg-violet-50 border border-black/5 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
                           <div>
                             <p className="text-xs text-slate-500">{postForm.facility}</p>
                             <p className="font-bold text-violet-700 text-sm">{postForm.jobTitle} · {postForm.contractType}</p>
@@ -2387,7 +2387,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                             </p>
                           </div>
                         </div>
-                        <div className="bg-slate-50 border border-slate-100 rounded-xl divide-y divide-slate-100">
+                        <div className="bg-slate-50 border border-black/5 rounded-xl divide-y divide-slate-100">
                           {[
                             { label: 'Profession', val: postForm.profession || '—' },
                             { label: 'Contract', val: postForm.contractType },
@@ -2403,7 +2403,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           ))}
                         </div>
                         {postForm.description && (
-                          <div className="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                          <div className="bg-slate-50 border border-black/5 rounded-xl p-4">
                             <p className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Role description</p>
                             <p className="text-xs text-slate-700 leading-relaxed line-clamp-4">{postForm.description}</p>
                           </div>
@@ -2417,7 +2417,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           </span>
                         </label>
                         <div className="flex gap-3">
-                          <button onClick={() => setPostStep(3)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                          <button onClick={() => setPostStep(3)} className="px-5 py-3 border border-black/5 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
                             <ChevronDown className="w-4 h-4 rotate-90" /> Back
                           </button>
                           <button onClick={() => { if (postForm.termsAccepted) setPostSuccess(true); }}
@@ -2451,7 +2451,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-12 py-20 flex flex-col lg:flex-row items-center gap-14">
               <motion.div className="flex-1 space-y-6" variants={stagger(0.12)} initial="hidden" animate="visible">
                 <motion.div variants={fadeUp}>
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold uppercase tracking-widest w-fit backdrop-blur-sm">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/90 text-xs font-semibold uppercase tracking-widest w-fit backdrop-blur-sm">
                     <GraduationCap className="w-3.5 h-3.5 text-green-400" />
                     CPD & Training · Accredited Courses
                   </div>
@@ -2466,15 +2466,15 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
                   <motion.button
                     onClick={() => document.getElementById('cpd-courses')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="group flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-green-500 to-green-600 text-white font-semibold text-sm rounded-xl shadow-lg shadow-green-600/30"
-                    whileHover={{ scale: 1.03, boxShadow: '0 8px 30px rgba(22,163,74,0.45)' }} whileTap={{ scale: 0.97 }}
+                    className="group flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-green-500 to-green-600 text-white font-semibold text-sm rounded-xl"
+                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                   >
                     Browse Courses <MoveRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                   </motion.button>
                   <motion.button
                     onClick={() => openAuth('signup')}
-                    className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-sm rounded-xl backdrop-blur-sm"
+                    className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-black/5 text-white font-semibold text-sm rounded-xl backdrop-blur-sm"
                     whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                   >
@@ -2492,7 +2492,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   { val: '100%', label: 'Online & self-paced', color: 'text-sky-300' },
                 ].map((s, i) => (
                   <motion.div key={s.label}
-                    className="backdrop-blur-2xl bg-white/10 border border-white/15 rounded-2xl px-6 py-4 text-center w-48"
+                    className="backdrop-blur-2xl bg-white/10 border border-black/5 rounded-2xl px-6 py-4 text-center w-48"
                     initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.7, delay: 0.7 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
                     whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.15)' }}
@@ -2506,7 +2506,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </section>
 
           {/* ── Stats ribbon ── */}
-          <section className="bg-gradient-to-r from-green-600 to-green-700 border-y border-green-500/30">
+          <section className="bg-gradient-to-r from-green-600 to-green-700 border-y border-black/5">
             <div className="max-w-[1280px] mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
                 { icon: BookOpen, val: '12+', label: 'Accredited courses' },
@@ -2542,7 +2542,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   <div className="flex flex-wrap gap-2">
                     {['All', 'Clinical', 'Compliance', 'Management'].map(cat => (
                       <button key={cat} onClick={() => setCpdCategory(cat)}
-                        className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${cpdCategory === cat ? 'bg-[#276647] text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
+                        className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${cpdCategory === cat ? 'bg-[#276647] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
                         {cat}
                       </button>
                     ))}
@@ -2564,20 +2564,20 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     const levelColor = c.level === 'Foundation' ? 'bg-green-50 text-green-700' : c.level === 'Intermediate' ? 'bg-amber-50 text-amber-700' : 'bg-violet-50 text-violet-700';
                     return (
                       <motion.div key={c.title} variants={fadeUp}
-                        className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all flex flex-col group cursor-pointer"
-                        whileHover={{ y: -4, boxShadow: '0 12px 36px rgba(0,0,0,0.09)' }}
+                        className="bg-white border border-black/5 rounded-2xl p-6 transition-all flex flex-col group cursor-pointer"
+                        whileHover={{ y: -4 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                         onClick={() => setCpdCourseModal(cpdCourses.indexOf(c))}
                       >
                         <div className="flex items-start justify-between mb-4">
-                          <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center shadow-md`}>
+                          <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center`}>
                             <Icon className="w-5 h-5 text-white" />
                           </div>
                           <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${levelColor}`}>{c.level}</span>
                         </div>
                         <h4 className="font-bold text-slate-900 mb-1.5 leading-snug">{c.title}</h4>
                         <p className="text-xs text-slate-500 leading-relaxed mb-4 flex-1 line-clamp-2">{c.desc}</p>
-                        <div className="flex items-center justify-between pt-3 border-t border-slate-50">
+                        <div className="flex items-center justify-between pt-3 border-t border-black/5">
                           <div className="flex items-center gap-3 text-[11px] text-slate-400 font-medium">
                             <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {c.hours} hrs CPD</span>
                             <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" /> {c.modules} modules</span>
@@ -2594,7 +2594,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </section>
 
           {/* ── Learning paths ── */}
-          <section className="py-20 bg-slate-50 border-y border-slate-100">
+          <section className="py-20 bg-slate-50 border-y border-black/5">
             <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
               <Reveal className="text-center mb-14">
                 <SectionLabel>Learning Paths</SectionLabel>
@@ -2624,7 +2624,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   },
                 ].map(({ title, color, badge, hours, courses, icon: Icon, desc, tags }) => (
                   <motion.div key={title} variants={fadeUp}
-                    className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all group"
+                    className="bg-white border border-black/5 rounded-2xl overflow-hidden transition-all group"
                     whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
                     <div className={`bg-gradient-to-br ${color} px-6 py-8`}>
                       <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-4">
@@ -2643,7 +2643,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         {tags.map(t => <span key={t} className={`text-[10px] font-bold px-2 py-1 rounded-full ${badge}`}>{t}</span>)}
                       </div>
                       <button onClick={() => openAuth('signup')}
-                        className="w-full py-2.5 border border-slate-200 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-50 group-hover:border-[#276647] group-hover:text-[#276647] transition-all flex items-center justify-center gap-1.5">
+                        className="w-full py-2.5 border border-black/5 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-50 group-hover:border-black/5 group-hover:text-[#276647] transition-all flex items-center justify-center gap-1.5">
                         Start learning path <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -2669,7 +2669,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 ].map(({ n, icon: Icon, color, title, desc }) => (
                   <motion.div key={n} variants={fadeUp} className="flex flex-col items-center text-center gap-4">
                     <div className="relative">
-                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center shadow-lg`}>
+                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center`}>
                         <Icon className="w-7 h-7 text-white" />
                       </div>
                       <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-900 text-white text-[10px] font-bold flex items-center justify-center">{n}</div>
@@ -2683,7 +2683,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </section>
 
           {/* ── Accreditation strip ── */}
-          <section className="py-14 bg-slate-50 border-y border-slate-100">
+          <section className="py-14 bg-slate-50 border-y border-black/5">
             <div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center gap-10">
               <div className="flex-1 space-y-3">
                 <SectionLabel>Accreditation & Recognition</SectionLabel>
@@ -2699,7 +2699,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   { label: 'Self-Paced', icon: Clock, color: 'text-blue-500' },
                   { label: 'Mobile Friendly', icon: Smartphone, color: 'text-violet-500' },
                 ].map(({ label, icon: Icon, color }) => (
-                  <div key={label} className="flex items-center gap-2 bg-white border border-slate-100 rounded-xl px-4 py-3 shadow-sm">
+                  <div key={label} className="flex items-center gap-2 bg-white border border-black/5 rounded-xl px-4 py-3">
                     <Icon className={`w-4 h-4 shrink-0 ${color}`} />
                     <span className="text-xs font-semibold text-slate-700">{label}</span>
                   </div>
@@ -2719,12 +2719,12 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </motion.div>
               <motion.div variants={slideRight} className="flex flex-wrap items-center gap-3 shrink-0">
                 <motion.button onClick={() => openAuth('signup')}
-                  className="px-7 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-xl shadow-lg"
+                  className="px-7 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-xl"
                   whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
                   Create Free Account
                 </motion.button>
                 <motion.button onClick={() => document.getElementById('cpd-courses')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                  className="px-7 py-3.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-xl border border-green-500 flex items-center gap-2"
+                  className="px-7 py-3.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-xl border border-black/5 flex items-center gap-2"
                   whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
                   Browse Courses <ArrowRight className="w-4 h-4" />
                 </motion.button>
@@ -2738,7 +2738,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         {cpdCourseModal !== null && (() => {
           const c = cpdCourses[cpdCourseModal];
           const Icon = c.icon;
-          const levelColor = c.level === 'Foundation' ? 'text-green-700 bg-green-50 border-green-100' : c.level === 'Intermediate' ? 'text-amber-700 bg-amber-50 border-amber-100' : 'text-violet-700 bg-violet-50 border-violet-100';
+          const levelColor = c.level === 'Foundation' ? 'text-green-700 bg-green-50 border-black/5' : c.level === 'Intermediate' ? 'text-amber-700 bg-amber-50 border-black/5' : 'text-violet-700 bg-violet-50 border-black/5';
           const totalDur = c.curriculum.reduce((a, m) => a + parseInt(m.dur), 0);
           const related = cpdCourses.filter((r, i) => r.category === c.category && i !== cpdCourseModal).slice(0, 3);
 
@@ -2750,7 +2750,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             >
               {/* Sticky top bar */}
-              <div className="sticky top-0 z-20 bg-white border-b border-slate-100 shadow-sm">
+              <div className="sticky top-0 z-20 bg-white border-b border-black/5">
                 <div className="max-w-[1280px] mx-auto px-6 py-3.5 flex items-center justify-between gap-4">
                   <button onClick={() => { setCpdCourseModal(null); setCpdOpenModule(0); }}
                     className="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">
@@ -2775,9 +2775,9 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-14 lg:py-20 grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
                   <div className="lg:col-span-2 space-y-5">
                     <div className="flex flex-wrap gap-2">
-                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/20 text-white border border-white/20">{c.category}</span>
-                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/20 text-white border border-white/20">{c.level}</span>
-                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/20 text-white border border-white/20">Self-paced</span>
+                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/20 text-white border border-black/5">{c.category}</span>
+                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/20 text-white border border-black/5">{c.level}</span>
+                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/20 text-white border border-black/5">Self-paced</span>
                     </div>
                     <h1 className="text-4xl sm:text-5xl font-bold text-white leading-[1.08] tracking-tight">{c.title}</h1>
                     <p className="text-white/80 text-base leading-relaxed max-w-2xl">{c.desc}</p>
@@ -2790,11 +2790,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   </div>
                   {/* Enrol card */}
                   <motion.div
-                    className="bg-white rounded-2xl shadow-xl p-6 space-y-4"
+                    className="bg-white rounded-2xl p-6 space-y-4"
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.15, type: 'spring', stiffness: 300, damping: 26 }}
                   >
-                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center shadow-md`}>
+                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center`}>
                       <Icon className="w-7 h-7 text-white" />
                     </div>
                     <div>
@@ -2830,7 +2830,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     <h2 className="text-2xl font-bold text-slate-900 mb-6">What you'll learn</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {c.outcomes.map(o => (
-                        <div key={o} className="flex items-start gap-3 p-4 bg-white border border-slate-100 rounded-xl shadow-sm">
+                        <div key={o} className="flex items-start gap-3 p-4 bg-white border border-black/5 rounded-xl">
                           <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
                           <p className="text-sm text-slate-700 leading-snug">{o}</p>
                         </div>
@@ -2848,7 +2848,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       {c.curriculum.map((mod, mi) => {
                         const open = cpdOpenModule === mi;
                         return (
-                          <div key={mi} className="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-sm">
+                          <div key={mi} className="bg-white border border-black/5 rounded-xl overflow-hidden">
                             <button
                               className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-slate-50 transition-colors"
                               onClick={() => setCpdOpenModule(open ? null : mi)}
@@ -2868,7 +2868,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                                 animate={{ opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
                                 transition={{ duration: 0.22 }}
-                                className="border-t border-slate-100 px-5 py-4 bg-slate-50"
+                                className="border-t border-black/5 px-5 py-4 bg-slate-50"
                               >
                                 <ul className="space-y-2">
                                   {mod.topics.map(t => (
@@ -2897,7 +2897,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         { label: 'CPD hours', val: `${c.hours} hrs` },
                         { label: 'Accreditor', val: c.accreditor },
                       ].map(({ label, val }) => (
-                        <div key={label} className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm">
+                        <div key={label} className="bg-white border border-black/5 rounded-xl p-4">
                           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</p>
                           <p className="text-sm font-bold text-slate-900 mt-1">{val}</p>
                         </div>
@@ -2907,8 +2907,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
                   {/* Certificate */}
                   <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-                    <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-100 rounded-2xl p-7 flex items-center gap-6">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 flex items-center justify-center shadow-lg shrink-0">
+                    <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-black/5 rounded-2xl p-7 flex items-center gap-6">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 flex items-center justify-center shrink-0">
                         <Award className="w-8 h-8 text-white" />
                       </div>
                       <div>
@@ -2928,11 +2928,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           const ri = cpdCourses.indexOf(r);
                           return (
                             <motion.div key={r.title}
-                              className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+                              className="bg-white border border-black/5 rounded-2xl p-5 transition-all cursor-pointer group"
                               whileHover={{ y: -3 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                               onClick={() => { setCpdCourseModal(ri); setCpdOpenModule(0); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                             >
-                              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${r.color} flex items-center justify-center mb-3 shadow-sm`}>
+                              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${r.color} flex items-center justify-center mb-3`}>
                                 <RIcon className="w-4 h-4 text-white" />
                               </div>
                               <h4 className="text-sm font-bold text-slate-900 leading-snug mb-1">{r.title}</h4>
@@ -2951,8 +2951,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 {/* Sticky sidebar (desktop) */}
                 <div className="hidden lg:block">
                   <div className="sticky top-24 space-y-4">
-                    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-6 space-y-4">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center shadow-md`}>
+                    <div className="bg-white border border-black/5 rounded-2xl p-6 space-y-4">
+                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center`}>
                         <Icon className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -2963,7 +2963,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         className="w-full py-3 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
                         Enrol now — it's free <ArrowRight className="w-4 h-4" />
                       </button>
-                      <div className="border-t border-slate-100 pt-4 space-y-2">
+                      <div className="border-t border-black/5 pt-4 space-y-2">
                         {[
                           { icon: Clock, label: `${c.hours} CPD hours` },
                           { icon: BookOpen, label: `${c.modules} modules · ${totalDur} min` },
@@ -2977,7 +2977,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         ))}
                       </div>
                     </div>
-                    <div className={`${c.bgLight} border border-slate-100 rounded-2xl p-5`}>
+                    <div className={`${c.bgLight} border border-black/5 rounded-2xl p-5`}>
                       <p className="text-xs font-bold text-slate-700 mb-2">This course is part of:</p>
                       <p className="text-sm font-bold text-slate-900">{c.category === 'Management' ? 'Pharmacy Leadership Track' : c.category === 'Compliance' ? 'Clinical Compliance Bundle' : 'Community Pharmacist Excellence'}</p>
                       <button onClick={() => openAuth('signup')} className="mt-3 text-xs font-bold text-[#276647] flex items-center gap-1 hover:gap-2 transition-all">
@@ -2989,7 +2989,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </div>
 
               {/* Bottom enrol bar (mobile) */}
-              <div className="lg:hidden sticky bottom-0 bg-white border-t border-slate-100 px-4 py-3 shadow-lg">
+              <div className="lg:hidden sticky bottom-0 bg-white border-t border-black/5 px-4 py-3">
                 <button onClick={() => openAuth('signup')}
                   className="w-full py-3.5 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
                   Enrol free — {c.hours} CPD hours <ArrowRight className="w-4 h-4" />
@@ -3017,7 +3017,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}>
 
               {/* Sticky breadcrumb bar */}
-              <div className="sticky top-[70px] z-20 bg-white border-b border-slate-100 shadow-sm">
+              <div className="sticky top-[70px] z-20 bg-white border-b border-black/5">
                 <div className="max-w-[1280px] mx-auto px-6 py-3.5 flex items-center justify-between">
                   <button onClick={() => setBlogPost(null)} className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors">
                     <ChevronDown className="w-4 h-4 rotate-90" />
@@ -3049,7 +3049,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 {/* Body */}
                 <article className="lg:col-span-2 space-y-8">
                   {a.callout && (
-                    <div className="bg-green-50 border-l-4 border-[#276647] rounded-r-xl px-5 py-4">
+                    <div className="bg-green-50 border-l-4 border-black/5 rounded-r-xl px-5 py-4">
                       <p className="text-sm text-[#276647] font-medium leading-relaxed">{a.callout}</p>
                     </div>
                   )}
@@ -3081,7 +3081,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <div className="space-y-3">
                         {related.map((r, ri) => (
                           <motion.button key={ri} onClick={() => { setBlogPost(articles.indexOf(r)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                            className="w-full flex items-start gap-4 p-4 bg-slate-50 hover:bg-white border border-slate-100 rounded-2xl text-left transition-all group shadow-sm hover:shadow-md"
+                            className="w-full flex items-start gap-4 p-4 bg-slate-50 hover:bg-white border border-black/5 rounded-2xl text-left transition-all group"
                             whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 400, damping: 22 }}>
                             <div>
                               <div className="flex items-center gap-2 mb-1.5">
@@ -3101,11 +3101,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 {/* Sidebar */}
                 <aside className="hidden lg:block space-y-5">
                   <div className="sticky top-32 space-y-5">
-                    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
+                    <div className="bg-white border border-black/5 rounded-2xl p-5">
                       <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">In this article</p>
                       <nav className="space-y-2">
                         {a.body.map((s, si) => (
-                          <p key={si} className="text-xs text-slate-600 font-medium leading-snug hover:text-[#276647] transition-colors cursor-pointer py-1 border-l-2 border-transparent hover:border-[#276647] pl-3">{s.h}</p>
+                          <p key={si} className="text-xs text-slate-600 font-medium leading-snug hover:text-[#276647] transition-colors cursor-pointer py-1 border-l-2 border-transparent hover:border-black/5 pl-3">{s.h}</p>
                         ))}
                       </nav>
                     </div>
@@ -3117,7 +3117,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         Browse shifts <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
-                    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
+                    <div className="bg-white border border-black/5 rounded-2xl p-5">
                       <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">More articles</p>
                       <div className="space-y-3">
                         {articles.filter((_, i) => i !== blogPost).slice(0, 4).map((r, ri) => (
@@ -3145,7 +3145,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             <section className="bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 px-6 pt-16 pb-14">
               <div className="max-w-[1280px] mx-auto lg:px-6 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
                 <div>
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/80 text-xs font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/80 text-xs font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
                     <BookOpen className="w-3.5 h-3.5 text-green-400" /> Insights & Resources
                   </div>
                   <h1 className="text-5xl font-bold text-white tracking-tight leading-[1.05]">Guides, salary reports<br />&amp; career insights</h1>
@@ -3155,7 +3155,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 <div className="flex flex-wrap gap-2 shrink-0">
                   {['All', 'Salary Guide', 'Compliance', 'Market Report', 'Career'].map(cat => (
                     <button key={cat} onClick={() => setBlogCategory(cat)}
-                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${blogCategory === cat ? 'bg-white text-slate-900 shadow-md' : 'bg-white/10 text-white/70 border border-white/15 hover:bg-white/20'}`}>
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${blogCategory === cat ? 'bg-white text-slate-900' : 'bg-white/10 text-white/70 border border-black/5 hover:bg-white/20'}`}>
                       {cat}
                     </button>
                   ))}
@@ -3174,7 +3174,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       const idx = articles.indexOf(a);
                       return (
                         <motion.div key={ai}
-                          className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer group"
+                          className="bg-white border border-black/5 rounded-2xl overflow-hidden transition-all cursor-pointer group"
                           whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 280, damping: 20 }}
                           onClick={() => { setBlogPost(idx); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                           <div className="relative h-44 overflow-hidden bg-slate-900">
@@ -3185,7 +3185,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <div className="px-6 py-5">
                             <h2 className="text-base font-bold text-slate-900 leading-snug mb-1.5 group-hover:text-[#276647] transition-colors">{a.title}</h2>
                             <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-4">{a.subtitle}</p>
-                            <div className="flex items-center justify-between pt-3 border-t border-slate-50">
+                            <div className="flex items-center justify-between pt-3 border-t border-black/5">
                               <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
                                 <span>{a.date}</span>
                                 <span>·</span>
@@ -3214,8 +3214,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       const idx = articles.indexOf(a);
                       return (
                         <motion.div key={ai} variants={fadeUp}
-                          className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group flex flex-col"
-                          whileHover={{ y: -4, boxShadow: '0 12px 36px rgba(0,0,0,0.09)' }}
+                          className="bg-white border border-black/5 rounded-2xl overflow-hidden transition-all cursor-pointer group flex flex-col"
+                          whileHover={{ y: -4 }}
                           transition={{ type: 'spring', stiffness: 280, damping: 20 }}
                           onClick={() => { setBlogPost(idx); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                           <div className="relative h-36 overflow-hidden bg-slate-900 shrink-0">
@@ -3226,7 +3226,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <div className="p-5 flex flex-col flex-1">
                             <h3 className="text-sm font-bold text-slate-900 leading-snug mb-2 group-hover:text-[#276647] transition-colors flex-1">{a.title}</h3>
                             <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-4">{a.subtitle}</p>
-                            <div className="flex items-center justify-between pt-3 border-t border-slate-50">
+                            <div className="flex items-center justify-between pt-3 border-t border-black/5">
                               <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium">
                                 <span>{a.date}</span><span>·</span><span>{a.read} read</span>
                               </div>
@@ -3250,7 +3250,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   <p className="text-slate-400 text-sm">Rate benchmarks, compliance updates, and career tips — free, once a month.</p>
                 </div>
                 <div className="flex gap-2 w-full sm:w-auto">
-                  <input placeholder="your@email.com" className="flex-1 sm:w-56 px-4 py-2.5 rounded-xl bg-white/10 border border-white/15 text-white text-sm placeholder-white/40 outline-none focus:border-green-400 transition-colors" />
+                  <input placeholder="your@email.com" className="flex-1 sm:w-56 px-4 py-2.5 rounded-xl bg-white/10 border border-black/5 text-white text-sm placeholder-white/40 outline-none focus:border-green-400 transition-colors" />
                   <button onClick={() => onBookDemo('Newsletter')} className="shrink-0 px-5 py-2.5 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold text-sm rounded-xl transition-colors">
                     Subscribe
                   </button>
@@ -3273,7 +3273,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           <section className="bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 px-6 pt-16 pb-20 relative overflow-hidden">
             <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '28px 28px' }} />
             <div className="max-w-[1280px] mx-auto lg:px-6 relative">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/80 text-xs font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/80 text-xs font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
                 <Search className="w-3.5 h-3.5 text-green-400" /> Help Centre
               </div>
               <h1 className="text-5xl font-bold text-white tracking-tight leading-[1.05] mb-3">Frequently asked<br />questions</h1>
@@ -3282,7 +3282,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               <div className="flex items-center gap-2">
                 {(['Locum', 'Employers'] as const).map(tab => (
                   <button key={tab} onClick={() => { setFaqTab(tab); setOpenFaq(null); }}
-                    className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${faqTab === tab ? 'bg-white text-slate-900 shadow-lg' : 'bg-white/10 text-white/70 border border-white/15 hover:bg-white/20'}`}>
+                    className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${faqTab === tab ? 'bg-white text-slate-900' : 'bg-white/10 text-white/70 border border-black/5 hover:bg-white/20'}`}>
                     {tab === 'Locum' ? 'For Locums' : 'For Employers'}
                   </button>
                 ))}
@@ -3301,7 +3301,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   <motion.div key={f.q}
                     initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.05 }}
-                    className={`rounded-2xl border overflow-hidden transition-all duration-200 ${isOpen ? 'border-[#276647] shadow-lg shadow-green-600/10' : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-sm'}`}>
+                    className={`rounded-2xl border overflow-hidden transition-all duration-200 ${isOpen ? 'border-black/5' : 'bg-white border-black/5 hover:border-black/5'}`}>
                     <button onClick={() => setOpenFaq(isOpen ? null : i)}
                       className={`w-full flex items-center justify-between gap-4 px-6 py-5 text-left transition-colors ${isOpen ? 'bg-[#276647]' : 'bg-white'}`}>
                       <span className={`text-sm font-semibold leading-snug ${isOpen ? 'text-white' : 'text-slate-900'}`}>{f.q}</span>
@@ -3313,7 +3313,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     </button>
                     {isOpen && (
                       <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
-                        className="bg-white px-6 pb-6 pt-4 text-[15px] text-slate-600 leading-relaxed border-t border-[#276647]/10">
+                        className="bg-white px-6 pb-6 pt-4 text-[15px] text-slate-600 leading-relaxed border-t border-black/5">
                         {f.a}
                       </motion.div>
                     )}
@@ -3323,7 +3323,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
               {/* Still have questions */}
               <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.3 }}
-                className="mt-4 bg-white border border-slate-100 rounded-2xl p-6 flex items-start gap-4 shadow-sm">
+                className="mt-4 bg-white border border-black/5 rounded-2xl p-6 flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center shrink-0">
                   <Mail className="w-5 h-5 text-[#276647]" />
                 </div>
@@ -3340,7 +3340,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             {/* Sidebar */}
             <aside className="space-y-5">
               {/* Quick links */}
-              <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
+              <div className="bg-white border border-black/5 rounded-2xl p-5">
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Quick links</p>
                 <div className="space-y-2">
                   {[
@@ -3376,13 +3376,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </div>
 
               {/* CTA */}
-              <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm space-y-3">
+              <div className="bg-white border border-black/5 rounded-2xl p-5 space-y-3">
                 <p className="text-sm font-bold text-slate-900">Ready to get started?</p>
                 <p className="text-xs text-slate-500 leading-relaxed">Join thousands of pharmacists and employers already on MployUs.</p>
                 <button onClick={() => openAuth('signup')} className="w-full py-2.5 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold text-sm rounded-xl transition-colors">
                   Create free account
                 </button>
-                <button onClick={() => openAuth('login')} className="w-full py-2.5 border border-slate-200 text-slate-700 font-semibold text-sm rounded-xl hover:border-slate-300 transition-colors">
+                <button onClick={() => openAuth('login')} className="w-full py-2.5 border border-black/5 text-slate-700 font-semibold text-sm rounded-xl hover:border-black/5 transition-colors">
                   Sign in
                 </button>
               </div>
@@ -3398,14 +3398,14 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       <footer className="bg-slate-950 text-slate-400">
         {/* Top bar */}
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12 pt-16 pb-12">
-          <div className="flex flex-col lg:flex-row items-start justify-between gap-10 pb-12 border-b border-white/8">
+          <div className="flex flex-col lg:flex-row items-start justify-between gap-10 pb-12 border-b border-black/5">
             <div className="space-y-4">
               <img src={imgLogoWhite} alt="MployUs Locums" className="h-12 w-auto object-contain opacity-90" />
               <p className="text-sm text-slate-500 max-w-xs leading-relaxed">The healthcare locum marketplace for Ireland & the UK. Flexible shifts, transparent pay, zero agency commission.</p>
               {/* Region switcher */}
               <div className="flex items-center gap-1.5">
                 {(Object.keys(REGIONS) as Region[]).map(r => (
-                  <button key={r} onClick={() => applyRegion(r)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold border transition-colors ${region === r ? 'bg-green-600/10 border-green-500/30 text-green-400' : 'border-white/8 text-slate-500 hover:text-white'}`}>
+                  <button key={r} onClick={() => applyRegion(r)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold border transition-colors ${region === r ? 'bg-green-600/10 border-black/5 text-green-400' : 'border-black/5 text-slate-500 hover:text-white'}`}>
                     <span>{REGIONS[r].flag}</span> {REGIONS[r].country}
                   </button>
                 ))}
@@ -3417,7 +3417,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               <h4 className="text-white font-semibold text-base">Get new shifts in your inbox</h4>
               <p className="text-slate-500 text-xs">Weekly shift digests and rate updates. No spam.</p>
               <div className="flex gap-2">
-                <div className="flex-1 flex items-center gap-2 px-3.5 py-2.5 bg-white/5 border border-white/8 rounded-xl">
+                <div className="flex-1 flex items-center gap-2 px-3.5 py-2.5 bg-white/5 border border-black/5 rounded-xl">
                   <Mail className="w-4 h-4 text-slate-500 shrink-0" />
                   <input type="email" placeholder="you@email.com" className="bg-transparent text-sm text-white w-full outline-none placeholder:text-slate-600" />
                 </div>
@@ -3446,7 +3446,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </div>
         </div>
 
-        <div className="border-t border-white/5">
+        <div className="border-t border-black/5">
           <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-600">
             <span>© 2026 MployUs Locums Ltd. All rights reserved.</span>
             <button onClick={onBackToHome} className="hover:text-white transition-colors">← Back to MployUs.com</button>
@@ -3460,7 +3460,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       {authModal && (
         <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={() => setAuthModal(null)} />
-          <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl max-h-[92vh] overflow-y-auto">
+          <div className="relative w-full max-w-md bg-white rounded-3xl max-h-[92vh] overflow-y-auto">
             {/* Header */}
             <div className="flex items-center justify-between px-6 pt-6 pb-0">
               <img src={imgLogo} alt="MployUs Locums" className="h-8 w-auto object-contain" />
@@ -3477,15 +3477,15 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     <p className="text-sm text-slate-500 mt-0.5">Log in to your MployUs Locums account.</p>
                   </div>
                   <div className="space-y-2.5">
-                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 focus-within:border-green-400 transition-colors">
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-green-400 transition-colors">
                       <Mail className="w-4 h-4 text-slate-400" />
                       <input placeholder="Email address" className="bg-transparent text-sm w-full outline-none" />
                     </div>
-                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 focus-within:border-green-400 transition-colors">
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-green-400 transition-colors">
                       <Lock className="w-4 h-4 text-slate-400" />
                       <input type="password" placeholder="Password" className="bg-transparent text-sm w-full outline-none" />
                     </div>
-                    <button onClick={() => onBookDemo('Sign In')} className="w-full py-3 bg-gradient-to-br from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white text-sm font-bold rounded-xl shadow-md shadow-green-600/20 transition-all">
+                    <button onClick={() => onBookDemo('Sign In')} className="w-full py-3 bg-gradient-to-br from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white text-sm font-bold rounded-xl transition-all">
                       Log In
                     </button>
                     <div className="flex items-center gap-3 text-[10px] text-slate-300 uppercase tracking-wider">
@@ -3521,7 +3521,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           const Icon = r.icon;
                           const active = role === r.key;
                           return (
-                            <button key={r.key} onClick={() => setRole(r.key)} className={`w-full p-4 rounded-xl border-2 text-left flex items-start gap-3 transition-all ${active ? 'border-green-500 bg-green-50' : 'border-slate-100 bg-white hover:border-slate-200'}`}>
+                            <button key={r.key} onClick={() => setRole(r.key)} className={`w-full p-4 rounded-xl border-2 text-left flex items-start gap-3 transition-all ${active ? 'border-black/5 bg-green-50' : 'border-black/5 bg-white hover:border-black/5'}`}>
                               <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${active ? 'bg-green-600' : 'bg-slate-100'}`}>
                                 <Icon className={`w-5 h-5 ${active ? 'text-white' : 'text-slate-500'}`} />
                               </div>
@@ -3548,23 +3548,23 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       </div>
                       {role === 'Locum' && (
                         <div className="relative">
-                          <select value={setupProfession.name} onChange={e => setSetupProfession(PROFESSIONS.find(p => p.name === e.target.value)!)} className="w-full appearance-none px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm font-semibold text-slate-800 outline-none cursor-pointer">
+                          <select value={setupProfession.name} onChange={e => setSetupProfession(PROFESSIONS.find(p => p.name === e.target.value)!)} className="w-full appearance-none px-4 py-3 rounded-xl bg-slate-50 border border-black/5 text-sm font-semibold text-slate-800 outline-none cursor-pointer">
                             {PROFESSIONS.map(p => <option key={p.name}>{p.name}</option>)}
                           </select>
                           <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                         </div>
                       )}
                       <div className="grid grid-cols-2 gap-2.5">
-                        <input placeholder={role === 'Client' ? 'Facility name' : 'Full name'} className="px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm outline-none focus:border-green-400 transition-colors" />
-                        <input placeholder="Email" className="px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm outline-none focus:border-green-400 transition-colors" />
+                        <input placeholder={role === 'Client' ? 'Facility name' : 'Full name'} className="px-4 py-3 rounded-xl bg-slate-50 border border-black/5 text-sm outline-none focus:border-green-400 transition-colors" />
+                        <input placeholder="Email" className="px-4 py-3 rounded-xl bg-slate-50 border border-black/5 text-sm outline-none focus:border-green-400 transition-colors" />
                       </div>
                       {role === 'Locum' && setupProfession.reg && (
-                        <div className="p-4 rounded-xl bg-green-50 border border-green-100 space-y-2">
+                        <div className="p-4 rounded-xl bg-green-50 border border-black/5 space-y-2">
                           <label className="block text-xs font-bold text-green-900">{setupProfession.reg} <span className="text-rose-500">*</span></label>
-                          <input placeholder={`Enter your ${setupProfession.reg}`} className="w-full px-3 py-2.5 rounded-lg bg-white border border-green-100 text-sm outline-none" />
+                          <input placeholder={`Enter your ${setupProfession.reg}`} className="w-full px-3 py-2.5 rounded-lg bg-white border border-black/5 text-sm outline-none" />
                         </div>
                       )}
-                      <input placeholder="Mobile number" className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm outline-none focus:border-green-400 transition-colors" />
+                      <input placeholder="Mobile number" className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-black/5 text-sm outline-none focus:border-green-400 transition-colors" />
                       <div className="flex gap-2">
                         <button onClick={() => setSignupStep('role')} className="px-4 py-3 text-sm font-semibold text-slate-500 hover:text-slate-900">← Back</button>
                         <button onClick={() => setSignupStep('verify')} className="flex-1 py-3 bg-gradient-to-br from-green-600 to-green-700 text-white text-sm font-bold rounded-xl flex items-center justify-center gap-1.5">
@@ -3576,7 +3576,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
                   {signupStep === 'verify' && (
                     <div className="flex flex-col items-center text-center space-y-5 py-2">
-                      <div className="w-16 h-16 rounded-2xl bg-green-50 border border-green-100 flex items-center justify-center">
+                      <div className="w-16 h-16 rounded-2xl bg-green-50 border border-black/5 flex items-center justify-center">
                         <Phone className="w-7 h-7 text-green-600" />
                       </div>
                       <div>
@@ -3595,7 +3595,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                               setSmsCode(next);
                               if (e.target.value && e.target.nextElementSibling) (e.target.nextElementSibling as HTMLInputElement).focus();
                             }}
-                            className="w-11 h-13 text-center text-lg font-bold rounded-xl bg-slate-50 border-2 border-slate-100 outline-none focus:border-green-500 transition-colors"
+                            className="w-11 h-13 text-center text-lg font-bold rounded-xl bg-slate-50 border-2 border-black/5 outline-none focus:border-green-500 transition-colors"
                           />
                         ))}
                       </div>
@@ -3616,7 +3616,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           COOKIE BANNER
       ══════════════════════════════════════ */}
       {cookieOpen && (
-        <div className="fixed bottom-5 left-5 right-5 sm:left-auto sm:right-6 sm:w-80 z-50 bg-white border border-slate-100 rounded-2xl shadow-2xl shadow-slate-900/15 p-5">
+        <div className="fixed bottom-5 left-5 right-5 sm:left-auto sm:right-6 sm:w-80 z-50 bg-white border border-black/5 rounded-2xl p-5">
           <div className="flex items-start gap-3 mb-3">
             <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
               <Cookie className="w-4.5 h-4.5 text-amber-500" />
@@ -3627,7 +3627,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </div>
           </div>
           {cookiePrefsOpen && (
-            <div className="mb-3 space-y-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
+            <div className="mb-3 space-y-2 p-3 bg-slate-50 rounded-xl border border-black/5">
               {([{ key: 'necessary', label: 'Necessary', locked: true }, { key: 'functional', label: 'Functional', locked: false }, { key: 'performance', label: 'Performance', locked: false }, { key: 'targeting', label: 'Targeting', locked: false }] as const).map(pref => (
                 <label key={pref.key} className="flex items-center justify-between text-xs">
                   <span className="text-slate-700 font-medium">{pref.label}{pref.locked && <span className="text-slate-400 font-normal"> (always on)</span>}</span>
@@ -3637,7 +3637,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </div>
           )}
           <div className="flex gap-2">
-            <button onClick={() => setCookiePrefsOpen(o => !o)} className="flex-1 py-2 text-xs font-semibold text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
+            <button onClick={() => setCookiePrefsOpen(o => !o)} className="flex-1 py-2 text-xs font-semibold text-slate-600 border border-black/5 rounded-lg hover:bg-slate-50 transition-colors">
               {cookiePrefsOpen ? 'Save' : 'Manage'}
             </button>
             <button onClick={() => setCookieOpen(false)} className="flex-1 py-2 text-xs font-semibold bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
