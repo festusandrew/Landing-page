@@ -139,7 +139,7 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
 
           {/* Dynamic Interactive Visual Panel */}
-          <div className="p-4 sm:p-6 bg-slate-50/50 min-h-[340px] flex flex-col justify-between relative">
+          <div className="p-4 sm:p-6 bg-slate-50/50 min-h-[520px] flex flex-col justify-between relative">
             
             {/* View 1: Overview Unified Data Flow */}
             {mockView === 'overview' && (
@@ -264,7 +264,7 @@ export const Hero: React.FC<HeroProps> = ({
                     src={recruitmentDashboard}
                     alt="Recruitment dashboard showing application trends and hiring metrics"
                     className="w-full object-cover object-top"
-                    style={{ maxHeight: 260 }}
+                    style={{ maxHeight: 420 }}
                   />
                 </div>
               </div>
@@ -293,7 +293,7 @@ export const Hero: React.FC<HeroProps> = ({
                     src={careDashboard}
                     alt="Care management dashboard with care hours, shift coverage and CQC compliance metrics"
                     className="w-full object-cover object-top"
-                    style={{ maxHeight: 260 }}
+                    style={{ maxHeight: 420 }}
                   />
                 </div>
               </div>
@@ -322,7 +322,7 @@ export const Hero: React.FC<HeroProps> = ({
                     src={staffingDashboard}
                     alt="Locum rota dashboard showing active shifts, fill rate and shift matching"
                     className="w-full object-cover object-top"
-                    style={{ maxHeight: 260 }}
+                    style={{ maxHeight: 420 }}
                   />
                 </div>
               </div>
