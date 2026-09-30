@@ -2447,15 +2447,15 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
           {/* ── Hero ── */}
           <section className="bg-slate-900">
-            <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-16">
+            <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-16 text-center">
               <p className="text-xs font-bold text-[#368B62] uppercase tracking-widest mb-4">CPD & Training · PSI & GPhC Accredited</p>
               <h1 className="text-4xl sm:text-5xl font-bold text-white leading-[1.08] tracking-tight mb-4">
                 Keep your registration current<br />between shifts.
               </h1>
-              <p className="text-white/60 text-base leading-relaxed max-w-xl mb-8">
+              <p className="text-white/60 text-base leading-relaxed max-w-xl mx-auto mb-8">
                 Accredited CPD courses on your schedule — recognised by PSI and GPhC. Complete online, earn hours, download your certificate.
               </p>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <button
                   onClick={() => document.getElementById('cpd-courses')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                   className="flex items-center gap-2 px-6 py-3 bg-[#368B62] hover:bg-[#276647] text-white font-semibold text-sm rounded-xl transition-colors">
