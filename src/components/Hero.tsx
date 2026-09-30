@@ -131,10 +131,7 @@ export const Hero: React.FC<HeroProps> = ({
               })}
             </div>
 
-            <div className="flex items-center gap-2 text-xs">
-              <span className="w-2 h-2 rounded-full bg-blue-500" />
-              <span className="text-blue-700 font-mono text-[11px] font-bold">4 Modules Synced</span>
-            </div>
+            
           </div>
 
           {/* Dynamic Interactive Visual Panel */}
