@@ -82,7 +82,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     {
       id: 'web-development',
       name: 'Web Development',
-      desc: 'Care home websites, NHS spine sync & cloud engineering',
+      desc: 'Websites, apps, APIs & cloud engineering for any niche',
       icon: Code2,
       color: 'text-cyan-600',
       badge: 'Engineering'
