@@ -4,7 +4,7 @@ import {
   ArrowRight, Menu, X, Globe, Clock, Target, Users,
   Check, Mail, Phone, Building2, Briefcase, Send, CheckCircle2,
   Plus, Minus, FileText, ChevronRight, Search, MapPin,
-  BookOpen, Star, Award, TrendingUp, Shield, SlidersHorizontal,
+  Star, Award, TrendingUp, Shield,
 } from 'lucide-react';
 
 // ── Figma images ──────────────────────────────────────────────────────────────
@@ -416,225 +416,308 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   );
 
   // ── FOR JOBSEEKERS ────────────────────────────────────────────────────────────
-  const JobseekersPage = () => (
+  const JobseekersPage = () => {
+    const [selectedIdx, setSelectedIdx] = useState(0);
+    const [sortBy, setSortBy] = useState<'title' | 'salary' | 'location' | 'added'>('title');
+    const [filterRegion, setFilterRegion] = useState<'all' | 'IE' | 'UK'>('all');
+
+    const sorted = useMemo(() => {
+      let list = filteredRoles.filter(r => {
+        if (filterRegion === 'IE') return ['Dublin', 'Cork', 'Galway', 'Limerick', 'Kilkenny', 'Athlone'].includes(r.location);
+        if (filterRegion === 'UK') return ['London', 'Manchester', 'Birmingham'].includes(r.location);
+        return true;
+      });
+      if (sortBy === 'salary') list = [...list].sort((a, b) => parseInt(b.salary.replace(/[^0-9]/g, '')) - parseInt(a.salary.replace(/[^0-9]/g, '')));
+      if (sortBy === 'location') list = [...list].sort((a, b) => a.location.localeCompare(b.location));
+      return list;
+    }, [filteredRoles, sortBy, filterRegion]);
+
+    const sel = sorted[selectedIdx] ?? sorted[0];
+
+    return (
     <Fade>
-      {/* Hero + search */}
-      <section className="py-14 bg-white border-b" style={{ borderColor: BDL }}>
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
-          <Eyebrow>For jobseekers</Eyebrow>
-          <H1 className="mb-4 max-w-2xl">Your next career move starts here.</H1>
-          <p className="text-[17px] leading-[1.65] max-w-xl mb-8" style={{ color: TM }}>
-            Whether you are looking for a permanent role, contract work, or a change of direction — MployUs connects you with employers who value your skills.
-          </p>
-
-          {/* Search bar */}
-          <div className="flex flex-col sm:flex-row gap-3 max-w-3xl mb-4">
-            <div className="flex items-center gap-3 flex-1 px-4 py-3 rounded-lg border bg-white" style={{ borderColor: BD }}>
-              <Search className="w-4 h-4 shrink-0" style={{ color: TT }} />
-              <input placeholder="Job title, keyword or sector…" value={jobKeyword}
-                onChange={e => setJobKeyword(e.target.value)}
-                className="bg-transparent text-[14px] outline-none w-full" style={{ color: TD }} />
-            </div>
-            <div className="flex items-center gap-3 w-full sm:w-52 px-4 py-3 rounded-lg border bg-white" style={{ borderColor: BD }}>
-              <MapPin className="w-4 h-4 shrink-0" style={{ color: TT }} />
-              <select value={jobLocation} onChange={e => setJobLocation(e.target.value)}
-                className="bg-transparent text-[14px] outline-none w-full appearance-none cursor-pointer" style={{ color: TD }}>
-                {LOCATIONS.map(l => <option key={l}>{l}</option>)}
-              </select>
-            </div>
-            <button className="px-6 py-3 rounded-lg text-white text-[14px] font-medium hover:opacity-90 whitespace-nowrap" style={{ backgroundColor: P }}>
-              Search Jobs
-            </button>
-          </div>
-
-          {/* Filter toggle */}
-          <button onClick={() => setShowFilters(v => !v)}
-            className="flex items-center gap-2 text-[13px] px-3.5 py-2 rounded-lg border transition-colors"
-            style={{ borderColor: showFilters ? P : BDL, color: showFilters ? P : TM, backgroundColor: showFilters ? 'rgba(129,1,97,0.04)' : 'white' }}>
-            <SlidersHorizontal className="w-4 h-4" />
-            {showFilters ? 'Hide filters' : 'More filters'}
-          </button>
-
-          {/* Expanded filters */}
-          <AnimatePresence>
-            {showFilters && (
-              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
-                className="overflow-hidden">
-                <div className="pt-4 flex flex-wrap gap-3">
-                  {/* Sector */}
-                  <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg border bg-white" style={{ borderColor: BD }}>
-                    <Briefcase className="w-4 h-4 shrink-0" style={{ color: TT }} />
-                    <select value={jobSector} onChange={e => setJobSector(e.target.value)}
-                      className="bg-transparent text-[14px] outline-none appearance-none cursor-pointer pr-4" style={{ color: TD }}>
-                      {SECTORS.map(s => <option key={s}>{s}</option>)}
-                    </select>
-                  </div>
-                  {/* Type */}
-                  <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg border bg-white" style={{ borderColor: BD }}>
-                    <Clock className="w-4 h-4 shrink-0" style={{ color: TT }} />
-                    <select value={jobType} onChange={e => setJobType(e.target.value)}
-                      className="bg-transparent text-[14px] outline-none appearance-none cursor-pointer pr-4" style={{ color: TD }}>
-                      {JOB_TYPES.map(t => <option key={t}>{t}</option>)}
-                    </select>
-                  </div>
-                  {/* Clear */}
-                  {(jobSector !== 'All Sectors' || jobType !== 'All Types' || jobLocation !== 'All Locations' || jobKeyword) && (
-                    <button onClick={() => { setJobKeyword(''); setJobLocation('All Locations'); setJobSector('All Sectors'); setJobType('All Types'); }}
-                      className="px-4 py-2.5 rounded-lg text-[13px] border" style={{ borderColor: BDL, color: TM }}>
-                      Clear all
-                    </button>
-                  )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+      {/* Hero banner */}
+      <div className="relative h-[300px] overflow-hidden">
+        <img src={imgHiring} alt="" className="absolute inset-0 w-full h-full object-cover object-center" />
+        <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.68)' }} />
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6 gap-3">
+          <p className="text-white/90 text-sm font-semibold tracking-widest uppercase">Find Your Next Role</p>
+          <h1 className="text-3xl lg:text-[35px] font-bold text-white leading-tight max-w-3xl">
+            Browse live vacancies, apply instantly, and let our consultants do the rest.
+          </h1>
         </div>
-      </section>
+      </div>
 
-      {/* Results */}
-      <section style={{ backgroundColor: BGL }} className="py-12">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
-          <div className="flex items-center justify-between mb-6">
-            <p className="text-[14px]" style={{ color: TM }}>
-              <span className="font-medium" style={{ color: TD }}>{filteredRoles.length}</span> role{filteredRoles.length !== 1 ? 's' : ''} found
-              {jobSector !== 'All Sectors' && <> in <span style={{ color: P }}>{jobSector}</span></>}
-              {jobLocation !== 'All Locations' && <> · <span style={{ color: P }}>{jobLocation}</span></>}
-              {jobType !== 'All Types' && <> · <span style={{ color: P }}>{jobType}</span></>}
-            </p>
-          </div>
-
-          {filteredRoles.length === 0 ? (
-            <div className="text-center py-16">
-              <Search className="w-10 h-10 mx-auto mb-3" style={{ color: TT }} />
-              <p className="text-[16px] font-medium mb-1" style={{ color: TD }}>No roles found</p>
-              <p className="text-[14px] mb-4" style={{ color: TM }}>Try adjusting your filters or uploading your CV to be considered for future roles.</p>
-              <button onClick={openCV} className="px-5 py-2.5 rounded-lg text-white text-[14px] font-medium" style={{ backgroundColor: P }}>Upload CV</button>
+      {/* Filter bar */}
+      <div className="bg-white border-b border-black/5">
+        <div className="max-w-[1286px] mx-auto px-6 lg:px-10 py-5 flex flex-wrap items-end justify-between gap-4">
+          <div className="flex flex-wrap gap-5 items-end">
+            {/* Keyword */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[#757575] text-sm">Keyword / Job Title</label>
+              <div className="relative">
+                <Search className="w-4 h-4 text-[#757575] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input placeholder="e.g. Nurse, Warehouse…" value={jobKeyword} onChange={e => setJobKeyword(e.target.value)}
+                  className="bg-white border border-[#d9d9d9] rounded pl-9 pr-3.5 py-2.5 text-sm text-slate-700 outline-none w-[220px]"
+                  style={{ '--tw-ring-color': P } as React.CSSProperties} />
+              </div>
             </div>
-          ) : (
-            <div className="space-y-3">
-              {filteredRoles.map((role, i) => (
-                <div key={role.title + role.location} className="bg-white rounded-xl border overflow-hidden" style={{ borderColor: openRoleIdx === i ? P : BDL }}>
-                  <button onClick={() => setOpenRoleIdx(openRoleIdx === i ? null : i)}
-                    className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-5 text-left">
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center text-[11px] font-medium"
-                        style={{ backgroundColor: BGL, border: `1px solid ${BDL}`, color: TT }}>
-                        {role.sector.slice(0, 2).toUpperCase()}
-                      </div>
-                      <div>
-                        <p className="text-[16px] font-medium" style={{ color: P }}>{role.title}</p>
-                        <div className="flex flex-wrap items-center gap-2 mt-1">
-                          <span className="flex items-center gap-1 text-[13px]" style={{ color: TM }}><MapPin className="w-3 h-3" /> {role.location}</span>
-                          <span style={{ color: BD }}>·</span>
-                          <span className="text-[13px]" style={{ color: TM }}>{role.type}</span>
-                          <span style={{ color: BD }}>·</span>
-                          <span className="text-[13px]" style={{ color: TM }}>{role.salary}</span>
+            {/* Sector */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[#757575] text-sm">Sector</label>
+              <div className="relative">
+                <Briefcase className="w-4 h-4 text-[#757575] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <select value={jobSector} onChange={e => setJobSector(e.target.value)}
+                  className="appearance-none bg-white border border-[#d9d9d9] rounded pl-9 pr-8 py-2.5 text-sm text-slate-700 outline-none w-[200px] cursor-pointer">
+                  {SECTORS.map(s => <option key={s}>{s}</option>)}
+                </select>
+                <ChevronRight className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
+              </div>
+            </div>
+            {/* Location */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[#757575] text-sm">Location</label>
+              <div className="relative">
+                <MapPin className="w-4 h-4 text-[#757575] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <select value={jobLocation} onChange={e => setJobLocation(e.target.value)}
+                  className="appearance-none bg-white border border-[#d9d9d9] rounded pl-9 pr-8 py-2.5 text-sm text-slate-700 outline-none w-[200px] cursor-pointer">
+                  {LOCATIONS.map(l => <option key={l}>{l}</option>)}
+                </select>
+                <ChevronRight className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
+              </div>
+            </div>
+            {/* Type */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[#757575] text-sm">Job Type</label>
+              <div className="relative">
+                <Clock className="w-4 h-4 text-[#757575] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <select value={jobType} onChange={e => setJobType(e.target.value)}
+                  className="appearance-none bg-white border border-[#d9d9d9] rounded pl-9 pr-8 py-2.5 text-sm text-slate-700 outline-none w-[170px] cursor-pointer">
+                  {JOB_TYPES.map(t => <option key={t}>{t}</option>)}
+                </select>
+                <ChevronRight className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
+              </div>
+            </div>
+          </div>
+          <button onClick={() => setSelectedIdx(0)}
+            className="text-white font-semibold text-[18px] px-8 py-2.5 rounded-lg transition-opacity hover:opacity-90 shrink-0"
+            style={{ backgroundColor: P }}>
+            Search
+          </button>
+        </div>
+      </div>
+
+      {/* Region tabs */}
+      <div className="border-b border-black/5 bg-white">
+        <div className="max-w-[1286px] mx-auto px-6 lg:px-10 py-4 flex flex-col gap-2">
+          <p className="text-[#3d3d3d] text-sm">Filter by region</p>
+          <div className="flex flex-wrap gap-8 items-center">
+            {[
+              { id: 'all', flag: '🌍', label: 'All Regions' },
+              { id: 'IE',  flag: '🇮🇪', label: 'Republic of Ireland' },
+              { id: 'UK',  flag: '🇬🇧', label: 'United Kingdom' },
+            ].map(c => {
+              const active = filterRegion === c.id;
+              return (
+                <button key={c.id} onClick={() => { setFilterRegion(c.id as 'all' | 'IE' | 'UK'); setSelectedIdx(0); }}
+                  className="flex items-center gap-2 text-[15px] text-black">
+                  <div className="w-[22px] h-[22px] rounded-full border flex items-center justify-center shrink-0 transition-colors"
+                    style={{ backgroundColor: active ? P : 'white', borderColor: active ? P : 'rgba(0,0,0,0.4)' }}>
+                    {active && <Check className="w-3 h-3 text-white" />}
+                  </div>
+                  <span className="text-lg leading-none">{c.flag}</span>
+                  <span>{c.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Two-column: list + detail */}
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
+
+          {/* Left: job list */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-[#757575] text-base">{sorted.length} role{sorted.length !== 1 ? 's' : ''} available</p>
+              {/* Sort pills */}
+              <div className="flex items-center gap-0.5 bg-white border border-[#d9d9d9] rounded-full px-0.5 py-0.5">
+                {([
+                  { k: 'title',    l: 'Title' },
+                  { k: 'salary',   l: 'Salary' },
+                  { k: 'location', l: 'Location' },
+                  { k: 'added',    l: 'Recent' },
+                ] as const).map(({ k, l }) => (
+                  <button key={k} onClick={() => setSortBy(k)}
+                    className="px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors"
+                    style={{ backgroundColor: sortBy === k ? P : 'transparent', color: sortBy === k ? 'white' : '#757575' }}>
+                    {l}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {sorted.length === 0 ? (
+              <div className="text-center py-16">
+                <Search className="w-8 h-8 mx-auto mb-3" style={{ color: TT }} />
+                <p className="text-[15px] font-medium mb-1" style={{ color: TD }}>No roles found</p>
+                <p className="text-[13px] mb-4" style={{ color: TM }}>Try adjusting your filters.</p>
+                <button onClick={() => { setJobKeyword(''); setJobLocation('All Locations'); setJobSector('All Sectors'); setJobType('All Types'); }}
+                  className="px-4 py-2 rounded text-white text-[13px]" style={{ backgroundColor: P }}>Clear filters</button>
+              </div>
+            ) : (
+              <div className="space-y-0 border border-[#f1f1f1] rounded-lg overflow-hidden">
+                {sorted.map((r, i) => {
+                  const active = selectedIdx === i;
+                  return (
+                    <button key={r.title + r.location} onClick={() => setSelectedIdx(i)}
+                      className="w-full text-left transition-all border-b border-[#f1f1f1] last:border-0"
+                      style={{ backgroundColor: active ? P : i % 2 === 0 ? 'rgba(245,245,245,0.6)' : 'white' }}>
+                      <div className="flex flex-col gap-2 px-4 py-3.5">
+                        <div>
+                          <p className="text-[11px] leading-snug" style={{ color: active ? 'rgba(255,255,255,0.65)' : '#555' }}>{r.sector}</p>
+                          <p className="font-semibold text-[17px] leading-snug" style={{ color: active ? 'rgba(255,200,240,0.9)' : P }}>{r.title}</p>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1.5">
+                            <MapPin className="w-3.5 h-3.5 shrink-0" style={{ color: active ? 'rgba(255,255,255,0.7)' : '#757575' }} />
+                            <span className="text-[13px]" style={{ color: active ? 'rgba(255,255,255,0.85)' : '#333' }}>{r.location}</span>
+                          </div>
+                          <p className="text-[13px] font-medium" style={{ color: active ? 'rgba(255,200,240,0.9)' : P }}>{r.salary}</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-[11px] px-2 py-0.5 rounded-full border"
+                            style={{ backgroundColor: active ? 'rgba(255,255,255,0.15)' : BGL, borderColor: active ? 'rgba(255,255,255,0.2)' : BDL, color: active ? 'rgba(255,255,255,0.8)' : TT }}>
+                            {r.type}
+                          </span>
+                          <Briefcase className="w-3.5 h-3.5" style={{ color: active ? 'rgba(255,255,255,0.5)' : '#757575' }} />
+                          <span className="text-[13px]" style={{ color: active ? 'rgba(255,255,255,0.75)' : '#333' }}>{r.sector}</span>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-[12px] px-2.5 py-1 rounded-full border" style={{ borderColor: BDL, color: TM, backgroundColor: BGL }}>{role.sector}</span>
-                      <span className="text-[12px] px-2.5 py-1 rounded-full border" style={{ borderColor: BDL, color: TM, backgroundColor: BGL }}>{role.type}</span>
-                      <ChevronRight className="w-4 h-4 transition-transform" style={{ color: TT, transform: openRoleIdx === i ? 'rotate(90deg)' : 'none' }} />
-                    </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Pagination */}
+            {sorted.length > 0 && (
+              <div className="flex items-center gap-1.5 mt-4 justify-center">
+                {[1, 2, 3, '...', 8].map((p, i) => (
+                  <button key={i} className="min-w-[32px] h-8 rounded text-sm font-medium transition-colors"
+                    style={{ backgroundColor: p === 1 ? P : 'transparent', color: p === 1 ? 'white' : '#555' }}>
+                    {p}
                   </button>
-                  {openRoleIdx === i && (
-                    <div className="px-5 pb-5 border-t" style={{ borderColor: BDL }}>
-                      <p className="text-[14px] leading-relaxed mt-4 mb-5" style={{ color: TM }}>{role.desc}</p>
-                      <div className="flex flex-wrap gap-2">
-                        <button onClick={openCV} className="px-5 py-2.5 rounded-lg text-white text-[14px] font-medium hover:opacity-90" style={{ backgroundColor: P }}>
-                          Apply Now
-                        </button>
-                        <button onClick={openContact} className="px-5 py-2.5 rounded-lg text-[14px] font-medium border" style={{ borderColor: BD, color: TD }}>
-                          Ask a Question
-                        </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Right: detail panel */}
+          {sel && (
+            <div className="flex flex-col gap-4">
+              <div className="bg-white border border-black/5 rounded-xl p-6 space-y-5">
+                {/* Header */}
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-sm text-slate-500">{sel.sector} · {sel.location}</p>
+                    <h2 className="text-2xl font-bold mt-0.5" style={{ color: P }}>{sel.title}</h2>
+                    <span className="inline-block mt-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border border-black/5"
+                      style={{ backgroundColor: 'rgba(129,1,97,0.06)', color: P }}>{sel.type}</span>
+                  </div>
+                  <button onClick={openContact}
+                    className="flex items-center gap-1.5 px-3 py-1.5 border border-black/5 rounded text-xs font-semibold hover:bg-slate-50 transition-colors shrink-0"
+                    style={{ color: P }}>
+                    <ArrowRight className="w-3.5 h-3.5" /> Share
+                  </button>
+                </div>
+
+                {/* Key details */}
+                <div className="grid grid-cols-2 gap-4 text-sm border-t border-black/5 pt-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2.5 text-slate-700">
+                      <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                      <div>
+                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Location</p>
+                        <p className="font-semibold">{sel.location}</p>
                       </div>
                     </div>
-                  )}
+                    <div className="flex items-center gap-2.5 text-slate-700">
+                      <Clock className="w-4 h-4 text-slate-400 shrink-0" />
+                      <div>
+                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Job Type</p>
+                        <p className="font-semibold">{sel.type}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2.5 text-slate-700">
+                      <Briefcase className="w-4 h-4 text-slate-400 shrink-0" />
+                      <div>
+                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Sector</p>
+                        <p className="font-semibold">{sel.sector}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2.5 text-slate-700">
+                      <Building2 className="w-4 h-4 text-slate-400 shrink-0" />
+                      <div>
+                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Salary</p>
+                        <p className="font-bold text-base" style={{ color: P }}>{sel.salary}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              ))}
+
+                {/* Description */}
+                <div className="border-t border-black/5 pt-4 space-y-2">
+                  <h4 className="text-sm font-bold text-slate-900">About this role</h4>
+                  <p className="text-sm text-slate-600 leading-relaxed">{sel.desc}</p>
+                </div>
+
+                {/* Apply */}
+                <div className="pt-1 flex flex-col sm:flex-row gap-2">
+                  <motion.button onClick={openCV}
+                    className="flex-1 py-3 text-white font-bold text-base rounded-lg transition-colors"
+                    style={{ backgroundColor: P }}
+                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 22 }}>
+                    Apply for this role
+                  </motion.button>
+                  <button onClick={openContact}
+                    className="px-6 py-3 border border-black/5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
+                    Ask a Question
+                  </button>
+                </div>
+              </div>
+
+              {/* Industry photo card */}
+              <div className="rounded-xl overflow-hidden border border-black/5">
+                <p className="px-4 py-2.5 bg-white text-sm font-semibold text-slate-700 border-b border-black/5">About this Sector</p>
+                <div className="relative h-[220px]">
+                  {sel.sector === 'Logistics'   && <img src={imgLogistics}   alt={sel.sector} className="w-full h-full object-cover" />}
+                  {sel.sector === 'Healthcare'  && <img src={imgHealthcare}  alt={sel.sector} className="w-full h-full object-cover" />}
+                  {sel.sector === 'Hospitality' && <img src={imgHospitality} alt={sel.sector} className="w-full h-full object-cover" />}
+                  {sel.sector === 'Education'   && <img src={imgEducation}   alt={sel.sector} className="w-full h-full object-cover" />}
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)' }} />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white font-semibold text-[16px]">{sel.sector}</p>
+                    <button onClick={openContact} className="mt-2 text-[12px] font-medium text-white/80 hover:text-white flex items-center gap-1">
+                      Speak to a {sel.sector} specialist <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
-      </section>
-
-      {/* How it works */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
-          <Eyebrow>How it works</Eyebrow>
-          <H2 className="mb-10 max-w-md">Four steps to your next role</H2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { n: '01', icon: FileText,    title: 'Upload your CV',     desc: 'Submit your CV through our portal. A dedicated consultant reviews your profile within one business day.' },
-              { n: '02', icon: Users,       title: 'Consultant call',    desc: "We'll call you to understand your goals, preferences, salary target, and the role type you are looking for." },
-              { n: '03', icon: Target,      title: 'Matched to roles',   desc: "You'll receive a curated shortlist of roles that genuinely fit — not a mass email of every open position." },
-              { n: '04', icon: CheckCircle2, title: 'Interview support', desc: 'We prepare you for every interview, provide feedback, and handle all negotiations on your behalf.' },
-            ].map(s => (
-              <div key={s.n} className="p-6 rounded-xl border" style={{ borderColor: BDL }}>
-                <div className="w-9 h-9 rounded-lg flex items-center justify-center text-[12px] mb-4" style={{ backgroundColor: BGL, color: TT, border: `1px solid ${BDL}` }}>{s.n}</div>
-                <s.icon className="w-5 h-5 mb-4" style={{ color: TT }} strokeWidth={1.25} />
-                <p className="text-[16px] font-medium mb-2" style={{ color: P }}>{s.title}</p>
-                <p className="text-[14px] leading-[1.65]" style={{ color: TM }}>{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Candidate benefits + CV form */}
-      <section style={{ backgroundColor: BGL }} className="py-16">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row gap-12 items-start">
-          <div className="flex-1">
-            <Eyebrow>Why candidates choose us</Eyebrow>
-            <H2 className="mb-6 max-w-sm">We work for you, not just the employer</H2>
-            <div className="space-y-4">
-              {[
-                { icon: Shield,     title: 'Confidential job search', desc: 'We never share your CV without your explicit consent. Your search stays private.' },
-                { icon: Star,       title: 'Expert sector knowledge', desc: 'Our consultants recruit exclusively in your sector — they know what employers actually want.' },
-                { icon: Award,      title: 'Salary negotiation',      desc: 'We negotiate on your behalf and have data on current market rates across every role we place.' },
-                { icon: TrendingUp, title: 'Long-term career partner', desc: 'We stay in touch. Many of our candidates return to us 3 or 4 times throughout their career.' },
-              ].map(b => (
-                <div key={b.title} className="flex gap-4 p-5 bg-white rounded-xl border" style={{ borderColor: BDL }}>
-                  <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: BGL, border: `1px solid ${BDL}` }}>
-                    <b.icon className="w-4 h-4" style={{ color: TT }} strokeWidth={1.25} />
-                  </div>
-                  <div>
-                    <p className="text-[15px] font-medium mb-1" style={{ color: P }}>{b.title}</p>
-                    <p className="text-[13px] leading-relaxed" style={{ color: TM }}>{b.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Quick CV form */}
-          <div className="w-full lg:w-[360px] shrink-0 bg-white rounded-2xl border overflow-hidden" style={{ borderColor: BDL }}>
-            <div className="p-6 border-b" style={{ borderColor: BDL }}>
-              <p className="text-[18px] font-['Arimo',sans-serif] mb-1" style={{ color: P }}>Upload your CV</p>
-              <p className="text-[13px]" style={{ color: TM }}>Get matched with live roles in your sector</p>
-            </div>
-            <div className="p-6 space-y-3">
-              <IconField icon={Users}    placeholder="Full name" />
-              <IconField icon={Mail}     placeholder="Email address" type="email" />
-              <IconField icon={Phone}    placeholder="Phone number" type="tel" />
-              <IconField icon={Briefcase} placeholder="Your profession / job title" />
-              <div className="border-dashed border-2 rounded-xl px-5 py-6 text-center cursor-pointer" style={{ borderColor: BD }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = P)} onMouseLeave={e => (e.currentTarget.style.borderColor = BD)}>
-                <FileText className="w-7 h-7 mx-auto mb-2" style={{ color: TT }} />
-                <p className="text-[13px] font-medium mb-0.5" style={{ color: TD }}>Drop your CV here</p>
-                <p className="text-[12px]" style={{ color: TT }}>PDF or Word · max 5 MB</p>
-              </div>
-              <button onClick={openCV} className="w-full py-3 rounded-lg text-white text-[14px] font-medium flex items-center justify-center gap-2 hover:opacity-90" style={{ backgroundColor: P }}>
-                <Send className="w-4 h-4" /> Submit CV
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
 
       <Newsletter />
     </Fade>
   );
+  };
 
   // ── FOR EMPLOYERS ─────────────────────────────────────────────────────────────
   const EmployersPage = () => (
