@@ -69,16 +69,21 @@ export default function App() {
     setBookDemoOpen(true);
   };
 
+  // The Locum side is a standalone platform with its own navbar/footer.
+  const isStandaloneLocum = activeView === 'locum-provision';
+
   return (
     <div className="min-h-screen bg-white text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] selection:bg-slate-900 selection:text-white">
-      <Navbar
-        activeRole={activeRole}
-        onRoleChange={setActiveRole}
-        onBookDemo={(mod) => handleBookDemoWithModule(mod)}
-        onStartTrial={() => setFreeTrialOpen(true)}
-        onNavigate={handleNavigate}
-        activeView={activeView}
-      />
+      {!isStandaloneLocum && (
+        <Navbar
+          activeRole={activeRole}
+          onRoleChange={setActiveRole}
+          onBookDemo={(mod) => handleBookDemoWithModule(mod)}
+          onStartTrial={() => setFreeTrialOpen(true)}
+          onNavigate={handleNavigate}
+          activeView={activeView}
+        />
+      )}
 
       <main>
         {activeView === 'home' && (
@@ -164,11 +169,13 @@ export default function App() {
         )}
       </main>
 
-      <Footer
-        onNavigate={handleNavigate}
-        onBookDemo={() => handleBookDemoWithModule()}
-        onStartTrial={() => setFreeTrialOpen(true)}
-      />
+      {!isStandaloneLocum && (
+        <Footer
+          onNavigate={handleNavigate}
+          onBookDemo={() => handleBookDemoWithModule()}
+          onStartTrial={() => setFreeTrialOpen(true)}
+        />
+      )}
 
       <BookDemoModal
         isOpen={bookDemoOpen}

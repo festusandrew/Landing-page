@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, ArrowLeft, Star, Building2,
   Search, Calendar, Stethoscope, Briefcase, Mail, Lock, Linkedin, Phone, ChevronDown, ChevronRight,
-  BookOpen, GraduationCap, Cookie, FileText, Award, PlusCircle, UserPlus, Check
+  BookOpen, GraduationCap, Cookie, FileText, Award, PlusCircle, UserPlus, Check, Activity, Menu, X, LogIn
 } from 'lucide-react';
 
 interface LocumProvisionPageProps {
@@ -49,6 +49,23 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
   const [faqRegion, setFaqRegion] = useState<'UK' | 'IE'>('IE');
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
+  // Standalone platform navbar
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  const scrollToId = (id: string) => {
+    setMobileNavOpen(false);
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const navLinks = [
+    { id: 'find-shifts', label: 'Find Shifts' },
+    { id: 'post-shift', label: 'Post a Shift' },
+    { id: 'cpd', label: 'CPD' },
+    { id: 'blog', label: 'Blog' },
+    { id: 'faq', label: 'FAQ' }
+  ];
+
   // Cookie banner
   const [cookieOpen, setCookieOpen] = useState(true);
   const [cookiePrefsOpen, setCookiePrefsOpen] = useState(false);
@@ -94,25 +111,78 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 pt-20 pb-16 animate-fade-in font-['Plus_Jakarta_Sans',sans-serif]">
-      {/* Top Breadcrumb Header */}
-      <div className="bg-white border-b border-black/10 py-3 sticky top-16 z-30 shadow-2xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <button
-            onClick={onBackToHome}
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Overview
-          </button>
-          <div className="flex items-center gap-2 text-xs font-semibold text-blue-700">
-            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-            <span>MployUs Locums · Ireland & UK Marketplace</span>
+    <div className="min-h-screen bg-slate-50 text-slate-900 pb-16 animate-fade-in font-['Plus_Jakarta_Sans',sans-serif]">
+      {/* Standalone Platform Navbar */}
+      <header className="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-black/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <button onClick={() => scrollToId('find-shifts')} className="flex items-center gap-2 text-left">
+              <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+                <Activity className="w-4 h-4 text-blue-400" />
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className="text-base font-extrabold tracking-tight text-slate-900">
+                  MployUs <span className="text-blue-600">Locums</span>
+                </span>
+                <span className="text-[9px] uppercase tracking-wider text-slate-500 font-medium mt-0.5">Ireland & UK</span>
+              </div>
+            </button>
+
+            {/* Center nav */}
+            <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold text-slate-700">
+              {navLinks.map(l => (
+                <button key={l.id} onClick={() => scrollToId(l.id)} className="hover:text-slate-900 transition-colors">
+                  {l.label}
+                </button>
+              ))}
+            </nav>
+
+            {/* Auth buttons */}
+            <div className="hidden lg:flex items-center gap-2">
+              <button onClick={onBackToHome} className="text-[11px] font-semibold text-slate-400 hover:text-slate-700 transition-colors mr-1">
+                MployUs.com
+              </button>
+              <button
+                onClick={() => scrollToId('auth')}
+                className="px-4 py-2 text-xs font-semibold text-slate-900 border border-black/10 rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-1.5"
+              >
+                <LogIn className="w-3.5 h-3.5" /> Sign In
+              </button>
+              <button
+                onClick={() => scrollToId('auth')}
+                className="px-4 py-2 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors"
+              >
+                Sign Up
+              </button>
+            </div>
+
+            {/* Mobile toggle */}
+            <button className="lg:hidden p-2 text-slate-700" onClick={() => setMobileNavOpen(o => !o)}>
+              {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
-      </div>
+
+        {/* Mobile menu */}
+        {mobileNavOpen && (
+          <div className="lg:hidden border-t border-black/10 bg-white px-4 py-4 space-y-1 animate-fade-in">
+            {navLinks.map(l => (
+              <button key={l.id} onClick={() => scrollToId(l.id)} className="block w-full text-left py-2 text-sm font-semibold text-slate-700 hover:text-slate-900">
+                {l.label}
+              </button>
+            ))}
+            <div className="flex items-center gap-2 pt-3">
+              <button onClick={() => scrollToId('auth')} className="flex-1 py-2.5 text-xs font-semibold text-slate-900 border border-black/10 rounded-lg">Sign In</button>
+              <button onClick={() => scrollToId('auth')} className="flex-1 py-2.5 text-xs font-semibold text-white bg-slate-900 rounded-lg">Sign Up</button>
+            </div>
+            <button onClick={onBackToHome} className="block w-full text-left py-2 text-[11px] font-semibold text-slate-400">← Back to MployUs.com</button>
+          </div>
+        )}
+      </header>
 
       {/* HERO + SHIFT SEARCH */}
-      <section className="py-14 lg:py-20 bg-white border-b border-black/10">
+      <section id="find-shifts" className="pt-28 lg:pt-32 pb-14 lg:pb-20 bg-white border-b border-black/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-5">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 border border-violet-200 text-violet-700 text-xs font-bold uppercase tracking-wider">
@@ -222,7 +292,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
       </section>
 
       {/* EMPLOYER SHIFT POSTING WIZARD */}
-      <section className="py-14 bg-white border-y border-black/10">
+      <section id="post-shift" className="py-14 bg-white border-y border-black/10">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <span className="text-xs font-bold uppercase tracking-wider text-violet-700">For employers</span>
@@ -329,7 +399,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
       </section>
 
       {/* LOGIN + ROLE SELECTION */}
-      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section id="auth" className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-6 scroll-mt-20">
         {/* Login */}
         <div className="bg-white border border-black/10 rounded-2xl shadow-2xs p-6 space-y-4">
           <h3 className="text-lg font-bold text-slate-900">Log in to MployUs Locums</h3>
@@ -511,7 +581,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
       </section>
 
       {/* BLOG / CONTENT HUB */}
-      <section className="py-14 bg-white border-y border-black/10">
+      <section id="blog" className="py-14 bg-white border-y border-black/10 scroll-mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-8">
             <div>
@@ -539,7 +609,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
       </section>
 
       {/* CPD TRAINING */}
-      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="cpd" className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-16">
         <div className="rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white p-8 space-y-6 border border-slate-800 shadow-sm">
           <div className="flex items-center gap-2 text-blue-400 font-bold text-xs uppercase tracking-wider">
             <GraduationCap className="w-4 h-4" /> Locums CPD
@@ -567,7 +637,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
       </section>
 
       {/* FAQ */}
-      <section className="py-14 bg-white border-y border-black/10">
+      <section id="faq" className="py-14 bg-white border-y border-black/10 scroll-mt-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Frequently asked questions</h2>
@@ -638,6 +708,45 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           </div>
         </div>
       </section>
+
+      {/* STANDALONE FOOTER */}
+      <footer className="mt-14 bg-slate-900 text-slate-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="col-span-2 md:col-span-1 space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-white/10 text-white flex items-center justify-center">
+                <Activity className="w-4 h-4 text-blue-400" />
+              </div>
+              <span className="text-base font-extrabold text-white">MployUs <span className="text-blue-400">Locums</span></span>
+            </div>
+            <p className="text-[11px] text-slate-400 leading-relaxed">The healthcare locum marketplace for Ireland & the UK. Flexible shifts, transparent pay, zero agency commission.</p>
+          </div>
+          <div className="space-y-2">
+            <div className="text-xs font-bold text-white uppercase tracking-wider mb-1">Platform</div>
+            {navLinks.map(l => (
+              <button key={l.id} onClick={() => scrollToId(l.id)} className="block text-xs text-slate-400 hover:text-white transition-colors">{l.label}</button>
+            ))}
+          </div>
+          <div className="space-y-2">
+            <div className="text-xs font-bold text-white uppercase tracking-wider mb-1">Account</div>
+            <button onClick={() => scrollToId('auth')} className="block text-xs text-slate-400 hover:text-white transition-colors">Sign In</button>
+            <button onClick={() => scrollToId('auth')} className="block text-xs text-slate-400 hover:text-white transition-colors">Sign Up</button>
+            <button onClick={() => scrollToId('auth')} className="block text-xs text-slate-400 hover:text-white transition-colors">Register a Facility</button>
+          </div>
+          <div className="space-y-2">
+            <div className="text-xs font-bold text-white uppercase tracking-wider mb-1">Legal</div>
+            <button onClick={() => onBookDemo('Legal & Compliance')} className="block text-xs text-slate-400 hover:text-white transition-colors">Terms & Conditions</button>
+            <button onClick={() => onBookDemo('Legal & Compliance')} className="block text-xs text-slate-400 hover:text-white transition-colors">Privacy Policy</button>
+            <button onClick={() => onBookDemo('Legal & Compliance')} className="block text-xs text-slate-400 hover:text-white transition-colors">Garda Vetting & DBS</button>
+          </div>
+        </div>
+        <div className="border-t border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+            <span>© 2026 MployUs Locums. All rights reserved.</span>
+            <button onClick={onBackToHome} className="hover:text-white transition-colors">← Back to MployUs.com</button>
+          </div>
+        </div>
+      </footer>
 
       {/* COOKIE CONSENT BANNER */}
       {cookieOpen && (
