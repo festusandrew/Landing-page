@@ -33,25 +33,7 @@ export const FAQ: React.FC<FAQProps> = ({ onBookDemo }) => {
           </p>
 
           {/* Category Filter Pills (Cal.com style) */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-1 bg-slate-200/80 p-1 rounded-full border border-slate-300 text-xs">
-            {[
-              { id: 'all', label: 'All Questions' },
-              { id: 'general', label: 'General & Modules' },
-              { id: 'compliance', label: 'CQC & Security' },
-              { id: 'technical', label: 'Integrations & Payroll' },
-              { id: 'pricing', label: 'Pricing & Contracts' }
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setSelectedCategory(tab.id)}
-                className={`px-3 py-1 rounded-full font-semibold transition-all ${
-                  selectedCategory === tab.id ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+          
         </div>
 
         {/* Expandable Accordions */}

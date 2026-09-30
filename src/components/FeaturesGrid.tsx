@@ -36,34 +36,7 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = ({ onBookDemo }) => {
           </p>
 
           {/* Search & Category Filter Bar */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 max-w-2xl mx-auto">
-            {/* Search Input */}
-            <div className="relative w-full sm:w-64">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                placeholder="Search features (e.g. eMAR, GPS)..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-400 shadow-xs"
-              />
-            </div>
-
-            {/* Category Pills (Cal.com style) */}
-            <div className="flex flex-wrap items-center justify-center gap-1 bg-slate-200/80 p-1 rounded-full border border-slate-300 text-xs">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-3 py-1 rounded-full font-semibold transition-all ${
-                    selectedCategory === cat ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  {cat === 'All' ? 'All' : cat.split(' ')[0]}
-                </button>
-              ))}
-            </div>
-          </div>
+          
         </div>
 
         {/* 4-Column Feature Matrix */}
