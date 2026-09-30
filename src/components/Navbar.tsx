@@ -97,6 +97,18 @@ export const Navbar: React.FC<NavbarProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  useEffect(() => {
+    if (!productsDropdownOpen && !servicesDropdownOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest('[data-dropdown]')) {
+        setProductsDropdownOpen(false);
+        setServicesDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [productsDropdownOpen, servicesDropdownOpen]);
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 ${
       isScrolled 
@@ -124,13 +136,12 @@ MployUs
           <nav className="hidden lg:flex items-center gap-6 text-xs font-semibold text-slate-700">
             
             {/* PRODUCTS DROPDOWN */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setProductsDropdownOpen(true)}
-              onMouseLeave={() => setProductsDropdownOpen(false)}
-            >
-              <button 
-                onClick={() => setProductsDropdownOpen(!productsDropdownOpen)}
+            <div className="relative" data-dropdown>
+              <button
+                onClick={() => {
+                  setProductsDropdownOpen((prev) => !prev);
+                  setServicesDropdownOpen(false);
+                }}
                 className={`flex items-center gap-1 py-2 transition-colors font-semibold ${
                   activeView.includes('software') || activeView === 'care-management' ? 'text-slate-900 font-bold' : 'text-slate-700 hover:text-slate-900'
                 }`}
@@ -209,13 +220,12 @@ MployUs
             </div>
 
             {/* SERVICES DROPDOWN */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setServicesDropdownOpen(true)}
-              onMouseLeave={() => setServicesDropdownOpen(false)}
-            >
-              <button 
-                onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
+            <div className="relative" data-dropdown>
+              <button
+                onClick={() => {
+                  setServicesDropdownOpen((prev) => !prev);
+                  setProductsDropdownOpen(false);
+                }}
                 className={`flex items-center gap-1 py-2 transition-colors font-semibold ${
                   activeView.includes('service') || activeView === 'locum-provision' || activeView === 'product-design' || activeView === 'web-development'
                     ? 'text-slate-900 font-bold'
