@@ -261,6 +261,27 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const [page, setPage] = useState<LocumPage>('home');
   const [wizardStep, setWizardStep] = useState(1);
   const [postType, setPostType] = useState<'Locum Shift' | 'Permanent Job'>('Locum Shift');
+
+  // Post-shift modal flow
+  const [postModalOpen, setPostModalOpen] = useState(false);
+  const [postStep, setPostStep] = useState<1|2|3|4|5>(1);
+  const [postSuccess, setPostSuccess] = useState(false);
+  const [postForm, setPostForm] = useState({
+    profession: '', specialisation: '', date: '', startTime: '09:00', endTime: '17:30',
+    rate: '', town: '', urgent: false,
+    jobTitle: '', contractType: 'Full-time', salaryMin: '', salaryMax: '',
+    description: '', requirements: '', benefits: '',
+    facility: '', facilityAddress: '', contact: '', email: '', phone: '',
+    termsAccepted: false,
+  });
+  const openPostModal = (type: 'Locum Shift' | 'Permanent Job') => {
+    setPostType(type); setPostStep(1); setPostSuccess(false);
+    setPostForm({ profession: '', specialisation: '', date: '', startTime: '09:00', endTime: '17:30', rate: '', town: '', urgent: false, jobTitle: '', contractType: 'Full-time', salaryMin: '', salaryMax: '', description: '', requirements: '', benefits: '', facility: '', facilityAddress: '', contact: '', email: '', phone: '', termsAccepted: false });
+    setPostModalOpen(true);
+  };
+  const closePostModal = () => { setPostModalOpen(false); setPostSuccess(false); };
+  // Locum: 4 steps. Permanent: 4 steps (different content)
+  const postTotalSteps = 4;
   const [cookieOpen, setCookieOpen] = useState(true);
   const [cookiePrefsOpen, setCookiePrefsOpen] = useState(false);
   const [cookiePrefs, setCookiePrefs] = useState({ necessary: true, functional: true, performance: true, targeting: false });
@@ -1758,84 +1779,736 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       )}
 
       {/* ══════════════════════════════════════
-          POST A SHIFT
+          EMPLOYERS PAGE
       ══════════════════════════════════════ */}
       {page === 'post-shift' && (
-        <div className="pt-[70px] min-h-screen bg-slate-50">
-          <div className="bg-gradient-to-br from-slate-900 to-green-950 pt-16 pb-10 px-6 text-center">
-            <span className="text-xs font-bold text-violet-300 uppercase tracking-widest">For Employers</span>
-            <h1 className="text-4xl font-bold text-white mt-2 tracking-tight">Post an open shift in 3 steps</h1>
-            <p className="text-slate-400 text-sm mt-2 max-w-lg mx-auto">List a locum shift or a permanent role and reach verified {loc.country} healthcare professionals in minutes.</p>
-          </div>
-          <div className="max-w-2xl mx-auto px-4 py-12">
-            {/* Stepper */}
-            <div className="flex items-center mb-8">
-              {['Shift Type', 'Shift Details', 'Contact Details'].map((label, i) => {
-                const step = i + 1;
-                const done = wizardStep > step;
-                const active = wizardStep === step;
-                return (
-                  <React.Fragment key={label}>
-                    <div className="flex items-center gap-2">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${done ? 'bg-green-600 text-white' : active ? 'bg-white text-slate-900 shadow-md ring-2 ring-green-600' : 'bg-white border border-slate-200 text-slate-400'}`}>
-                        {done ? <Check className="w-4 h-4" /> : step}
-                      </div>
-                      <span className={`text-xs font-semibold hidden sm:block ${active || done ? 'text-slate-900' : 'text-slate-400'}`}>{label}</span>
-                    </div>
-                    {i < 2 && <div className={`flex-1 h-0.5 mx-3 rounded transition-colors ${wizardStep > step ? 'bg-green-600' : 'bg-slate-200'}`} />}
-                  </React.Fragment>
-                );
-              })}
-            </div>
+        <>
+        <div className="pt-[70px] min-h-screen bg-white">
 
-            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-7 space-y-5">
-              {wizardStep === 1 && (
-                <div className="space-y-4">
-                  <h4 className="font-bold text-slate-900">What are you posting?</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    {(['Locum Shift', 'Permanent Job'] as const).map(t => (
-                      <button key={t} onClick={() => setPostType(t)} className={`p-5 rounded-xl border-2 text-left transition-all ${postType === t ? 'border-green-500 bg-green-50' : 'border-slate-100 bg-white hover:border-slate-200'}`}>
-                        {t === 'Locum Shift' ? <Clock className="w-5 h-5 text-green-600 mb-2" /> : <Briefcase className="w-5 h-5 text-violet-600 mb-2" />}
-                        <div className="font-bold text-sm text-slate-900">{t}</div>
-                        <p className="text-[11px] text-slate-500 mt-0.5">{t === 'Locum Shift' ? 'Temporary cover for one or more days' : 'Full-time or part-time role'}</p>
-                      </button>
-                    ))}
+          {/* Hero */}
+          <section className="relative bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 overflow-hidden min-h-[540px] flex flex-col justify-center">
+            <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
+            <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-12 py-20 flex flex-col lg:flex-row items-center gap-14">
+              <motion.div className="flex-1 space-y-6" variants={stagger(0.12)} initial="hidden" animate="visible">
+                <motion.div variants={fadeUp}>
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold uppercase tracking-widest w-fit backdrop-blur-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                    For Employers · Pharmacies, Hospitals & Clinics
                   </div>
-                </div>
-              )}
-              {wizardStep === 2 && (
-                <div className="space-y-3">
-                  <h4 className="font-bold text-slate-900">Shift details</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    <input placeholder="Profession required" className="px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm outline-none focus:border-green-400 transition-colors" />
-                    <input placeholder="Hourly rate (€ / £)" className="px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm outline-none focus:border-green-400 transition-colors" />
-                    <input type="date" className="px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm text-slate-600 outline-none focus:border-green-400 transition-colors" />
-                    <input placeholder="Location / town" className="px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm outline-none focus:border-green-400 transition-colors" />
-                  </div>
-                  <textarea placeholder="Description & requirements" rows={3} className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm outline-none resize-none focus:border-green-400 transition-colors" />
-                </div>
-              )}
-              {wizardStep === 3 && (
-                <div className="space-y-3">
-                  <h4 className="font-bold text-slate-900">Contact details</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    <input placeholder="Facility name" className="px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm outline-none focus:border-green-400 transition-colors" />
-                    <input placeholder="Contact name" className="px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm outline-none focus:border-green-400 transition-colors" />
-                    <input placeholder="Email address" className="px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm outline-none focus:border-green-400 transition-colors" />
-                    <input placeholder="Phone number" className="px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 text-sm outline-none focus:border-green-400 transition-colors" />
-                  </div>
-                </div>
-              )}
-              <div className="flex items-center justify-between pt-2">
-                <button onClick={() => setWizardStep(s => Math.max(1, s - 1))} disabled={wizardStep === 1} className="px-4 py-2.5 text-sm font-semibold text-slate-500 hover:text-slate-900 disabled:opacity-40 transition-colors">← Back</button>
-                {wizardStep < 3
-                  ? <button onClick={() => setWizardStep(s => s + 1)} className="px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl transition-colors flex items-center gap-1.5">Continue <ChevronRight className="w-4 h-4" /></button>
-                  : <button onClick={() => onBookDemo(`Post ${postType}`)} className="px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl transition-colors flex items-center gap-1.5">Publish Shift <PlusCircle className="w-4 h-4" /></button>
-                }
+                </motion.div>
+                <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl font-bold text-white leading-[1.06] tracking-tight">
+                  Fill every open shift.<br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-green-500">Zero agency fees.</span>
+                </motion.h1>
+                <motion.p variants={fadeUp} className="text-lg text-white/70 leading-relaxed max-w-[500px]">
+                  Post a locum shift or permanent role in under two minutes. Reach verified, compliance-checked healthcare professionals across {loc.country}. No contracts. No commission.
+                </motion.p>
+                <motion.div variants={fadeUp} className="flex flex-wrap gap-3 pt-1">
+                  <motion.button
+                    onClick={() => openPostModal('Locum Shift')}
+                    className="group flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-green-500 to-green-600 text-white font-semibold text-sm rounded-xl shadow-lg shadow-green-600/30"
+                    whileHover={{ scale: 1.03, boxShadow: '0 8px 30px rgba(22,163,74,0.45)' }} whileTap={{ scale: 0.97 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                  >
+                    Post a Locum Shift <MoveRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </motion.button>
+                  <motion.button
+                    onClick={() => openPostModal('Permanent Job')}
+                    className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-sm rounded-xl backdrop-blur-sm"
+                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                  >
+                    Post a Permanent Role
+                  </motion.button>
+                </motion.div>
+              </motion.div>
+              {/* Stat cards */}
+              <div className="hidden lg:flex flex-col gap-3 shrink-0">
+                {[
+                  { val: '< 4 hrs', label: 'Average fill time', color: 'text-green-300' },
+                  { val: '0%', label: 'Commission charged', color: 'text-amber-300' },
+                  { val: '140+', label: 'Vetted locums ready', color: 'text-emerald-300' },
+                  { val: '25+', label: 'Partner facilities', color: 'text-sky-300' },
+                ].map((s, i) => (
+                  <motion.div key={s.label}
+                    className="backdrop-blur-2xl bg-white/10 border border-white/15 rounded-2xl px-6 py-4 text-center w-48"
+                    initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.7, delay: 0.7 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                    whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.15)' }}
+                  >
+                    <div className={`text-3xl font-bold ${s.color}`}>{s.val}</div>
+                    <p className="text-white/65 text-xs mt-1 leading-snug">{s.label}</p>
+                  </motion.div>
+                ))}
               </div>
             </div>
-          </div>
+          </section>
+
+          {/* Stats ribbon */}
+          <section className="bg-gradient-to-r from-green-600 to-green-700 border-y border-green-500/30">
+            <div className="max-w-[1280px] mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[
+                { icon: Clock, val: '2 min', label: 'To post a shift' },
+                { icon: Users, val: '140+', label: 'Active locums' },
+                { icon: ShieldCheck, val: '100%', label: 'Compliance-verified' },
+                { icon: Wallet, val: loc.currency + '0', label: 'Placement fee' },
+              ].map(({ icon: Icon, val, label }) => (
+                <div key={label} className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-white">{val}</div>
+                    <div className="text-green-100 text-xs">{label}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* What can you post */}
+          <section className="py-24 bg-white">
+            <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+              <Reveal className="text-center mb-14">
+                <SectionLabel>What Are You Posting?</SectionLabel>
+                <h2 className="text-4xl font-bold text-slate-900 tracking-tight mt-4 mb-3">Two types of listing, one platform</h2>
+                <p className="text-slate-500 text-base max-w-xl mx-auto">Whether you need cover for tomorrow or want to hire permanently, MployUs handles both.</p>
+              </Reveal>
+
+              <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto"
+                variants={stagger(0.1)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
+                {/* Locum Shift card */}
+                <motion.div variants={fadeUp}
+                  className="relative bg-white border-2 border-green-100 rounded-2xl p-8 shadow-sm hover:shadow-lg hover:border-green-300 transition-all group cursor-pointer"
+                  whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  onClick={() => openPostModal('Locum Shift')}
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-5 shadow-md shadow-green-500/25">
+                    <Clock className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">Locum Shift</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed mb-5">Temporary cover for one or more days. Great for last-minute gaps, planned leave, or peak periods.</p>
+                  <ul className="space-y-2 mb-6">
+                    {['Post by date, time & rate', 'Instant notifications to local locums', 'Compliance docs included automatically', 'Fill in under 4 hours on average'].map(f => (
+                      <li key={f} className="flex items-center gap-2 text-xs text-slate-600">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-green-500 shrink-0" /> {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <button className="w-full py-3 bg-green-600 group-hover:bg-green-700 text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                    Post a Locum Shift <ArrowRight className="w-4 h-4" />
+                  </button>
+                </motion.div>
+
+                {/* Permanent Job card */}
+                <motion.div variants={fadeUp}
+                  className="relative bg-white border-2 border-violet-100 rounded-2xl p-8 shadow-sm hover:shadow-lg hover:border-violet-300 transition-all group cursor-pointer"
+                  whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  onClick={() => openPostModal('Permanent Job')}
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-600 flex items-center justify-center mb-5 shadow-md shadow-violet-500/25">
+                    <Briefcase className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">Permanent Job</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed mb-5">Full-time or part-time permanent role. Reach qualified professionals actively seeking long-term positions.</p>
+                  <ul className="space-y-2 mb-6">
+                    {['Post with salary range & contract type', 'Detailed role description & benefits', 'Active job seekers in {loc.country}', 'Manage applicants from your dashboard'].map(f => (
+                      <li key={f} className="flex items-center gap-2 text-xs text-slate-600">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-violet-500 shrink-0" /> {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <button className="w-full py-3 bg-violet-600 group-hover:bg-violet-700 text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                    Post a Permanent Role <ArrowRight className="w-4 h-4" />
+                  </button>
+                </motion.div>
+              </motion.div>
+            </div>
+          </section>
+
+          {/* How it works */}
+          <section className="py-20 bg-slate-50 border-y border-slate-100">
+            <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+              <Reveal className="text-center mb-14">
+                <SectionLabel>How It Works</SectionLabel>
+                <h2 className="text-4xl font-bold text-slate-900 tracking-tight mt-4">From gap in the rota to covered</h2>
+              </Reveal>
+              <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8"
+                variants={stagger(0.12)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
+                {[
+                  { n: '01', icon: PlusCircle, title: 'Post your listing', desc: 'Fill in profession, date, time, rate, and facility. Under two minutes — free, no account needed to get started.' },
+                  { n: '02', icon: Users, title: 'Get matched instantly', desc: 'Verified locums near your facility are notified immediately. Applications land in your dashboard, not your inbox.' },
+                  { n: '03', icon: CheckCircle2, title: 'Shift confirmed', desc: 'Accept a locum, confirm the booking, and receive their full compliance summary — all before leaving your desk.' },
+                ].map(({ n, icon: Icon, title, desc }) => (
+                  <motion.div key={n} variants={fadeUp} className="flex flex-col items-center text-center gap-4">
+                    <div className="relative">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center shadow-lg shadow-green-600/25">
+                        <Icon className="w-7 h-7 text-white" />
+                      </div>
+                      <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-900 text-white text-[10px] font-bold flex items-center justify-center">{n}</div>
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900">{title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed max-w-[240px]">{desc}</p>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </section>
+
+          {/* CTA strip */}
+          <section className="py-20 bg-gradient-to-br from-slate-900 to-green-950">
+            <motion.div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8"
+              variants={stagger(0.12)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }}>
+              <motion.div variants={slideLeft} className="space-y-3">
+                <div className="text-xs font-bold text-green-400 uppercase tracking-widest">Join MployUs Employers</div>
+                <h3 className="text-3xl font-bold text-white">Ready to fill your next shift?</h3>
+                <p className="text-slate-400 text-sm">Free to join across Ireland and the UK. Zero agency commission.</p>
+              </motion.div>
+              <motion.div variants={slideRight} className="flex flex-wrap items-center gap-3 shrink-0">
+                <motion.button onClick={() => openPostModal('Locum Shift')}
+                  className="px-7 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-xl shadow-lg flex items-center gap-2"
+                  whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
+                  Post a Locum Shift
+                </motion.button>
+                <motion.button onClick={() => openPostModal('Permanent Job')}
+                  className="px-7 py-3.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-xl border border-green-500 flex items-center gap-2"
+                  whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
+                  Post a Permanent Role <ArrowRight className="w-4 h-4" />
+                </motion.button>
+              </motion.div>
+            </motion.div>
+          </section>
+
         </div>
+
+        {/* ══ POST FLOW MODAL ══ */}
+        {postModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} onClick={closePostModal} />
+
+            <motion.div
+              className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+              initial={{ opacity: 0, y: 40, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+            >
+              {/* Header */}
+              <div className="sticky top-0 z-10 bg-white border-b border-slate-100 px-7 py-5 flex items-center justify-between rounded-t-2xl">
+                {!postSuccess ? (
+                  <div className="flex-1">
+                    <p className="text-xs font-bold text-[#276647] uppercase tracking-widest mb-1">
+                      {postType === 'Locum Shift' ? '🕐 Locum Shift' : '💼 Permanent Job'} · Step {postStep} of {postTotalSteps}
+                    </p>
+                    <div className="flex gap-1.5">
+                      {Array.from({ length: postTotalSteps }).map((_, n) => (
+                        <div key={n} className={`h-1 flex-1 rounded-full transition-all duration-400 ${postStep > n ? 'bg-[#276647]' : 'bg-slate-100'}`} />
+                      ))}
+                    </div>
+                  </div>
+                ) : <div />}
+                <button onClick={closePostModal} className="ml-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors shrink-0">
+                  <X className="w-4 h-4 text-slate-600" />
+                </button>
+              </div>
+
+              <div className="px-7 pb-7 pt-5">
+
+                {/* ── SUCCESS SCREEN ── */}
+                {postSuccess && (
+                  <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 25 }} className="py-6 flex flex-col items-center text-center gap-5">
+                    <motion.div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-lg shadow-green-500/30"
+                      initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 350, damping: 18, delay: 0.1 }}>
+                      <Check className="w-9 h-9 text-white" />
+                    </motion.div>
+                    <div>
+                      <h2 className="text-2xl font-bold text-slate-900 mb-1">
+                        {postType === 'Locum Shift' ? 'Shift posted successfully!' : 'Role posted successfully!'}
+                      </h2>
+                      <p className="text-slate-500 text-sm max-w-sm mx-auto">
+                        {postType === 'Locum Shift'
+                          ? `Verified ${postForm.profession || 'healthcare professionals'} near ${postForm.town || loc.defaultCity} have been notified. You'll hear back within hours.`
+                          : `Your ${postForm.jobTitle || 'role'} listing is now live. Qualified candidates in ${loc.country} will be able to apply directly.`}
+                      </p>
+                    </div>
+                    <div className="w-full bg-slate-50 border border-slate-100 rounded-xl p-5 text-left space-y-2">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">What happens next</p>
+                      {(postType === 'Locum Shift' ? [
+                        { icon: '🔔', title: 'Locums notified immediately', desc: `Registered ${postForm.profession || 'professionals'} within range receive a push and SMS alert.` },
+                        { icon: '📋', title: 'Applications reviewed', desc: 'Applicants appear in your MployUs dashboard with their full compliance profile.' },
+                        { icon: '✅', title: 'Accept and confirm', desc: "Accept the locum you want — they're notified instantly and the shift is locked in." },
+                        { icon: '📄', title: 'Compliance summary sent', desc: 'Registration, insurance, and DBS documents are emailed to you automatically.' },
+                      ] : [
+                        { icon: '🌍', title: 'Role goes live', desc: `Your listing is visible to job seekers across ${loc.country} immediately.` },
+                        { icon: '📩', title: 'Applications arrive', desc: 'Candidates apply directly through MployUs — no email chains or external forms.' },
+                        { icon: '🔍', title: 'Review & shortlist', desc: 'Filter applicants by registration, experience, and availability in your dashboard.' },
+                        { icon: '🤝', title: 'Make an offer', desc: 'Connect with your preferred candidate and arrange interviews through the platform.' },
+                      ]).map((step, i) => (
+                        <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.3 + i * 0.08 }}
+                          className="flex items-start gap-3 py-2.5 border-b border-slate-100 last:border-0">
+                          <span className="text-lg leading-none mt-0.5">{step.icon}</span>
+                          <div>
+                            <p className="text-sm font-bold text-slate-900">{step.title}</p>
+                            <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{step.desc}</p>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                    <div className="flex gap-3 w-full">
+                      <button onClick={closePostModal}
+                        className="flex-1 py-3 border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">
+                        Back to Employers
+                      </button>
+                      <button onClick={() => openPostModal(postType)}
+                        className="flex-1 py-3 bg-[#276647] hover:bg-[#1e4f37] text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                        Post another <PlusCircle className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* ══ LOCUM SHIFT FLOW ══ */}
+                {!postSuccess && postType === 'Locum Shift' && (
+
+                  <>
+                    {/* Locum Step 1 — Type & urgency */}
+                    {postStep === 1 && (
+                      <motion.div key="ls1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                        <div>
+                          <h2 className="text-xl font-bold text-slate-900">What are you posting?</h2>
+                          <p className="text-sm text-slate-500 mt-1">You can switch between shift types at any time.</p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          {(['Locum Shift', 'Permanent Job'] as const).map(t => (
+                            <button key={t} onClick={() => setPostType(t)}
+                              className={`p-5 rounded-xl border-2 text-left transition-all ${postType === t ? (t === 'Locum Shift' ? 'border-green-500 bg-green-50' : 'border-violet-500 bg-violet-50') : 'border-slate-100 bg-white hover:border-slate-200'}`}>
+                              {t === 'Locum Shift'
+                                ? <Clock className={`w-5 h-5 mb-2 ${postType === t ? 'text-green-600' : 'text-slate-400'}`} />
+                                : <Briefcase className={`w-5 h-5 mb-2 ${postType === t ? 'text-violet-600' : 'text-slate-400'}`} />}
+                              <div className={`font-bold text-sm ${postType === t ? (t === 'Locum Shift' ? 'text-green-700' : 'text-violet-700') : 'text-slate-700'}`}>{t}</div>
+                              <p className="text-[11px] text-slate-500 mt-0.5">{t === 'Locum Shift' ? 'Temporary cover — one or more days' : 'Full-time or part-time permanent role'}</p>
+                            </button>
+                          ))}
+                        </div>
+                        <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-slate-50">
+                          <div>
+                            <p className="text-sm font-bold text-slate-900">Mark as urgent</p>
+                            <p className="text-xs text-slate-500 mt-0.5">Urgent shifts are pinned to the top and trigger SMS alerts.</p>
+                          </div>
+                          <button onClick={() => setPostForm(f => ({ ...f, urgent: !f.urgent }))}
+                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ${postForm.urgent ? 'bg-green-500' : 'bg-slate-200'}`}>
+                            <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${postForm.urgent ? 'translate-x-6' : 'translate-x-1'}`} />
+                          </button>
+                        </div>
+                        <button onClick={() => setPostStep(2)}
+                          className="w-full py-3 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                          Continue <ChevronRight className="w-4 h-4" />
+                        </button>
+                      </motion.div>
+                    )}
+
+                    {/* Locum Step 2 — Shift details */}
+                    {postStep === 2 && (
+                      <motion.div key="ls2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                        <div>
+                          <h2 className="text-xl font-bold text-slate-900">Shift details</h2>
+                          <p className="text-sm text-slate-500 mt-1">Tell locums exactly what you need and when.</p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="col-span-2 flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Profession required <span className="text-rose-500">*</span></label>
+                            <div className="relative">
+                              <select value={postForm.profession} onChange={e => setPostForm(f => ({ ...f, profession: e.target.value }))}
+                                className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50 cursor-pointer">
+                                <option value="">Select profession…</option>
+                                {['Locum Pharmacist', 'Pharmacy Technician', 'Locum GP', 'Agency Nurse', 'Healthcare Assistant', 'Locum Optician', 'Allied Health Worker'].map(p => <option key={p}>{p}</option>)}
+                              </select>
+                              <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            </div>
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Shift date <span className="text-rose-500">*</span></label>
+                            <input type="date" value={postForm.date} onChange={e => setPostForm(f => ({ ...f, date: e.target.value }))}
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-700 outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Hourly rate ({loc.currency}) <span className="text-rose-500">*</span></label>
+                            <input value={postForm.rate} onChange={e => setPostForm(f => ({ ...f, rate: e.target.value }))}
+                              placeholder={`e.g. ${loc.currency}32`}
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Start time</label>
+                            <input type="time" value={postForm.startTime} onChange={e => setPostForm(f => ({ ...f, startTime: e.target.value }))}
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-700 outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">End time</label>
+                            <input type="time" value={postForm.endTime} onChange={e => setPostForm(f => ({ ...f, endTime: e.target.value }))}
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-700 outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                          </div>
+                          <div className="col-span-2 flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Location / town <span className="text-rose-500">*</span></label>
+                            <input value={postForm.town} onChange={e => setPostForm(f => ({ ...f, town: e.target.value }))}
+                              placeholder={`e.g. ${loc.defaultCity}`}
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                          </div>
+                          <div className="col-span-2 flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Additional requirements <span className="text-slate-400 font-normal">(optional)</span></label>
+                            <textarea value={postForm.description} onChange={e => setPostForm(f => ({ ...f, description: e.target.value }))}
+                              placeholder="Any specific skills, software experience, or clinical requirements…"
+                              rows={3} className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none resize-none focus:border-[#276647] transition-colors bg-slate-50" />
+                          </div>
+                        </div>
+                        <div className="flex gap-3">
+                          <button onClick={() => setPostStep(1)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                            <ChevronDown className="w-4 h-4 rotate-90" /> Back
+                          </button>
+                          <button onClick={() => setPostStep(3)} disabled={!postForm.profession || !postForm.date || !postForm.rate || !postForm.town}
+                            className="flex-1 py-3 bg-[#276647] disabled:opacity-40 hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                            Continue <ChevronRight className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* Locum Step 3 — Facility details */}
+                    {postStep === 3 && (
+                      <motion.div key="ls3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                        <div>
+                          <h2 className="text-xl font-bold text-slate-900">Your facility</h2>
+                          <p className="text-sm text-slate-500 mt-1">Locums use this to confirm the listing is legitimate.</p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="col-span-2 flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Facility / pharmacy name <span className="text-rose-500">*</span></label>
+                            <input value={postForm.facility} onChange={e => setPostForm(f => ({ ...f, facility: e.target.value }))}
+                              placeholder="e.g. Boots Pharmacy — Grafton Street"
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                          </div>
+                          <div className="col-span-2 flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Facility address <span className="text-slate-400 font-normal">(optional)</span></label>
+                            <input value={postForm.facilityAddress} onChange={e => setPostForm(f => ({ ...f, facilityAddress: e.target.value }))}
+                              placeholder="Street address"
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Contact name <span className="text-rose-500">*</span></label>
+                            <input value={postForm.contact} onChange={e => setPostForm(f => ({ ...f, contact: e.target.value }))}
+                              placeholder="Your name"
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Phone number <span className="text-rose-500">*</span></label>
+                            <input value={postForm.phone} onChange={e => setPostForm(f => ({ ...f, phone: e.target.value }))}
+                              placeholder="+353 / +44"
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                          </div>
+                          <div className="col-span-2 flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Email address <span className="text-rose-500">*</span></label>
+                            <input type="email" value={postForm.email} onChange={e => setPostForm(f => ({ ...f, email: e.target.value }))}
+                              placeholder="manager@facility.ie"
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-[#276647] transition-colors bg-slate-50" />
+                          </div>
+                        </div>
+                        <div className="flex gap-3">
+                          <button onClick={() => setPostStep(2)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                            <ChevronDown className="w-4 h-4 rotate-90" /> Back
+                          </button>
+                          <button onClick={() => setPostStep(4)} disabled={!postForm.facility || !postForm.contact || !postForm.phone || !postForm.email}
+                            className="flex-1 py-3 bg-[#276647] disabled:opacity-40 hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                            Review & Publish <ChevronRight className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* Locum Step 4 — Review & publish */}
+                    {postStep === 4 && (
+                      <motion.div key="ls4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                        <div>
+                          <h2 className="text-xl font-bold text-slate-900">Review & publish</h2>
+                          <p className="text-sm text-slate-500 mt-1">Check everything looks right before going live.</p>
+                        </div>
+                        <div className="bg-green-50 border border-green-100 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
+                          <div>
+                            <p className="text-xs text-slate-500">{postForm.facility}</p>
+                            <p className="font-bold text-[#276647] text-sm">{postForm.profession} · {postForm.date || 'Date TBC'}</p>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <p className="text-xs text-slate-500">{postForm.startTime} – {postForm.endTime}</p>
+                            <p className="font-bold text-[#276647] text-sm">{postForm.rate ? `${loc.currency}${postForm.rate}/hr` : '—'}</p>
+                          </div>
+                        </div>
+                        <div className="bg-slate-50 border border-slate-100 rounded-xl divide-y divide-slate-100">
+                          {[
+                            { label: 'Profession', val: postForm.profession || '—' },
+                            { label: 'Location', val: postForm.town || '—' },
+                            { label: 'Urgent', val: postForm.urgent ? '🔴 Yes — SMS alerts enabled' : 'No' },
+                            { label: 'Facility', val: postForm.facility || '—' },
+                            { label: 'Contact', val: postForm.contact || '—' },
+                            { label: 'Email', val: postForm.email || '—' },
+                            ...(postForm.description ? [{ label: 'Requirements', val: postForm.description }] : []),
+                          ].map(({ label, val }) => (
+                            <div key={label} className="flex items-start justify-between px-4 py-3 text-sm gap-4">
+                              <span className="text-slate-500 font-medium shrink-0">{label}</span>
+                              <span className="font-semibold text-slate-900 text-right">{val}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <label className="flex items-start gap-3 cursor-pointer">
+                          <input type="checkbox" checked={postForm.termsAccepted} onChange={e => setPostForm(f => ({ ...f, termsAccepted: e.target.checked }))} className="mt-0.5 accent-[#276647]" />
+                          <span className="text-xs text-slate-500 leading-relaxed">
+                            I confirm this shift is genuine and I agree to MployUs{" "}
+                            <span className="text-[#276647] font-semibold underline">Terms of Service</span> and{" "}
+                            <span className="text-[#276647] font-semibold underline">Employer Policy</span>.
+                          </span>
+                        </label>
+                        <div className="flex gap-3">
+                          <button onClick={() => setPostStep(3)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                            <ChevronDown className="w-4 h-4 rotate-90" /> Back
+                          </button>
+                          <button onClick={() => { if (postForm.termsAccepted) setPostSuccess(true); }}
+                            disabled={!postForm.termsAccepted}
+                            className="flex-1 py-3 bg-[#276647] disabled:opacity-40 hover:bg-[#1e4f37] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                            Publish Shift <PlusCircle className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </>
+                )}
+
+                {/* ══ PERMANENT JOB FLOW ══ */}
+                {!postSuccess && postType === 'Permanent Job' && (
+
+                  <>
+                    {/* Perm Step 1 — Type selection */}
+                    {postStep === 1 && (
+                      <motion.div key="pj1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                        <div>
+                          <h2 className="text-xl font-bold text-slate-900">What are you posting?</h2>
+                          <p className="text-sm text-slate-500 mt-1">You can switch between listing types at any time.</p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          {(['Locum Shift', 'Permanent Job'] as const).map(t => (
+                            <button key={t} onClick={() => setPostType(t)}
+                              className={`p-5 rounded-xl border-2 text-left transition-all ${postType === t ? (t === 'Locum Shift' ? 'border-green-500 bg-green-50' : 'border-violet-500 bg-violet-50') : 'border-slate-100 bg-white hover:border-slate-200'}`}>
+                              {t === 'Locum Shift'
+                                ? <Clock className={`w-5 h-5 mb-2 ${postType === t ? 'text-green-600' : 'text-slate-400'}`} />
+                                : <Briefcase className={`w-5 h-5 mb-2 ${postType === t ? 'text-violet-600' : 'text-slate-400'}`} />}
+                              <div className={`font-bold text-sm ${postType === t ? (t === 'Locum Shift' ? 'text-green-700' : 'text-violet-700') : 'text-slate-700'}`}>{t}</div>
+                              <p className="text-[11px] text-slate-500 mt-0.5">{t === 'Locum Shift' ? 'Temporary cover — one or more days' : 'Full-time or part-time permanent role'}</p>
+                            </button>
+                          ))}
+                        </div>
+                        <div className="space-y-3">
+                          <label className="text-xs font-semibold text-slate-700">Contract type</label>
+                          <div className="grid grid-cols-3 gap-2">
+                            {['Full-time', 'Part-time', 'Contract'].map(ct => (
+                              <button key={ct} onClick={() => setPostForm(f => ({ ...f, contractType: ct }))}
+                                className={`py-2.5 px-3 rounded-xl border-2 text-xs font-bold transition-all ${postForm.contractType === ct ? 'border-violet-500 bg-violet-50 text-violet-700' : 'border-slate-100 text-slate-500 hover:border-slate-200'}`}>
+                                {ct}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <button onClick={() => setPostStep(2)}
+                          className="w-full py-3 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                          Continue <ChevronRight className="w-4 h-4" />
+                        </button>
+                      </motion.div>
+                    )}
+
+                    {/* Perm Step 2 — Role details */}
+                    {postStep === 2 && (
+                      <motion.div key="pj2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                        <div>
+                          <h2 className="text-xl font-bold text-slate-900">Role details</h2>
+                          <p className="text-sm text-slate-500 mt-1">Help candidates understand the position at a glance.</p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="col-span-2 flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Job title <span className="text-rose-500">*</span></label>
+                            <input value={postForm.jobTitle} onChange={e => setPostForm(f => ({ ...f, jobTitle: e.target.value }))}
+                              placeholder="e.g. Superintendent Pharmacist"
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                          </div>
+                          <div className="col-span-2 flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Profession / discipline <span className="text-rose-500">*</span></label>
+                            <div className="relative">
+                              <select value={postForm.profession} onChange={e => setPostForm(f => ({ ...f, profession: e.target.value }))}
+                                className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50 cursor-pointer">
+                                <option value="">Select profession…</option>
+                                {['Pharmacist', 'Pharmacy Technician', 'GP / Doctor', 'Nurse', 'Healthcare Assistant', 'Optician', 'Allied Health Worker'].map(p => <option key={p}>{p}</option>)}
+                              </select>
+                              <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            </div>
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Salary min ({loc.currency})</label>
+                            <input value={postForm.salaryMin} onChange={e => setPostForm(f => ({ ...f, salaryMin: e.target.value }))}
+                              placeholder={`e.g. ${loc.currency}45,000`}
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Salary max ({loc.currency})</label>
+                            <input value={postForm.salaryMax} onChange={e => setPostForm(f => ({ ...f, salaryMax: e.target.value }))}
+                              placeholder={`e.g. ${loc.currency}60,000`}
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                          </div>
+                          <div className="col-span-2 flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Location <span className="text-rose-500">*</span></label>
+                            <input value={postForm.town} onChange={e => setPostForm(f => ({ ...f, town: e.target.value }))}
+                              placeholder={`e.g. ${loc.defaultCity}`}
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                          </div>
+                        </div>
+                        <div className="flex gap-3">
+                          <button onClick={() => setPostStep(1)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                            <ChevronDown className="w-4 h-4 rotate-90" /> Back
+                          </button>
+                          <button onClick={() => setPostStep(3)} disabled={!postForm.jobTitle || !postForm.profession || !postForm.town}
+                            className="flex-1 py-3 bg-violet-600 disabled:opacity-40 hover:bg-violet-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                            Continue <ChevronRight className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* Perm Step 3 — Description + facility */}
+                    {postStep === 3 && (
+                      <motion.div key="pj3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                        <div>
+                          <h2 className="text-xl font-bold text-slate-900">About the role & your facility</h2>
+                          <p className="text-sm text-slate-500 mt-1">A good description attracts the right candidates faster.</p>
+                        </div>
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-xs font-semibold text-slate-700">Role description <span className="text-rose-500">*</span></label>
+                          <textarea value={postForm.description} onChange={e => setPostForm(f => ({ ...f, description: e.target.value }))}
+                            placeholder="Describe the role, working environment, team, and day-to-day responsibilities…"
+                            rows={4} className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none resize-none focus:border-violet-500 transition-colors bg-slate-50" />
+                        </div>
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-xs font-semibold text-slate-700">Key requirements <span className="text-slate-400 font-normal">(optional)</span></label>
+                          <textarea value={postForm.requirements} onChange={e => setPostForm(f => ({ ...f, requirements: e.target.value }))}
+                            placeholder="e.g. GPhC registration, 2+ years community pharmacy, full driving licence…"
+                            rows={3} className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none resize-none focus:border-violet-500 transition-colors bg-slate-50" />
+                        </div>
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-xs font-semibold text-slate-700">Benefits <span className="text-slate-400 font-normal">(optional)</span></label>
+                          <input value={postForm.benefits} onChange={e => setPostForm(f => ({ ...f, benefits: e.target.value }))}
+                            placeholder="e.g. CPD allowance, pension, 25 days holiday, free parking…"
+                            className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="col-span-2 flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Facility name <span className="text-rose-500">*</span></label>
+                            <input value={postForm.facility} onChange={e => setPostForm(f => ({ ...f, facility: e.target.value }))}
+                              placeholder="e.g. Allcare Pharmacy Group"
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Contact name <span className="text-rose-500">*</span></label>
+                            <input value={postForm.contact} onChange={e => setPostForm(f => ({ ...f, contact: e.target.value }))}
+                              placeholder="HR / Manager"
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Phone number <span className="text-rose-500">*</span></label>
+                            <input value={postForm.phone} onChange={e => setPostForm(f => ({ ...f, phone: e.target.value }))}
+                              placeholder="+353 / +44"
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                          </div>
+                          <div className="col-span-2 flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold text-slate-700">Email address <span className="text-rose-500">*</span></label>
+                            <input type="email" value={postForm.email} onChange={e => setPostForm(f => ({ ...f, email: e.target.value }))}
+                              placeholder="hr@facility.ie"
+                              className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-violet-500 transition-colors bg-slate-50" />
+                          </div>
+                        </div>
+                        <div className="flex gap-3">
+                          <button onClick={() => setPostStep(2)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                            <ChevronDown className="w-4 h-4 rotate-90" /> Back
+                          </button>
+                          <button onClick={() => setPostStep(4)} disabled={!postForm.description || !postForm.facility || !postForm.contact || !postForm.phone || !postForm.email}
+                            className="flex-1 py-3 bg-violet-600 disabled:opacity-40 hover:bg-violet-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                            Review & Post <ChevronRight className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* Perm Step 4 — Review & post */}
+                    {postStep === 4 && (
+                      <motion.div key="pj4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
+                        <div>
+                          <h2 className="text-xl font-bold text-slate-900">Review & post</h2>
+                          <p className="text-sm text-slate-500 mt-1">Check everything before your listing goes live.</p>
+                        </div>
+                        <div className="bg-violet-50 border border-violet-100 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
+                          <div>
+                            <p className="text-xs text-slate-500">{postForm.facility}</p>
+                            <p className="font-bold text-violet-700 text-sm">{postForm.jobTitle} · {postForm.contractType}</p>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <p className="text-xs text-slate-500">{postForm.town}</p>
+                            <p className="font-bold text-violet-700 text-sm">
+                              {postForm.salaryMin && postForm.salaryMax ? `${loc.currency}${postForm.salaryMin} – ${loc.currency}${postForm.salaryMax}` : 'Salary negotiable'}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="bg-slate-50 border border-slate-100 rounded-xl divide-y divide-slate-100">
+                          {[
+                            { label: 'Profession', val: postForm.profession || '—' },
+                            { label: 'Contract', val: postForm.contractType },
+                            { label: 'Location', val: postForm.town || '—' },
+                            { label: 'Facility', val: postForm.facility || '—' },
+                            { label: 'Contact', val: `${postForm.contact} · ${postForm.email}` },
+                            ...(postForm.benefits ? [{ label: 'Benefits', val: postForm.benefits }] : []),
+                          ].map(({ label, val }) => (
+                            <div key={label} className="flex items-start justify-between px-4 py-3 text-sm gap-4">
+                              <span className="text-slate-500 font-medium shrink-0">{label}</span>
+                              <span className="font-semibold text-slate-900 text-right">{val}</span>
+                            </div>
+                          ))}
+                        </div>
+                        {postForm.description && (
+                          <div className="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Role description</p>
+                            <p className="text-xs text-slate-700 leading-relaxed line-clamp-4">{postForm.description}</p>
+                          </div>
+                        )}
+                        <label className="flex items-start gap-3 cursor-pointer">
+                          <input type="checkbox" checked={postForm.termsAccepted} onChange={e => setPostForm(f => ({ ...f, termsAccepted: e.target.checked }))} className="mt-0.5 accent-violet-600" />
+                          <span className="text-xs text-slate-500 leading-relaxed">
+                            I confirm this role is genuine and I agree to MployUs{" "}
+                            <span className="text-violet-600 font-semibold underline">Terms of Service</span> and{" "}
+                            <span className="text-violet-600 font-semibold underline">Employer Policy</span>.
+                          </span>
+                        </label>
+                        <div className="flex gap-3">
+                          <button onClick={() => setPostStep(3)} className="px-5 py-3 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+                            <ChevronDown className="w-4 h-4 rotate-90" /> Back
+                          </button>
+                          <button onClick={() => { if (postForm.termsAccepted) setPostSuccess(true); }}
+                            disabled={!postForm.termsAccepted}
+                            className="flex-1 py-3 bg-violet-600 disabled:opacity-40 hover:bg-violet-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                            Post Role <PlusCircle className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </>
+                )}
+
+              </div>
+            </motion.div>
+          </div>
+        )}
+        </>
       )}
 
       {/* ══════════════════════════════════════
