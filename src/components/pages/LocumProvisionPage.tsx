@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Clock, ShieldCheck, MapPin, Sparkles, CheckCircle2, ArrowRight, Zap, Calculator, Bell, Check, PhoneCall, AlertCircle, ArrowLeft, Star, Building2, UserCheck, Smartphone } from 'lucide-react';
+import { Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, Zap, Calculator, Bell, Check, PhoneCall, AlertCircle, ArrowLeft, Star, Building2, UserCheck, Smartphone } from 'lucide-react';
 
 interface LocumProvisionPageProps {
   onBackToHome: () => void;
@@ -88,8 +88,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
           >
             <ArrowLeft className="w-4 h-4" /> Back to Overview
           </button>
-          <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <div className="flex items-center gap-2 text-xs font-semibold text-blue-700">
+            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
             <span>Locum Provision Live Network Active (98.4% Shift Fill Rate)</span>
           </div>
         </div>
@@ -150,7 +150,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
             <div className="lg:col-span-5 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-slate-800 space-y-5">
               <div className="flex items-center justify-between border-b border-slate-700/80 pb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center justify-center">
                     <Zap className="w-4 h-4" />
                   </div>
                   <div>
@@ -158,7 +158,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                     <div className="text-[11px] text-slate-400">London & South East Sector</div>
                   </div>
                 </div>
-                <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-mono font-bold">
+                <span className="px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[10px] font-mono font-bold">
                   LIVE BROADCAST
                 </span>
               </div>
@@ -183,7 +183,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                     </div>
                     <div className="text-[11px] text-slate-400">2x HCA Carers needed for Early Shift</div>
                   </div>
-                  <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded text-[10px] font-bold">
+                  <span className="px-2 py-0.5 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded text-[10px] font-bold">
                     Filled & Checked In
                   </span>
                 </div>
@@ -195,7 +195,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                 </p>
                 <button
                   onClick={() => onBookDemo('Locum Shift Dispatch')}
-                  className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5"
+                  className="w-full py-2.5 bg-blue-500 hover:bg-blue-400 text-slate-950 font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5"
                 >
                   <PhoneCall className="w-3.5 h-3.5" /> Request Emergency Locum Cover
                 </button>
@@ -209,7 +209,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
       {/* Interactive Locum Shift Marketplace & Dispatcher Section */}
       <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Live Software Portal</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Live Software Portal</span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
             Interactive Locum Shift Marketplace & Dispatch Portal
           </h2>
@@ -239,7 +239,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
             </div>
 
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-              <Sparkles className="w-4 h-4 text-emerald-600" />
+              
               <span>Smart Locum Auto-Matching Engine Active</span>
             </div>
           </div>
@@ -253,7 +253,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                   key={s.id}
                   className={`p-5 rounded-xl border transition-all ${
                     isBooked 
-                      ? 'bg-emerald-50/60 border-emerald-300 shadow-2xs' 
+                      ? 'bg-blue-50/60 border-blue-300 shadow-2xs' 
                       : 'bg-white border-slate-200 hover:border-slate-300 shadow-2xs'
                   }`}
                 >
@@ -286,7 +286,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                     </div>
                     <div className="flex items-center justify-between text-slate-600">
                       <span className="font-semibold text-slate-700">Compliance Vault:</span>
-                      <span className="text-emerald-700 font-semibold text-[11px] flex items-center gap-1">
+                      <span className="text-blue-700 font-semibold text-[11px] flex items-center gap-1">
                         <CheckCircle2 className="w-3.5 h-3.5" /> {s.compliance}
                       </span>
                     </div>
@@ -301,7 +301,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                       disabled={isBooked}
                       className={`px-4 py-2 rounded-md font-semibold text-xs transition-colors flex items-center gap-1.5 ${
                         isBooked 
-                          ? 'bg-emerald-600 text-white cursor-default' 
+                          ? 'bg-blue-600 text-white cursor-default' 
                           : 'bg-slate-900 hover:bg-slate-800 text-white shadow-2xs'
                       }`}
                     >
@@ -322,7 +322,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
 
         {/* Interactive Locum Cost Calculator */}
         <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border border-slate-800 shadow-xl space-y-6">
-          <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-blue-400 font-bold text-xs uppercase tracking-wider">
             <Calculator className="w-4 h-4" /> Facility Budget Estimator
           </div>
 
@@ -339,7 +339,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
             <div className="space-y-2 bg-slate-800/80 p-4 rounded-xl border border-slate-700">
               <div className="flex justify-between text-xs font-semibold">
                 <span className="text-slate-300">Locum Hourly Pay Rate:</span>
-                <span className="text-emerald-400 font-bold font-mono text-sm">£{hourlyRate}/hr</span>
+                <span className="text-blue-400 font-bold font-mono text-sm">£{hourlyRate}/hr</span>
               </div>
               <input
                 type="range"
@@ -348,14 +348,14 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                 step={1}
                 value={hourlyRate}
                 onChange={(e) => setHourlyRate(Number(e.target.value))}
-                className="w-full accent-emerald-400 bg-slate-700 h-2 rounded-lg cursor-pointer"
+                className="w-full accent-blue-400 bg-slate-700 h-2 rounded-lg cursor-pointer"
               />
             </div>
 
             <div className="space-y-2 bg-slate-800/80 p-4 rounded-xl border border-slate-700">
               <div className="flex justify-between text-xs font-semibold">
                 <span className="text-slate-300">Shift Length (Hours):</span>
-                <span className="text-emerald-400 font-bold font-mono text-sm">{shiftHours} Hours</span>
+                <span className="text-blue-400 font-bold font-mono text-sm">{shiftHours} Hours</span>
               </div>
               <input
                 type="range"
@@ -364,14 +364,14 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                 step={1}
                 value={shiftHours}
                 onChange={(e) => setShiftHours(Number(e.target.value))}
-                className="w-full accent-emerald-400 bg-slate-700 h-2 rounded-lg cursor-pointer"
+                className="w-full accent-blue-400 bg-slate-700 h-2 rounded-lg cursor-pointer"
               />
             </div>
 
             <div className="space-y-2 bg-slate-800/80 p-4 rounded-xl border border-slate-700">
               <div className="flex justify-between text-xs font-semibold">
                 <span className="text-slate-300">Number of Locums Required:</span>
-                <span className="text-emerald-400 font-bold font-mono text-sm">{locumCount} Staff</span>
+                <span className="text-blue-400 font-bold font-mono text-sm">{locumCount} Staff</span>
               </div>
               <input
                 type="range"
@@ -380,7 +380,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
                 step={1}
                 value={locumCount}
                 onChange={(e) => setLocumCount(Number(e.target.value))}
-                className="w-full accent-emerald-400 bg-slate-700 h-2 rounded-lg cursor-pointer"
+                className="w-full accent-blue-400 bg-slate-700 h-2 rounded-lg cursor-pointer"
               />
             </div>
           </div>
@@ -391,7 +391,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
               <div className="text-3xl font-extrabold text-white font-mono">
                 £{totalCalculatedCost.toLocaleString()}
               </div>
-              <p className="text-[11px] text-emerald-400 font-medium">Includes automated DBS checks, digital timesheets & payroll export</p>
+              <p className="text-[11px] text-blue-400 font-medium">Includes automated DBS checks, digital timesheets & payroll export</p>
             </div>
             <button
               onClick={() => onBookDemo('Locum Budget Breakdown')}
@@ -418,7 +418,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
             </div>
 
             <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-2xs space-y-2">
-              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center font-bold mb-3">
+              <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold mb-3">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <h4 className="text-sm font-bold text-slate-900">Digital Compliance Vault</h4>
@@ -452,7 +452,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
         {/* CTA Banner */}
         <div className="p-8 rounded-2xl bg-slate-900 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800">
           <div className="space-y-2">
-            <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Ready to Fill Urgent Shifts?</span>
+            <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Ready to Fill Urgent Shifts?</span>
             <h3 className="text-2xl font-bold text-white">Start Dispatching Locums in Minutes</h3>
             <p className="text-xs text-slate-300">Set up your facility account today with zero upfront setup fees.</p>
           </div>

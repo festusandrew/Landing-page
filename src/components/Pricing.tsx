@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Sparkles, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
+import { Check, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { PRICING_PLANS } from '../data/mockData';
 
 interface PricingProps {
@@ -78,7 +78,7 @@ export const Pricing: React.FC<PricingProps> = ({ onBookDemo, onStartTrial }) =>
                     </span>
                     <span className="text-slate-500 text-xs font-normal"> / month</span>
                     {isAnnual && plan.id !== 'enterprise' && (
-                      <div className="text-[10px] text-emerald-700 font-bold mt-1">
+                      <div className="text-[10px] text-blue-700 font-bold mt-1">
                         Billed annually (£{(price * 12).toLocaleString()}/yr)
                       </div>
                     )}
@@ -88,7 +88,7 @@ export const Pricing: React.FC<PricingProps> = ({ onBookDemo, onStartTrial }) =>
                   <div className="space-y-3 mb-8">
                     {plan.features.map((f, idx) => (
                       <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-600 font-medium">
-                        <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                         <span>{f}</span>
                       </div>
                     ))}
@@ -112,7 +112,7 @@ export const Pricing: React.FC<PricingProps> = ({ onBookDemo, onStartTrial }) =>
 
         {/* Note Below Pricing */}
         <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 max-w-2xl mx-auto text-center text-xs text-slate-600 flex items-center justify-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+          <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
           <span>
             <strong>Included in all plans:</strong> Dedicated onboarding manager, free data migration, staff training video academy, and no long-term lock-in contracts.
           </span>

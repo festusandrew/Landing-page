@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Play, Pause, Volume2, VolumeX, ShieldCheck, Sparkles, CheckCircle2 } from 'lucide-react';
+import { X, Play, Pause, Volume2, VolumeX, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 interface VideoModalProps {
   isOpen: boolean;
@@ -19,7 +19,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, onBookD
       title: 'Unified Healthcare Ecosystem',
       desc: 'How MployUS bridges recruitment, care delivery, staffing, and facility management into one real-time cloud platform.',
       module: 'Core Ecosystem',
-      badgeColor: 'bg-teal-500'
+      badgeColor: 'bg-blue-500'
     },
     {
       time: '0:35',
@@ -33,7 +33,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, onBookD
       title: 'Digital Care Plans & eMAR',
       desc: 'Mobile daily notes with voice dictation, smart eMAR medication checks, incident logs, and CQC audit readiness.',
       module: 'Care Management Module',
-      badgeColor: 'bg-emerald-500'
+      badgeColor: 'bg-blue-500'
     },
     {
       time: '1:35',
@@ -80,8 +80,8 @@ export const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, onBookD
         {/* Header */}
         <div className="p-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between text-white shrink-0">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-teal-400 animate-ping" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-teal-400">Interactive Product Tour</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-ping" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-blue-400">Interactive Product Tour</span>
             <span className="text-slate-500 text-xs">|</span>
             <span className="text-xs text-slate-300 font-medium">{chapters[activeChapter].title}</span>
           </div>
@@ -102,7 +102,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, onBookD
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500/80" />
                 <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                <div className="w-3 h-3 rounded-full bg-blue-500/80" />
                 <span className="text-xs font-mono text-slate-400 ml-2">mployus.cloud/app/dashboard</span>
               </div>
               <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full text-white ${chapters[activeChapter].badgeColor}`}>
@@ -111,12 +111,12 @@ export const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, onBookD
             </div>
 
             {/* Dynamic Simulated UI Center Card */}
-            <div className="my-auto max-w-xl mx-auto w-full bg-slate-900/90 border border-teal-500/30 rounded-2xl p-6 shadow-2xl relative overflow-hidden backdrop-blur-md">
-              <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-teal-500/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="my-auto max-w-xl mx-auto w-full bg-slate-900/90 border border-blue-500/30 rounded-2xl p-6 shadow-2xl relative overflow-hidden backdrop-blur-md">
+              <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
               
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold">
-                  <Sparkles className="w-5 h-5 animate-spin-slow" />
+                <div className="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold">
+                  
                 </div>
                 <div>
                   <h4 className="text-base font-bold text-white">{chapters[activeChapter].title}</h4>
@@ -132,13 +132,13 @@ export const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, onBookD
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/50 flex items-center justify-between text-slate-300">
                   <span>Data Synchronization</span>
-                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                  <span className="text-blue-400 font-semibold flex items-center gap-1">
                     <CheckCircle2 className="w-3.5 h-3.5" /> 100% Live
                   </span>
                 </div>
                 <div className="p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/50 flex items-center justify-between text-slate-300">
                   <span>CQC Compliance</span>
-                  <span className="text-teal-400 font-semibold">Audit Ready</span>
+                  <span className="text-blue-400 font-semibold">Audit Ready</span>
                 </div>
               </div>
             </div>
@@ -148,7 +148,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, onBookD
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setIsPlaying(!isPlaying)}
-                  className="w-9 h-9 rounded-full bg-teal-500 hover:bg-teal-400 text-slate-950 flex items-center justify-center font-bold transition-transform active:scale-95"
+                  className="w-9 h-9 rounded-full bg-blue-500 hover:bg-blue-400 text-slate-950 flex items-center justify-center font-bold transition-transform active:scale-95"
                 >
                   {isPlaying ? <Pause className="w-4 h-4 fill-slate-950" /> : <Play className="w-4 h-4 fill-slate-950 ml-0.5" />}
                 </button>
@@ -175,7 +175,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, onBookD
                     setProgress(pct);
                   }}
                 >
-                  <div className="h-full bg-teal-400 transition-all duration-300" style={{ width: `${progress}%` }} />
+                  <div className="h-full bg-blue-400 transition-all duration-300" style={{ width: `${progress}%` }} />
                 </div>
               </div>
 
@@ -184,7 +184,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, onBookD
                   onClose();
                   onBookDemo();
                 }}
-                className="px-3.5 py-1.5 bg-teal-500/20 text-teal-300 hover:bg-teal-500 hover:text-slate-950 text-xs font-semibold rounded-lg transition-all"
+                className="px-3.5 py-1.5 bg-blue-500/20 text-blue-300 hover:bg-blue-500 hover:text-slate-950 text-xs font-semibold rounded-lg transition-all"
               >
                 Book Personal Demo
               </button>
@@ -206,12 +206,12 @@ export const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, onBookD
                 }}
                 className={`p-2.5 rounded-xl text-left border transition-all text-xs shrink-0 w-52 ${
                   activeChapter === idx
-                    ? 'bg-slate-800 border-teal-500 text-white shadow-md'
+                    ? 'bg-slate-800 border-blue-500 text-white shadow-md'
                     : 'bg-slate-950/50 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="font-mono text-[10px] text-teal-400 font-bold">{ch.time}</span>
+                  <span className="font-mono text-[10px] text-blue-400 font-bold">{ch.time}</span>
                   <span className="text-[10px] font-semibold text-slate-500">{ch.module}</span>
                 </div>
                 <div className="font-semibold truncate">{ch.title}</div>

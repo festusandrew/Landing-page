@@ -59,7 +59,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
                   <p className="text-xs text-slate-600 leading-relaxed mb-4">{b.description}</p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 text-[11px] font-bold text-emerald-700 flex items-center gap-1.5">
+                <div className="pt-3 border-t border-slate-100 text-[11px] font-bold text-blue-700 flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5" /> {b.benchmark}
                 </div>
               </div>
@@ -75,7 +75,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
             {/* Left Sliders */}
             <div className="lg:col-span-7 space-y-6">
               <div className="flex items-center gap-2 text-slate-800 font-bold text-xs uppercase tracking-wider">
-                <Calculator className="w-4 h-4 text-emerald-600" /> Interactive Admin Savings Estimator
+                <Calculator className="w-4 h-4 text-blue-600" /> Interactive Admin Savings Estimator
               </div>
 
               <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
@@ -125,7 +125,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onBookDemo }) => {
                 <div className="text-4xl font-extrabold text-slate-900">
                   £{annualCostSaved.toLocaleString()}
                 </div>
-                <div className="text-xs text-emerald-700 font-semibold">Annual Administrative Cost Saved</div>
+                <div className="text-xs text-blue-700 font-semibold">Annual Administrative Cost Saved</div>
               </div>
 
               <div className="grid grid-cols-2 gap-3 pt-2 text-xs">

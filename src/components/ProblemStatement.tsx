@@ -41,7 +41,7 @@ export const ProblemStatement: React.FC<ProblemStatementProps> = ({ onBookDemo }
                 activeTab === 'solution' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
               Unified MployUS Platform
             </button>
           </div>
@@ -98,41 +98,41 @@ export const ProblemStatement: React.FC<ProblemStatementProps> = ({ onBookDemo }
           /* Solution Contrast View */
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
             
-            <div className="p-6 sm:p-8 rounded-xl bg-white border border-emerald-200/90 shadow-xs hover:border-emerald-300 transition-all">
-              <div className="w-11 h-11 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center mb-4">
+            <div className="p-6 sm:p-8 rounded-xl bg-white border border-blue-200/90 shadow-xs hover:border-blue-300 transition-all">
+              <div className="w-11 h-11 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Single Cloud Source</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
                 Candidate records seamlessly transition into employee rotas, digital care plans, eMAR logs, and council billing invoices without re-typing.
               </p>
-              <div className="mt-4 pt-4 border-t border-slate-100 text-xs text-emerald-700 font-bold">
+              <div className="mt-4 pt-4 border-t border-slate-100 text-xs text-blue-700 font-bold">
                 ✓ Zero duplicate data entry
               </div>
             </div>
 
-            <div className="p-6 sm:p-8 rounded-xl bg-white border border-emerald-200/90 shadow-xs hover:border-emerald-300 transition-all">
-              <div className="w-11 h-11 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center mb-4">
+            <div className="p-6 sm:p-8 rounded-xl bg-white border border-blue-200/90 shadow-xs hover:border-blue-300 transition-all">
+              <div className="w-11 h-11 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Automated Workflows</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
                 1-Click multi-board posting, mobile eMAR with double-sign checks, GPS geofenced clock-ins, and 1-tap locum broadcast for urgent shifts.
               </p>
-              <div className="mt-4 pt-4 border-t border-slate-100 text-xs text-emerald-700 font-bold">
+              <div className="mt-4 pt-4 border-t border-slate-100 text-xs text-blue-700 font-bold">
                 ✓ 60% faster hiring & shift fill
               </div>
             </div>
 
-            <div className="p-6 sm:p-8 rounded-xl bg-white border border-emerald-200/90 shadow-xs hover:border-emerald-300 transition-all">
-              <div className="w-11 h-11 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center mb-4">
+            <div className="p-6 sm:p-8 rounded-xl bg-white border border-blue-200/90 shadow-xs hover:border-blue-300 transition-all">
+              <div className="w-11 h-11 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Live CQC Dashboard</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
                 Real-time attendance feeds, automated compliance scorecards, instant incident tracking, and 1-click CQC inspection report exports.
               </p>
-              <div className="mt-4 pt-4 border-t border-slate-100 text-xs text-emerald-700 font-bold">
+              <div className="mt-4 pt-4 border-t border-slate-100 text-xs text-blue-700 font-bold">
                 ✓ 100% CQC Audit Readiness
               </div>
             </div>

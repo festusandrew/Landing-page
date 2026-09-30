@@ -25,8 +25,8 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
           >
             <ArrowLeft className="w-4 h-4" /> Back to Overview
           </button>
-          <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700">
-            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+          <div className="flex items-center gap-2 text-xs font-semibold text-blue-700">
+            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
             <span>Product Module: Care Management & eMAR</span>
           </div>
         </div>
@@ -36,7 +36,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
       <section className="py-12 lg:py-16 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-5">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold uppercase tracking-wider">
               <HeartPulse className="w-3.5 h-3.5" /> Clinical Records & CQC Audit Readiness
             </span>
             <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
@@ -66,7 +66,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
       {/* eMAR & Clinical Simulator */}
       <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Live eMAR Simulator</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Live eMAR Simulator</span>
           <h2 className="text-2xl font-bold text-slate-900 mt-1">Interactive Medication Administration Pass</h2>
         </div>
 
@@ -89,7 +89,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
             <div className="space-y-3">
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-lg bg-emerald-100 text-emerald-800">
+                  <div className="p-2.5 rounded-lg bg-blue-100 text-blue-800">
                     <Pill className="w-5 h-5" />
                   </div>
                   <div>
@@ -97,7 +97,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                     <div className="text-xs text-slate-500">Resident: Eleanor Vance (Room 12B) • Morning Pass (08:00)</div>
                   </div>
                 </div>
-                <span className="px-3 py-1 bg-emerald-600 text-white font-bold text-xs rounded-md">Administered & Synced</span>
+                <span className="px-3 py-1 bg-blue-600 text-white font-bold text-xs rounded-md">Administered & Synced</span>
               </div>
 
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
@@ -124,7 +124,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
             <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
               <h4 className="text-sm font-bold text-slate-900">Personalized Mobility & Dietary Plan</h4>
               <p className="text-xs text-slate-600">Requires 2-person assistance for transfer. Low-sodium diet prescribed by NHS GP.</p>
-              <div className="pt-2 text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
+              <div className="pt-2 text-[11px] text-blue-700 font-semibold flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" /> Reviewed by Clinical Nurse Manager (20 Jul 2026)
               </div>
             </div>

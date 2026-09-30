@@ -15,7 +15,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({ onOpenCaseStudy, onBoo
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-semibold uppercase tracking-wider mb-3">
-            <Award className="w-3.5 h-3.5 text-emerald-600" /> Customer Success Stories
+            <Award className="w-3.5 h-3.5 text-blue-600" /> Customer Success Stories
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900">
             Trusted by Leading Care Providers
@@ -57,7 +57,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({ onOpenCaseStudy, onBoo
                 />
                 <div>
                   <div className="text-xs font-bold text-slate-900">{t.author}</div>
-                  <div className="text-[11px] text-emerald-700 font-semibold">{t.role}, <span className="text-slate-500 font-normal">{t.organization}</span></div>
+                  <div className="text-[11px] text-blue-700 font-semibold">{t.role}, <span className="text-slate-500 font-normal">{t.organization}</span></div>
                 </div>
               </div>
             </div>

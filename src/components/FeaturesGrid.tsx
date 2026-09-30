@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UserPlus, HeartPulse, Users, Building2, CheckCircle2, Search, ArrowRight, Sparkles } from 'lucide-react';
+import { UserPlus, HeartPulse, Users, Building2, CheckCircle2, Search, ArrowRight } from 'lucide-react';
 import { FEATURE_CATEGORIES } from '../data/mockData';
 
 interface FeaturesGridProps {
@@ -26,7 +26,7 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = ({ onBookDemo }) => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200 text-slate-800 text-xs font-semibold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" /> Complete Feature Matrix
+             Complete Feature Matrix
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900">
             Everything You Need in One Platform
@@ -69,7 +69,7 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = ({ onBookDemo }) => {
         {/* 4-Column Feature Matrix */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {FEATURE_CATEGORIES.filter(cat => selectedCategory === 'All' || cat.title === selectedCategory).map((cat) => {
-            const Icon = iconMap[cat.iconName] || Sparkles;
+            const Icon = iconMap[cat.iconName] || BarChart3;
 
             const filteredItems = cat.items.filter(item =>
               item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -85,15 +85,15 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = ({ onBookDemo }) => {
               >
                 <div>
                   <div className="flex items-center gap-2.5 text-slate-900 font-bold text-sm mb-4 pb-3 border-b border-slate-100">
-                    <Icon className="w-5 h-5 text-emerald-600" />
+                    <Icon className="w-5 h-5 text-blue-600" />
                     <span>{cat.title}</span>
                   </div>
 
                   <div className="space-y-3">
                     {filteredItems.map((item, idx) => (
                       <div key={idx} className="group/item">
-                        <div className="flex items-center gap-2 text-xs font-bold text-slate-900 group-hover/item:text-emerald-700 transition-colors">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                        <div className="flex items-center gap-2 text-xs font-bold text-slate-900 group-hover/item:text-blue-700 transition-colors">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
                           <span>{item.name}</span>
                         </div>
                         <p className="text-[11px] text-slate-500 pl-5 mt-0.5 leading-tight font-medium">

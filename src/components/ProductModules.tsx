@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserPlus, HeartPulse, Users, Building2, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
+import { UserPlus, HeartPulse, Users, Building2, CheckCircle2, ArrowRight } from 'lucide-react';
 import { PRODUCT_MODULES } from '../data/mockData';
 import { ProductModule } from '../types';
 
@@ -23,7 +23,7 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200 text-slate-800 text-xs font-semibold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" /> Modular & Integrated
+             Modular & Integrated
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900">
             Four Connected Modules. Built for Healthcare.
@@ -36,7 +36,7 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
         {/* 2x2 Grid of Product Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {PRODUCT_MODULES.map((mod: ProductModule) => {
-            const Icon = iconMap[mod.iconName] || Sparkles;
+            const Icon = iconMap[mod.iconName] || BarChart3;
 
             return (
               <div
@@ -59,7 +59,7 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
                   <h3 className="text-2xl font-bold text-slate-900 mb-2">
                     {mod.title}
                   </h3>
-                  <p className="text-sm font-semibold text-emerald-700 mb-6">
+                  <p className="text-sm font-semibold text-blue-700 mb-6">
                     "{mod.tagline}"
                   </p>
 
@@ -67,7 +67,7 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
                   <div className="space-y-3 mb-6">
                     {mod.features.map((feat, idx) => (
                       <div key={idx} className="flex items-start gap-3 text-xs text-slate-600 leading-relaxed font-medium">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                         <span>{feat}</span>
                       </div>
                     ))}
@@ -82,7 +82,7 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
 
                 {/* Bottom Action CTAs */}
                 <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-emerald-700 font-mono">
+                  <span className="text-xs font-bold text-blue-700 font-mono">
                     ★ {mod.metrics}
                   </span>
 

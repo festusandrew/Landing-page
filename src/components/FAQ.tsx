@@ -23,7 +23,7 @@ export const FAQ: React.FC<FAQProps> = ({ onBookDemo }) => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200 text-slate-800 text-xs font-semibold uppercase tracking-wider mb-3">
-            <HelpCircle className="w-3.5 h-3.5 text-emerald-600" /> Got Questions?
+            <HelpCircle className="w-3.5 h-3.5 text-blue-600" /> Got Questions?
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900">
             Frequently Asked Questions

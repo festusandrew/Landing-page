@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, ArrowRight, ShieldCheck, CheckCircle2, Sparkles, Building2, UserPlus, HeartPulse, Users, BarChart3, RefreshCw, Zap } from 'lucide-react';
+import { Play, ArrowRight, ShieldCheck, CheckCircle2, Building2, UserPlus, HeartPulse, Users, BarChart3, RefreshCw, Zap } from 'lucide-react';
 import { UserRole } from '../types';
 import { CLIENT_LOGOS } from '../data/mockData';
 
@@ -31,15 +31,15 @@ export const Hero: React.FC<HeroProps> = ({
         <div className="flex flex-col items-center text-center space-y-4 max-w-4xl mx-auto mb-8">
           
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-semibold shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+            
             <span>Unified Healthcare Operating System</span>
             <span className="text-slate-300">•</span>
-            <span className="text-emerald-700 font-bold">UK CQC Compliant</span>
+            <span className="text-blue-700 font-bold">UK CQC Compliant</span>
           </div>
 
           {/* Main H1 */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 leading-[1.08] font-['Plus_Jakarta_Sans',sans-serif]">
-            Recruit, Care, Staff, and Manage — <span className="text-slate-900 underline decoration-emerald-500/60 decoration-wavy decoration-2">All in One Platform</span>
+            Recruit, Care, Staff, and Manage — <span className="text-slate-900">All in One Platform</span>
           </h1>
 
           {/* Subheadline */}
@@ -76,14 +76,14 @@ export const Hero: React.FC<HeroProps> = ({
 
           {/* Key Trust Micro-Badges */}
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-2 text-xs text-slate-600 font-medium">
-            <span className="flex items-center gap-1.5 text-emerald-700 font-semibold">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" /> CQC Compliant
+            <span className="flex items-center gap-1.5 text-blue-700 font-semibold">
+              <CheckCircle2 className="w-4 h-4 text-blue-600" /> CQC Compliant
             </span>
             <span className="flex items-center gap-1.5 text-slate-700">
               <ShieldCheck className="w-4 h-4 text-slate-900" /> GDPR Secure
             </span>
             <span className="flex items-center gap-1.5 text-slate-700">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" /> ISO 27001 Certified
+              <CheckCircle2 className="w-4 h-4 text-blue-600" /> ISO 27001 Certified
             </span>
           </div>
         </div>
@@ -130,8 +130,8 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             <div className="flex items-center gap-2 text-xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span className="text-emerald-700 font-mono text-[11px] font-bold">4 Modules Synced</span>
+              <span className="w-2 h-2 rounded-full bg-blue-500" />
+              <span className="text-blue-700 font-mono text-[11px] font-bold">4 Modules Synced</span>
             </div>
           </div>
 
@@ -177,9 +177,9 @@ export const Hero: React.FC<HeroProps> = ({
                   >
                     <div className="flex items-center justify-between text-xs text-slate-700 mb-1">
                       <span className="font-bold flex items-center gap-1 text-slate-900">
-                        <HeartPulse className="w-3.5 h-3.5 text-emerald-600" /> 3. Care & eMAR
+                        <HeartPulse className="w-3.5 h-3.5 text-blue-600" /> 3. Care & eMAR
                       </span>
-                      <span className="text-[10px] bg-emerald-50 text-emerald-700 font-semibold px-2 py-0.5 rounded-full border border-emerald-200">CQC Ready</span>
+                      <span className="text-[10px] bg-blue-50 text-blue-700 font-semibold px-2 py-0.5 rounded-full border border-blue-200">CQC Ready</span>
                     </div>
                     <div className="text-2xl font-bold text-slate-900">142 Logs</div>
                     <div className="text-[11px] text-slate-500">0 eMAR Misses</div>
@@ -204,7 +204,7 @@ export const Hero: React.FC<HeroProps> = ({
                 <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm relative">
                   <div className="text-xs font-semibold text-slate-700 mb-2.5 flex items-center justify-between">
                     <span>Live Cross-Module Data Stream</span>
-                    <span className="text-emerald-700 font-mono text-[10px] font-bold">Zero Re-keying • Instant Sync</span>
+                    <span className="text-blue-700 font-mono text-[10px] font-bold">Zero Re-keying • Instant Sync</span>
                   </div>
 
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
@@ -238,145 +238,89 @@ export const Hero: React.FC<HeroProps> = ({
               </div>
             )}
 
-            {/* View 2: Recruitment Software Preview */}
+            {/* View 2: Recruitment Dashboard Snapshot */}
             {mockView === 'recruitment' && (
-              <div className="space-y-4 relative z-10 animate-fade-in">
+              <div className="space-y-3 relative z-10">
                 <div className="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200">
                   <div className="flex items-center gap-2">
                     <UserPlus className="w-5 h-5 text-blue-600" />
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900">Active Recruitment Pipeline: Registered Nurse (RGN)</h4>
-                      <p className="text-xs text-slate-500">Multi-posted to Indeed, Reed, NHS Jobs & TotalJobs</p>
+                      <h4 className="text-sm font-bold text-slate-900">Recruitment Pipeline Dashboard</h4>
+                      <p className="text-xs text-slate-500">Application trends, ATS pipeline & hiring analytics</p>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => onOpenModule('recruitment')}
                     className="px-3 py-1 bg-slate-900 text-white text-xs font-semibold rounded-md hover:bg-slate-800 transition-all"
                   >
                     Explore Module →
                   </button>
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                  <div className="p-3 bg-white rounded-xl border border-slate-200">
-                    <div className="font-bold text-slate-800 mb-2 flex justify-between">
-                      <span>Applied (14)</span>
-                      <span className="text-blue-600 font-semibold">Auto-Filtered</span>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="p-2 bg-slate-50 rounded-lg border border-slate-200">
-                        <div className="font-semibold text-slate-900">Sarah Jenkins, RGN</div>
-                        <div className="text-[10px] text-slate-500">NMC Pin Active • 5 Yrs Exp</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-white rounded-xl border border-slate-200">
-                    <div className="font-bold text-slate-800 mb-2 flex justify-between">
-                      <span>Interviewed (4)</span>
-                      <span className="text-emerald-600 font-semibold">Scorecards Ready</span>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="p-2 bg-slate-50 rounded-lg border border-slate-200">
-                        <div className="font-semibold text-slate-900">David Ross, Senior Carer</div>
-                        <div className="text-[10px] text-emerald-700 font-bold">Passed Clinical Interview</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-white rounded-xl border border-emerald-300">
-                    <div className="font-bold text-emerald-800 mb-2 flex justify-between">
-                      <span>Hired & Onboarded (2)</span>
-                      <span className="text-emerald-700 font-semibold">Synced to Rota</span>
-                    </div>
-                    <div className="p-2 bg-emerald-50/60 rounded-lg border border-emerald-200">
-                      <div className="font-semibold text-slate-900">Amira Patel, RGN</div>
-                      <div className="text-[10px] text-emerald-700 font-semibold">DBS Cleared • Added to Rota</div>
-                    </div>
-                  </div>
+                <div className="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+                  <img
+                    src="https://images.unsplash.com/photo-1763718528755-4bca23f82ac3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+                    alt="Recruitment dashboard showing application trends and hiring metrics"
+                    className="w-full object-cover object-top"
+                    style={{ maxHeight: 260 }}
+                  />
                 </div>
               </div>
             )}
 
-            {/* View 3: Care & eMAR Preview */}
+            {/* View 3: Care Management Dashboard Snapshot */}
             {mockView === 'care' && (
-              <div className="space-y-4 relative z-10 animate-fade-in">
+              <div className="space-y-3 relative z-10">
                 <div className="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200">
                   <div className="flex items-center gap-2">
-                    <HeartPulse className="w-5 h-5 text-emerald-600" />
+                    <HeartPulse className="w-5 h-5 text-blue-600" />
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900">Digital Service User Records & eMAR Live Log</h4>
-                      <p className="text-xs text-slate-500">Room 14 - Resident Arthur Pendelton (High Risk Fall Protocol)</p>
+                      <h4 className="text-sm font-bold text-slate-900">Care Management & eMAR Analytics</h4>
+                      <p className="text-xs text-slate-500">Resident outcomes, medication logs & CQC compliance tracking</p>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => onOpenModule('care-management')}
                     className="px-3 py-1 bg-slate-900 text-white text-xs font-semibold rounded-md hover:bg-slate-800 transition-all"
                   >
                     Explore Module →
                   </button>
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                  <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-2">
-                    <div className="font-bold text-slate-800 flex items-center justify-between">
-                      <span>eMAR Medication Round</span>
-                      <span className="text-[10px] bg-emerald-50 px-2 py-0.5 rounded-full text-emerald-700 border border-emerald-200 font-semibold">08:00 AM Complete</span>
-                    </div>
-                    <div className="p-2 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between">
-                      <div>
-                        <div className="font-semibold text-slate-900">Paracetamol 500mg</div>
-                        <div className="text-[10px] text-slate-500">2 Tablets • Oral</div>
-                      </div>
-                      <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded border border-emerald-200">
-                        Administered & Signed
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-2">
-                    <div className="font-bold text-slate-800 flex items-center justify-between">
-                      <span>Voice Care Log Dictation</span>
-                      <span className="text-[10px] bg-blue-50 px-2 py-0.5 rounded-full text-blue-700 border border-blue-200 font-semibold">AI Transcribed</span>
-                    </div>
-                    <p className="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-700 italic text-[11px]">
-                      "Resident enjoyed breakfast in the garden. Hydration levels monitored at 450ml. Mood bright."
-                    </p>
-                  </div>
+                <div className="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+                  <img
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+                    alt="Healthcare analytics dashboard with performance metrics"
+                    className="w-full object-cover object-top"
+                    style={{ maxHeight: 260 }}
+                  />
                 </div>
               </div>
             )}
 
-            {/* View 4: Locum Rota Preview */}
+            {/* View 4: Locum Rota Dashboard Snapshot */}
             {mockView === 'staffing' && (
-              <div className="space-y-4 relative z-10 animate-fade-in">
+              <div className="space-y-3 relative z-10">
                 <div className="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200">
                   <div className="flex items-center gap-2">
                     <Users className="w-5 h-5 text-violet-600" />
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900">Smart Rota & Locum Shift Match Engine</h4>
-                      <p className="text-xs text-slate-500">Emergency Night Shift Broadcast - Filled in 11 minutes</p>
+                      <h4 className="text-sm font-bold text-slate-900">Locum Rota & Shift Management</h4>
+                      <p className="text-xs text-slate-500">Live shift matching, GPS check-in & workforce scheduling</p>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => onOpenModule('locums-staffing')}
                     className="px-3 py-1 bg-slate-900 text-white text-xs font-semibold rounded-md hover:bg-slate-800 transition-all"
                   >
                     Explore Module →
                   </button>
                 </div>
-
-                <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-2 text-xs">
-                  <div className="flex items-center justify-between p-2.5 bg-slate-50 rounded-lg border border-slate-200">
-                    <div>
-                      <div className="font-bold text-slate-900 flex items-center gap-2">
-                        <span>Night Nurse (RGN) - Shift 20:00 - 08:00</span>
-                        <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">Shift Matched</span>
-                      </div>
-                      <div className="text-[11px] text-slate-500 mt-0.5">Assigned to: Nurse Hannah Vance (5.0 ★ Rating) • GPS Verified</div>
-                    </div>
-                    <span className="font-mono text-sm font-bold text-slate-900">£38.50/hr</span>
-                  </div>
+                <div className="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+                  <img
+                    src="https://images.unsplash.com/photo-1686061594225-3e92c0cd51b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+                    alt="Workforce scheduling and shift management dashboard"
+                    className="w-full object-cover object-top"
+                    style={{ maxHeight: 260 }}
+                  />
                 </div>
               </div>
             )}
@@ -384,12 +328,12 @@ export const Hero: React.FC<HeroProps> = ({
             {/* Mockup Bottom Status Bar */}
             <div className="mt-4 pt-3 border-t border-slate-200 flex flex-wrap items-center justify-between text-xs text-slate-600 gap-2">
               <span className="flex items-center gap-1.5 font-medium">
-                <Zap className="w-3.5 h-3.5 text-emerald-600" /> 
+                <Zap className="w-3.5 h-3.5 text-blue-600" /> 
                 <span>One Source of Truth across Recruitment, Care, Staffing & Facility Portal</span>
               </span>
               <button 
                 onClick={onBookDemo}
-                className="text-slate-900 hover:text-emerald-700 font-bold underline flex items-center gap-1 text-[11px]"
+                className="text-slate-900 hover:text-blue-700 font-bold underline flex items-center gap-1 text-[11px]"
               >
                 Schedule Interactive Workspace Walkthrough →
               </button>

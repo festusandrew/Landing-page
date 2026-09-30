@@ -67,7 +67,7 @@ export const RecruitmentServicePage: React.FC<RecruitmentServicePageProps> = ({
           </div>
 
           <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-slate-900">100% DBS Vetting</h3>

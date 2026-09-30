@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UserPlus, CheckCircle2, ArrowRight, ArrowLeft, Filter, Sparkles, Building2, Briefcase, FileCheck, Search } from 'lucide-react';
+import { UserPlus, CheckCircle2, ArrowRight, ArrowLeft, Filter, Building2, Briefcase, FileCheck, Search } from 'lucide-react';
 
 interface RecruitmentSoftwarePageProps {
   onBackToHome: () => void;
@@ -104,8 +104,8 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
                 </div>
                 <div className="text-xs text-slate-600 font-medium">{c.role} • {c.experience}</div>
                 <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500">
-                  <span className="flex items-center gap-1 text-emerald-700 font-semibold">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> {c.status}
+                  <span className="flex items-center gap-1 text-blue-700 font-semibold">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" /> {c.status}
                   </span>
                   <button
                     onClick={() => onBookDemo(`Candidate: ${c.name}`)}

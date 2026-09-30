@@ -55,10 +55,10 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fade-in">
       <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100 my-8 max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 p-6 text-white flex items-center justify-between relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 p-6 text-white flex items-center justify-between relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
           <div>
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-teal-500/20 text-teal-300 text-xs font-semibold mb-2">
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold mb-2">
               <Shield className="w-3.5 h-3.5" /> 1-on-1 Product Walkthrough
             </div>
             <h2 className="text-2xl font-bold tracking-tight">Book Your Personal MployUS Demo</h2>
@@ -78,12 +78,12 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
         <div className="p-6 overflow-y-auto flex-1">
           {submitted ? (
             <div className="text-center py-8 space-y-4">
-              <div className="w-16 h-16 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mx-auto animate-bounce">
+              <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto animate-bounce">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
               <h3 className="text-2xl font-bold text-slate-900">Demo Session Confirmed!</h3>
               <p className="text-slate-600 max-w-md mx-auto text-sm">
-                Thank you <span className="font-semibold text-slate-900">{formData.fullName || 'there'}</span>. We’ve sent a calendar invitation and meeting link to <span className="font-semibold text-teal-700">{formData.email || 'your email'}</span>.
+                Thank you <span className="font-semibold text-slate-900">{formData.fullName || 'there'}</span>. We’ve sent a calendar invitation and meeting link to <span className="font-semibold text-blue-700">{formData.email || 'your email'}</span>.
               </p>
               
               <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 text-left text-sm max-w-md mx-auto space-y-2 mt-4">
@@ -97,14 +97,14 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                 </div>
                 <div className="flex items-center justify-between text-slate-700">
                   <span className="text-slate-500">Assigned Specialist:</span>
-                  <span className="font-semibold text-teal-700">Rachel Vance (Healthcare Solutions Specialist)</span>
+                  <span className="font-semibold text-blue-700">Rachel Vance (Healthcare Solutions Specialist)</span>
                 </div>
               </div>
 
               <div className="pt-4">
                 <button
                   onClick={resetForm}
-                  className="px-6 py-2.5 bg-teal-600 text-white font-medium rounded-xl hover:bg-teal-700 transition-all shadow-md shadow-teal-600/20"
+                  className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20"
                 >
                   Return to Platform
                 </button>
@@ -118,9 +118,9 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                   <div key={s} className="flex items-center gap-2">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                       step === s 
-                        ? 'bg-teal-600 text-white shadow-md shadow-teal-600/30 ring-2 ring-teal-600 ring-offset-2' 
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-2 ring-blue-600 ring-offset-2' 
                         : step > s 
-                        ? 'bg-teal-100 text-teal-700' 
+                        ? 'bg-blue-100 text-blue-700' 
                         : 'bg-slate-100 text-slate-400'
                     }`}>
                       {step > s ? <Check className="w-4 h-4" /> : s}
@@ -145,7 +145,7 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                         placeholder="e.g. Sarah Mitchell"
                         value={formData.fullName}
                         onChange={e => setFormData({...formData, fullName: e.target.value})}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-sm outline-none transition-all"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition-all"
                       />
                     </div>
                     <div>
@@ -156,7 +156,7 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                         placeholder="sarah@caregroup.co.uk"
                         value={formData.email}
                         onChange={e => setFormData({...formData, email: e.target.value})}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-sm outline-none transition-all"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -170,7 +170,7 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                         placeholder="07700 900000"
                         value={formData.phone}
                         onChange={e => setFormData({...formData, phone: e.target.value})}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-sm outline-none transition-all"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition-all"
                       />
                     </div>
                     <div>
@@ -181,7 +181,7 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                         placeholder="e.g. Sunrise Care Home"
                         value={formData.orgName}
                         onChange={e => setFormData({...formData, orgName: e.target.value})}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-sm outline-none transition-all"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -191,7 +191,7 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                     <select
                       value={formData.role}
                       onChange={e => setFormData({...formData, role: e.target.value})}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-sm outline-none bg-white transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none bg-white transition-all"
                     >
                       <option value="Care Home Manager">Care Home Manager / Director</option>
                       <option value="Recruitment Agency">Healthcare Recruitment Agency</option>
@@ -217,7 +217,7 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                           onClick={() => setFormData({...formData, staffCount: s})}
                           className={`px-3 py-2 text-xs font-medium rounded-xl border transition-all text-center ${
                             formData.staffCount === s 
-                              ? 'bg-teal-50 border-teal-500 text-teal-800 font-bold shadow-sm'
+                              ? 'bg-blue-50 border-blue-500 text-blue-800 font-bold shadow-sm'
                               : 'border-slate-200 hover:border-slate-300 text-slate-700'
                           }`}
                         >
@@ -242,11 +242,11 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                             key={m.id}
                             onClick={() => handleModuleToggle(m.id)}
                             className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
-                              checked ? 'bg-teal-50/60 border-teal-500 text-slate-900' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                              checked ? 'bg-blue-50/60 border-blue-500 text-slate-900' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                             }`}
                           >
                             <div className={`w-4 h-4 rounded flex items-center justify-center border text-white ${
-                              checked ? 'bg-teal-600 border-teal-600' : 'border-slate-300'
+                              checked ? 'bg-blue-600 border-blue-600' : 'border-slate-300'
                             }`}>
                               {checked && <Check className="w-3 h-3 stroke-[3]" />}
                             </div>
@@ -266,24 +266,24 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 mb-1 flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5 text-teal-600" /> Select Date
+                        <Calendar className="w-3.5 h-3.5 text-blue-600" /> Select Date
                       </label>
                       <input
                         type="date"
                         required
                         value={formData.preferredDate}
                         onChange={e => setFormData({...formData, preferredDate: e.target.value})}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-sm outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none"
                       />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 mb-1 flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-teal-600" /> Preferred Time (UK)
+                        <Clock className="w-3.5 h-3.5 text-blue-600" /> Preferred Time (UK)
                       </label>
                       <select
                         value={formData.preferredTime}
                         onChange={e => setFormData({...formData, preferredTime: e.target.value})}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-sm outline-none bg-white"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none bg-white"
                       >
                         <option value="09:00 AM">09:00 AM BST</option>
                         <option value="10:30 AM">10:30 AM BST</option>
@@ -294,8 +294,8 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                     </div>
                   </div>
 
-                  <div className="p-3 bg-teal-50/70 border border-teal-200/80 rounded-xl text-xs text-teal-900 flex items-start gap-2">
-                    <Shield className="w-4 h-4 text-teal-600 mt-0.5 shrink-0" />
+                  <div className="p-3 bg-blue-50/70 border border-blue-200/80 rounded-xl text-xs text-blue-900 flex items-start gap-2">
+                    <Shield className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
                     <p>
                       <strong>Guaranteed:</strong> No hard sell. Our healthcare solution engineers will tailor the demonstration specifically to your team’s workflows.
                     </p>
@@ -325,14 +325,14 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
                       }
                       setStep(step + 1);
                     }}
-                    className="px-6 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-medium text-sm rounded-xl transition-all shadow-md shadow-teal-600/20 flex items-center gap-1.5"
+                    className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-xl transition-all shadow-md shadow-blue-600/20 flex items-center gap-1.5"
                   >
                     Continue <ChevronRight className="w-4 h-4" />
                   </button>
                 ) : (
                   <button
                     type="submit"
-                    className="px-6 py-2.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold text-sm rounded-xl transition-all shadow-lg shadow-teal-600/25 flex items-center gap-1.5"
+                    className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white font-semibold text-sm rounded-xl transition-all shadow-lg shadow-blue-600/25 flex items-center gap-1.5"
                   >
                     Confirm & Book Demo <Check className="w-4 h-4" />
                   </button>

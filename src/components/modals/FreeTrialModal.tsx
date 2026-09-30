@@ -32,14 +32,14 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fade-in">
       <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100 my-8">
-        <div className="bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900 p-6 text-white relative">
+        <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 p-6 text-white relative">
           <button
             onClick={handleClose}
             className="absolute top-4 right-4 p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-teal-500/20 text-teal-300 text-xs font-semibold mb-2">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold mb-2">
             <Rocket className="w-3.5 h-3.5" /> 14-Day Full Access Trial
           </div>
           <h3 className="text-2xl font-bold">Start Your Free MployUS Trial</h3>
@@ -49,7 +49,7 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose 
         <div className="p-6">
           {isCreated ? (
             <div className="text-center py-6 space-y-4">
-              <div className="w-14 h-14 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mx-auto">
+              <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto">
                 <Check className="w-8 h-8 stroke-[3]" />
               </div>
               <h4 className="text-xl font-bold text-slate-900">Workspace Provisioned!</h4>
@@ -60,7 +60,7 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose 
               <div className="pt-2">
                 <button
                   onClick={handleClose}
-                  className="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-xl transition-all shadow-md shadow-teal-600/20 flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2"
                 >
                   Launch MployUS Sandbox <ArrowRight className="w-4 h-4" />
                 </button>
@@ -78,7 +78,7 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose 
                       placeholder="manager@carehome.co.uk"
                       value={formData.email}
                       onChange={e => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-sm outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none"
                     />
                   </div>
 
@@ -91,7 +91,7 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose 
                       placeholder="••••••••"
                       value={formData.password}
                       onChange={e => setFormData({ ...formData, password: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-sm outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none"
                     />
                   </div>
 
@@ -103,7 +103,7 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose 
                       placeholder="e.g. Oakwood Care Home"
                       value={formData.companyName}
                       onChange={e => setFormData({ ...formData, companyName: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-sm outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none"
                     />
                   </div>
 
@@ -116,7 +116,7 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose 
                       }
                       setStep(2);
                     }}
-                    className="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm rounded-xl transition-all shadow-md shadow-teal-600/20 flex items-center justify-center gap-1.5"
+                    className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-1.5"
                   >
                     Next: Choose Primary Module <ArrowRight className="w-4 h-4" />
                   </button>
@@ -135,7 +135,7 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose 
                         <label
                           key={m.id}
                           className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
-                            formData.primaryModule === m.id ? 'bg-teal-50 border-teal-500 text-slate-900' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                            formData.primaryModule === m.id ? 'bg-blue-50 border-blue-500 text-slate-900' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                           }`}
                         >
                           <input
@@ -143,7 +143,7 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose 
                             name="module"
                             checked={formData.primaryModule === m.id}
                             onChange={() => setFormData({ ...formData, primaryModule: m.id })}
-                            className="mt-0.5 text-teal-600 focus:ring-teal-500"
+                            className="mt-0.5 text-blue-600 focus:ring-blue-500"
                           />
                           <div>
                             <div className="text-xs font-bold">{m.name}</div>
@@ -155,7 +155,7 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose 
                   </div>
 
                   <div className="flex items-center gap-2 py-1 text-xs text-slate-500">
-                    <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
                     <span>Includes sample care data & dummy staff records for instant testing.</span>
                   </div>
 
@@ -169,7 +169,7 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose 
                     </button>
                     <button
                       type="submit"
-                      className="flex-1 py-2.5 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold text-xs rounded-xl hover:from-teal-700 hover:to-emerald-700 shadow-md shadow-teal-600/20"
+                      className="flex-1 py-2.5 bg-gradient-to-r from-blue-600 to-blue-600 text-white font-semibold text-xs rounded-xl hover:from-blue-700 hover:to-blue-700 shadow-md shadow-blue-600/20"
                     >
                       Complete & Create Workspace
                     </button>

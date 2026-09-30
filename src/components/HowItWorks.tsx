@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Briefcase, ShieldCheck, CalendarClock, Stethoscope, BarChart3, CheckCircle2, ArrowRight, Sparkles, RefreshCw } from 'lucide-react';
+import { Briefcase, ShieldCheck, CalendarClock, Stethoscope, BarChart3, CheckCircle2, ArrowRight, RefreshCw } from 'lucide-react';
 import { WORKFLOW_STEPS } from '../data/mockData';
 
 interface HowItWorksProps {
@@ -19,7 +19,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onBookDemo, onStartTrial
   };
 
   const currentStep = WORKFLOW_STEPS[activeStep];
-  const Icon = iconMap[currentStep.iconName] || Sparkles;
+  const Icon = iconMap[currentStep.iconName] || BarChart3;
 
   return (
     <section id="how-it-works" className="py-20 bg-white text-slate-900 relative border-t border-slate-200 overflow-hidden">
@@ -28,7 +28,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onBookDemo, onStartTrial
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-semibold uppercase tracking-wider mb-3">
-            <RefreshCw className="w-3.5 h-3.5 text-emerald-600" /> End-to-End Workflow
+            <RefreshCw className="w-3.5 h-3.5 text-blue-600" /> End-to-End Workflow
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900">
             See How Everything Connects
@@ -41,7 +41,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onBookDemo, onStartTrial
         {/* Step Navigation Bar (Horizontal Timeline) */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-8 bg-slate-100 p-2 rounded-xl border border-slate-200">
           {WORKFLOW_STEPS.map((s, idx) => {
-            const StepIcon = iconMap[s.iconName] || Sparkles;
+            const StepIcon = iconMap[s.iconName] || BarChart3;
             const isActive = activeStep === idx;
 
             return (
@@ -75,7 +75,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onBookDemo, onStartTrial
             {/* Step Explanation */}
             <div className="lg:col-span-6 space-y-5">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 border border-slate-300 text-slate-800 text-xs font-semibold">
-                <Icon className="w-4 h-4 text-emerald-700" /> Step {currentStep.stepNumber} of 5: {currentStep.subtitle}
+                <Icon className="w-4 h-4 text-blue-700" /> Step {currentStep.stepNumber} of 5: {currentStep.subtitle}
               </div>
 
               <h3 className="text-3xl font-bold text-slate-900">
@@ -90,7 +90,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onBookDemo, onStartTrial
               <div className="space-y-2.5 pt-2">
                 {currentStep.highlights.map((h, i) => (
                   <div key={i} className="flex items-center gap-2.5 text-xs text-slate-700 font-medium">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
                     <span>{h}</span>
                   </div>
                 ))}
@@ -119,7 +119,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onBookDemo, onStartTrial
               <div className="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
                 <div className="text-xs text-slate-500 font-medium">Current State</div>
                 <div className="text-lg font-bold text-slate-900">{currentStep.mockupDetails.status}</div>
-                <div className="text-xs text-emerald-700 font-semibold">{currentStep.mockupDetails.metrics}</div>
+                <div className="text-xs text-blue-700 font-semibold">{currentStep.mockupDetails.metrics}</div>
               </div>
 
               <div className="p-3.5 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-between text-xs">

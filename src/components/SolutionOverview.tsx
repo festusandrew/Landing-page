@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Database, UserPlus, HeartPulse, Users, Building2, Sparkles, ArrowRight, ShieldCheck, Check } from 'lucide-react';
+import { Database, UserPlus, HeartPulse, Users, Building2, ArrowRight, ShieldCheck, Check } from 'lucide-react';
 
 interface SolutionOverviewProps {
   onOpenModule: (modId: string) => void;
@@ -24,7 +24,7 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
       name: 'Care Management Software',
       shortName: 'Care & eMAR',
       icon: HeartPulse,
-      color: 'border-emerald-500 text-emerald-400 bg-emerald-500/10',
+      color: 'border-blue-500 text-blue-400 bg-blue-500/10',
       badge: 'Step 2: Care Delivery',
       dataFlow: 'Service User Care Plan → Daily Notes & Voice Dictation → eMAR Medication Log'
     },
@@ -57,7 +57,7 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-semibold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" /> Unified Architecture
+             Unified Architecture
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900">
             One Platform. Four Powerful Modules.
@@ -79,7 +79,7 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
               <div className="w-36 h-36 rounded-full bg-white border-2 border-slate-900 flex flex-col items-center justify-center text-center p-3 shadow-md z-20">
                 <Database className="w-7 h-7 text-slate-900 mb-1" />
                 <span className="text-xs font-bold text-slate-900">MployUS Core</span>
-                <span className="text-[9px] text-emerald-700 font-mono uppercase font-bold">1 Source of Truth</span>
+                <span className="text-[9px] text-blue-700 font-mono uppercase font-bold">1 Source of Truth</span>
               </div>
 
               {/* 4 Surrounding Nodes */}
@@ -111,7 +111,7 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
                         : 'bg-white border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300'
                     }`}
                   >
-                    <HeartPulse className={`w-5 h-5 ${activeNode === 'care-management' ? 'text-emerald-400' : 'text-emerald-600'}`} />
+                    <HeartPulse className={`w-5 h-5 ${activeNode === 'care-management' ? 'text-blue-400' : 'text-blue-600'}`} />
                     <div className="text-left">
                       <div className="text-xs font-bold">Care & eMAR</div>
                       <div className={`text-[10px] hidden sm:block ${activeNode === 'care-management' ? 'text-slate-300' : 'text-slate-500'}`}>Digital Care Plans</div>
@@ -175,15 +175,15 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
 
               <div className="space-y-2 text-xs text-slate-600 font-medium">
                 <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <Check className="w-4 h-4 text-blue-600 shrink-0" />
                   <span>Eliminates duplicate manual data entry between departments</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <Check className="w-4 h-4 text-blue-600 shrink-0" />
                   <span>Maintains audit-ready real-time records for CQC inspections</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <Check className="w-4 h-4 text-blue-600 shrink-0" />
                   <span>Connects agency workers, staff nurses, and finance teams seamlessly</span>
                 </div>
               </div>
@@ -203,7 +203,7 @@ export const SolutionOverview: React.FC<SolutionOverviewProps> = ({ onOpenModule
           {/* Key Differentiator Callout Banner */}
           <div className="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
             <div className="flex items-start gap-3">
-              <ShieldCheck className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
+              <ShieldCheck className="w-6 h-6 text-blue-600 shrink-0 mt-0.5" />
               <div>
                 <strong className="text-slate-900 text-sm block">The MployUS Differentiator</strong>
                 <p className="text-slate-600">

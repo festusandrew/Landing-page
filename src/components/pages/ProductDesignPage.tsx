@@ -1,5 +1,5 @@
 import React from 'react';
-import { Palette, ArrowRight, ArrowLeft, Layout, Sparkles, Smartphone, Shield, Eye } from 'lucide-react';
+import { Palette, ArrowRight, ArrowLeft, Layout, Smartphone, Shield, Eye } from 'lucide-react';
 
 interface ProductDesignPageProps {
   onBackToHome: () => void;
@@ -66,7 +66,7 @@ export const ProductDesignPage: React.FC<ProductDesignPageProps> = ({
           </div>
 
           <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-teal-50 text-teal-600 border border-teal-200 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold">
               <Layout className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-slate-900">Clinical EHR & Rota Portals</h3>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, CheckCircle2, ArrowRight, Shield, Zap, Sparkles } from 'lucide-react';
+import { X, CheckCircle2, ArrowRight, Shield, Zap } from 'lucide-react';
 import { ProductModule } from '../../types';
 
 interface ModuleDetailModalProps {
@@ -47,7 +47,7 @@ export const ModuleDetailModal: React.FC<ModuleDetailModalProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {module.features.map((feat, idx) => (
                 <div key={idx} className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
                   <span className="text-xs font-medium text-slate-800 leading-relaxed">{feat}</span>
                 </div>
               ))}
@@ -55,11 +55,11 @@ export const ModuleDetailModal: React.FC<ModuleDetailModalProps> = ({
           </div>
 
           {/* Target Audience & Use Case */}
-          <div className="p-4 rounded-xl bg-teal-50/70 border border-teal-200/80">
-            <h5 className="text-xs font-bold text-teal-900 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-              <Shield className="w-4 h-4 text-teal-600" /> Target Healthcare Environment
+          <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200/80">
+            <h5 className="text-xs font-bold text-blue-900 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <Shield className="w-4 h-4 text-blue-600" /> Target Healthcare Environment
             </h5>
-            <p className="text-xs text-teal-950 font-medium leading-relaxed">
+            <p className="text-xs text-blue-950 font-medium leading-relaxed">
               {module.useCase}
             </p>
           </div>
@@ -67,13 +67,13 @@ export const ModuleDetailModal: React.FC<ModuleDetailModalProps> = ({
           {/* Integration Highlight */}
           <div className="p-4 rounded-xl bg-slate-900 text-white flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Sparkles className="w-6 h-6 text-teal-400 shrink-0" />
+              
               <div>
-                <div className="text-xs font-bold text-teal-300">Seamless Ecosystem Sync</div>
+                <div className="text-xs font-bold text-blue-300">Seamless Ecosystem Sync</div>
                 <div className="text-xs text-slate-300">Data captured here updates all other 3 modules instantly with zero duplicate entries.</div>
               </div>
             </div>
-            <span className="text-xs font-bold px-3 py-1 bg-teal-500/20 text-teal-300 rounded-full border border-teal-500/30 shrink-0">
+            <span className="text-xs font-bold px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full border border-blue-500/30 shrink-0">
               {module.metrics}
             </span>
           </div>
@@ -92,7 +92,7 @@ export const ModuleDetailModal: React.FC<ModuleDetailModalProps> = ({
               onClose();
               onBookDemo(module.title);
             }}
-            className="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs rounded-xl transition-all shadow-md shadow-teal-600/20 flex items-center gap-1.5"
+            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl transition-all shadow-md shadow-blue-600/20 flex items-center gap-1.5"
           >
             Book Demo for {module.title} <ArrowRight className="w-4 h-4" />
           </button>

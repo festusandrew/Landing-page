@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, Sparkles, Menu, X, ArrowRight, Activity, UserPlus, HeartPulse, Users, Briefcase, Palette, Code2, CheckCircle2, Zap } from 'lucide-react';
+import { ChevronDown, Menu, X, ArrowRight, Activity, UserPlus, HeartPulse, Users, Briefcase, Palette, Code2, CheckCircle2, Zap } from 'lucide-react';
 import { UserRole } from '../types';
 
 interface NavbarProps {
@@ -48,7 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       name: 'Care Management Software',
       desc: 'Digital care plans, eMAR medication charts & CQC audits',
       icon: HeartPulse,
-      color: 'text-emerald-600',
+      color: 'text-blue-600',
       badge: 'eMAR & Clinical'
     }
   ];
@@ -112,11 +112,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center gap-2.5 group text-left"
           >
             <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold shadow-2xs group-hover:bg-slate-800 transition-colors">
-              <Activity className="w-4 h-4 text-emerald-400" />
+              <Activity className="w-4 h-4 text-blue-400" />
             </div>
             <div className="flex flex-col">
               <span className="text-lg font-extrabold tracking-tight text-slate-900 flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif]">
-                Mploy<span className="text-emerald-600">US</span>
+                Mploy<span className="text-blue-600">US</span>
               </span>
               <span className="text-[9px] uppercase tracking-wider text-slate-500 font-medium -mt-1">Healthcare Platform</span>
             </div>
@@ -186,7 +186,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   {/* Right Featured Promo Box (100hires style) */}
                   <div className="col-span-5 bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl p-3.5 text-white flex flex-col justify-between border border-slate-800">
                     <div className="space-y-2">
-                      <span className="inline-block px-2 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded text-[9px] font-mono font-bold uppercase">
+                      <span className="inline-block px-2 py-0.5 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded text-[9px] font-mono font-bold uppercase">
                         Unified Platform
                       </span>
                       <h4 className="text-xs font-bold text-white leading-snug">
@@ -199,7 +199,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
                     <button
                       onClick={() => handleNavClick('locum-provision')}
-                      className="mt-3 w-full py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[11px] rounded-lg transition-colors flex items-center justify-center gap-1"
+                      className="mt-3 w-full py-2 bg-blue-500 hover:bg-blue-400 text-slate-950 font-bold text-[11px] rounded-lg transition-colors flex items-center justify-center gap-1"
                     >
                       <span>See Locum Portal</span>
                       <ArrowRight className="w-3 h-3" />
@@ -257,7 +257,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                               <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
                                 <span>{s.name}</span>
                                 {s.popular && (
-                                  <span className="px-1.5 py-0.2 bg-emerald-100 text-emerald-800 rounded text-[9px] font-bold">
+                                  <span className="px-1.5 py-0.2 bg-blue-100 text-blue-800 rounded text-[9px] font-bold">
                                     Popular
                                   </span>
                                 )}
@@ -275,7 +275,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   {/* Right Featured Service Card */}
                   <div className="col-span-5 bg-slate-900 rounded-xl p-3.5 text-white flex flex-col justify-between border border-slate-800">
                     <div className="space-y-2">
-                      <div className="flex items-center gap-1 text-emerald-400 font-mono text-[9px] font-bold uppercase">
+                      <div className="flex items-center gap-1 text-blue-400 font-mono text-[9px] font-bold uppercase">
                         <Zap className="w-3 h-3" /> Featured Provision
                       </div>
                       <h4 className="text-xs font-bold text-white leading-snug">
