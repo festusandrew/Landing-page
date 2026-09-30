@@ -74,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     {
       id: 'product-design',
       name: 'Product Design',
-      desc: 'Healthcare UI/UX design, EHR portals & design systems',
+      desc: 'UI/UX design, design systems & branding for any niche',
       icon: Palette,
       color: 'text-rose-600',
       badge: 'UI/UX Design'
