@@ -2446,61 +2446,26 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <div className="pt-[70px] min-h-screen bg-slate-50">
 
           {/* ── Hero ── */}
-          <section className="relative bg-slate-900 overflow-hidden">
-            <div className="absolute inset-0 opacity-[0.04]" />
-            <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-12 py-20 flex flex-col lg:flex-row items-center gap-14">
-              <motion.div className="flex-1 space-y-6" variants={stagger(0.12)} initial="hidden" animate="visible">
-                <motion.div variants={fadeUp}>
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/90 text-xs font-semibold uppercase tracking-widest w-fit backdrop-blur-sm">
-                    <GraduationCap className="w-3.5 h-3.5 text-green-400" />
-                    CPD & Training · Accredited Courses
-                  </div>
-                </motion.div>
-                <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl font-bold text-white leading-[1.06] tracking-tight">
-                  Keep your registration<br />
-                  <span className="text-green-300">current between shifts.</span>
-                </motion.h1>
-                <motion.p variants={fadeUp} className="text-lg text-white/70 leading-relaxed max-w-[500px]">
-                  Earn accredited CPD hours on your schedule. Courses designed for pharmacists, nurses, and allied health professionals — fully recognised by PSI and GPhC.
-                </motion.p>
-                <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
-                  <motion.button
-                    onClick={() => document.getElementById('cpd-courses')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="group flex items-center gap-2 px-7 py-3.5 bg-[#368B62] text-white font-semibold text-sm rounded-xl"
-                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                  >
-                    Browse Courses <MoveRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  </motion.button>
-                  <motion.button
-                    onClick={() => openAuth('signup')}
-                    className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-black/5 text-white font-semibold text-sm rounded-xl backdrop-blur-sm"
-                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                  >
-                    Create Free Account
-                  </motion.button>
-                </motion.div>
-              </motion.div>
-
-              {/* Floating stat cards */}
-              <div className="hidden lg:flex flex-col gap-3 shrink-0">
-                {[
-                  { val: '12+', label: 'Accredited courses', color: 'text-green-300' },
-                  { val: '40+', label: 'CPD hours available', color: 'text-amber-300' },
-                  { val: 'PSI', label: 'GPhC & PSI recognised', color: 'text-emerald-300' },
-                  { val: '100%', label: 'Online & self-paced', color: 'text-teal-300' },
-                ].map((s, i) => (
-                  <motion.div key={s.label}
-                    className="backdrop-blur-2xl bg-white/10 border border-black/5 rounded-2xl px-6 py-4 text-center w-48"
-                    initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.7, delay: 0.7 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                    whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.15)' }}
-                  >
-                    <div className={`text-3xl font-bold ${s.color}`}>{s.val}</div>
-                    <p className="text-white/65 text-xs mt-1 leading-snug">{s.label}</p>
-                  </motion.div>
-                ))}
+          <section className="bg-slate-900">
+            <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-16">
+              <p className="text-xs font-bold text-[#368B62] uppercase tracking-widest mb-4">CPD & Training · PSI & GPhC Accredited</p>
+              <h1 className="text-4xl sm:text-5xl font-bold text-white leading-[1.08] tracking-tight mb-4">
+                Keep your registration current<br />between shifts.
+              </h1>
+              <p className="text-white/60 text-base leading-relaxed max-w-xl mb-8">
+                Accredited CPD courses on your schedule — recognised by PSI and GPhC. Complete online, earn hours, download your certificate.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={() => document.getElementById('cpd-courses')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="flex items-center gap-2 px-6 py-3 bg-[#368B62] hover:bg-[#276647] text-white font-semibold text-sm rounded-xl transition-colors">
+                  Browse Courses <ArrowRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => openAuth('signup')}
+                  className="px-6 py-3 bg-white/10 hover:bg-white/15 text-white font-semibold text-sm rounded-xl transition-colors">
+                  Create Free Account
+                </button>
               </div>
             </div>
           </section>
