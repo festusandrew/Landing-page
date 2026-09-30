@@ -5,7 +5,7 @@ import {
   Search, Calendar, Stethoscope, Briefcase, Mail, Lock, Linkedin, Phone,
   ChevronDown, ChevronRight, BookOpen, GraduationCap, Cookie, Award,
   PlusCircle, UserPlus, Check, Menu, X, Apple, Play, Bell, Zap, Wallet,
-  Plus, Minus, TrendingUp, Star, Sparkles, MoveRight, Smartphone
+  Plus, Minus, TrendingUp, Star, MoveRight, Smartphone
 } from 'lucide-react';
 
 // Figma-imported images
@@ -168,7 +168,6 @@ function useCounter(target: number, duration = 1.6, inView = false) {
 // ─── Label pill used throughout sections ─────────────────────────────────────
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 border border-green-100 text-green-600 text-[11px] font-bold uppercase tracking-widest">
-    <Sparkles className="w-3 h-3" />
     {children}
   </span>
 );
