@@ -219,7 +219,6 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
   const openApply = () => { setApplyStep(1); setApplyOpen(true); };
   const closeApply = () => { setApplyOpen(false); setApplyStep(1); };
-  const applyShift = shifts[selectedShift] ?? shifts[0];
 
   const [scrolled, setScrolled] = useState(false);
   const [statsInView, setStatsInView] = useState(false);
@@ -282,6 +281,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   ];
 
   const shifts = loc.shifts;
+  const applyShift = shifts[selectedShift] ?? shifts[0];
 
   const faqs: Record<string, { q: string; a: string }[]> = {
     Locum: [
