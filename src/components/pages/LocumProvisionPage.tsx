@@ -35,17 +35,21 @@ type Region = 'IE' | 'UK';
 const REGIONS: Record<Region, {
   country: string; flag: string; currency: string; defaultCity: string;
   cities: string[]; compliance: string; payGuide: string;
-  shifts: { facility: string; location: string; date: string; time: string; rate: string; urgent: boolean }[];
+  shifts: { facility: string; location: string; date: string; time: string; rate: string; urgent: boolean; specialisation: string; description: string; requirements: string[] }[];
 }> = {
   IE: {
     country: 'Ireland', flag: '🇮🇪', currency: '€', defaultCity: 'Dublin',
     cities: ['Dublin', 'Cork', 'Galway', 'Limerick', 'Waterford'],
     compliance: 'Garda vetting', payGuide: '€50–€60/hr',
     shifts: [
-      { facility: 'Boots Pharmacy — Grafton St', location: 'Dublin 2, IE', date: 'Mon 27 Jul', time: '09:00–18:00', rate: '€55/hr', urgent: true },
-      { facility: 'McCabes Pharmacy', location: 'Cork City, IE', date: 'Tue 28 Jul', time: '08:30–17:30', rate: '€52/hr', urgent: false },
-      { facility: 'LloydsPharmacy', location: 'Galway, IE', date: 'Wed 29 Jul', time: '10:00–19:00', rate: '€58/hr', urgent: true },
-      { facility: 'Hickeys Pharmacy', location: 'Limerick, IE', date: 'Thu 30 Jul', time: '09:00–18:00', rate: '€50/hr', urgent: false },
+      { facility: 'Boots Pharmacy — Grafton St', location: 'Dublin 2, IE', date: 'Mon 27 Jul', time: '09:00–18:00', rate: '€55/hr', urgent: true, specialisation: 'Community Pharmacy', description: 'We are looking for an experienced locum pharmacist to cover a full-day shift at our busy Grafton Street branch. You will be responsible for dispensing prescriptions, providing patient counselling, and supporting the in-store pharmacy team. This is a high-footfall city-centre location with a strong OTC and prescription volume.', requirements: ['PSI registration (active)', 'Minimum 1 year community pharmacy experience', 'Strong dispensing and OTC advisory skills', 'Garda vetting clearance required'] },
+      { facility: 'McCabes Pharmacy', location: 'Cork City, IE', date: 'Tue 28 Jul', time: '08:30–17:30', rate: '€52/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'McCabes Pharmacy Cork City requires a locum pharmacist for a day shift covering routine dispensing, Methadone supervision, and patient medication reviews. The team is friendly and the pharmacy is well-organised with a modern PMR system in place.', requirements: ['PSI registration', 'Methadone supervision experience preferred', 'Familiarity with Healthmail and eRx', 'Reliable and punctual'] },
+      { facility: 'LloydsPharmacy', location: 'Galway, IE', date: 'Wed 29 Jul', time: '10:00–19:00', rate: '€58/hr', urgent: true, specialisation: 'Hospital Outpatient', description: 'Urgent cover needed at our Galway outpatient dispensary. The successful locum will manage a high volume of hospital prescriptions, liaise with clinical staff, and ensure seamless patient throughput. Familiarity with hospital formularies is a strong advantage.', requirements: ['PSI registration', 'Hospital pharmacy experience desirable', 'HPRA and dispensary SOPs compliance', 'Immediate availability essential'] },
+      { facility: 'Hickeys Pharmacy', location: 'Limerick, IE', date: 'Thu 30 Jul', time: '09:00–18:00', rate: '€50/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Hickeys Pharmacy Limerick seeks a locum for a standard weekday shift. Duties include dispensing, patient consultations, and stock management. The team is small and supportive; the role suits a pharmacist comfortable working independently in a community setting.', requirements: ['PSI registration', 'Community pharmacy experience', 'Confident working independently', 'Knowledge of NMS and MUR services'] },
+      { facility: 'Allcare Pharmacy', location: 'Waterford, IE', date: 'Fri 01 Aug', time: '09:00–17:00', rate: '€53/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Allcare Pharmacy Waterford requires locum cover for a Friday shift. The branch operates a busy dispensary alongside a wellness clinic. Duties include prescription dispensing, health checks, and supporting the medicines adherence programme.', requirements: ['PSI registration', 'Wellness and adherence programme experience a bonus', 'Strong interpersonal skills', 'Garda vetting up to date'] },
+      { facility: 'Uniphar — Citywest', location: 'Dublin 24, IE', date: 'Sat 02 Aug', time: '08:00–16:00', rate: '€60/hr', urgent: true, specialisation: 'Hospital Pharmacy', description: 'Uniphar Citywest distribution centre requires a registered pharmacist for a Saturday shift overseeing wholesale prescription processing, controlled drug records, and dispatch sign-off. Excellent rate for an experienced hospital or wholesale pharmacist.', requirements: ['PSI registration', 'Controlled drugs handling experience', 'Wholesale or hospital background preferred', 'Available for Saturday shift'] },
+      { facility: 'Careway Pharmacy', location: 'Galway, IE', date: 'Mon 04 Aug', time: '09:00–18:00', rate: '€51/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Careway Pharmacy in Galway city seeks a locum for a Monday shift. The role involves standard dispensing, walk-in consultations, and minor ailment referrals. The branch has a loyal patient base and a well-stocked dispensary.', requirements: ['PSI registration', 'Community pharmacy experience', 'Good organisational skills', 'Experience with Touchstore or similar PMR'] },
+      { facility: 'Montague Pharmacy', location: 'Cork City, IE', date: 'Tue 05 Aug', time: '10:00–18:30', rate: '€54/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Montague Pharmacy Cork seeks a confident locum for a Tuesday afternoon shift. This is a medium-volume branch with a focus on patient engagement and chronic disease management. The existing team will support the locum with all PMR and workflow queries.', requirements: ['PSI registration', 'Chronic disease management experience preferred', 'Excellent communication skills', 'Garda vetting clearance'] },
     ]
   },
   UK: {
@@ -53,10 +57,14 @@ const REGIONS: Record<Region, {
     cities: ['London', 'Manchester', 'Birmingham', 'Belfast', 'Glasgow'],
     compliance: 'Enhanced DBS check', payGuide: '£28–£38/hr',
     shifts: [
-      { facility: 'Boots — Oxford Street', location: 'London W1, UK', date: 'Mon 27 Jul', time: '09:00–18:00', rate: '£34/hr', urgent: true },
-      { facility: 'Well Pharmacy', location: 'Manchester, UK', date: 'Tue 28 Jul', time: '08:30–17:30', rate: '£30/hr', urgent: false },
-      { facility: 'Rowlands Pharmacy', location: 'Birmingham, UK', date: 'Wed 29 Jul', time: '10:00–19:00', rate: '£36/hr', urgent: true },
-      { facility: 'Gordons Chemists', location: 'Belfast, NI', date: 'Thu 30 Jul', time: '09:00–18:00', rate: '£32/hr', urgent: false },
+      { facility: 'Boots — Oxford Street', location: 'London W1, UK', date: 'Mon 27 Jul', time: '09:00–18:00', rate: '£34/hr', urgent: true, specialisation: 'Community Pharmacy', description: 'Boots Oxford Street is one of the busiest pharmacy branches in the UK. We need an experienced locum to manage high prescription volume, supervise dispensing assistants, and deliver our NHS services including NMS and pharmacy first consultations.', requirements: ['GPhC registration (active)', 'Minimum 2 years community pharmacy experience', 'NHS services experience (NMS, MUR, Pharmacy First)', 'Enhanced DBS required'] },
+      { facility: 'Well Pharmacy', location: 'Manchester, UK', date: 'Tue 28 Jul', time: '08:30–17:30', rate: '£30/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Well Pharmacy Manchester requires a locum for a standard weekday shift. Duties include dispensing, patient consultations, and supporting the healthy living programme. The branch has a well-established team and modern dispensing systems.', requirements: ['GPhC registration', 'Community experience preferred', 'Familiarity with Pharmacy First', 'Punctual and professional manner'] },
+      { facility: 'Rowlands Pharmacy', location: 'Birmingham, UK', date: 'Wed 29 Jul', time: '10:00–19:00', rate: '£36/hr', urgent: true, specialisation: 'Hospital Outpatient', description: 'Urgent cover required at Rowlands Birmingham outpatient dispensary. You will work alongside the hospital clinical team dispensing inpatient TTOs, providing discharge counselling, and managing controlled drug records to standard.', requirements: ['GPhC registration', 'Hospital dispensary experience essential', 'Controlled drug handling', 'Available at short notice'] },
+      { facility: 'Gordons Chemists', location: 'Belfast, NI', date: 'Thu 30 Jul', time: '09:00–18:00', rate: '£32/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Gordons Chemists Belfast requires locum cover for a Thursday. The branch is a busy community pharmacy serving a large residential catchment. Duties include dispensing, MAS consultations, and Medicine Delivery Scheme support.', requirements: ['GPhC or PSNI registration', 'Community pharmacy experience in NI preferred', 'Familiarity with MAS and MDS', 'Enhanced DBS certificate'] },
+      { facility: 'Lloyds Pharmacy', location: 'Glasgow, UK', date: 'Fri 01 Aug', time: '09:00–17:30', rate: '£33/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Lloyds Pharmacy Glasgow seeks a locum for a Friday shift. The branch handles a medium volume of NHS prescriptions alongside a busy OTC section. The locum will work alongside two dispensing technicians and a medicines counter assistant.', requirements: ['GPhC registration', 'Scottish community pharmacy experience a bonus', 'NHS Pharmacy First Scotland awareness', 'Reliable and team-oriented'] },
+      { facility: 'Superdrug Health Clinic', location: 'London W2, UK', date: 'Sat 02 Aug', time: '10:00–18:00', rate: '£38/hr', urgent: true, specialisation: 'Pharmacy Clinic', description: 'Superdrug Health Clinic Bayswater requires a pharmacist to manage Saturday walk-in consultations including travel health, sexual health screening, and emergency contraception. High patient interaction role with strong clinical advisory component.', requirements: ['GPhC registration', 'Clinical or consultation experience', 'PGD experience (travel health, contraception)', 'Saturday availability essential'] },
+      { facility: 'Day Lewis Pharmacy', location: 'Birmingham, UK', date: 'Mon 04 Aug', time: '08:30–17:30', rate: '£31/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Day Lewis Pharmacy Birmingham requires a locum for Monday cover. This independent-style branch operates a strong patient relationship model with a focus on blister packing, chronic disease management, and medication reviews.', requirements: ['GPhC registration', 'Blister packing experience preferred', 'Medication review and MUR background', 'Friendly and patient-focused approach'] },
+      { facility: 'Cohens Chemist', location: 'Manchester, UK', date: 'Tue 05 Aug', time: '09:00–18:00', rate: '£29/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Cohens Chemist Manchester requires standard locum cover for a Tuesday shift. Duties include supervised consumption, dispensing, and patient counselling. A well-structured pharmacy with a supportive technician team already in place.', requirements: ['GPhC registration', 'Supervised consumption experience preferred', 'Familiar with RxWeb or Titan PMR', 'Flexible and adaptable'] },
     ]
   }
 };
@@ -1225,7 +1233,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   </div>
                 </div>
 
-                <div className="space-y-0 overflow-y-auto max-h-[calc(100vh-340px)]">
+                <div className="space-y-0">
                   {/* Selected/active shift — green card */}
                   {shifts.map((s, i) => {
                     const active = selectedShift === i;
@@ -1287,53 +1295,78 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 return (
                   <div className="flex flex-col gap-4">
                     {/* Detail card */}
-                    <div className="bg-white border border-slate-100 rounded-xl shadow-sm p-6 space-y-4">
+                    <div className="bg-white border border-slate-100 rounded-xl shadow-sm p-6 space-y-5">
+                      {/* Header */}
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <p className="text-sm text-slate-500">{s.facility}</p>
                           <h2 className="text-2xl font-bold text-[#276647] mt-0.5">{searchProfession || 'Locum Pharmacist'}</h2>
+                          <span className="inline-block mt-1.5 px-2.5 py-0.5 rounded-full bg-green-50 border border-green-100 text-[11px] font-semibold text-[#276647]">{s.specialisation}</span>
                         </div>
                         <button className="flex items-center gap-1.5 px-3 py-1.5 border border-[#276647] text-[#276647] rounded text-xs font-semibold hover:bg-green-50 transition-colors shrink-0">
                           <ArrowRight className="w-3.5 h-3.5" /> Share link
                         </button>
                       </div>
-                      <div className="grid grid-cols-2 gap-4 text-sm">
+
+                      {/* Key details grid */}
+                      <div className="grid grid-cols-2 gap-4 text-sm border-t border-slate-50 pt-4">
                         <div className="space-y-3">
-                          <div className="flex items-center gap-2 text-slate-700">
+                          <div className="flex items-center gap-2.5 text-slate-700">
                             <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
                             <div>
-                              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-medium">Date</p>
+                              <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Date</p>
                               <p className="font-semibold">{s.date}</p>
                             </div>
                           </div>
-                          <div className="flex items-center gap-2 text-slate-700">
+                          <div className="flex items-center gap-2.5 text-slate-700">
                             <Clock className="w-4 h-4 text-slate-400 shrink-0" />
                             <div>
-                              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-medium">Time</p>
-                              <p className="font-semibold">{s.time}</p>
+                              <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Time</p>
+                              <p className="font-semibold">{s.time} <span className="text-slate-400 font-normal text-xs">· 30 min unpaid break</span></p>
                             </div>
                           </div>
                         </div>
                         <div className="space-y-3">
-                          <div className="flex items-center gap-2 text-slate-700">
+                          <div className="flex items-center gap-2.5 text-slate-700">
                             <Wallet className="w-4 h-4 text-slate-400 shrink-0" />
                             <div>
-                              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-medium">Rate</p>
-                              <p className="font-bold text-[#276647]">{s.rate}</p>
+                              <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Hourly Rate</p>
+                              <p className="font-bold text-[#276647] text-base">{s.rate}</p>
                             </div>
                           </div>
-                          <div className="flex items-center gap-2 text-slate-700">
+                          <div className="flex items-center gap-2.5 text-slate-700">
                             <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
                             <div>
-                              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-medium">Location</p>
+                              <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Location</p>
                               <p className="font-semibold">{s.location}</p>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="pt-2">
+
+                      {/* Description */}
+                      <div className="border-t border-slate-50 pt-4 space-y-2">
+                        <h4 className="text-sm font-bold text-slate-900">About this shift</h4>
+                        <p className="text-sm text-slate-600 leading-relaxed">{s.description}</p>
+                      </div>
+
+                      {/* Requirements */}
+                      <div className="border-t border-slate-50 pt-4 space-y-2">
+                        <h4 className="text-sm font-bold text-slate-900">Requirements</h4>
+                        <ul className="space-y-1.5">
+                          {s.requirements.map((r, i) => (
+                            <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                              <CheckCircle2 className="w-4 h-4 text-[#276647] shrink-0 mt-0.5" />
+                              {r}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Apply */}
+                      <div className="pt-1">
                         <button onClick={() => onBookDemo(`Apply: ${s.facility}`)} className="w-full py-3 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold text-base rounded-lg transition-colors">
-                          Apply
+                          Apply for this shift
                         </button>
                       </div>
                     </div>
