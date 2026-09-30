@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, ArrowLeft, Star, Building2,
   Search, Calendar, Stethoscope, Briefcase, Mail, Lock, Linkedin, Phone, ChevronDown, ChevronRight,
   BookOpen, GraduationCap, Cookie, FileText, Award, PlusCircle, UserPlus, Check, Activity, Menu, X, LogIn,
-  Apple, Play, Bell, Smartphone, Send, Zap, Wallet
+  Apple, Play, Bell, Smartphone, Send, Zap, Wallet, Navigation, Globe, Loader2
 } from 'lucide-react';
 import { ImageWithFallback } from '../../app/components/figma/ImageWithFallback';
 
@@ -22,6 +22,65 @@ interface LocumProvisionPageProps {
   onBookDemo: (moduleTitle?: string) => void;
   onStartTrial: () => void;
 }
+
+type Region = 'IE' | 'UK';
+
+// Location-aware content. Each region drives currency, nearby cities, shifts,
+// pay-rate guidance, compliance body and the default FAQ tab.
+const REGIONS: Record<Region, {
+  country: string;
+  flag: string;
+  currency: string;
+  defaultCity: string;
+  cities: string[];
+  compliance: string;
+  payGuide: string;
+  approxCoords: { lat: number; lng: number };
+  shifts: { facility: string; location: string; date: string; time: string; rate: string; urgent: boolean }[];
+}> = {
+  IE: {
+    country: 'Ireland',
+    flag: '🇮🇪',
+    currency: '€',
+    defaultCity: 'Dublin',
+    cities: ['Dublin', 'Cork', 'Galway', 'Limerick', 'Waterford'],
+    compliance: 'Garda vetting',
+    payGuide: '€50–€60/hr',
+    approxCoords: { lat: 53.35, lng: -6.26 },
+    shifts: [
+      { facility: 'Boots Pharmacy — Grafton St', location: 'Dublin 2, IE', date: 'Mon 27 Jul', time: '09:00 – 18:00', rate: '€55/hr', urgent: true },
+      { facility: 'McCabes Pharmacy', location: 'Cork City, IE', date: 'Tue 28 Jul', time: '08:30 – 17:30', rate: '€52/hr', urgent: false },
+      { facility: 'LloydsPharmacy', location: 'Galway, IE', date: 'Wed 29 Jul', time: '10:00 – 19:00', rate: '€58/hr', urgent: true },
+      { facility: 'Hickeys Pharmacy', location: 'Limerick, IE', date: 'Thu 30 Jul', time: '09:00 – 18:00', rate: '€50/hr', urgent: false }
+    ]
+  },
+  UK: {
+    country: 'United Kingdom',
+    flag: '🇬🇧',
+    currency: '£',
+    defaultCity: 'London',
+    cities: ['London', 'Manchester', 'Birmingham', 'Belfast', 'Glasgow'],
+    compliance: 'Enhanced DBS check',
+    payGuide: '£28–£38/hr',
+    approxCoords: { lat: 51.5, lng: -0.12 },
+    shifts: [
+      { facility: 'Boots — Oxford Street', location: 'London W1, UK', date: 'Mon 27 Jul', time: '09:00 – 18:00', rate: '£34/hr', urgent: true },
+      { facility: 'Well Pharmacy', location: 'Manchester, UK', date: 'Tue 28 Jul', time: '08:30 – 17:30', rate: '£30/hr', urgent: false },
+      { facility: 'Rowlands Pharmacy', location: 'Birmingham, UK', date: 'Wed 29 Jul', time: '10:00 – 19:00', rate: '£36/hr', urgent: true },
+      { facility: 'Gordons Chemists', location: 'Belfast, NI', date: 'Thu 30 Jul', time: '09:00 – 18:00', rate: '£32/hr', urgent: false }
+    ]
+  }
+};
+
+// Best-effort region guess from the browser timezone (no permission prompt).
+const detectRegionFromTimezone = (): Region => {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    if (tz === 'Europe/Dublin') return 'IE';
+    if (tz.startsWith('Europe/London') || tz === 'Europe/Belfast' || tz === 'Europe/Guernsey' || tz === 'Europe/Isle_of_Man' || tz === 'Europe/Jersey') return 'UK';
+  } catch { /* ignore */ }
+  return 'IE';
+};
 
 type Profession = {
   name: string;
@@ -44,9 +103,50 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
   onBookDemo,
   onStartTrial
 }) => {
+  // Location awareness
+  const [region, setRegion] = useState<Region>('IE');
+  const [detecting, setDetecting] = useState(false);
+  const [locationSource, setLocationSource] = useState<'timezone' | 'gps' | 'manual'>('timezone');
+  const [locationPickerOpen, setLocationPickerOpen] = useState(false);
+  const loc = REGIONS[region];
+
   // Shift search
   const [searchProfession, setSearchProfession] = useState('Locum Pharmacist');
-  const [searchLocation, setSearchLocation] = useState('Dublin');
+  const [searchLocation, setSearchLocation] = useState(REGIONS['IE'].defaultCity);
+
+  // On mount, guess the visitor's region from their timezone.
+  useEffect(() => {
+    const guess = detectRegionFromTimezone();
+    setRegion(guess);
+    setSearchLocation(REGIONS[guess].defaultCity);
+    setFaqRegion(guess);
+  }, []);
+
+  const applyRegion = (r: Region, source: 'gps' | 'manual', city?: string) => {
+    setRegion(r);
+    setSearchLocation(city || REGIONS[r].defaultCity);
+    setFaqRegion(r);
+    setLocationSource(source);
+    setLocationPickerOpen(false);
+  };
+
+  // Precise "shifts near you" via the Geolocation API (asks permission).
+  const useMyLocation = () => {
+    if (!navigator.geolocation) return;
+    setDetecting(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        // Rough boundary: Ireland sits west of ~-6°; Great Britain east of it.
+        // (A production build would reverse-geocode the coordinates via an API.)
+        const { longitude } = pos.coords;
+        const r: Region = longitude < -5.4 ? 'IE' : 'UK';
+        applyRegion(r, 'gps');
+        setDetecting(false);
+      },
+      () => setDetecting(false),
+      { timeout: 8000 }
+    );
+  };
 
   // Employer posting wizard
   const [wizardStep, setWizardStep] = useState(1);
@@ -98,12 +198,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
     targeting: false
   });
 
-  const shifts = [
-    { facility: 'Boots Pharmacy — Grafton St', location: 'Dublin 2, IE', date: 'Mon 27 Jul', time: '09:00 – 18:00', rate: '€55/hr', urgent: true },
-    { facility: 'McCabes Pharmacy', location: 'Cork City, IE', date: 'Tue 28 Jul', time: '08:30 – 17:30', rate: '€52/hr', urgent: false },
-    { facility: 'LloydsPharmacy', location: 'Galway, IE', date: 'Wed 29 Jul', time: '10:00 – 19:00', rate: '€58/hr', urgent: true },
-    { facility: 'Hickeys Pharmacy', location: 'Limerick, IE', date: 'Thu 30 Jul', time: '09:00 – 18:00', rate: '€50/hr', urgent: false }
-  ];
+  const shifts = loc.shifts;
 
   const articles = [
     { tag: 'Market Report', title: 'How Irish SMEs are rethinking recruitment in 2026', read: '6 min read' },
@@ -206,6 +301,61 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
       {/* HERO + SHIFT SEARCH */}
       <section id="find-shifts" className="pt-28 lg:pt-32 pb-14 lg:pb-20 bg-white border-b border-black/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Location bar */}
+          <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-2xl bg-slate-50 border border-black/10">
+            <div className="flex items-center gap-2.5 px-1">
+              <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center shrink-0">
+                <MapPin className="w-4 h-4" />
+              </div>
+              <div className="leading-tight">
+                <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                  <span>{loc.flag} Showing shifts in {searchLocation}, {loc.country}</span>
+                </div>
+                <div className="text-[10px] text-slate-500 font-medium">
+                  {locationSource === 'gps' ? 'Based on your device location' : locationSource === 'manual' ? 'Location set manually' : 'Detected from your region — change it anytime'}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={useMyLocation}
+                disabled={detecting}
+                className="px-3 py-2 text-[11px] font-semibold text-slate-900 bg-white border border-black/10 rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-1.5 disabled:opacity-60"
+              >
+                {detecting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Navigation className="w-3.5 h-3.5" />}
+                {detecting ? 'Locating…' : 'Use my location'}
+              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setLocationPickerOpen(o => !o)}
+                  className="px-3 py-2 text-[11px] font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1.5"
+                >
+                  <Globe className="w-3.5 h-3.5" /> {loc.country} <ChevronDown className={`w-3.5 h-3.5 transition-transform ${locationPickerOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {locationPickerOpen && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white border border-black/10 rounded-xl shadow-sm p-2 z-30 animate-fade-in">
+                    {(Object.keys(REGIONS) as Region[]).map(r => (
+                      <div key={r} className="mb-1 last:mb-0">
+                        <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">{REGIONS[r].flag} {REGIONS[r].country}</div>
+                        {REGIONS[r].cities.map(city => (
+                          <button
+                            key={city}
+                            onClick={() => applyRegion(r, 'manual', city)}
+                            className={`w-full text-left px-2 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                              region === r && searchLocation === city ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-50'
+                            }`}
+                          >
+                            {city}
+                          </button>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
             {/* Left: copy */}
             <div className="space-y-5">
@@ -264,12 +414,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
             </div>
             <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
               <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
-              <input
+              <select
                 value={searchLocation}
                 onChange={(e) => setSearchLocation(e.target.value)}
-                placeholder="Location"
-                className="bg-transparent text-xs font-semibold text-slate-800 w-full outline-none placeholder:text-slate-400"
-              />
+                className="bg-transparent text-xs font-semibold text-slate-800 w-full outline-none cursor-pointer"
+              >
+                {loc.cities.map(city => <option key={city}>{city}</option>)}
+              </select>
             </div>
             <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 border border-black/10">
               <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
@@ -285,8 +436,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
       {/* SHIFT RESULTS + IRELAND MAP */}
       <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Available now</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Available now in {loc.country}</span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">{searchProfession} shifts near {searchLocation}</h2>
+          <p className="text-xs text-slate-500 font-medium mt-1.5">
+            Typical rate in {loc.country}: <span className="font-bold text-slate-700">{loc.payGuide}</span> · Compliance: {loc.compliance}
+          </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-3">
@@ -316,31 +470,34 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({
             ))}
           </div>
 
-          {/* Stylised Ireland map */}
-          <div className="rounded-2xl bg-gradient-to-br from-blue-50 to-slate-50 border border-black/10 shadow-2xs p-5 relative overflow-hidden min-h-[320px]">
-            <div className="text-xs font-bold text-slate-700 mb-2">Live shift map — Ireland</div>
-            <div className="relative h-full">
-              <svg viewBox="0 0 200 240" className="w-full h-64 mx-auto opacity-90" aria-hidden>
-                <path
-                  d="M95 15 C120 18 130 35 138 55 C150 70 160 90 152 115 C160 135 150 160 135 175 C140 195 120 215 95 220 C70 225 55 205 50 185 C35 175 30 150 42 130 C32 110 40 85 55 70 C58 45 70 20 95 15 Z"
-                  fill="#dbeafe"
-                  stroke="#93c5fd"
-                  strokeWidth="2"
-                />
-              </svg>
-              {/* Pins */}
-              {[
-                { top: '28%', left: '62%', label: 'Dublin' },
-                { top: '62%', left: '40%', label: 'Cork' },
-                { top: '40%', left: '28%', label: 'Galway' },
-                { top: '58%', left: '30%', label: 'Limerick' }
-              ].map((pin) => (
-                <div key={pin.label} className="absolute -translate-x-1/2 -translate-y-full flex flex-col items-center" style={{ top: pin.top, left: pin.left }}>
-                  <span className="text-[9px] font-bold text-slate-700 bg-white/90 px-1.5 py-0.5 rounded border border-black/10 mb-0.5 whitespace-nowrap">{pin.label}</span>
-                  <MapPin className="w-5 h-5 text-blue-600 fill-blue-200" />
-                </div>
-              ))}
+          {/* Region-aware coverage card */}
+          <div className="rounded-2xl bg-gradient-to-br from-blue-50 to-slate-50 border border-black/10 shadow-2xs p-5 flex flex-col">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-xs font-bold text-slate-700">{loc.flag} Coverage in {loc.country}</div>
+              <span className="text-[10px] font-semibold text-blue-700 bg-white/80 border border-black/10 px-2 py-0.5 rounded-full">Live</span>
             </div>
+            <div className="space-y-2 flex-1">
+              {loc.cities.map((city, i) => {
+                const count = (city.length * 3) % 12 + 4; // deterministic mock count
+                const active = city === searchLocation;
+                return (
+                  <button
+                    key={city}
+                    onClick={() => setSearchLocation(city)}
+                    className={`w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border text-left transition-all ${
+                      active ? 'bg-white border-blue-500 shadow-xs' : 'bg-white/60 border-black/10 hover:border-slate-300'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <MapPin className={`w-4 h-4 ${active ? 'text-blue-600 fill-blue-200' : 'text-slate-400'}`} />
+                      <span className="text-xs font-semibold text-slate-800">{city}</span>
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-500">{count} open</span>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="text-[10px] text-slate-500 mt-3">Tap a city to see its open shifts. Rates shown in {loc.currency}.</p>
           </div>
         </div>
       </section>
