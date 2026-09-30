@@ -319,10 +319,80 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     ],
   };
 
+  const [blogPost, setBlogPost] = useState<number | null>(null);
+  const [blogCategory, setBlogCategory] = useState('All');
+
   const articles = [
-    { tag: 'Market Report', title: 'How Irish SMEs are rethinking recruitment in 2026', read: '6 min read', color: 'bg-violet-50 text-violet-700 border-violet-100' },
-    { tag: 'Salary Guide', title: '2026 Locum Pharmacist pay rates: Ireland vs UK', read: '8 min read', color: 'bg-green-50 text-green-700 border-green-100' },
-    { tag: 'Compliance', title: 'The complete Garda vetting & DBS toolkit for employers', read: '11 min read', color: 'bg-emerald-50 text-emerald-700 border-emerald-100' },
+    {
+      tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-green-100', read: '8 min', date: 'Jul 2026', featured: true,
+      title: '2026 Locum Pharmacist pay rates: Ireland vs UK',
+      subtitle: 'A comprehensive breakdown of hourly rates by region, specialisation, and experience level — with projections for the rest of the year.',
+      body: [
+        { h: 'The national picture', p: 'Locum pharmacist rates have risen across Ireland and the UK in 2026, driven by continued shortages of qualified staff and growing demand from community pharmacy groups expanding their clinical services offering. In Ireland, rates now average €52–€60/hr for community roles, with hospital outpatient positions commanding up to €68/hr in Dublin and Cork.' },
+        { h: 'Ireland: city vs rural divide', p: 'Dublin, Cork and Galway remain premium markets. Dublin 2 and 4 postcodes — high footfall, long trading hours — continue to attract the highest rates, frequently at €58–€65/hr for urgent cover. Rural County Donegal or Kerry roles typically sit at €48–€54/hr, though agencies often add travel supplements that can close the gap significantly.' },
+        { h: 'UK: England leads, Scotland narrows', p: 'In England, London community rates have settled at £34–£42/hr, with outer London and commuter belt pharmacies at £30–£36. Scotland has seen the fastest growth — Glasgow and Edinburgh now average £32–£38, up from £28–£33 in 2024, reflecting NHS Scotland investment in Pharmacy First.' },
+        { h: 'Specialisation premium', p: 'Pharmacists with Pharmacy First accreditation, vaccination qualifications, or independent prescriber status consistently attract a 10–18% rate premium. OST (methadone) supervision experience adds £3–£5/hr in England and up to €5/hr in Ireland, where supervised consumption services are expanding.' },
+        { h: 'What to negotiate', p: 'MployUs data shows 61% of locums who name their rate in applications receive it or within 5% of it. The lowest acceptance rates come from new graduates quoting senior rates — calibrate your ask to your PSI/GPhC year of registration and community experience.' },
+      ],
+      callout: 'Rates quoted are for community pharmacy locum cover. Hospital, clinic, and primary care rates vary significantly by Trust and HSE CHO area.',
+    },
+    {
+      tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-emerald-100', read: '11 min', date: 'Jun 2026', featured: true,
+      title: 'The complete Garda vetting & DBS toolkit for locums and employers',
+      subtitle: 'Everything you need to know about background checks in Irish and UK healthcare — what they cover, how long they take, and how to manage renewals.',
+      body: [
+        { h: 'Why background checks matter', p: 'Healthcare professionals have direct, unsupervised access to vulnerable patients. Garda vetting (Ireland) and DBS checks (UK) are the primary mechanisms by which employers and agencies verify that a locum has no disqualifying criminal history.' },
+        { h: 'Garda vetting: the Irish system', p: 'The National Vetting Bureau (NVB) processes all Garda vetting applications in Ireland. Only registered bodies (which MployUs holds) can submit applications. Standard turnaround is 3–7 business days; peak periods (August/September) can stretch to 3 weeks. Vetting must be renewed every 3 years for roles in healthcare, or earlier if a new employer requests.' },
+        { h: 'DBS: the UK system', p: 'In the UK, the Disclosure and Barring Service issues Standard and Enhanced DBS checks. Pharmacy roles require an Enhanced DBS with barred list check. MployUs processes DBS applications on behalf of registered locums within 2–5 working days in most cases. The DBS Update Service (£16/yr) lets you reuse a certificate with any employer in the same workforce — highly recommended for locums.' },
+        { h: 'What shows up — and what does not', p: 'Both systems disclose spent and unspent convictions relevant to the role. Minor spent convictions may not appear on an Enhanced check depending on age, sentence, and recency rules. A caution for a healthcare-specific offence (e.g. supply of controlled drugs) will almost always appear and will require regulatory body disclosure.' },
+        { h: 'Managing renewals as a locum', p: 'Keep digital copies of your vetting/DBS certificate. Add the 3-year renewal date to your calendar — many locums discover their certificate has expired mid-placement. MployUs sends automatic renewal reminders at 6 months and 1 month before expiry.' },
+      ],
+      callout: 'MployUs verifies Garda vetting and DBS for all registered locums automatically. Employers always receive a compliance summary before a shift starts.',
+    },
+    {
+      tag: 'Market Report', tagColor: 'bg-violet-50 text-violet-700 border-violet-100', read: '6 min', date: 'Jun 2026', featured: false,
+      title: 'How Irish pharmacy groups are rethinking locum staffing in 2026',
+      subtitle: 'From agency dependence to direct marketplace access — what the data says about changing employer behaviour.',
+      body: [
+        { h: 'The shift away from agencies', p: 'Our 2026 employer survey of 120 Irish pharmacy managers found 67% had reduced their agency spend in the past 12 months. The most commonly cited reasons: margin transparency (agencies rarely disclose their mark-up), speed (direct platforms fill faster), and compliance burden (agencies vary widely in how thoroughly they vet locums).' },
+        { h: 'What employers want', p: 'When asked to rank their priorities, pharmacy managers listed: (1) guaranteed compliance verification, (2) speed of fill, (3) known rates, (4) locum quality. Price came fifth. This is a significant shift from 2022, when rate was the primary driver.' },
+        { h: 'Platform adoption trajectory', p: 'Among facilities that have used MployUs, average fill time is under 4 hours for urgent shifts and under 18 hours for planned cover. By contrast, the survey average for agency-sourced cover was 11 hours (urgent) and 3.2 days (planned).' },
+      ],
+      callout: null,
+    },
+    {
+      tag: 'Career', tagColor: 'bg-sky-50 text-sky-700 border-sky-100', read: '7 min', date: 'May 2026', featured: false,
+      title: 'From staff pharmacist to locum: a practical transition guide',
+      subtitle: 'The financial, logistical, and professional steps to make the leap — and what no one tells you about the first 90 days.',
+      body: [
+        { h: 'Why pharmacists go locum', p: 'Flexibility, rate, and autonomy are the top three reasons pharmacists make the switch. In our 2026 survey, 74% of locums said their hourly earnings increased immediately — but 58% also underestimated the admin burden of managing their own compliance, tax, and CPD.' },
+        { h: 'What to sort before you hand in your notice', p: 'Registration: confirm your PSI or GPhC registration is active and note the renewal date. Indemnity: MIPS, Zurich, or MPS policies for locums differ from employed pharmacist policies — get a quote before you resign. Garda vetting/DBS: start the application before your last day of employment. Tax: inform Revenue (Ireland) or HMRC (UK) of your new self-employed status.' },
+        { h: 'The first 90 days', p: 'Most locums take 3–6 weeks to fill their first week of shifts. The gap is normal — your profile needs to build, and employers need a track record. Register on MployUs, upload your documents, and set your travel radius generously at first. Once you have 5+ completed shifts, applications convert significantly faster.' },
+      ],
+      callout: null,
+    },
+    {
+      tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-emerald-100', read: '5 min', date: 'May 2026', featured: false,
+      title: 'PSI revalidation in 2026: what has changed and what you need to do',
+      subtitle: 'A plain-English walkthrough of the PSI continuing competence framework updates effective January 2026.',
+      body: [
+        { h: 'The key changes', p: 'From January 2026, the PSI requires all registrants to complete a minimum of 30 CPD hours annually (up from 24) and to evidence at least one peer review activity. Pharmacists in managerial roles must additionally complete a formal governance CPD module from an approved provider.' },
+        { h: 'What counts toward your hours', p: 'Structured learning (accredited courses, webinars, conferences) can account for a maximum of 20 hours. The remaining 10 must be reflective practice — structured reflection on a clinical or professional situation. MployUs CPD courses are PSI-approved and each completed course generates a timestamped certificate for your portfolio.' },
+        { h: 'Deadline and consequences', p: 'The annual return window opens 1 October and closes 31 December. Failure to submit results in removal from the register. The PSI conducted 400 spot audits in 2025; 23 pharmacists were required to attend a fitness to practise interview as a result.' },
+      ],
+      callout: 'Complete your PSI CPD requirements with MployUs Training — all courses are PSI-approved and automatically logged to your compliance portfolio.',
+    },
+    {
+      tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-green-100', read: '9 min', date: 'Apr 2026', featured: false,
+      title: 'Pharmacy technician rates 2026: community, hospital, and primary care',
+      subtitle: 'Technician locum rates have risen faster than pharmacist rates in the last two years. Here is the data.',
+      body: [
+        { h: 'The technician shortage', p: 'Qualified pharmacy technicians are in shorter supply than pharmacists in many parts of Ireland and the UK. The PSI registered 1,340 new pharmacists in 2025 vs only 290 new pharmacy technicians. In the UK, similar dynamics are playing out — NVQ Level 3 completion rates have not kept pace with demand.' },
+        { h: 'Current rates', p: 'Community pharmacy technician locum rates in Ireland now average €22–€28/hr, up 18% from 2024. Hospital technician rates range from €26–€34/hr depending on Band equivalent and speciality. In the UK, community rates of £16–£22/hr are common, with hospital Band 4–5 equivalent locum rates at £20–£28/hr.' },
+        { h: 'What drives premiums', p: 'PMR system expertise (Titan, RxWeb, JAC, Pharmacy Manager) adds £1–£3/hr in most markets. Aseptics, TPN preparation, and cytotoxics experience can add 20–30% in hospital settings. Technicians with NPS checking qualifications command the highest premiums in England.' },
+      ],
+      callout: null,
+    },
   ];
 
   const [cpdCategory, setCpdCategory] = useState('All');
@@ -2923,25 +2993,253 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           BLOG
       ══════════════════════════════════════ */}
       {page === 'blog' && (
-        <div className="pt-[70px] min-h-screen bg-slate-50">
-          <div className="bg-gradient-to-br from-slate-900 to-green-950 pt-16 pb-14 px-6">
-            <div className="max-w-5xl mx-auto">
-              <span className="text-green-300 text-xs font-bold uppercase tracking-widest flex items-center gap-1.5 mb-3"><BookOpen className="w-4 h-4" /> Content Hub</span>
-              <h1 className="text-4xl font-bold text-white tracking-tight">Guides, salary reports & insights</h1>
+        <>
+
+        {/* ── Article reader ── */}
+        {blogPost !== null && (() => {
+          const a = articles[blogPost];
+          const related = articles.filter((_, i) => i !== blogPost && (blogCategory === 'All' || articles[i].tag === a.tag)).slice(0, 3);
+          return (
+            <motion.div className="pt-[70px] min-h-screen bg-white"
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}>
+
+              {/* Sticky breadcrumb bar */}
+              <div className="sticky top-[70px] z-20 bg-white border-b border-slate-100 shadow-sm">
+                <div className="max-w-[1280px] mx-auto px-6 py-3.5 flex items-center justify-between">
+                  <button onClick={() => setBlogPost(null)} className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors">
+                    <ChevronDown className="w-4 h-4 rotate-90" />
+                    <span className="hidden sm:inline text-slate-400">Insights</span>
+                    <span className="hidden sm:inline text-slate-300">/</span>
+                    <span className="text-slate-900 truncate max-w-[260px] sm:max-w-[500px]">{a.title}</span>
+                  </button>
+                  <span className={`hidden sm:inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border ${a.tagColor}`}>{a.tag}</span>
+                </div>
+              </div>
+
+              {/* Article hero */}
+              <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 px-6 pt-14 pb-16">
+                <div className="max-w-[860px] mx-auto">
+                  <div className="flex flex-wrap items-center gap-3 mb-5">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border ${a.tagColor}`}>{a.tag}</span>
+                    <span className="text-slate-400 text-xs font-medium">{a.date}</span>
+                    <span className="text-slate-600 text-xs">·</span>
+                    <span className="text-slate-400 text-xs font-medium">{a.read} read</span>
+                  </div>
+                  <h1 className="text-3xl sm:text-5xl font-bold text-white leading-[1.1] tracking-tight mb-4">{a.title}</h1>
+                  <p className="text-white/65 text-base leading-relaxed max-w-2xl">{a.subtitle}</p>
+                </div>
+              </div>
+
+              {/* Article body + sidebar */}
+              <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-14 grid grid-cols-1 lg:grid-cols-3 gap-14">
+
+                {/* Body */}
+                <article className="lg:col-span-2 space-y-8">
+                  {a.callout && (
+                    <div className="bg-green-50 border-l-4 border-[#276647] rounded-r-xl px-5 py-4">
+                      <p className="text-sm text-[#276647] font-medium leading-relaxed">{a.callout}</p>
+                    </div>
+                  )}
+                  {a.body.map((section, si) => (
+                    <motion.div key={si} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: si * 0.06 }}>
+                      <h2 className="text-xl font-bold text-slate-900 mb-3">{section.h}</h2>
+                      <p className="text-[15px] text-slate-600 leading-[1.8]">{section.p}</p>
+                    </motion.div>
+                  ))}
+
+                  {/* Bottom CTA */}
+                  <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45 }}
+                    className="mt-10 bg-gradient-to-br from-slate-900 to-green-950 rounded-2xl p-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+                    <div>
+                      <p className="text-xs font-bold text-green-400 uppercase tracking-widest mb-1">MployUs Locums</p>
+                      <p className="text-white font-bold text-lg leading-snug">Ready to find your next shift?</p>
+                      <p className="text-slate-400 text-xs mt-1">Free to join · No agency fees · Verified employers</p>
+                    </div>
+                    <button onClick={() => openAuth('signup')}
+                      className="shrink-0 px-6 py-3 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold text-sm rounded-xl transition-colors flex items-center gap-2">
+                      Create free account <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </motion.div>
+
+                  {/* Related articles */}
+                  {related.length > 0 && (
+                    <div className="pt-4">
+                      <h3 className="text-lg font-bold text-slate-900 mb-5">More from Insights</h3>
+                      <div className="space-y-3">
+                        {related.map((r, ri) => (
+                          <motion.button key={ri} onClick={() => { setBlogPost(articles.indexOf(r)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                            className="w-full flex items-start gap-4 p-4 bg-slate-50 hover:bg-white border border-slate-100 rounded-2xl text-left transition-all group shadow-sm hover:shadow-md"
+                            whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 400, damping: 22 }}>
+                            <div>
+                              <div className="flex items-center gap-2 mb-1.5">
+                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${r.tagColor}`}>{r.tag}</span>
+                                <span className="text-[10px] text-slate-400 font-medium">{r.read} read</span>
+                              </div>
+                              <p className="text-sm font-bold text-slate-900 group-hover:text-[#276647] transition-colors leading-snug">{r.title}</p>
+                            </div>
+                            <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-[#276647] transition-colors shrink-0 mt-0.5 ml-auto" />
+                          </motion.button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </article>
+
+                {/* Sidebar */}
+                <aside className="hidden lg:block space-y-5">
+                  <div className="sticky top-32 space-y-5">
+                    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">In this article</p>
+                      <nav className="space-y-2">
+                        {a.body.map((s, si) => (
+                          <p key={si} className="text-xs text-slate-600 font-medium leading-snug hover:text-[#276647] transition-colors cursor-pointer py-1 border-l-2 border-transparent hover:border-[#276647] pl-3">{s.h}</p>
+                        ))}
+                      </nav>
+                    </div>
+                    <div className="bg-[#276647] rounded-2xl p-5 space-y-3">
+                      <p className="text-white font-bold text-sm leading-snug">Find locum shifts near you</p>
+                      <p className="text-white/70 text-xs leading-relaxed">Verified employers. Transparent rates. Zero agency cut.</p>
+                      <button onClick={() => { setBlogPost(null); goto('find-shifts'); }}
+                        className="w-full py-2.5 bg-white text-[#276647] font-bold text-xs rounded-xl flex items-center justify-center gap-1.5">
+                        Browse shifts <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">More articles</p>
+                      <div className="space-y-3">
+                        {articles.filter((_, i) => i !== blogPost).slice(0, 4).map((r, ri) => (
+                          <button key={ri} onClick={() => { setBlogPost(articles.indexOf(r)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                            className="w-full text-left group">
+                            <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${r.tagColor}`}>{r.tag}</span>
+                            <p className="text-xs font-semibold text-slate-800 mt-1 leading-snug group-hover:text-[#276647] transition-colors">{r.title}</p>
+                            <p className="text-[10px] text-slate-400 mt-0.5">{r.read} read · {r.date}</p>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </motion.div>
+          );
+        })()}
+
+        {/* ── Blog index ── */}
+        {blogPost === null && (
+          <div className="pt-[70px] min-h-screen bg-slate-50">
+
+            {/* Hero */}
+            <section className="bg-gradient-to-br from-slate-900 via-slate-900 to-green-950 px-6 pt-16 pb-14">
+              <div className="max-w-[1280px] mx-auto lg:px-6 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/80 text-xs font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
+                    <BookOpen className="w-3.5 h-3.5 text-green-400" /> Insights & Resources
+                  </div>
+                  <h1 className="text-5xl font-bold text-white tracking-tight leading-[1.05]">Guides, salary reports<br />&amp; career insights</h1>
+                  <p className="text-white/60 text-base mt-3 max-w-lg leading-relaxed">Written for healthcare professionals and pharmacy employers across Ireland and the UK.</p>
+                </div>
+                {/* Category filter */}
+                <div className="flex flex-wrap gap-2 shrink-0">
+                  {['All', 'Salary Guide', 'Compliance', 'Market Report', 'Career'].map(cat => (
+                    <button key={cat} onClick={() => setBlogCategory(cat)}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${blogCategory === cat ? 'bg-white text-slate-900 shadow-md' : 'bg-white/10 text-white/70 border border-white/15 hover:bg-white/20'}`}>
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-14 space-y-14">
+
+              {/* Featured articles (2-col) */}
+              {blogCategory === 'All' && (
+                <div>
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Featured</p>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {articles.filter(a => a.featured).map((a, ai) => {
+                      const idx = articles.indexOf(a);
+                      return (
+                        <motion.div key={ai}
+                          className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer group"
+                          whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 280, damping: 20 }}
+                          onClick={() => { setBlogPost(idx); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                          <div className="bg-gradient-to-br from-slate-800 to-slate-900 px-7 py-10">
+                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border ${a.tagColor} mb-4`}>{a.tag}</span>
+                            <h2 className="text-xl font-bold text-white leading-snug mb-2">{a.title}</h2>
+                            <p className="text-white/55 text-sm leading-relaxed line-clamp-2">{a.subtitle}</p>
+                          </div>
+                          <div className="px-7 py-5 flex items-center justify-between">
+                            <div className="flex items-center gap-3 text-xs text-slate-400 font-medium">
+                              <span>{a.date}</span>
+                              <span>·</span>
+                              <span>{a.read} read</span>
+                            </div>
+                            <span className="text-xs font-bold text-[#276647] flex items-center gap-1 group-hover:gap-2 transition-all">
+                              Read article <ArrowRight className="w-3.5 h-3.5" />
+                            </span>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* All articles grid */}
+              <div>
+                {blogCategory === 'All' && <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">All articles</p>}
+                <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+                  variants={stagger(0.07)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
+                  {articles
+                    .filter(a => blogCategory === 'All' || a.tag === blogCategory)
+                    .map((a, ai) => {
+                      const idx = articles.indexOf(a);
+                      return (
+                        <motion.div key={ai} variants={fadeUp}
+                          className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all cursor-pointer group flex flex-col"
+                          whileHover={{ y: -4, boxShadow: '0 12px 36px rgba(0,0,0,0.09)' }}
+                          transition={{ type: 'spring', stiffness: 280, damping: 20 }}
+                          onClick={() => { setBlogPost(idx); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                          <div className="flex items-center justify-between mb-4">
+                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold border ${a.tagColor}`}>{a.tag}</span>
+                            <span className="text-[10px] text-slate-400 font-medium">{a.read} read</span>
+                          </div>
+                          <h3 className="text-sm font-bold text-slate-900 leading-snug mb-2 group-hover:text-[#276647] transition-colors flex-1">{a.title}</h3>
+                          <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-4">{a.subtitle}</p>
+                          <div className="flex items-center justify-between pt-3 border-t border-slate-50">
+                            <span className="text-[10px] text-slate-400 font-medium">{a.date}</span>
+                            <span className="text-xs font-bold text-[#276647] flex items-center gap-1 group-hover:gap-2 transition-all">
+                              Read <ArrowRight className="w-3 h-3" />
+                            </span>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                </motion.div>
+              </div>
+
+              {/* Newsletter strip */}
+              <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+                className="bg-gradient-to-br from-slate-900 to-green-950 rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                <div className="space-y-1.5">
+                  <div className="text-xs font-bold text-green-400 uppercase tracking-widest">MployUs Insights</div>
+                  <h3 className="text-xl font-bold text-white">Get the monthly salary &amp; market report</h3>
+                  <p className="text-slate-400 text-sm">Rate benchmarks, compliance updates, and career tips — free, once a month.</p>
+                </div>
+                <div className="flex gap-2 w-full sm:w-auto">
+                  <input placeholder="your@email.com" className="flex-1 sm:w-56 px-4 py-2.5 rounded-xl bg-white/10 border border-white/15 text-white text-sm placeholder-white/40 outline-none focus:border-green-400 transition-colors" />
+                  <button onClick={() => onBookDemo('Newsletter')} className="shrink-0 px-5 py-2.5 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold text-sm rounded-xl transition-colors">
+                    Subscribe
+                  </button>
+                </div>
+              </motion.div>
+
             </div>
           </div>
-          <div className="max-w-5xl mx-auto px-6 py-12">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {articles.map(a => (
-                <button key={a.title} onClick={() => onBookDemo(`Article: ${a.title}`)} className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 text-left hover:shadow-md hover:-translate-y-0.5 transition-all group">
-                  <span className={`inline-block px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border mb-4 ${a.color}`}>{a.tag}</span>
-                  <h4 className="font-bold text-slate-900 text-sm leading-snug group-hover:text-green-700 transition-colors">{a.title}</h4>
-                  <p className="text-[11px] text-slate-400 mt-3 font-medium">{a.read}</p>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
+        )}
+        </>
       )}
 
       {/* ══════════════════════════════════════
