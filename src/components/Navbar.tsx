@@ -111,9 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => handleNavClick('home')} 
             className="flex items-center gap-2.5 group text-left"
           >
-            <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold shadow-2xs group-hover:bg-slate-800 transition-colors">
-              <Activity className="w-4 h-4 text-blue-400" />
-            </div>
+            
             <div className="flex flex-col">
               <span className="text-lg font-extrabold tracking-tight text-slate-900 flex items-center gap-1 font-['Plus_Jakarta_Sans',sans-serif]">
 MployUs

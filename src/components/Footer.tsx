@@ -133,9 +133,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onBookDemo }) => {
         <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
           
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-slate-900 text-white flex items-center justify-center font-bold">
-              <Activity className="w-3.5 h-3.5 text-blue-400" />
-            </div>
+            
             <span className="font-bold text-slate-900 text-sm">MployUS</span>
             <span className="text-slate-500">• © 2026 MployUS Healthcare Platform. All rights reserved.</span>
           </div>
