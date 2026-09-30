@@ -66,15 +66,7 @@ export const Hero: React.FC<HeroProps> = ({
               Start Free Trial
             </button>
 
-            <button
-              onClick={onWatchVideo}
-              className="px-5 py-3.5 text-slate-700 hover:text-slate-900 font-semibold text-sm sm:text-base flex items-center gap-2 group transition-colors"
-            >
-              <div className="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-slate-900 flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all">
-                <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
-              </div>
-              <span>Watch 2-Min Overview</span>
-            </button>
+            
           </div>
 
           {/* Key Trust Micro-Badges */}
