@@ -87,23 +87,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({ onOpenCaseStudy, onBoo
         </div>
 
         {/* Customer Logo Cloud */}
-        <div className="mt-16 text-center">
-          <div className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-6">
-            Accredited & Trusted Healthcare Network
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {CLIENT_LOGOS.map((logo, i) => (
-              <div
-                key={i}
-                className="p-4 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-xs font-semibold text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-all gap-1.5"
-              >
-                <Building2 className="w-3.5 h-3.5 text-slate-800" />
-                <span>{logo.logoText}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        
 
       </div>
     </section>
