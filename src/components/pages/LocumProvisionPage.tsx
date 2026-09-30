@@ -5,7 +5,7 @@ import {
   BookOpen, GraduationCap, Cookie, FileText, Award, PlusCircle, UserPlus, Check, Activity, Menu, X, LogIn,
   Apple, Play, Bell, Smartphone, Send, Zap, Wallet
 } from 'lucide-react';
-import { ImageWithFallback } from '../figma/ImageWithFallback';
+import { ImageWithFallback } from '../../app/components/figma/ImageWithFallback';
 
 // Marketing imagery (Unsplash)
 const IMG_HERO = 'https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080';
