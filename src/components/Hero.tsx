@@ -23,7 +23,7 @@ export const Hero: React.FC<HeroProps> = ({
   onWatchVideo,
   onOpenModule
 }) => {
-  const [mockView, setMockView] = useState<'care' | 'staffing' | 'recruitment'>('staffing');
+  const [mockView, setMockView] = useState<'overview' | 'care' | 'staffing' | 'recruitment'>('overview');
   const headline = "Recruit, Care, Staff, and Manage — All in One Platform";
 
   return (
@@ -100,6 +100,7 @@ export const Hero: React.FC<HeroProps> = ({
             {/* Interactive View Toggles (Cal.com nav-pill-group) */}
             <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-full border border-black/10 text-xs">
               {[
+                { id: 'overview', label: 'Ecosystem View', icon: RefreshCw },
                 { id: 'staffing', label: 'Locum Rota', icon: Users },
                 { id: 'recruitment', label: 'Recruitment', icon: UserPlus },
                 { id: 'care', label: 'Care & eMAR', icon: HeartPulse }
@@ -129,6 +130,105 @@ export const Hero: React.FC<HeroProps> = ({
           {/* Dynamic Interactive Visual Panel */}
           <div className="p-4 sm:p-6 bg-slate-50/50 min-h-[520px] flex flex-col justify-between relative">
 
+            {/* View 1: Overview Unified Data Flow */}
+            {mockView === 'overview' && (
+              <div className="space-y-6 relative z-10 animate-fade-in">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+
+                  <div
+                    onClick={() => onOpenModule('recruitment')}
+                    className="p-3.5 rounded-xl bg-white border border-black/10 hover:border-slate-300 hover:shadow-xs cursor-pointer transition-all group"
+                  >
+                    <div className="flex items-center justify-between text-xs text-slate-700 mb-1">
+                      <span className="font-bold flex items-center gap-1 text-slate-900">
+                        <UserPlus className="w-3.5 h-3.5 text-blue-600" /> 1. Recruitment
+                      </span>
+                      <span className="text-[10px] bg-blue-50 text-blue-700 font-semibold px-2 py-0.5 rounded-full border border-blue-200">Live ATS</span>
+                    </div>
+                    <div className="text-2xl font-bold text-slate-900">12 Hired</div>
+                    <div className="text-[11px] text-slate-500">Auto-onboarded to Rota</div>
+                  </div>
+
+                  <div
+                    onClick={() => onOpenModule('locums-staffing')}
+                    className="p-3.5 rounded-xl bg-white border border-black/10 hover:border-slate-300 hover:shadow-xs cursor-pointer transition-all group"
+                  >
+                    <div className="flex items-center justify-between text-xs text-slate-700 mb-1">
+                      <span className="font-bold flex items-center gap-1 text-slate-900">
+                        <Users className="w-3.5 h-3.5 text-violet-600" /> 2. Staffing Rota
+                      </span>
+                      <span className="text-[10px] bg-violet-50 text-violet-700 font-semibold px-2 py-0.5 rounded-full border border-violet-200">GPS Active</span>
+                    </div>
+                    <div className="text-2xl font-bold text-slate-900">98% Filled</div>
+                    <div className="text-[11px] text-slate-500">2 Locums Matched</div>
+                  </div>
+
+                  <div
+                    onClick={() => onOpenModule('care-management')}
+                    className="p-3.5 rounded-xl bg-white border border-black/10 hover:border-slate-300 hover:shadow-xs cursor-pointer transition-all group"
+                  >
+                    <div className="flex items-center justify-between text-xs text-slate-700 mb-1">
+                      <span className="font-bold flex items-center gap-1 text-slate-900">
+                        <HeartPulse className="w-3.5 h-3.5 text-blue-600" /> 3. Care & eMAR
+                      </span>
+                      <span className="text-[10px] bg-blue-50 text-blue-700 font-semibold px-2 py-0.5 rounded-full border border-blue-200">CQC Ready</span>
+                    </div>
+                    <div className="text-2xl font-bold text-slate-900">142 Logs</div>
+                    <div className="text-[11px] text-slate-500">0 eMAR Misses</div>
+                  </div>
+
+                  <div
+                    onClick={() => onOpenModule('facility-management')}
+                    className="p-3.5 rounded-xl bg-white border border-black/10 hover:border-slate-300 hover:shadow-xs cursor-pointer transition-all group"
+                  >
+                    <div className="flex items-center justify-between text-xs text-slate-700 mb-1">
+                      <span className="font-bold flex items-center gap-1 text-slate-900">
+                        <Building2 className="w-3.5 h-3.5 text-amber-600" /> 4. Operations
+                      </span>
+                      <span className="text-[10px] bg-amber-50 text-amber-700 font-semibold px-2 py-0.5 rounded-full border border-amber-200">Sage Sync</span>
+                    </div>
+                    <div className="text-2xl font-bold text-slate-900">100% Audit</div>
+                    <div className="text-[11px] text-slate-500">Payroll Auto-Calc</div>
+                  </div>
+                </div>
+
+                {/* Animated Data Pipeline Flow Graph */}
+                <div className="p-4 rounded-xl bg-white border border-black/10 shadow-xs relative">
+                  <div className="text-xs font-semibold text-slate-700 mb-2.5 flex items-center justify-between">
+                    <span>Live Cross-Module Data Stream</span>
+                    <span className="text-blue-700 font-mono text-[10px] font-bold">Zero Re-keying • Instant Sync</span>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                    <div className="p-2.5 rounded-lg bg-slate-50 border border-black/10 text-slate-800 w-full sm:w-auto text-center sm:text-left">
+                      <div className="font-bold text-slate-900">Applicant Accepted</div>
+                      <div className="text-[10px] text-slate-500">DBS & NMC verified</div>
+                    </div>
+
+                    <ArrowRight className="w-4 h-4 text-slate-400 shrink-0 rotate-90 sm:rotate-0" />
+
+                    <div className="p-2.5 rounded-lg bg-slate-50 border border-black/10 text-slate-800 w-full sm:w-auto text-center sm:text-left">
+                      <div className="font-bold text-slate-900">Assigned Shift 07:00</div>
+                      <div className="text-[10px] text-slate-500">GPS mobile check-in</div>
+                    </div>
+
+                    <ArrowRight className="w-4 h-4 text-slate-400 shrink-0 rotate-90 sm:rotate-0" />
+
+                    <div className="p-2.5 rounded-lg bg-slate-50 border border-black/10 text-slate-800 w-full sm:w-auto text-center sm:text-left">
+                      <div className="font-bold text-slate-900">eMAR & Care Notes</div>
+                      <div className="text-[10px] text-slate-500">Voice log synced</div>
+                    </div>
+
+                    <ArrowRight className="w-4 h-4 text-slate-400 shrink-0 rotate-90 sm:rotate-0" />
+
+                    <div className="p-2.5 rounded-lg bg-slate-50 border border-black/10 text-slate-800 w-full sm:w-auto text-center sm:text-left">
+                      <div className="font-bold text-slate-900">Billing & Payroll</div>
+                      <div className="text-[10px] text-slate-500">Invoiced to council</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* View 2: Recruitment Dashboard Snapshot */}
             {mockView === 'recruitment' && (
