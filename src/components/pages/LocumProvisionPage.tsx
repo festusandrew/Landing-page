@@ -10,6 +10,8 @@ import {
 
 // Figma-imported images
 import imgOverlay from '../../imports/MacBookPro14372/1ce878ea07a35dd888253f3062acd8e1583d0cbc.png';
+import imgFindShiftsHero from '../../imports/MacBookPro1441/1d99878d3d95dcc6a2d5ffb9854dbccbc6b8cb8d.png';
+import imgIrelandMap from '../../imports/MacBookPro1441/4d4f0de56401e20dc9d2bd550fe89357c2414c3b.png';
 import imgTjqvmx3 from '../../imports/MacBookPro14372/a6d47f8f7e83368a63cf10d1c76fe22cf80acf83.png';
 import imgImage1 from '../../imports/MacBookPro14372/db6577642f84fa230c5ca308c9df636cad85556a.png';
 import imgRectangle3463566 from '../../imports/MacBookPro14372/d059709d7463adb6ae1fa5b1076a1facae34ff15.png';
@@ -190,6 +192,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const [smsCode, setSmsCode] = useState(['', '', '', '', '', '']);
 
   const [dropdownOpen, setDropdownOpen] = useState<'profession' | 'location' | null>(null);
+  const [selectedShift, setSelectedShift] = useState(0);
+  const [filterSpecialisation, setFilterSpecialisation] = useState('');
+  const [filterDate, setFilterDate] = useState('');
+  const [filterCountry, setFilterCountry] = useState<'all' | 'IE' | 'UK-eng' | 'UK-wal' | 'UK-sco' | 'UK-ni'>('all');
+  const [sortBy, setSortBy] = useState<'date' | 'rate'>('date');
 
   const [scrolled, setScrolled] = useState(false);
   const [statsInView, setStatsInView] = useState(false);
@@ -1072,71 +1079,279 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           FIND SHIFTS
       ══════════════════════════════════════ */}
       {page === 'find-shifts' && (
-        <div className="pt-[70px] min-h-screen bg-slate-50">
-          {/* Hero banner */}
-          <div className="bg-gradient-to-br from-slate-900 to-green-950 pt-16 pb-10 px-6 lg:px-12">
-            <div className="max-w-6xl mx-auto">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-xl">{loc.flag}</span>
-                <span className="text-green-300 text-xs font-bold uppercase tracking-widest">{loc.country}</span>
-              </div>
-              <h1 className="text-4xl font-bold text-white tracking-tight mb-2">Find your next shift</h1>
-              <p className="text-slate-400 text-sm mb-8 max-w-xl">Search live locum and permanent healthcare shifts. Switch country with the flags in the navbar.</p>
-              <SearchBar dark />
+        <div className="pt-[70px] min-h-screen bg-white">
+
+          {/* ── Hero banner with background image ── */}
+          <div className="relative h-[340px] overflow-hidden">
+            <img src={imgFindShiftsHero} alt="" className="absolute inset-0 w-full h-full object-cover object-center" />
+            <div className="absolute inset-0 bg-black/68" />
+            <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6 gap-3 pt-6">
+              <p className="text-white/90 text-sm font-semibold tracking-widest uppercase">Find Your Next Healthcare Shift</p>
+              <h1 className="text-3xl lg:text-[35px] font-bold text-white leading-tight max-w-3xl">
+                Explore flexible locum shifts, apply instantly, and manage your availability in one place.
+              </h1>
             </div>
           </div>
 
-          <div className="max-w-6xl mx-auto px-6 lg:px-12 py-10">
-            <div className="flex items-end justify-between mb-6">
-              <div>
-                <h2 className="text-2xl font-bold text-slate-900">{searchProfession} shifts near {searchLocation}</h2>
-                <p className="text-xs text-slate-500 mt-1">Typical rate: <span className="font-semibold text-slate-700">{loc.payGuide}</span> · Compliance: {loc.compliance}</p>
-              </div>
-              <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-full">{shifts.length} available</span>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-3">
-                {shifts.map((s) => (
-                  <div key={s.facility} className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 transition-all p-5 flex items-center justify-between gap-4 group">
-                    <div className="space-y-1.5">
-                      {s.urgent && <span className="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-rose-50 text-rose-700 border border-rose-100">Urgent</span>}
-                      <h4 className="font-bold text-slate-900">{s.facility}</h4>
-                      <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-slate-500 font-medium">
-                        <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{s.location}</span>
-                        <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{s.date}</span>
-                        <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{s.time}</span>
-                      </div>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <div className="text-xl font-bold text-slate-900">{s.rate}</div>
-                      <button onClick={() => onBookDemo(`Shift: ${s.facility}`)} className="mt-2 px-4 py-1.5 bg-green-600 hover:bg-green-700 text-white text-[11px] font-bold rounded-lg transition-colors">
-                        Apply
-                      </button>
-                    </div>
+          {/* ── Filter bar ── */}
+          <div className="bg-white border-b border-slate-100 shadow-sm">
+            <div className="max-w-[1286px] mx-auto px-10 py-6 flex flex-wrap items-end justify-between gap-4" style={{ backgroundImage: 'linear-gradient(90deg, rgba(39,102,71,0.03) 0%, rgba(39,102,71,0.03) 100%), linear-gradient(90deg, #fff 0%, #fff 100%)' }}>
+              <div className="flex flex-wrap gap-6 items-end">
+                {/* Profession */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[#757575] text-sm font-normal">Profession</label>
+                  <div className="relative">
+                    <select
+                      value={searchProfession}
+                      onChange={e => setSearchProfession(e.target.value)}
+                      className="appearance-none bg-white border border-[#d9d9d9] rounded px-3.5 py-2.5 pr-8 text-sm text-slate-700 outline-none focus:border-green-500 w-[244px] cursor-pointer"
+                    >
+                      <option value="">Choose profession</option>
+                      {PROFESSIONS.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
+                    </select>
+                    <ChevronDown className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
-                ))}
-              </div>
-              <div className="bg-white rounded-2xl border border-slate-100 p-5 h-fit shadow-sm">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-bold text-slate-900">{loc.flag} {loc.country} coverage</span>
-                  <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">Live</span>
                 </div>
-                <div className="space-y-2">
-                  {loc.cities.map(city => {
-                    const count = (city.length * 3) % 12 + 4;
-                    const active = city === searchLocation;
+                {/* Specialisation */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[#757575] text-sm font-normal">Specialisation</label>
+                  <div className="relative">
+                    <select
+                      value={filterSpecialisation}
+                      onChange={e => setFilterSpecialisation(e.target.value)}
+                      className="appearance-none bg-white border border-[#d9d9d9] rounded px-3.5 py-2.5 pr-8 text-sm text-slate-700 outline-none focus:border-green-500 w-[240px] cursor-pointer"
+                    >
+                      <option value="">Choose Specialization</option>
+                      <option>Community Pharmacy</option>
+                      <option>Hospital Pharmacy</option>
+                      <option>General Practice</option>
+                      <option>Primary Care</option>
+                    </select>
+                    <ChevronDown className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                </div>
+                {/* Shift Location */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[#757575] text-sm font-normal">Shift Location</label>
+                  <div className="relative">
+                    <select
+                      value={searchLocation}
+                      onChange={e => setSearchLocation(e.target.value)}
+                      className="appearance-none bg-white border border-[#d9d9d9] rounded px-3.5 py-2.5 pr-8 text-sm text-slate-700 outline-none focus:border-green-500 w-[236px] cursor-pointer"
+                    >
+                      <option value="">Choose location</option>
+                      {loc.cities.map(c => <option key={c}>{c}</option>)}
+                    </select>
+                    <ChevronDown className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                </div>
+                {/* Start Date */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[#757575] text-sm font-normal">Earliest Start Date</label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      value={filterDate}
+                      onChange={e => setFilterDate(e.target.value)}
+                      className="bg-white border border-[#d9d9d9] rounded px-3.5 py-2.5 text-sm text-slate-700 outline-none focus:border-green-500 w-[200px] cursor-pointer"
+                    />
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedShift(0)}
+                className="bg-[#276647] hover:bg-[#1e4f37] text-white font-semibold text-[22px] px-8 py-3 rounded-lg transition-colors shrink-0"
+              >
+                Search
+              </button>
+            </div>
+          </div>
+
+          {/* ── Country filter tabs ── */}
+          <div className="border-b border-slate-100 bg-white">
+            <div className="max-w-[1286px] mx-auto px-10 py-4 flex flex-col gap-2">
+              <p className="text-[#3d3d3d] text-sm">Select Country</p>
+              <div className="flex flex-wrap gap-8 items-center">
+                {[
+                  { id: 'all', flag: '🌍', label: 'All' },
+                  { id: 'UK-eng', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', label: 'England' },
+                  { id: 'IE', flag: '🇮🇪', label: 'Republic of Ireland' },
+                  { id: 'UK-wal', flag: '🏴󠁧󠁢󠁷󠁬󠁳󠁿', label: 'Wales' },
+                  { id: 'UK-sco', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', label: 'Scotland' },
+                  { id: 'UK-ni', flag: '🇬🇧', label: 'Northern Ireland' },
+                ].map(c => {
+                  const active = filterCountry === c.id;
+                  return (
+                    <button
+                      key={c.id}
+                      onClick={() => setFilterCountry(c.id as typeof filterCountry)}
+                      className="flex items-center gap-2 text-[15px] text-black"
+                    >
+                      <div className={`w-[22px] h-[22px] rounded-full border flex items-center justify-center shrink-0 transition-colors ${active ? 'bg-[#2033A0] border-[#2033A0]' : 'border-black/40 bg-white'}`}>
+                        {active && <Check className="w-3 h-3 text-white" />}
+                      </div>
+                      <span className="text-lg leading-none">{c.flag}</span>
+                      <span>{c.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* ── Main content: shift list + detail panel ── */}
+          <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-6">
+            <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
+
+              {/* Left: shift list */}
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-[#757575] text-base">Available Shift</p>
+                  {/* Sort tabs */}
+                  <div className="flex items-center gap-0.5 bg-white border border-[#d9d9d9] rounded-full px-0.5 py-0.5">
+                    {(['date', 'rate', 'distance', 'added'] as const).map((s, i) => {
+                      const labels = { date: 'Start Date', rate: 'Hourly Rate', distance: 'Distance', added: 'Date Added' };
+                      const active = sortBy === s;
+                      return (
+                        <button
+                          key={s}
+                          onClick={() => setSortBy(s as 'date' | 'rate')}
+                          className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors ${active ? 'bg-[#276647] text-white' : 'text-[#757575] hover:text-slate-900'}`}
+                        >
+                          {labels[s]}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="space-y-0 overflow-y-auto max-h-[calc(100vh-340px)]">
+                  {/* Selected/active shift — green card */}
+                  {shifts.map((s, i) => {
+                    const active = selectedShift === i;
                     return (
-                      <button key={city} onClick={() => setSearchLocation(city)} className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left transition-all border ${active ? 'bg-green-50 border-green-200 shadow-sm' : 'bg-slate-50 border-transparent hover:border-slate-200'}`}>
-                        <span className="flex items-center gap-2 text-sm font-semibold text-slate-800">
-                          <MapPin className={`w-3.5 h-3.5 ${active ? 'text-green-600' : 'text-slate-400'}`} /> {city}
-                        </span>
-                        <span className="text-[10px] font-bold text-slate-400">{count} open</span>
+                      <button
+                        key={i}
+                        onClick={() => setSelectedShift(i)}
+                        className={`w-full text-left transition-all border-b border-[#f1f1f1] ${active ? 'bg-[#276647]' : 'bg-[rgba(245,245,245,0.6)] hover:bg-slate-50'}`}
+                        style={active ? { borderColor: 'rgba(163,209,57,0.3)' } : {}}
+                      >
+                        <div className="flex flex-col gap-2 px-4 py-3">
+                          {/* Pharmacy + title */}
+                          <div>
+                            <p className={`text-[11px] leading-snug ${active ? 'text-[#c5e8d7]' : 'text-black'}`}>{s.facility}</p>
+                            <p className={`font-semibold text-lg leading-snug ${active ? 'text-[#a3d139]' : 'text-[#276647]'}`}>{searchProfession || 'Locum Pharmacist'}</p>
+                          </div>
+                          {/* Date + rate row */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Calendar className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-[#c5e8d7]/80' : 'text-[#757575]'}`} />
+                              <span className={`text-[13px] ${active ? 'text-white/80' : 'text-black'}`}>{s.date}</span>
+                            </div>
+                            <div>
+                              <p className={`text-[13px] font-normal ${active ? 'text-[#a3d139]' : 'text-[#276647]'}`}>{s.rate}</p>
+                              <p className={`text-[11px] ${active ? 'text-white/80' : 'text-black'}`}>Total Pay: {loc.currency}280</p>
+                            </div>
+                          </div>
+                          {/* Time + location row */}
+                          <div className="flex flex-col gap-1.5">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-1.5">
+                                <Clock className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-white/80' : 'text-[#757575]'}`} />
+                                <span className={`text-[13px] ${active ? 'text-white/80' : 'text-black'}`}>{s.time}</span>
+                              </div>
+                              <span className={`text-[13px] ${active ? 'text-[#c5e8d7]' : 'text-black'}`}>30 minutes unpaid</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <MapPin className={`w-3 h-3 shrink-0 ${active ? 'text-[#c5e8d7]/80' : 'text-[#757575]'}`} />
+                              <span className={`text-[13px] ${active ? 'text-white/80' : 'text-black'}`}>{s.location}</span>
+                            </div>
+                          </div>
+                        </div>
                       </button>
                     );
                   })}
                 </div>
+
+                {/* Pagination */}
+                <div className="flex items-center gap-1.5 mt-4 justify-center">
+                  {[1,2,3,'...',11].map((p, i) => (
+                    <button key={i} className={`min-w-[32px] h-8 rounded text-sm font-medium transition-colors ${p === 1 ? 'bg-[#276647] text-white' : 'text-slate-600 hover:bg-slate-100'}`}>{p}</button>
+                  ))}
+                </div>
               </div>
+
+              {/* Right: selected shift detail + map */}
+              {(() => {
+                const s = shifts[selectedShift] ?? shifts[0];
+                return (
+                  <div className="flex flex-col gap-4">
+                    {/* Detail card */}
+                    <div className="bg-white border border-slate-100 rounded-xl shadow-sm p-6 space-y-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-sm text-slate-500">{s.facility}</p>
+                          <h2 className="text-2xl font-bold text-[#276647] mt-0.5">{searchProfession || 'Locum Pharmacist'}</h2>
+                        </div>
+                        <button className="flex items-center gap-1.5 px-3 py-1.5 border border-[#276647] text-[#276647] rounded text-xs font-semibold hover:bg-green-50 transition-colors shrink-0">
+                          <ArrowRight className="w-3.5 h-3.5" /> Share link
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2 text-slate-700">
+                            <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
+                            <div>
+                              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-medium">Date</p>
+                              <p className="font-semibold">{s.date}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 text-slate-700">
+                            <Clock className="w-4 h-4 text-slate-400 shrink-0" />
+                            <div>
+                              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-medium">Time</p>
+                              <p className="font-semibold">{s.time}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2 text-slate-700">
+                            <Wallet className="w-4 h-4 text-slate-400 shrink-0" />
+                            <div>
+                              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-medium">Rate</p>
+                              <p className="font-bold text-[#276647]">{s.rate}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 text-slate-700">
+                            <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                            <div>
+                              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-medium">Location</p>
+                              <p className="font-semibold">{s.location}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="pt-2">
+                        <button onClick={() => onBookDemo(`Apply: ${s.facility}`)} className="w-full py-3 bg-[#276647] hover:bg-[#1e4f37] text-white font-bold text-base rounded-lg transition-colors">
+                          Apply
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Map */}
+                    <div className="rounded-xl overflow-hidden border border-slate-100 shadow-sm">
+                      <p className="px-4 py-2.5 bg-white text-sm font-semibold text-slate-700 border-b border-slate-100">Shift Location</p>
+                      <div className="relative h-[320px] bg-[#e8f4ec]">
+                        <img src={imgIrelandMap} alt="Shift location map" className="w-full h-full object-cover object-center" />
+                        <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md">
+                          <p className="text-xs font-bold text-slate-900">{s.location}</p>
+                          <p className="text-[10px] text-slate-500">{s.facility}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           </div>
         </div>
