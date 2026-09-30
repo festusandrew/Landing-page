@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Play, ArrowRight, ShieldCheck, CheckCircle2, Building2, UserPlus, HeartPulse, Users, BarChart3, RefreshCw, Zap } from 'lucide-react';
 import { UserRole } from '../types';
 import { CLIENT_LOGOS } from '../data/mockData';
+import recruitmentDashboard from '../imports/Screenshot_2026-07-24_140138.png';
+import careDashboard from '../imports/Screenshot_2026-07-24_140316.png';
+import staffingDashboard from '../imports/Screenshot_2026-07-24_140350.png';
 
 interface HeroProps {
   activeRole: UserRole;
@@ -258,7 +261,7 @@ export const Hero: React.FC<HeroProps> = ({
                 </div>
                 <div className="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
                   <img
-                    src="https://images.unsplash.com/photo-1763718528755-4bca23f82ac3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+                    src={recruitmentDashboard}
                     alt="Recruitment dashboard showing application trends and hiring metrics"
                     className="w-full object-cover object-top"
                     style={{ maxHeight: 260 }}
@@ -287,8 +290,8 @@ export const Hero: React.FC<HeroProps> = ({
                 </div>
                 <div className="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
                   <img
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-                    alt="Healthcare analytics dashboard with performance metrics"
+                    src={careDashboard}
+                    alt="Care management dashboard with care hours, shift coverage and CQC compliance metrics"
                     className="w-full object-cover object-top"
                     style={{ maxHeight: 260 }}
                   />
@@ -316,8 +319,8 @@ export const Hero: React.FC<HeroProps> = ({
                 </div>
                 <div className="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
                   <img
-                    src="https://images.unsplash.com/photo-1686061594225-3e92c0cd51b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-                    alt="Workforce scheduling and shift management dashboard"
+                    src={staffingDashboard}
+                    alt="Locum rota dashboard showing active shifts, fill rate and shift matching"
                     className="w-full object-cover object-top"
                     style={{ maxHeight: 260 }}
                   />
