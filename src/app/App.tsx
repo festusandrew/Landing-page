@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { createBrowserRouter, Link, RouterProvider, useLocation, useNavigate } from 'react-router';
+import { MotionConfig } from 'motion/react';
+import { PolicyPage, SoftwareAnimation } from '../components/PlatformExperiences';
 import { ArrowUpRight, ArrowRight, ChevronDown, Check, Heart, Users, BriefcaseBusiness, CalendarDays, ShieldCheck, Globe2, Menu, X, Plus, Minus } from 'lucide-react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
@@ -72,6 +75,7 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
         <p className="mx-auto mt-6 max-w-[550px] text-[15px] leading-7 text-[#68736e]">Recruitment, locum staffing and care management — brought together.<br className="hidden sm:block" /> So you can focus on what matters most: people.</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3"><button onClick={onBookDemo} className={primaryButton}>Book a demo <ArrowUpRight size={16} /></button><button onClick={() => scrollTo('solutions')} className={secondaryButton}>Explore our solutions</button></div>
         <p className="mt-5 text-[11px] text-[#7b837e]">Built for healthcare providers across Ireland & the UK</p>
+        <SoftwareAnimation />
       </section>
 
       <section aria-label="Our healthcare services" className="grid gap-[3px] sm:grid-cols-3">
@@ -100,14 +104,17 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
       <section id="questions" className="border-t border-black/5 bg-[#fafaf8] py-16 md:py-20"><div className="mx-auto grid max-w-[1160px] gap-10 px-6 md:grid-cols-[1fr_1.4fr] md:gap-20"><div><p className="mb-5 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">GOOD TO KNOW</p><h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.08]">A few questions.<br />Clear answers.</h2><button onClick={onBookDemo} className="mt-7 flex items-center gap-2 text-sm font-semibold">Talk to our team <ArrowRight size={15} /></button></div><div>{faqs.map(([question, answer], index) => <div key={question} className="border-b border-black/5"><button aria-expanded={openFaq === index} aria-controls={`faq-${index}`} onClick={() => setOpenFaq(openFaq === index ? null : index)} className="flex w-full items-center justify-between gap-5 py-5 text-left text-sm font-medium">{question}{openFaq === index ? <Minus size={16} className="shrink-0 text-[#368B62]" /> : <Plus size={16} className="shrink-0" />}</button>{openFaq === index && <p id={`faq-${index}`} className="pb-5 pr-8 text-[13px] leading-7 text-[#68736e]">{answer}</p>}</div>)}</div></div></section>
 
       <section className="bg-[#173e30] py-16 md:py-20"><div className="mx-auto flex max-w-[1160px] flex-wrap items-center justify-between gap-8 px-6"><div><p className="mb-4 text-[10px] font-medium tracking-[0.14em] text-[#b1ccbb]">LET’S MAKE BETTER HAPPEN</p><h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.1] text-white md:text-[52px]">Better healthcare starts<br />with a conversation.</h2></div><div><div className="flex flex-wrap gap-3"><button onClick={onBookDemo} className={primaryButton}>Book a demo <ArrowUpRight size={15} /></button><button onClick={onStartTrial} className={secondaryButton}>Get started</button></div><p className="mt-4 text-xs text-[#b1ccbb]">Your people. Your purpose. Our partnership.</p></div></div></section>
-      <footer className="bg-[#f7f7f3] py-12"><div className="mx-auto max-w-[1160px] px-6"><div className="grid gap-10 sm:grid-cols-2 md:grid-cols-[1.5fr_1fr_1fr_1fr]"><div><span className="text-[28px] font-bold tracking-[-1px]">mploy<span className="text-[#368B62]">us.</span></span><p className="mt-4 max-w-xs text-xs leading-6 text-[#68736e]">Connecting people, care and possibility.<br />For healthcare in Ireland and the UK.</p></div><div><h3 className="mb-4 text-xs font-semibold">Our solutions</h3>{solutions.map(solution => <button key={solution.id} onClick={() => onNavigate(solution.id)} className="mb-3 block text-xs text-[#68736e] transition-colors hover:text-[#368B62]">{solution.name}</button>)}</div><div><h3 className="mb-4 text-xs font-semibold">For your next chapter</h3><button onClick={() => onNavigate('recruitment-service')} className="mb-3 block text-xs text-[#68736e]">Find a permanent role</button><button onClick={() => onNavigate('locum-provision')} className="mb-3 block text-xs text-[#68736e]">Become a locum</button><button onClick={onBookDemo} className="block text-xs text-[#68736e]">Talk to a specialist</button></div><div><h3 className="mb-4 text-xs font-semibold">Explore MployUs</h3><button onClick={() => scrollTo('about')} className="mb-3 block text-xs text-[#68736e]">Why MployUs</button><button onClick={() => scrollTo('questions')} className="mb-3 block text-xs text-[#68736e]">Frequently asked questions</button><button onClick={onStartTrial} className="block text-xs text-[#68736e]">Start a free trial</button></div></div><div className="mt-10 flex flex-wrap justify-between gap-3 border-t border-black/5 pt-6 text-[10px] text-[#7b837e]"><p>© {new Date().getFullYear()} MployUs. All rights reserved.</p><span>Made for people. Built for care. · {country}</span></div></div></footer>
+      <footer className="bg-[#f7f7f3] py-12"><div className="mx-auto max-w-[1160px] px-6"><div className="grid gap-10 sm:grid-cols-2 md:grid-cols-[1.5fr_1fr_1fr_1fr]"><div><span className="text-[28px] font-bold tracking-[-1px]">mploy<span className="text-[#368B62]">us.</span></span><p className="mt-4 max-w-xs text-xs leading-6 text-[#68736e]">Connecting people, care and possibility.<br />For healthcare in Ireland and the UK.</p></div><div><h3 className="mb-4 text-xs font-semibold">Our solutions</h3>{solutions.map(solution => <button key={solution.id} onClick={() => onNavigate(solution.id)} className="mb-3 block text-xs text-[#68736e] transition-colors hover:text-[#368B62]">{solution.name}</button>)}</div><div><h3 className="mb-4 text-xs font-semibold">For your next chapter</h3><button onClick={() => onNavigate('recruitment-service')} className="mb-3 block text-xs text-[#68736e]">Find a permanent role</button><button onClick={() => onNavigate('locum-provision')} className="mb-3 block text-xs text-[#68736e]">Become a locum</button><button onClick={onBookDemo} className="block text-xs text-[#68736e]">Talk to a specialist</button></div><div><h3 className="mb-4 text-xs font-semibold">Explore MployUs</h3><button onClick={() => scrollTo('about')} className="mb-3 block text-xs text-[#68736e]">Why MployUs</button><button onClick={() => scrollTo('questions')} className="mb-3 block text-xs text-[#68736e]">Frequently asked questions</button><button onClick={onStartTrial} className="block text-xs text-[#68736e]">Start a free trial</button></div></div><div className="mt-10 flex flex-wrap justify-between gap-3 border-t border-black/5 pt-6 text-[10px] text-[#7b837e]"><p>© {new Date().getFullYear()} MployUs. All rights reserved.</p><div className="flex flex-wrap gap-4"><Link to="/policies/terms">Terms</Link><Link to="/policies/privacy">Privacy</Link><Link to="/policies/cookies">Cookies</Link></div><span>Made for people. Built for care. · {country}</span></div></div></footer>
     </div>
   );
 }
 
-export default function App() {
+function PlatformApp() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeRole, setActiveRole] = useState<UserRole>('all');
-  const [activeView, setActiveView] = useState<string>('home');
+  const requestedView = location.pathname.slice(1);
+  const activeView = ['locum-provision', 'recruitment-service', 'recruitment-software', 'care-management', 'product-design', 'web-development'].includes(requestedView) ? requestedView : 'home';
 
   const [bookDemoOpen, setBookDemoOpen] = useState(false);
   const [freeTrialOpen, setFreeTrialOpen] = useState(false);
@@ -117,7 +124,7 @@ export default function App() {
   const [initialDemoModule, setInitialDemoModule] = useState('All Modules');
 
   const handleNavigate = (viewId: string) => {
-    setActiveView(viewId);
+    navigate(viewId === 'home' ? '/' : `/${viewId}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -247,4 +254,13 @@ export default function App() {
       />
     </div>
   );
+}
+
+const router = createBrowserRouter([
+  { path: '/policies/:policy', Component: PolicyPage },
+  { path: '*', Component: PlatformApp },
+]);
+
+export default function App() {
+  return <MotionConfig reducedMotion="user"><RouterProvider router={router} /></MotionConfig>;
 }

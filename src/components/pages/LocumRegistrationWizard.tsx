@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import {
   X, ChevronRight, ChevronDown, ChevronLeft, Check, CheckCircle2, ShieldCheck,
@@ -431,7 +432,7 @@ export function LocumRegistrationWizard({
                   <label className="flex items-start gap-2.5 cursor-pointer">
                     <input type="checkbox" checked={terms} onChange={e => setTerms(e.target.checked)} className="mt-0.5 accent-[#368B62] w-4 h-4" />
                     <span className="text-xs text-slate-600 leading-relaxed">
-                      I confirm the information is accurate and agree to the <span className="font-semibold text-green-700">Terms of Service</span> and <span className="font-semibold text-green-700">Privacy Policy</span>. I consent to MployUs verifying my registration and vetting.
+                      I confirm the information is accurate and agree to the <Link to="/policies/terms" target="_blank" className="font-semibold text-green-700 underline">Terms of Service</Link> and <Link to="/policies/privacy" target="_blank" className="font-semibold text-green-700 underline">Privacy Policy</Link>. I consent to MployUs verifying my registration and vetting.
                     </span>
                   </label>
                 </div>

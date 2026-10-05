@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Link, useNavigate } from 'react-router';
+import { LoginExperience, PeopleAnimation } from '../PlatformExperiences';
+import imgLocumProfessional from '../../imports/locum-professional.jpg';
 import {
   Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, Building2,
   Search, Calendar, Stethoscope, Briefcase, Mail, Lock, Linkedin, Phone,
@@ -123,7 +126,7 @@ const STATS = [
 // ─── Animation variants ───────────────────────────────────────────────────────
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const } },
 };
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -135,18 +138,18 @@ const stagger = (delay = 0.1) => ({
 });
 const slideLeft = {
   hidden: { opacity: 0, x: -40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const } },
 };
 const slideRight = {
   hidden: { opacity: 0, x: 40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
 // Viewport-triggered wrapper
 const Reveal = ({
   children, className = '', delay = 0, variant = fadeUp,
 }: {
-  children: React.ReactNode; className?: string; delay?: number; variant?: typeof fadeUp;
+  children: React.ReactNode; className?: string; delay?: number; variant?: typeof fadeUp | typeof slideLeft | typeof slideRight;
 }) => (
   <motion.div
     className={className}
@@ -184,6 +187,7 @@ const SectionLabel = ({ children }: { children: React.ReactNode }) => (
 );
 
 export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackToHome, onBookDemo }) => {
+  const navigate = useNavigate();
   const [region, setRegion] = useState<Region>('IE');
   const [searchProfession, setSearchProfession] = useState('Locum Pharmacist');
   const [searchLocation, setSearchLocation] = useState('Dublin');
@@ -287,9 +291,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const closePostModal = () => { setPostModalOpen(false); setPostSuccess(false); };
   // Locum: 4 steps. Permanent: 4 steps (different content)
   const postTotalSteps = 4;
-  const [cookieOpen, setCookieOpen] = useState(true);
+  const [cookieOpen, setCookieOpen] = useState(() => { try { return !localStorage.getItem('mployus-cookie-preferences'); } catch { return true; } });
   const [cookiePrefsOpen, setCookiePrefsOpen] = useState(false);
-  const [cookiePrefs, setCookiePrefs] = useState({ necessary: true, functional: true, performance: true, targeting: false });
+  const [cookiePrefs, setCookiePrefs] = useState(() => { const defaults = { necessary: true, functional: false, performance: false, targeting: false }; try { const saved = JSON.parse(localStorage.getItem('mployus-cookie-preferences') || 'null'); return saved && typeof saved === 'object' ? { necessary: true, functional: saved.functional === true, performance: saved.performance === true, targeting: saved.targeting === true } : defaults; } catch { return defaults; } });
+  const saveCookiePreferences = (preferences: typeof cookiePrefs) => { setCookiePrefs(preferences); try { localStorage.setItem('mployus-cookie-preferences', JSON.stringify(preferences)); } catch {} setCookieOpen(false); setCookiePrefsOpen(false); };
 
   const goto = (p: LocumPage) => {
     setMobileNavOpen(false);
@@ -527,7 +532,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </button>
             </div>
 
-            <button className="lg:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100" onClick={() => setMobileNavOpen(o => !o)}>
+            <button aria-label={mobileNavOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={mobileNavOpen} className="lg:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100" onClick={() => setMobileNavOpen(o => !o)}>
               {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
@@ -681,6 +686,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 </motion.div>
               );
             })}
+          </div>
+        </section>
+
+        <section className="bg-[#f3f7ef] px-6 py-16">
+          <div className="mx-auto grid max-w-[1184px] items-center gap-10 md:grid-cols-2">
+            <PeopleAnimation kind="locum" image={imgLocumProfessional} />
+            <div><p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#368B62]">For the people behind the care</p><h2 className="font-['Libre_Caslon_Display',serif] text-5xl leading-[1.08] text-[#233b35]">A profession with purpose.<br />A schedule that’s yours.</h2><p className="mt-5 max-w-lg text-sm leading-7 text-slate-600">Bring your expertise. We’ll help you find your fit. Discover flexible opportunities with facilities across Ireland and the UK, with country-aware registration and support along the way.</p><button onClick={() => openAuth('signup')} className="mt-6 inline-flex items-center gap-3 rounded-lg bg-[#368B62] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c]">Start your locum journey <ArrowRight size={16} /></button></div>
           </div>
         </section>
 
@@ -1739,7 +1751,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     </div>
                     <label className="flex items-start gap-3 cursor-pointer">
                       <input type="checkbox" checked={applyForm.termsAccepted} onChange={e => setApplyForm(f => ({...f, termsAccepted: e.target.checked}))} className="w-4 h-4 mt-0.5 accent-[#368B62] shrink-0" />
-                      <span className="text-sm text-slate-600">I agree to MployUs Locums' <span className="text-[#368B62] font-semibold underline cursor-pointer">Terms & Conditions</span> and confirm the information provided is accurate.</span>
+                      <span className="text-sm text-slate-600">I agree to MployUs Locums' <Link to="/policies/terms" target="_blank" className="text-[#368B62] font-semibold underline cursor-pointer">Terms & Conditions</Link> and confirm the information provided is accurate.</span>
                     </label>
                     <div className="flex gap-3 pt-1">
                       <button onClick={() => setApplyStep(2)} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
@@ -1887,7 +1899,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 ))}
               </div>
               <motion.button
-                onClick={() => onBookDemo('Employer Dashboard')}
+                onClick={() => openAuth('signin')}
                 className="w-full py-3.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 22 }}>
@@ -2210,8 +2222,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <input type="checkbox" checked={postForm.termsAccepted} onChange={e => setPostForm(f => ({ ...f, termsAccepted: e.target.checked }))} className="mt-0.5 accent-[#368B62]" />
                           <span className="text-xs text-slate-500 leading-relaxed">
                             I confirm this shift is genuine and I agree to MployUs{" "}
-                            <span className="text-[#368B62] font-semibold underline">Terms of Service</span> and{" "}
-                            <span className="text-[#368B62] font-semibold underline">Privacy Policy</span>.
+                            <Link to="/policies/terms" target="_blank" className="text-[#368B62] font-semibold underline">Terms of Service</Link> and{" "}
+                            <Link to="/policies/privacy" target="_blank" className="text-[#368B62] font-semibold underline">Privacy Policy</Link>.
                           </span>
                         </label>
                         <div className="flex gap-3">
@@ -2460,8 +2472,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <input type="checkbox" checked={postForm.termsAccepted} onChange={e => setPostForm(f => ({ ...f, termsAccepted: e.target.checked }))} className="mt-0.5 accent-amber-600" />
                           <span className="text-xs text-slate-500 leading-relaxed">
                             I confirm this role is genuine and I agree to MployUs{" "}
-                            <span className="text-amber-600 font-semibold underline">Terms of Service</span> and{" "}
-                            <span className="text-amber-600 font-semibold underline">Privacy Policy</span>.
+                            <Link to="/policies/terms" target="_blank" className="text-amber-600 font-semibold underline">Terms of Service</Link> and{" "}
+                            <Link to="/policies/privacy" target="_blank" className="text-amber-600 font-semibold underline">Privacy Policy</Link>.
                           </span>
                         </label>
                         <div className="flex gap-3">
@@ -2870,7 +2882,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 <button onClick={() => openAuth('signup')} className="w-full py-2.5 bg-[#368B62] hover:bg-[#276647] text-white font-bold text-sm rounded-xl transition-colors">
                   Create free account
                 </button>
-                <button onClick={() => openAuth('login')} className="w-full py-2.5 border border-black/5 text-slate-700 font-semibold text-sm rounded-xl hover:border-black/5 transition-colors">
+                <button onClick={() => openAuth('signin')} className="w-full py-2.5 border border-black/5 text-slate-700 font-semibold text-sm rounded-xl hover:border-black/5 transition-colors">
                   Sign in
                 </button>
               </div>
@@ -2920,7 +2932,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12">
             {[
               { title: 'Platform', links: navLinks.map(l => ({ label: l.label, onClick: () => goto(l.id) })) },
-              { title: 'Legal', links: ['Privacy Statement', 'Terms & Conditions', 'Cookie Policy', 'FAQs'].map(l => ({ label: l, onClick: () => onBookDemo('Legal') })) },
+              { title: 'Legal', links: [...['Privacy Statement', 'Terms & Conditions', 'Cookie Policy', 'FAQs'].map((label, index) => ({ label, onClick: () => index === 3 ? goto('faq') : navigate(`/policies/${['privacy', 'terms', 'cookies'][index]}`) })), { label: 'Cookie preferences', onClick: () => { setCookieOpen(true); setCookiePrefsOpen(true); } }] },
               { title: 'Account', links: ['Sign In', 'Register', 'Register a Facility'].map(l => ({ label: l, onClick: () => openAuth(l === 'Sign In' ? 'signin' : 'signup') })) },
               { title: 'Contact', links: [{ label: 'info@mployuslocums.com', onClick: () => {} }, { label: '+353 1 234 5678', onClick: () => {} }, { label: 'Ireland & United Kingdom', onClick: () => {} }] },
             ].map(col => (
@@ -2945,7 +2957,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       {/* ══════════════════════════════════════
           AUTH MODAL
       ══════════════════════════════════════ */}
-      {authModal && (
+      <LoginExperience open={authModal === 'signin'} onClose={() => setAuthModal(null)} kind="locum" image={imgLocumProfessional} onRegister={() => openAuth('signup')} />
+      {authModal === 'signup' && (
         <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={() => setAuthModal(null)} />
           <div className="relative w-full max-w-md bg-white rounded-3xl max-h-[92vh] overflow-y-auto">
@@ -2958,37 +2971,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </div>
 
             <div className="p-6 space-y-5">
-              {authModal === 'signin' ? (
-                <div className="space-y-5">
-                  <div>
-                    <h3 className="text-xl font-bold text-slate-900">Welcome back</h3>
-                    <p className="text-sm text-slate-500 mt-0.5">Log in to your MployUs Locums account.</p>
-                  </div>
-                  <div className="space-y-2.5">
-                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-green-400 transition-colors">
-                      <Mail className="w-4 h-4 text-slate-400" />
-                      <input placeholder="Email address" className="bg-transparent text-sm w-full outline-none" />
-                    </div>
-                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-green-400 transition-colors">
-                      <Lock className="w-4 h-4 text-slate-400" />
-                      <input type="password" placeholder="Password" className="bg-transparent text-sm w-full outline-none" />
-                    </div>
-                    <button onClick={() => onBookDemo('Sign In')} className="w-full py-3 bg-green-600 hover:bg-green-500 text-white text-sm font-bold rounded-xl transition-all">
-                      Log In
-                    </button>
-                    <div className="flex items-center gap-3 text-[10px] text-slate-300 uppercase tracking-wider">
-                      <div className="flex-1 h-px bg-slate-100" /> or <div className="flex-1 h-px bg-slate-100" />
-                    </div>
-                    <button className="w-full py-3 bg-[#0a66c2] hover:bg-[#0959aa] text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors">
-                      <Linkedin className="w-4 h-4" /> Continue with LinkedIn
-                    </button>
-                  </div>
-                  <p className="text-center text-xs text-slate-500">
-                    New to MployUs?{' '}
-                    <button onClick={() => { setSignupStep('role'); setAuthModal('signup'); }} className="font-bold text-green-600 hover:underline">Create account</button>
-                  </p>
-                </div>
-              ) : (
+              {authModal === 'signup' && (
                 <div className="space-y-5">
                   {/* Progress bar */}
                   <div className="flex gap-1.5">
@@ -3143,7 +3126,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </div>
             <div>
               <h4 className="text-sm font-bold text-slate-900">Cookie preferences</h4>
-              <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">We use cookies to improve your experience and personalise content.</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Optional preferences are off until you choose. This preview has no analytics or advertising integration. <Link to="/policies/cookies" className="underline">Cookie policy</Link></p>
             </div>
           </div>
           {cookiePrefsOpen && (
@@ -3157,12 +3140,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </div>
           )}
           <div className="flex gap-2">
-            <button onClick={() => setCookiePrefsOpen(o => !o)} className="flex-1 py-2 text-xs font-semibold text-slate-600 border border-black/5 rounded-lg hover:bg-slate-50 transition-colors">
+            <button onClick={() => cookiePrefsOpen ? saveCookiePreferences(cookiePrefs) : setCookiePrefsOpen(true)} className="flex-1 py-2 text-xs font-semibold text-slate-600 border border-black/5 rounded-lg hover:bg-slate-50 transition-colors">
               {cookiePrefsOpen ? 'Save' : 'Manage'}
             </button>
-            <button onClick={() => setCookieOpen(false)} className="flex-1 py-2 text-xs font-semibold bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+            <button onClick={() => saveCookiePreferences({ necessary: true, functional: true, performance: true, targeting: true })} className="flex-1 py-2 text-xs font-semibold bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
               Accept all
             </button>
+            <button onClick={() => saveCookiePreferences({ necessary: true, functional: false, performance: false, targeting: false })} className="flex-1 rounded-lg border border-black/5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">Reject optional</button>
           </div>
         </div>
       )}

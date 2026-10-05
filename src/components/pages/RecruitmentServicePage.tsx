@@ -1,5 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Link } from 'react-router';
+import { LoginExperience, PeopleAnimation } from '../PlatformExperiences';
 import {
   ArrowRight, Menu, X, Globe, Clock, Target, Users,
   Check, Mail, Phone, Building2, Briefcase, Send, CheckCircle2,
@@ -43,7 +45,7 @@ const BDL = 'rgba(0,0,0,0.05)'; // border light — same
 // ── Animation primitives ─────────────────────────────────────────────────────
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const } },
 };
 const staggerGrid = (delay = 0.08) => ({
   hidden: {},
@@ -122,9 +124,14 @@ const ALL_ROLES = [
   { title: 'Secondary School Teacher', location: 'Cork',    type: 'Permanent', sector: 'Education',     salary: '€37,000–€58,000',   desc: 'Teaching post (maths/science) in a well-resourced secondary school. Teaching Council registration required.' },
   { title: 'Transport Manager',        location: 'Athlone', type: 'Permanent', sector: 'Logistics',     salary: '€50,000–€60,000',   desc: "CPC holder with fleet management experience. Responsible for a fleet of 18 HGVs across the Midlands route." },
   { title: 'Physiotherapist',          location: 'Galway',  type: 'Contract',  sector: 'Healthcare',    salary: '€28–€34/hr',        desc: 'Community-based outpatient caseload. CORU registration required. 6-month rolling contract with renewal.' },
+  { title: 'Staff Nurse', location: 'Belfast', type: 'Permanent', sector: 'Healthcare', salary: '£30,000–£38,000', desc: 'Illustrative nursing role in Northern Ireland. NMC registration required; exact duties and roster to be confirmed.' },
+  { title: 'Warehouse Team Leader', location: 'Manchester', type: 'Permanent', sector: 'Logistics', salary: '£28,000–£34,000', desc: 'Illustrative warehouse leadership role in England, supporting safe operations and daily team coordination.' },
+  { title: 'Hotel Receptionist', location: 'Cardiff', type: 'Contract', sector: 'Hospitality', salary: '£13–£15/hr', desc: 'Illustrative front-of-house role in Wales, welcoming guests and coordinating reservations.' },
+  { title: 'Care Assistant', location: 'Edinburgh', type: 'Permanent', sector: 'Healthcare', salary: '£25,000–£29,000', desc: 'Illustrative care role in Scotland. Experience, registration and safeguarding checks to be confirmed.' },
 ];
 
-const LOCATIONS = ['All Locations', 'Dublin', 'Cork', 'Galway', 'Limerick', 'Kilkenny', 'Athlone'];
+const LOCATIONS = ['All Locations', 'Dublin', 'Cork', 'Galway', 'Limerick', 'Kilkenny', 'Athlone', 'Belfast', 'Manchester', 'Cardiff', 'Edinburgh'];
+const JOB_REGIONS: Record<string, string> = { Belfast: 'Northern Ireland', Manchester: 'England', Cardiff: 'Wales', Edinburgh: 'Scotland' };
 const SECTORS   = ['All Sectors', 'Logistics', 'Healthcare', 'Hospitality', 'Education'];
 const JOB_TYPES = ['All Types', 'Permanent', 'Contract'];
 
@@ -135,7 +142,10 @@ const ARTICLES = [
   { img: imgLogistics,   cat: 'Industry', date: 'Jan 14, 2026', read: '4 min', title: 'Why logistics companies struggle to retain warehouse staff',    excerpt: 'High turnover in warehouse and logistics roles is costing Irish companies millions. We look at what drives attrition.' },
   { img: imgHospitality, cat: 'Strategy', date: 'Jan 7, 2026',  read: '3 min', title: 'Building a hospitality team that survives the summer peak',   excerpt: 'Seasonal demand spikes are predictable — your hiring strategy should be too. Practical steps to staff up fast.' },
   { img: imgEducation,   cat: 'Trends',   date: 'Dec 18, 2025', read: '5 min', title: 'The SNA shortage in Irish schools: what recruiters are seeing', excerpt: 'Special Needs Assistants are in critically short supply across Ireland. What we are seeing from the recruitment trenches.' },
-];
+].map(article => ({ ...article, region: 'Ireland' })).concat([
+  { img: imgHiring, cat: 'Strategy', date: 'Oct 5, 2026', read: '4 min', region: 'UK', title: 'Hiring across the UK: a regional approach', excerpt: 'A practical introduction to recruitment planning across England, Northern Ireland, Wales and Scotland.' },
+  { img: imgHealthcare, cat: 'Industry', date: 'Oct 5, 2026', read: '5 min', region: 'UK', title: 'Building resilient healthcare teams in the UK', excerpt: 'Balancing permanent recruitment and flexible cover while understanding local registration requirements.' },
+]);
 
 const TESTIMONIALS = [
   { img: imgSarah,   quote: '"MployUs cut our hiring timeline from eight weeks to twelve days. The candidates they presented actually understood our industry."', name: 'Sarah Jenkins',  role: 'HR Director, TechFlow Solutions' },
@@ -146,7 +156,7 @@ const TESTIMONIALS = [
 const SERVICES = [
   { n: '01', type: 'Permanent',  title: 'Permanent Placement',              desc: "Long-term hires for core roles. We identify, screen, and present candidates who'll grow with your organisation." },
   { n: '02', type: 'Contract',   title: 'Contract Staffing',                desc: 'Flexible staff for project-based work, seasonal peaks, or maternity cover without the overhead of permanent hires.' },
-  { n: '03', type: 'RPO',        title: 'Recruitment Process Outsourcing',  desc: 'Outsource part or all of your hiring. We embed in your process and work as an extension of your HR team.' },
+  { n: '03', type: 'Talent Solutions', title: 'Talent Solutions', desc: 'From workforce planning to volume hiring, we embed in your process and work as an extension of your HR team.' },
   { n: '04', type: 'Executive',  title: 'Executive Search',                 desc: "Discreet headhunting for C-suite and senior leadership. We access networks that job boards can't reach." },
 ];
 
@@ -164,6 +174,14 @@ const FAQS = [
 export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDemo }) => {
   const [page, setPage] = useState<Page>('home');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [headcount, setHeadcount] = useState('1');
+  const [employerCompany, setEmployerCompany] = useState('');
+  const [employerRegion, setEmployerRegion] = useState('Ireland');
+  const [blogRegion, setBlogRegion] = useState('All');
+  const [selectedIdx, setSelectedIdx] = useState(0);
+  const [sortBy, setSortBy] = useState<'title' | 'salary' | 'location' | 'added'>('title');
+  const [filterRegion, setFilterRegion] = useState('All regions');
 
   // Contact modal
   const [contactOpen, setContactOpen]   = useState(false);
@@ -206,10 +224,11 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const [jobType,     setJobType]     = useState('All Types');
   const [openRoleIdx, setOpenRoleIdx] = useState<number | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+  useEffect(() => { setSelectedIdx(0); }, [jobKeyword, jobLocation, jobSector, jobType, filterRegion, sortBy]);
 
   const goTo = (p: Page) => { setPage(p); setMobileOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
-  const openContact = () => { setContactStep(1); setContactType(''); setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' }); setMobileOpen(false); setContactOpen(true); };
+  const openContact = () => { setContactStep(1); setHeadcount('1'); setEmployerCompany(''); setEmployerRegion('Ireland'); setContactType(''); setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' }); setMobileOpen(false); setContactOpen(true); };
   const openCV = () => { setCvStep(1); setCvOpen(true); };
 
   const filteredRoles = useMemo(() => ALL_ROLES.filter(r => {
@@ -221,12 +240,12 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
     return matchKw && matchLoc && matchSec && matchTyp;
   }), [jobKeyword, jobLocation, jobSector, jobType]);
 
-  const visibleArticles = blogCat === 'All' ? ARTICLES : ARTICLES.filter(a => a.cat === blogCat);
+  const visibleArticles = ARTICLES.filter(article => (blogCat === 'All' || article.cat === blogCat) && (blogRegion === 'All' || article.region === blogRegion));
 
   const NAV = [
     { label: 'Home',            p: 'home'        as Page },
     { label: 'For Jobseekers',  p: 'jobseekers'  as Page },
-    { label: 'For Employers',   p: 'employers'   as Page },
+              { label: 'Hire talent',   p: 'employers'   as Page },
     { label: 'Blog',            p: 'blog'        as Page },
     { label: 'Contact Us',      p: 'contact'     as Page },
   ];
@@ -429,7 +448,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             className="text-lg text-white/75 leading-relaxed max-w-[520px] mb-8 font-normal"
             variants={{ hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
           >
-            MployUs connects Irish businesses with skilled professionals across logistics, healthcare, hospitality, and education. Permanent, contract, or executive — we handle it.
+            MployUs connects businesses across Ireland and the UK with skilled professionals in logistics, healthcare, hospitality and education. Permanent, contract, executive search or a complete talent solution — start with people, grow with confidence.
           </motion.p>
 
           <motion.div
@@ -458,6 +477,13 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             </motion.button>
           </motion.div>
         </motion.div>
+      </section>
+
+      <section className="bg-[#fbf5f9] px-6 py-16">
+        <div className="mx-auto grid max-w-[1184px] items-center gap-10 md:grid-cols-2">
+          <div><Eyebrow>A personal introduction</Eyebrow><H2>Your next chapter.<br />Our shared ambition.</H2><p className="mt-5 max-w-lg text-sm leading-7 text-slate-600">We’re MployUs Recruit. We connect ambition with opportunity — helping employers build lasting teams and people find work that fits their lives, across Ireland and every part of the UK.</p><div className="mt-6 flex flex-wrap gap-3"><button onClick={openContact} className="rounded-lg bg-[#810161] px-5 py-3 text-sm font-semibold text-white">I’m hiring <ArrowRight className="ml-2 inline h-4 w-4" /></button><button onClick={() => goTo('jobseekers')} className="rounded-lg bg-white px-5 py-3 text-sm font-semibold text-[#810161]">I’m looking for work</button></div></div>
+          <PeopleAnimation kind="recruitment" image={imgSarah} />
+        </div>
       </section>
 
       {/* Features */}
@@ -577,20 +603,15 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
   // ── FOR JOBSEEKERS ────────────────────────────────────────────────────────────
   const JobseekersPage = () => {
-    const [selectedIdx, setSelectedIdx] = useState(0);
-    const [sortBy, setSortBy] = useState<'title' | 'salary' | 'location' | 'added'>('title');
-    const [filterRegion, setFilterRegion] = useState<'all' | 'IE' | 'UK'>('all');
-
-    const sorted = useMemo(() => {
+    const sorted = (() => {
       let list = filteredRoles.filter(r => {
-        if (filterRegion === 'IE') return ['Dublin', 'Cork', 'Galway', 'Limerick', 'Kilkenny', 'Athlone'].includes(r.location);
-        if (filterRegion === 'UK') return ['London', 'Manchester', 'Birmingham'].includes(r.location);
-        return true;
+        return filterRegion === 'All regions' || (filterRegion === 'United Kingdom' ? Boolean(JOB_REGIONS[r.location]) : (JOB_REGIONS[r.location] || 'Ireland') === filterRegion);
       });
       if (sortBy === 'salary') list = [...list].sort((a, b) => parseInt(b.salary.replace(/[^0-9]/g, '')) - parseInt(a.salary.replace(/[^0-9]/g, '')));
       if (sortBy === 'location') list = [...list].sort((a, b) => a.location.localeCompare(b.location));
+      if (sortBy === 'title') list = [...list].sort((a, b) => a.title.localeCompare(b.title));
       return list;
-    }, [filteredRoles, sortBy, filterRegion]);
+    })();
 
     const sel = sorted[selectedIdx] ?? sorted[0];
 
@@ -603,12 +624,13 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6 gap-3">
           <p className="text-white/90 text-sm font-semibold tracking-widest uppercase">Find Your Next Role</p>
           <h1 className="text-3xl lg:text-[35px] font-bold text-white leading-tight max-w-3xl">
-            Browse live vacancies, apply instantly, and let our consultants do the rest.
+            Find your next opportunity, with a consultant by your side.
           </h1>
         </div>
       </div>
 
       {/* Filter bar */}
+      <p className="bg-[#fbf5f9] px-6 py-3 text-center text-xs text-[#810161]">Preview vacancies: these sample listings demonstrate recruitment across Ireland and the UK. Availability and full terms require confirmation.</p>
       <div className="bg-white border-b border-black/5">
         <div className="max-w-[1286px] mx-auto px-6 lg:px-10 py-5 flex flex-wrap items-end justify-between gap-4">
           <div className="flex flex-wrap gap-5 items-end">
@@ -672,17 +694,13 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         <div className="max-w-[1286px] mx-auto px-6 lg:px-10 py-4 flex flex-col gap-2">
           <p className="text-[#3d3d3d] text-sm">Filter by region</p>
           <div className="flex flex-wrap gap-8 items-center">
-            {[
-              { id: 'all', flag: '🌍', label: 'All Regions' },
-              { id: 'IE',  flag: '🇮🇪', label: 'Republic of Ireland' },
-              { id: 'UK',  flag: '🇬🇧', label: 'United Kingdom' },
-            ].map(c => {
+            {['All regions', 'Ireland', 'United Kingdom', 'Northern Ireland', 'England', 'Wales', 'Scotland'].map(label => ({ id: label, label, flag: label === 'Ireland' ? '🇮🇪' : label === 'All regions' ? '🌍' : '🇬🇧' })).map(c => {
               const active = filterRegion === c.id;
               return (
-                <button key={c.id} onClick={() => { setFilterRegion(c.id as 'all' | 'IE' | 'UK'); setSelectedIdx(0); }}
+                <button key={c.id} aria-pressed={active} onClick={() => { setFilterRegion(c.id); setJobLocation('All Locations'); setSelectedIdx(0); }}
                   className="flex items-center gap-2 text-[15px] text-black">
                   <div className="w-[22px] h-[22px] rounded-full border flex items-center justify-center shrink-0 transition-colors"
-                    style={{ backgroundColor: active ? P : 'white', borderColor: active ? P : 'rgba(0,0,0,0.4)' }}>
+                    style={{ backgroundColor: active ? P : 'white', borderColor: BD }}>
                     {active && <Check className="w-3 h-3 text-white" />}
                   </div>
                   <span className="text-lg leading-none">{c.flag}</span>
@@ -765,17 +783,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               </div>
             )}
 
-            {/* Pagination */}
-            {sorted.length > 0 && (
-              <div className="flex items-center gap-1.5 mt-4 justify-center">
-                {[1, 2, 3, '...', 8].map((p, i) => (
-                  <button key={i} className="min-w-[32px] h-8 rounded text-sm font-medium transition-colors"
-                    style={{ backgroundColor: p === 1 ? P : 'transparent', color: p === 1 ? 'white' : '#555' }}>
-                    {p}
-                  </button>
-                ))}
-              </div>
-            )}
+            <p className="mt-4 text-center text-xs text-slate-500">Showing all matching preview roles</p>
           </div>
 
           {/* Right: detail panel */}
@@ -840,6 +848,15 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 </div>
 
                 {/* Apply */}
+                <div className="border-t border-black/5 pt-5">
+                  <h3 className="mb-4 text-base font-semibold text-[#810161]">The complete picture</h3>
+                  <p className="mb-4 rounded-lg bg-[#fbf5f9] p-3 text-xs leading-5 text-slate-600">Preview listing. Your consultant will confirm any details not supplied by the employer before you proceed.</p>
+                  <dl className="grid grid-cols-1 gap-x-6 gap-y-4 text-sm sm:grid-cols-2">{[
+                    ['Reference', `MPR-${String(ALL_ROLES.indexOf(sel) + 1).padStart(4, '0')}`], ['Country / region', JOB_REGIONS[sel.location] || 'Ireland'], ['Employer & workplace', 'Disclosed by your consultant'], ['Work arrangement', 'To be confirmed'], ['Hours & shift pattern', 'To be confirmed'], ['Contract duration', sel.type === 'Permanent' ? 'Permanent position' : sel.desc.includes('6-month') ? '6-month rolling contract with renewal' : 'Confirm length and renewal terms'], ['Start date', sel.desc.includes('Immediate start') ? 'Immediate start; confirm availability' : 'To be agreed'], ['Closing date', 'Not supplied'], ['Reporting to', 'To be confirmed'], ['Experience & qualifications', 'See role summary; confirm full requirements'], ['Right to work & sponsorship', 'Eligibility and sponsorship to be confirmed'], ['Registration & vetting', sel.sector === 'Healthcare' ? 'Relevant regulator and local checks to be confirmed' : 'Role-specific checks to be confirmed'], ['Benefits & leave', 'See role summary; full package to be confirmed'], ['Travel & relocation', 'To be confirmed'], ['Accessibility & adjustments', 'Discuss adjustments with your consultant'], ['Recruitment process', 'Application, consultant review and employer interview'],
+                  ].map(([label, value]) => <div key={label}><dt className="text-xs text-slate-500">{label}</dt><dd className="mt-1 leading-6 text-slate-700">{value}</dd></div>)}</dl>
+                  <h4 className="mt-6 text-sm font-semibold">Responsibilities and person specification</h4><p className="mt-2 text-sm leading-6 text-slate-600">{sel.desc} Request the employer-approved job description, essential and desirable criteria, pay frequency and overtime arrangements from your consultant.</p>
+                </div>
+
                 <div className="pt-1 flex flex-col sm:flex-row gap-2">
                   <motion.button onClick={() => sel && openApply(sel)}
                     className="flex-1 py-3 text-white font-bold text-base rounded-lg transition-colors"
@@ -885,136 +902,23 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   // ── FOR EMPLOYERS ─────────────────────────────────────────────────────────────
   const EmployersPage = () => (
     <Fade>
-      {/* Employers hero */}
-      <section className="py-16 lg:py-20 bg-white border-b border-black/5">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
-          <motion.div
-            className="flex-1"
-            initial="hidden" animate="visible"
-            variants={staggerGrid(0.1)}
-          >
-            <motion.div variants={fadeUp}><Eyebrow>For employers</Eyebrow></motion.div>
-            <motion.div variants={fadeUp}><H1 className="mb-5 max-w-xl">Hire faster. Hire better. Every time.</H1></motion.div>
-            <motion.p variants={fadeUp} className="text-[17px] leading-[1.65] max-w-lg mb-8" style={{ color: TM }}>
-              From urgent temporary cover to executive search, MployUs operates as an extension of your HR team — fully managed, fully accountable, and built around your timeline.
-            </motion.p>
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-3 mb-10">
-              <motion.button onClick={openContact}
-                className="flex items-center gap-2 px-6 py-3.5 rounded-lg text-[15px] font-medium text-white"
-                style={{ backgroundColor: P }}
-                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-              >
-                Request Talent <ArrowRight className="w-4 h-4" />
-              </motion.button>
-              <motion.button onClick={() => goTo('contact')}
-                className="flex items-center gap-2 px-6 py-3.5 rounded-lg text-[15px] font-medium border border-black/5"
-                style={{ color: TD }}
-                whileHover={{ scale: 1.02, borderColor: 'rgba(129,1,97,0.2)' }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-              >
-                Book a Call
-              </motion.button>
-            </motion.div>
-            <motion.div variants={fadeUp} className="grid grid-cols-3 gap-6">
-              {[{ n: '5–10', label: 'Days to shortlist' }, { n: '90', label: 'Day guarantee' }, { n: '1,200+', label: 'Placements made' }].map(s => (
-                <div key={s.label}>
-                  <p className="text-[28px] font-['Arimo',sans-serif]" style={{ color: P }}>{s.n}</p>
-                  <p className="text-[13px]" style={{ color: TT }}>{s.label}</p>
-                </div>
-              ))}
-            </motion.div>
-          </motion.div>
-          <motion.div
-            className="w-full lg:w-[420px] shrink-0 rounded-xl overflow-hidden border border-black/5"
-            style={{ minHeight: '340px' }}
-            initial={{ opacity: 0, x: 32 }} animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          >
-            <img src={imgHiring} alt="Hiring discussion" className="w-full h-full object-cover" />
-          </motion.div>
+      <section className="bg-[#fbf5f9] px-6 py-16 lg:py-20">
+        <div className="mx-auto max-w-[1184px]">
+          <div className="flex flex-wrap items-start justify-between gap-8">
+            <div className="max-w-xl"><Eyebrow>For employers · Ireland &amp; UK</Eyebrow><H1>Great talent.<br />A simpler way to hire.</H1><p className="mt-5 text-base leading-7 text-slate-600">Tell us who you need. We’ll help you find the right people, without the long forms or the guesswork.</p></div>
+            <button onClick={openContact} className="inline-flex items-center gap-3 rounded-lg bg-[#810161] px-7 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#65014b]">Submit a talent request <ArrowRight size={17} /></button>
+          </div>
+          <p className="mb-5 mt-12 text-xs font-medium uppercase tracking-[0.14em] text-slate-500">What would help your team?</p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{[
+            { title: 'Permanent Placement', label: 'Permanent recruitment', icon: Users, text: 'Build a lasting team with people who share your purpose.' },
+            { title: 'Contract / Temp Staffing', label: 'Contract recruitment', icon: Clock, text: 'Flexible expertise for projects, peaks and planned cover.' },
+            { title: 'Executive Search', label: 'Executive search', icon: Target, text: 'A discreet, focused search for your next leader.' },
+            { title: 'Talent Solutions', label: 'Talent solutions', icon: Briefcase, text: 'An embedded hiring partner, workforce planning or volume hiring.' },
+          ].map(service => <button key={service.title} onClick={() => { openContact(); setContactForm(form => ({ ...form, role: service.title })); }} className="group rounded-xl border border-black/5 bg-white p-6 text-left transition-transform hover:-translate-y-1"><service.icon size={24} strokeWidth={1.4} className="mb-5 text-[#810161]" /><h2 className="text-base font-semibold text-slate-800">{service.label}</h2><p className="mb-6 mt-3 text-sm leading-6 text-slate-500">{service.text}</p><span className="flex items-center gap-2 text-xs font-semibold text-[#810161]">Request talent <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" /></span></button>)}</div>
+          <p className="mt-8 text-center text-sm text-slate-500">Not sure what you need? <button onClick={openContact} className="font-semibold text-[#810161]">Start a conversation</button></p>
         </div>
       </section>
-
-      {/* Services grid */}
-      <section style={{ backgroundColor: BGL }} className="py-16 border-b border-black/5">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
-          <Reveal><Eyebrow>Our services</Eyebrow></Reveal>
-          <Reveal delay={0.06}><H2 className="mb-10 max-w-md">Four hiring solutions. One trusted partner.</H2></Reveal>
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-            initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-56px' }}
-            variants={staggerGrid(0.1)}
-          >
-            {SERVICES.map(s => (
-              <motion.div key={s.n} variants={fadeUp}
-                className="bg-white p-8 rounded-xl border border-black/5"
-                whileHover={{ y: -3, borderColor: 'rgba(129,1,97,0.15)' }}
-                transition={{ type: 'spring', stiffness: 380, damping: 26 }}
-              >
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-[13px] mb-6 border border-black/5" style={{ backgroundColor: BGL, color: TT }}>{s.n}</div>
-                <p className="text-[11px] uppercase tracking-[1.1px] mb-2" style={{ color: TT }}>{s.type}</p>
-                <p className="text-[20px] font-['Arimo',sans-serif] mb-3" style={{ color: P }}>{s.title}</p>
-                <p className="text-[14px] leading-[1.65]" style={{ color: TM }}>{s.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Process steps */}
-      <section className="py-16 bg-white border-b border-black/5">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
-          <Reveal><Eyebrow>Our process</Eyebrow></Reveal>
-          <Reveal delay={0.06}><H2 className="mb-10 max-w-md">How we fill your vacancy</H2></Reveal>
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-56px' }}
-            variants={staggerGrid(0.1)}
-          >
-            {[
-              { n: '01', icon: Phone,        title: 'Discovery call',     desc: 'We understand your role, culture, timelines, and non-negotiables. No guesswork on our side.' },
-              { n: '02', icon: Search,       title: 'Search & screen',    desc: 'We search our vetted talent pool and run structured competency interviews before presenting anyone.' },
-              { n: '03', icon: Users,        title: 'Shortlist delivered', desc: 'You receive a shortlist of typically 3–5 candidates, each with a full profile and our recommendation.' },
-              { n: '04', icon: CheckCircle2, title: 'Placement & support', desc: 'We manage offers, references, and onboarding — and follow up at 30, 60, and 90 days.' },
-            ].map(s => (
-              <motion.div key={s.n} variants={fadeUp}
-                className="p-6 rounded-xl border border-black/5 group"
-                whileHover={{ y: -4, borderColor: 'rgba(129,1,97,0.15)' }}
-                transition={{ type: 'spring', stiffness: 380, damping: 26 }}
-              >
-                <div className="w-9 h-9 rounded-lg flex items-center justify-center text-[12px] mb-4 border border-black/5" style={{ backgroundColor: BGL, color: TT }}>{s.n}</div>
-                <motion.div whileHover={{ scale: 1.1, rotate: 3 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-                  <s.icon className="w-5 h-5 mb-4" style={{ color: TT }} strokeWidth={1.25} />
-                </motion.div>
-                <p className="text-[16px] font-medium mb-2" style={{ color: P }}>{s.title}</p>
-                <p className="text-[14px] leading-[1.65]" style={{ color: TM }}>{s.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      <Industries />
-      <Testimonials />
-
-      <Reveal className="py-16 bg-white text-center">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
-          <H2 className="mb-4">Ready to fill your next vacancy?</H2>
-          <p className="text-[16px] mb-8 max-w-md mx-auto" style={{ color: TM }}>Tell us about the role and a consultant will respond within 2 business hours.</p>
-          <motion.button onClick={openContact}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-white text-[15px] font-medium"
-            style={{ backgroundColor: P }}
-            whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-          >
-            Request Talent <ArrowRight className="w-4 h-4" />
-          </motion.button>
-        </div>
-      </Reveal>
-
-      <Newsletter />
+      <section className="mx-auto grid max-w-[1184px] gap-8 px-6 py-12 md:grid-cols-3">{['Share your brief', 'Meet your consultant', 'Find your people'].map((step, index) => <div key={step}><p className="text-xs font-semibold text-[#810161]">0{index + 1}</p><h2 className="mt-3 text-lg font-medium text-slate-800">{step}</h2><p className="mt-2 text-sm leading-6 text-slate-500">{['Choose your recruitment service and tell us about the role.', 'We clarify your requirements, budget and hiring timeline.', 'Review a tailored shortlist and move forward with confidence.'][index]}</p></div>)}</section>
     </Fade>
   );
 
@@ -1024,7 +928,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       <section className="py-16 bg-white border-b border-black/5">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
           <Reveal><Eyebrow>Insights &amp; resources</Eyebrow></Reveal>
-          <Reveal delay={0.06}><H1 className="mb-4 max-w-xl">Recruitment insights from the Irish market</H1></Reveal>
+          <Reveal delay={0.06}><H1 className="mb-4 max-w-xl">Fresh perspectives. Ireland &amp; the UK.</H1></Reveal>
           <Reveal delay={0.12}>
             <p className="text-[17px] leading-[1.65] max-w-lg" style={{ color: TM }}>
               Market trends, hiring advice, compliance updates, and salary reports — written by our consultants.
@@ -1033,8 +937,10 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         </div>
       </section>
 
+      <div className="mx-auto flex max-w-[1280px] flex-wrap gap-2 px-6 py-6 lg:px-12">{['All', 'Ireland', 'UK'].map(region => <button key={region} aria-pressed={blogRegion === region} onClick={() => setBlogRegion(region)} className={`rounded-full px-5 py-2.5 text-sm transition-colors ${blogRegion === region ? 'bg-[#810161] text-white' : 'bg-[#f7f0f5] text-[#810161]'}`}>{region === 'All' ? 'All insights' : `Insights for ${region}`}</button>)}</div>
+
       {/* Featured article */}
-      <section className="py-12 bg-white border-b border-black/5">
+      {visibleArticles.length > 0 && <section className="py-12 bg-white border-b border-black/5">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
           <motion.div
             className="rounded-xl overflow-hidden border border-black/5 flex flex-col lg:flex-row group cursor-pointer"
@@ -1043,15 +949,15 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             whileHover={{ borderColor: 'rgba(129,1,97,0.15)' }}
           >
             <div className="lg:w-[480px] h-56 lg:h-auto shrink-0 overflow-hidden">
-              <img src={ARTICLES[0].img} alt={ARTICLES[0].title} className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-105" />
+              <img src={(visibleArticles[0] || ARTICLES[0]).img} alt={(visibleArticles[0] || ARTICLES[0]).title} className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-105" />
             </div>
             <div className="flex-1 p-8 lg:p-10 flex flex-col justify-center">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[12px] px-2.5 py-1 rounded-full font-medium" style={{ backgroundColor: 'rgba(129,1,97,0.08)', color: P }}>{ARTICLES[0].cat}</span>
-                <span className="text-[12px]" style={{ color: TT }}>{ARTICLES[0].date} · {ARTICLES[0].read} read</span>
+                <span className="text-[12px] px-2.5 py-1 rounded-full font-medium" style={{ backgroundColor: 'rgba(129,1,97,0.08)', color: P }}>{(visibleArticles[0] || ARTICLES[0]).cat}</span>
+                <span className="text-[12px]" style={{ color: TT }}>{(visibleArticles[0] || ARTICLES[0]).date} · {(visibleArticles[0] || ARTICLES[0]).read} read</span>
               </div>
-              <h3 className="font-['Arimo',sans-serif] text-[28px] leading-snug mb-4" style={{ color: P }}>{ARTICLES[0].title}</h3>
-              <p className="text-[15px] leading-relaxed mb-6" style={{ color: TM }}>{ARTICLES[0].excerpt}</p>
+              <h3 className="font-['Arimo',sans-serif] text-[28px] leading-snug mb-4" style={{ color: P }}>{(visibleArticles[0] || ARTICLES[0]).title}</h3>
+              <p className="text-[15px] leading-relaxed mb-6" style={{ color: TM }}>{(visibleArticles[0] || ARTICLES[0]).excerpt}</p>
               <motion.button className="self-start flex items-center gap-2 text-[14px] font-medium" style={{ color: P }}
                 whileHover={{ x: 3 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
                 Read article <ArrowRight className="w-4 h-4" />
@@ -1059,7 +965,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             </div>
           </motion.div>
         </div>
-      </section>
+      </section>}
 
       {/* Grid + filters */}
       <section style={{ backgroundColor: BGL }} className="py-12">
@@ -1106,6 +1012,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               </motion.div>
             ))}
           </motion.div>
+          {visibleArticles.length === 0 && <div className="py-12 text-center"><p className="text-sm text-slate-500">No insights match this region and topic yet.</p><button onClick={() => { setBlogCat('All'); setBlogRegion('All'); }} className="mt-4 rounded-lg bg-[#810161] px-5 py-3 text-sm font-semibold text-white">Show all insights</button></div>}
         </div>
       </section>
 
@@ -1232,11 +1139,11 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
   // ── RENDER ────────────────────────────────────────────────────────────────────
   const pages: Record<Page, React.ReactNode> = {
-    home: <HomePage />,
-    jobseekers: <JobseekersPage />,
-    employers: <EmployersPage />,
-    blog: <BlogPage />,
-    contact: <ContactPage />,
+    home: page === 'home' ? HomePage() : null,
+    jobseekers: page === 'jobseekers' ? JobseekersPage() : null,
+    employers: page === 'employers' ? EmployersPage() : null,
+    blog: page === 'blog' ? BlogPage() : null,
+    contact: page === 'contact' ? ContactPage() : null,
   };
 
   return (
@@ -1273,7 +1180,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
           </nav>
 
           <div className="hidden lg:flex items-center gap-4">
-            <motion.button onClick={openCV}
+            <motion.button onClick={() => setLoginOpen(true)}
               className="text-[14px] leading-[21px]" style={{ color: TN }}
               whileHover={{ color: P }}
               onMouseEnter={e => (e.currentTarget.style.color = P)} onMouseLeave={e => (e.currentTarget.style.color = TN)}>
@@ -1284,7 +1191,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               style={{ backgroundColor: P }}
               whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-              Get Started
+              Request talent
             </motion.button>
           </div>
 
@@ -1311,8 +1218,8 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 </button>
               ))}
               <div className="flex gap-2 pt-3">
-                <button onClick={openCV} className="flex-1 py-2.5 border border-black/5 rounded-lg text-[14px]" style={{ color: TN }}>Login</button>
-                <button onClick={openContact} className="flex-1 py-2.5 rounded-lg text-white text-[14px]" style={{ backgroundColor: P }}>Get Started</button>
+                <button onClick={() => { setLoginOpen(true); setMobileOpen(false); }} className="flex-1 py-2.5 border border-black/5 rounded-lg text-[14px]" style={{ color: TN }}>Login</button>
+                <button onClick={openContact} className="flex-1 py-2.5 rounded-lg text-white text-[14px]" style={{ backgroundColor: P }}>Request talent</button>
               </div>
             </motion.div>
           )}
@@ -1320,6 +1227,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       </header>
 
       <main className="pt-[68px]">{pages[page]}</main>
+      <LoginExperience open={loginOpen} onClose={() => setLoginOpen(false)} kind="recruitment" image={imgSarah} onRegister={() => { setLoginOpen(false); openCV(); }} />
 
       {/* ══ FOOTER ══ */}
       <footer className="bg-white border-t border-black/5 py-12 px-6">
@@ -1356,8 +1264,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px]" style={{ color: TT }}>
             <p>© {new Date().getFullYear()} MployUs Recruit. All rights reserved.</p>
             <div className="flex items-center gap-5">
-              <button className="hover:underline">Privacy Policy</button>
-              <button className="hover:underline">Terms of Service</button>
+              <Link to="/policies/privacy" className="hover:underline">Privacy Policy</Link>
+              <Link to="/policies/terms" className="hover:underline">Terms of Service</Link>
+              <Link to="/policies/cookies" className="hover:underline">Cookie Policy</Link>
               <button onClick={onBackToHome} className="hover:underline">Back to MployUs</button>
             </div>
           </div>
@@ -1424,12 +1333,14 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                       {[
                         { key: 'Permanent Placement',   icon: Users,  desc: 'Long-term hire for a core role' },
                         { key: 'Contract / Temp Staffing', icon: Clock, desc: 'Flexible cover for a fixed period' },
+                        { key: 'Executive Search', icon: Target, desc: 'Discreet search for senior leaders' },
+                        { key: 'Talent Solutions', icon: Briefcase, desc: 'An embedded hiring partner or workforce strategy' },
                       ].map(({ key, icon: Icon, desc }) => (
                         <button key={key} type="button"
                           onClick={() => setContactForm(f => ({ ...f, role: key }))}
-                          className="flex items-start gap-3 p-4 rounded-xl border-2 text-left transition-all"
+                          className="flex items-start gap-3 p-4 rounded-xl border border-black/5 text-left transition-all"
                           style={{
-                            borderColor: contactForm.role === key ? P : 'rgba(0,0,0,0.05)',
+                            borderColor: BD,
                             backgroundColor: contactForm.role === key ? 'rgba(129,1,97,0.06)' : '#f8fafc',
                           }}>
                           <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
@@ -1478,6 +1389,8 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                       <h2 className="text-xl font-bold text-slate-900">Your company details</h2>
                       <p className="text-sm text-slate-500 mt-1">{"We'll use these to connect you with the right consultant."}</p>
                     </div>
+                    <label className="block text-xs font-semibold text-slate-700">Company name <span className="text-rose-500">*</span><input value={employerCompany} onChange={event => setEmployerCompany(event.target.value)} placeholder="Your organisation" className="mt-2 block w-full rounded-xl border border-black/5 bg-slate-50 px-3.5 py-2.5 text-sm" /></label>
+                    <label className="block text-xs font-semibold text-slate-700">Hiring region<select value={employerRegion} onChange={event => setEmployerRegion(event.target.value)} className="mt-2 block w-full rounded-xl border border-black/5 bg-slate-50 px-3.5 py-2.5 text-sm">{['Ireland', 'Northern Ireland', 'England', 'Wales', 'Scotland', 'Multiple regions'].map(region => <option key={region}>{region}</option>)}</select></label>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="flex flex-col gap-1.5">
@@ -1513,12 +1426,12 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                       <div className="grid grid-cols-4 gap-2">
                         {['1', '2–5', '6–10', '10+'].map(n => (
                           <button key={n} type="button"
-                            onClick={() => setContactType(n as any)}
-                            className="py-2.5 rounded-xl border-2 text-sm font-semibold transition-all"
+                            onClick={() => setHeadcount(n)}
+                            className="py-2.5 rounded-xl border border-black/5 text-sm font-semibold transition-all"
                             style={{
-                              borderColor: contactType === n ? P : 'rgba(0,0,0,0.05)',
-                              backgroundColor: contactType === n ? 'rgba(129,1,97,0.06)' : '#f8fafc',
-                              color: contactType === n ? P : '#334155',
+                              borderColor: BD,
+                              backgroundColor: headcount === n ? 'rgba(129,1,97,0.06)' : '#f8fafc',
+                              color: headcount === n ? P : '#334155',
                             }}>
                             {n}
                           </button>
@@ -1529,7 +1442,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     <div className="flex gap-3 pt-1">
                       <button onClick={() => setContactStep(1)} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
                       <button onClick={() => setContactStep(3)}
-                        disabled={!contactForm.email || !contactForm.name.trim()}
+                        disabled={!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactForm.email) || !contactForm.name.trim() || !employerCompany.trim()}
                         className="flex-1 py-3 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-40"
                         style={{ backgroundColor: P }}>
                         Continue <ChevronRight className="w-4 h-4" />
@@ -1571,12 +1484,12 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     <div className="flex gap-3 pt-1">
                       <button onClick={() => setContactStep(2)} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
                       <motion.button
-                        onClick={() => { setContactStep(4 as any); onBookDemo('Recruitment Service'); }}
+                        onClick={() => setContactStep(4)}
                         className="flex-1 py-3 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
                         style={{ backgroundColor: P }}
                         whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                         transition={{ type: 'spring', stiffness: 350, damping: 22 }}>
-                        <Send className="w-4 h-4" /> Send enquiry
+                        <Send className="w-4 h-4" /> Prepare talent request
                       </motion.button>
                     </div>
                   </motion.div>
@@ -1598,21 +1511,21 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     </motion.div>
 
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="space-y-2">
-                      <h2 className="text-2xl font-bold text-slate-900">Enquiry received!</h2>
+                      <h2 className="text-2xl font-bold text-slate-900">Your talent brief is ready.</h2>
                       <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
-                        A MployUs specialist will review your request and be in touch within <span className="font-semibold text-slate-700">2 business hours</span>.
+                        This preview prepares your request locally. No enquiry has been sent. A production submission service still needs to be connected.
                       </p>
                     </motion.div>
 
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
                       className="w-full bg-slate-50 border border-black/5 rounded-xl p-5 text-left space-y-3">
-                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">What happens next?</p>
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Your talent brief</p>
                       <div className="space-y-3">
                         {[
-                          { icon: '📧', title: 'Confirmation email sent',    desc: `A summary has been sent to ${contactForm.email || 'your inbox'}.` },
-                          { icon: '👤', title: 'Consultant assigned',        desc: 'A specialist in your sector will be assigned to your account.' },
-                          { icon: '📱', title: "We'll be in touch shortly",  desc: 'Expect a call or email within 2 business hours to discuss your needs.' },
-                          { icon: '🎯', title: 'Shortlist delivered',         desc: 'Qualified candidates presented within 5–10 business days.' },
+                          { icon: '🏢', title: employerCompany, desc: `${employerRegion} · ${contactForm.company}` },
+                          { icon: '🎯', title: contactForm.role, desc: `${headcount} role(s) requested` },
+                          { icon: '👤', title: contactForm.name, desc: contactForm.email },
+                          { icon: '📋', title: 'Your requirements', desc: contactForm.message || 'No additional requirements supplied.' },
                         ].map((step, i) => (
                           <motion.div key={i} className="flex items-start gap-3"
                             initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }}
@@ -1629,9 +1542,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
                     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
                       className="flex flex-col sm:flex-row gap-3 w-full pt-2">
-                      <button onClick={() => setContactOpen(false)} className="flex-1 py-3 text-white font-bold rounded-xl transition-opacity hover:opacity-90"
+                      <button onClick={() => { const brief = new Blob([JSON.stringify({ service: contactForm.role, sector: contactForm.company, company: employerCompany, region: employerRegion, headcount, contact: contactForm.name, email: contactForm.email, phone: contactForm.phone, requirements: contactForm.message }, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(brief); const download = document.createElement('a'); download.href = url; download.download = 'mployus-talent-request.json'; download.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }} className="flex-1 py-3 text-white font-bold rounded-xl transition-opacity hover:opacity-90"
                         style={{ backgroundColor: P }}>
-                        Done
+                        Download brief
                       </button>
                       <button onClick={() => { setContactOpen(false); goTo('contact'); }} className="flex-1 py-3 border border-black/5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
                         Contact page
@@ -1919,7 +1832,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                       <input type="checkbox" checked={applyForm.termsAccepted}
                         onChange={e => setApplyForm(f => ({ ...f, termsAccepted: e.target.checked }))}
                         className="w-4 h-4 mt-0.5 shrink-0 cursor-pointer" style={{ accentColor: P }} />
-                      <span className="text-sm text-slate-600">I agree to MployUs Recruit's <span className="font-semibold underline cursor-pointer" style={{ color: P }}>Terms &amp; Conditions</span> and confirm the information I have provided is accurate.</span>
+                      <span className="text-sm text-slate-600">I agree to MployUs Recruit's <Link to="/policies/terms" target="_blank" className="font-semibold underline" style={{ color: P }}>Terms &amp; Conditions</Link> and confirm the information I have provided is accurate.</span>
                     </label>
 
                     <div className="flex gap-3 pt-1">
