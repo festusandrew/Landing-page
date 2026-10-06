@@ -21,6 +21,7 @@ import { ProductDesignPage } from '../components/pages/ProductDesignPage';
 import { WebDevelopmentPage } from '../components/pages/WebDevelopmentPage';
 
 import { BookDemoModal } from '../components/modals/BookDemoModal';
+import { LocumContactDialog } from '../components/modals/LocumContactDialog';
 import { FreeTrialModal } from '../components/modals/FreeTrialModal';
 import { VideoModal } from '../components/modals/VideoModal';
 import { ModuleDetailModal } from '../components/modals/ModuleDetailModal';
@@ -256,11 +257,11 @@ function PlatformApp() {
         />
       )}
 
-      <BookDemoModal
+      {isStandaloneLocum ? <LocumContactDialog isOpen={bookDemoOpen} onClose={() => setBookDemoOpen(false)} context={initialDemoModule} /> : <BookDemoModal
         isOpen={bookDemoOpen}
         onClose={() => setBookDemoOpen(false)}
         initialModule={initialDemoModule}
-      />
+      />}
       <FreeTrialModal
         isOpen={freeTrialOpen}
         onClose={() => setFreeTrialOpen(false)}

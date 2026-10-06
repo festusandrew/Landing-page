@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
+import { LocumDialog } from '../LocumDialog';
 import {
   X, ChevronRight, ChevronDown, ChevronLeft, Check, CheckCircle2, ShieldCheck,
   Stethoscope, User, Mail, Phone, MapPin, Calendar, IdCard, Award, FileText,
@@ -114,7 +115,7 @@ const STEPS = ['Profession', 'Personal', 'Registration', 'Compliance', 'Review']
    ──────────────────────────────────────────────────────────────────────────── */
 
 const Field = ({ icon: Icon, children }: { icon: React.ComponentType<{ className?: string }>; children: React.ReactNode }) => (
-  <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-50 border border-black/5 focus-within:border-green-400 transition-colors">
+  <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-slate-50 border border-black/5 focus-within:bg-[#edf4ef] transition-colors">
     <Icon className="w-4 h-4 text-slate-400 shrink-0" />
     {children}
   </div>
@@ -178,16 +179,15 @@ export function LocumRegistrationWizard({
     });
   };
 
-  const primaryBtn = 'py-3 bg-green-600 hover:bg-green-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-1.5';
+  const primaryBtn = 'py-3 bg-[#368B62] hover:bg-[#286d4c] disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-bold rounded-2xl transition-all flex items-center justify-center gap-1.5';
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-4">
-      <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={onClose} />
+    <LocumDialog onClose={onClose} closeLabel="Close locum registration" title={done ? "Your registration preview is ready." : "A little more freedom starts here."} description={done ? "You’ve explored the registration flow. No live registration has been submitted." : `Step ${step + 1} of ${STEPS.length} · ${meta.country} · ${profession.name}`} headline={"Good care.\nOn your terms."} steps={STEPS} currentStep={done ? STEPS.length : step}>
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ type: 'spring', stiffness: 260, damping: 26 }}
-        className="relative w-full max-w-lg bg-white rounded-3xl max-h-[92vh] overflow-y-auto"
+        className="w-full bg-white"
       >
         {done ? (
           <div className="flex flex-col items-center text-center px-8 py-12 space-y-5">
@@ -196,12 +196,12 @@ export function LocumRegistrationWizard({
               transition={{ type: 'spring', stiffness: 300, damping: 18, delay: 0.1 }}
               className="w-20 h-20 rounded-full bg-green-50 border border-black/5 flex items-center justify-center"
             >
-              <CheckCircle2 className="w-10 h-10 text-green-600" />
+              <CheckCircle2 className="w-10 h-10 text-[#368B62]" />
             </motion.div>
             <div>
-              <h3 className="text-2xl font-bold text-slate-900">Registration submitted!</h3>
+              <h3 className="text-2xl font-bold text-slate-900">Registration preview complete</h3>
               <p className="text-sm text-slate-500 mt-1.5 leading-relaxed">
-                Thanks {form.fullName?.split(' ')[0] || 'there'} — your {profession.name} registration for {meta.flag} {meta.country} is in review.
+                Thanks {form.fullName?.split(' ')[0] || 'there'} — your {profession.name} registration for {meta.flag} {meta.country} is ready in this preview. No registration has been submitted.
               </p>
             </div>
             <div className="w-full text-left p-4 rounded-2xl bg-green-50 border border-black/5 space-y-2.5">
@@ -212,7 +212,7 @@ export function LocumRegistrationWizard({
                 'You get a verified badge — then you can apply for shifts',
               ].map((t, i) => (
                 <div key={i} className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-green-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+                  <span className="w-5 h-5 rounded-full bg-[#368B62] text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
                   <p className="text-xs text-slate-600 leading-relaxed">{t}</p>
                 </div>
               ))}
@@ -221,24 +221,6 @@ export function LocumRegistrationWizard({
           </div>
         ) : (
           <>
-            {/* Header */}
-            <div className="sticky top-0 z-10 bg-white px-6 pt-6 pb-4 border-b border-black/5">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900">Locum registration</h3>
-                  <p className="text-xs text-slate-500 mt-0.5">Step {step + 1} of {STEPS.length} · {STEPS[step]}</p>
-                </div>
-                <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors">
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-              <div className="flex gap-1.5">
-                {STEPS.map((_, i) => (
-                  <div key={i} className={`h-1 flex-1 rounded-full transition-all duration-300 ${i <= step ? 'bg-green-600' : 'bg-slate-100'}`} />
-                ))}
-              </div>
-            </div>
-
             <div className="p-6 space-y-4">
               {/* ── Step 0 — Country + profession ── */}
               {step === 0 && (
@@ -249,7 +231,7 @@ export function LocumRegistrationWizard({
                       {(['IE', 'UK'] as RegRegion[]).map(r => {
                         const active = region === r;
                         return (
-                          <button key={r} onClick={() => setRegion(r)} className={`p-3 rounded-xl border-2 text-left transition-all ${active ? 'border-green-600 bg-green-50' : 'border-black/5 bg-white hover:bg-slate-50'}`}>
+                          <button key={r} onClick={() => setRegion(r)} className={`p-3 rounded-2xl border text-left transition-all ${active ? 'border-black/5 bg-green-50' : 'border-black/5 bg-white hover:bg-slate-50'}`}>
                             <div className="text-2xl leading-none">{REGION_META[r].flag}</div>
                             <div className="text-sm font-bold text-slate-900 mt-1.5">{REGION_META[r].country}</div>
                             <div className="text-[10px] text-slate-500 mt-0.5">{REGION_META[r].vetting}</div>
@@ -266,15 +248,15 @@ export function LocumRegistrationWizard({
                         const active = professionKey === p.key;
                         const reg = p.regulator[region];
                         return (
-                          <button key={p.key} onClick={() => setProfessionKey(p.key)} className={`w-full p-3 rounded-xl border-2 text-left flex items-center gap-3 transition-all ${active ? 'border-green-600 bg-green-50' : 'border-black/5 bg-white hover:bg-slate-50'}`}>
-                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${active ? 'bg-green-600' : 'bg-slate-100'}`}>
+                          <button key={p.key} onClick={() => setProfessionKey(p.key)} className={`w-full p-3 rounded-2xl border text-left flex items-center gap-3 transition-all ${active ? 'border-black/5 bg-green-50' : 'border-black/5 bg-white hover:bg-slate-50'}`}>
+                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${active ? 'bg-[#368B62]' : 'bg-slate-100'}`}>
                               <Icon className={`w-4.5 h-4.5 ${active ? 'text-white' : 'text-slate-500'}`} />
                             </div>
                             <div className="flex-1">
                               <div className="text-sm font-bold text-slate-900">{p.name}</div>
                               <div className="text-[10px] text-slate-500">{reg ? `Regulated by ${reg.acronym}` : 'Non-registered role · training verified'}</div>
                             </div>
-                            {active && <Check className="w-4 h-4 text-green-600" />}
+                            {active && <Check className="w-4 h-4 text-[#368B62]" />}
                           </button>
                         );
                       })}
@@ -315,7 +297,7 @@ export function LocumRegistrationWizard({
                   <div>
                     <label className={labelCls}>Right to work</label>
                     <div className="relative">
-                      <select value={form.rightToWork || ''} onChange={set('rightToWork')} className="w-full appearance-none px-4 py-3 rounded-xl bg-slate-50 border border-black/5 text-sm text-slate-800 outline-none cursor-pointer">
+                      <select value={form.rightToWork || ''} onChange={set('rightToWork')} className="w-full appearance-none px-4 py-3 rounded-2xl bg-slate-50 border border-black/5 text-sm text-slate-800 outline-none cursor-pointer">
                         <option value="">Select status…</option>
                         <option>{meta.rightToWork}</option>
                         <option>Visa sponsorship required</option>
@@ -331,8 +313,8 @@ export function LocumRegistrationWizard({
                 <div className="space-y-3">
                   {regulator ? (
                     <>
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-green-50 border border-black/5">
-                        <ShieldCheck className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+                      <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-green-50 border border-black/5">
+                        <ShieldCheck className="w-4 h-4 text-[#368B62] shrink-0 mt-0.5" />
                         <p className="text-xs text-green-900 leading-relaxed">
                           As a {profession.name} in {meta.country}, you must hold active registration with the <span className="font-bold">{regulator.name} ({regulator.acronym})</span>.
                         </p>
@@ -343,7 +325,7 @@ export function LocumRegistrationWizard({
                       </div>
                     </>
                   ) : (
-                    <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-50 border border-amber-200">
+                    <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-amber-50 border border-amber-200">
                       <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                       <p className="text-xs text-amber-800 leading-relaxed">
                         <span className="font-bold">No statutory register.</span> {profession.name}s aren't on a regulator register in {meta.country}, so we verify your training and experience instead ({region === 'IE' ? 'QQI Level 5' : 'Care Certificate'}).
@@ -353,7 +335,7 @@ export function LocumRegistrationWizard({
                   <div>
                     <label className={labelCls}>Specialisation <span className="text-rose-500">*</span></label>
                     <div className="relative">
-                      <select value={form.specialisation || ''} onChange={set('specialisation')} className="w-full appearance-none px-4 py-3 rounded-xl bg-slate-50 border border-black/5 text-sm text-slate-800 outline-none cursor-pointer">
+                      <select value={form.specialisation || ''} onChange={set('specialisation')} className="w-full appearance-none px-4 py-3 rounded-2xl bg-slate-50 border border-black/5 text-sm text-slate-800 outline-none cursor-pointer">
                         <option value="">Select…</option>
                         {profession.specialisations.map(s => <option key={s}>{s}</option>)}
                       </select>
@@ -364,7 +346,7 @@ export function LocumRegistrationWizard({
                     <div>
                       <label className={labelCls}>Years of experience</label>
                       <div className="relative">
-                        <select value={form.experience || ''} onChange={set('experience')} className="w-full appearance-none px-4 py-3 rounded-xl bg-slate-50 border border-black/5 text-sm text-slate-800 outline-none cursor-pointer">
+                        <select value={form.experience || ''} onChange={set('experience')} className="w-full appearance-none px-4 py-3 rounded-2xl bg-slate-50 border border-black/5 text-sm text-slate-800 outline-none cursor-pointer">
                           <option value="">Select…</option>
                           {['< 1 year', '1–3 years', '3–5 years', '5–10 years', '10+ years'].map(y => <option key={y}>{y}</option>)}
                         </select>
@@ -382,7 +364,7 @@ export function LocumRegistrationWizard({
               {/* ── Step 3 — Compliance & documents ── */}
               {step === 3 && (
                 <div className="space-y-3">
-                  <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-50 border border-amber-200">
+                  <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-amber-50 border border-amber-200">
                     <FileText className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                     <p className="text-xs text-amber-800 leading-relaxed">
                       <span className="font-bold">Confirm you can provide these.</span> Tick each item — you'll upload them to your compliance profile after registering. All are required before your first shift.
@@ -392,8 +374,8 @@ export function LocumRegistrationWizard({
                     {allDocs.map(d => {
                       const checked = confirmedDocs.includes(d);
                       return (
-                        <button key={d} onClick={() => toggleDoc(d)} className={`w-full p-3 rounded-xl border text-left flex items-center gap-3 transition-all ${checked ? 'border-green-600 bg-green-50' : 'border-black/5 bg-slate-50 hover:bg-slate-100'}`}>
-                          <span className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 border ${checked ? 'bg-green-600 border-green-600' : 'bg-white border-black/10'}`}>
+                        <button key={d} onClick={() => toggleDoc(d)} className={`w-full p-3 rounded-2xl border text-left flex items-center gap-3 transition-all ${checked ? 'border-black/5 bg-green-50' : 'border-black/5 bg-slate-50 hover:bg-slate-100'}`}>
+                          <span className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 border ${checked ? 'bg-[#368B62] border-black/5' : 'bg-white border-black/10'}`}>
                             {checked ? <Check className="w-3.5 h-3.5 text-white" /> : <Upload className="w-3 h-3 text-slate-400" />}
                           </span>
                           <span className="text-xs font-medium text-slate-700 leading-snug">{d}</span>
@@ -432,7 +414,7 @@ export function LocumRegistrationWizard({
                   <label className="flex items-start gap-2.5 cursor-pointer">
                     <input type="checkbox" checked={terms} onChange={e => setTerms(e.target.checked)} className="mt-0.5 accent-[#368B62] w-4 h-4" />
                     <span className="text-xs text-slate-600 leading-relaxed">
-                      I confirm the information is accurate and agree to the <Link to="/policies/terms" target="_blank" className="font-semibold text-green-700 underline">Terms of Service</Link> and <Link to="/policies/privacy" target="_blank" className="font-semibold text-green-700 underline">Privacy Policy</Link>. I consent to MployUs verifying my registration and vetting.
+                      I confirm the information is accurate and agree to the <Link to="/policies/terms" target="_blank" className="font-semibold text-[#368B62] underline">Terms of Service</Link> and <Link to="/policies/privacy" target="_blank" className="font-semibold text-[#368B62] underline">Privacy Policy</Link>. I consent to MployUs verifying my registration and vetting.
                     </span>
                   </label>
                 </div>
@@ -459,7 +441,7 @@ export function LocumRegistrationWizard({
           </>
         )}
       </motion.div>
-    </div>
+    </LocumDialog>
   );
 }
 

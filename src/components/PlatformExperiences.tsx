@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { motion, useReducedMotion } from "motion/react"
 import { ArrowRight, Check, Eye, EyeOff, LockKeyhole, X } from "lucide-react"
 import { Link, useNavigate, useParams } from "react-router"
+import { LocumDialog } from "./LocumDialog"
 
 export function PeopleAnimation({
   kind,
@@ -294,6 +295,7 @@ export function LoginExperience({
     setStatus("")
     setRecover(false)
     setShowPassword(false)
+    if (locum) return
     const previousFocus = document.activeElement as HTMLElement | null
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = "hidden"
@@ -331,51 +333,9 @@ export function LoginExperience({
       previousFocus?.focus()
     }
   }, [open])
-  if (!open) return null
-  return (
-    <div
-      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-[#10241c]/70 p-4"
-      onClick={onClose}
-    >
-      <motion.div
-        ref={panel}
-        tabIndex={-1}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="login-title"
-        onClick={(event) => event.stopPropagation()}
-        initial={reducedMotion ? false : { opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative grid max-h-[95vh] w-full max-w-4xl overflow-y-auto rounded-2xl bg-white outline-none md:grid-cols-2"
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close login"
-          className="absolute right-4 top-4 z-10 rounded-full bg-[#f5f5f2] p-2 text-slate-600 hover:bg-[#eaece6]"
-        >
-          <X size={18} />
-        </button>
-        <div
-          className={`hidden flex-col justify-center gap-7 p-8 md:flex ${
-            locum ? "bg-[#f0f5ec]" : "bg-[#fbf1f7]"
-          }`}
-        >
-          <span
-            className={`text-xs font-semibold uppercase tracking-[0.15em] ${
-              locum ? "text-[#368B62]" : "text-[#810161]"
-            }`}
-          >
-            MployUs {locum ? "Locums" : "Recruit"}
-          </span>
-          <PeopleAnimation kind={kind} image={image} />
-          <p className="font-['Libre_Caslon_Display',serif] text-4xl leading-tight text-[#233b35]">
-            {locum
-              ? "Care with purpose. Work with freedom."
-              : "Your ambition. A world of possibility."}
-          </p>
-        </div>
-        <div className="flex flex-col justify-center px-7 py-14 md:px-10">
+  const loginContent = (
+<div className={locum ? "flex flex-col px-7 py-7" : "flex flex-col justify-center px-7 py-14 md:px-10"}>
+          {!locum && (<>
           <LockKeyhole
             size={26}
             className={locum ? "text-[#368B62]" : "text-[#810161]"}
@@ -389,6 +349,7 @@ export function LoginExperience({
           >
             {recover ? "A fresh start." : "Good to see you."}
           </h2>
+          </>)}
           <p className="mb-7 mt-3 text-sm leading-6 text-slate-500">
             {recover
               ? "Enter your email to request a password reset."
@@ -454,10 +415,10 @@ export function LoginExperience({
             </button>
             <button
               type="submit"
-              className={`flex w-full items-center justify-center gap-3 rounded-lg py-3.5 text-sm font-semibold text-white transition-colors ${
+              className={`flex w-full items-center justify-center gap-3 py-3.5 text-sm font-semibold text-white transition-colors ${
                 locum
-                  ? "bg-[#368B62] hover:bg-[#286d4c]"
-                  : "bg-[#810161] hover:bg-[#67014d]"
+                  ? "rounded-full bg-[#368B62] hover:bg-[#286d4c]"
+                  : "rounded-lg bg-[#810161] hover:bg-[#67014d]"
               }`}
             >
               {recover ? "Request reset link" : "Sign in"}
@@ -488,6 +449,53 @@ export function LoginExperience({
             </Link>
           </p>
         </div>
+  )
+  if (!open) return null
+  if (locum) return <LocumDialog onClose={onClose} closeLabel="Close login" title={recover ? "Let’s get you back in." : "Good to see you again."} description={recover ? "A fresh start for your account." : "Your opportunities, applications and team, all connected."} headline={"Care with purpose.\nWork with freedom."} image={image}>{loginContent}</LocumDialog>
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-[#10241c]/70 p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        ref={panel}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="login-title"
+        onClick={(event) => event.stopPropagation()}
+        initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative grid max-h-[95vh] w-full max-w-4xl overflow-y-auto rounded-2xl bg-white outline-none md:grid-cols-2"
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close login"
+          className="absolute right-4 top-4 z-10 rounded-full bg-[#f5f5f2] p-2 text-slate-600 hover:bg-[#eaece6]"
+        >
+          <X size={18} />
+        </button>
+        <div
+          className={`hidden flex-col justify-center gap-7 p-8 md:flex ${
+            locum ? "bg-[#f0f5ec]" : "bg-[#fbf1f7]"
+          }`}
+        >
+          <span
+            className={`text-xs font-semibold uppercase tracking-[0.15em] ${
+              locum ? "text-[#368B62]" : "text-[#810161]"
+            }`}
+          >
+            MployUs {locum ? "Locums" : "Recruit"}
+          </span>
+          <PeopleAnimation kind={kind} image={image} />
+          <p className="font-['Libre_Caslon_Display',serif] text-4xl leading-tight text-[#233b35]">
+            {locum
+              ? "Care with purpose. Work with freedom."
+              : "Your ambition. A world of possibility."}
+          </p>
+        </div>
+        {loginContent}
       </motion.div>
     </div>
   )
