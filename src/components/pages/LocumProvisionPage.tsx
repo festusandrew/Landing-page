@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useNavigate } from 'react-router';
-import { LoginExperience, ModernServiceHero } from '../PlatformExperiences';
+import { LoginExperience } from '../PlatformExperiences';
 import { Footer } from '../Footer';
 import imgLocumProfessional from '../../imports/locum-professional.jpg';
 import {
@@ -566,50 +566,70 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           HOME PAGE
       ══════════════════════════════════════ */}
       {page === 'home' && (
-        <>
+        <div className="bg-white [&_h2]:font-medium [&_h2]:leading-[1.12] [&_h2]:text-[#24332d] [&_h2]:tracking-[-0.025em]">
 
-        <div className="mt-[70px]"><ModernServiceHero kind="locum" image={imgLocumProfessional} onPrimary={() => goto('find-shifts')} onSecondary={() => openAuth('signup')} /></div>
-        <section aria-label="Find locum opportunities" className="relative z-20 border-b border-black/5 bg-white px-6 py-6"><div className="mx-auto max-w-[1184px]"><p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#67716b]">A little closer to your next opportunity</p><SearchBar /></div></section>
+        <section className="mx-auto mt-[86px] max-w-[1280px] px-4 sm:px-6" aria-label="Locum opportunities in Ireland and the UK">
+          <div className="relative overflow-hidden rounded-[28px] bg-[#edf2ef]">
+            <div className="absolute inset-y-0 right-0 hidden w-[54%] lg:block">
+              <img src={imgLocumProfessional} alt="Healthcare professional in teal scrubs" className="h-full w-full object-cover object-[center_22%]" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#edf2ef] via-[#edf2ef]/10 to-transparent" />
+            </div>
+            <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative z-10 px-7 py-12 sm:px-12 sm:py-16 lg:w-[61%] lg:px-14 lg:py-20">
+              <p className="mb-7 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#53685b]"><span className="h-1.5 w-1.5 rounded-full bg-[#368B62]" />Healthcare, on your terms · Ireland & UK</p>
+              <h1 className="text-[36px] font-medium leading-[1.04] tracking-[-0.025em] text-[#24332d] sm:text-[62px] lg:text-[68px]">Great care.<br />More freedom.<br /><span className="text-[#368B62]">Your next shift.</span></h1>
+              <p className="mt-6 max-w-[430px] text-[15px] leading-7 text-[#64716a]">A more human way to work in healthcare. Find flexible shifts, connect with trusted facilities and make room for the life you want to live.</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <button onClick={() => goto('find-shifts')} className="group inline-flex items-center gap-4 rounded-full bg-[#368B62] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c]">Find your next shift<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></button>
+                <button onClick={() => openAuth('signup')} className="rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-[#24332d] transition-colors hover:bg-[#dcebe1]">Join as a locum</button>
+              </div>
+              <div className="mt-9 flex max-w-[450px] flex-wrap gap-x-5 gap-y-3">{['Flexible opportunities', 'Country-aware registration', 'People-first support'].map(label => <span key={label} className="flex items-center gap-1.5 text-[10px] text-[#64716a]"><Check className="h-3.5 w-3.5 text-[#368B62]" />{label}</span>)}</div>
+            </motion.div>
+            <div className="relative h-[340px] overflow-hidden lg:hidden"><img src={imgLocumProfessional} alt="Healthcare professional in teal scrubs" className="h-full w-full object-cover object-[center_25%]" /></div>
+            <div className="absolute bottom-6 right-6 z-10 flex items-center gap-4 rounded-2xl bg-white/95 px-5 py-4 lg:bottom-8 lg:right-8"><div><p className="mb-1 text-[9px] uppercase tracking-[0.14em] text-[#7a827c]">A schedule that fits</p><p className="text-sm font-medium text-[#24332d]">Your expertise. Your choice.</p></div><span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#dceee4]"><Calendar className="h-4 w-4 text-[#368B62]" /></span></div>
+          </div>
+        </section>
+        <section aria-label="Find locum opportunities" className="relative z-20 mx-auto max-w-[1280px] px-6 pb-4 pt-8"><div className="mx-auto max-w-[1184px]"><p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#67716b]">A little closer to your next opportunity</p><SearchBar /></div></section>
 
+        <Reveal className="mx-auto max-w-[1000px] px-6 pb-12 pt-20 text-center"><p className="text-[32px] font-medium uppercase leading-[1.15] tracking-[-0.02em] text-[#a5b9ad] sm:text-[48px]">Care is personal.<br />Your working life should be, too.</p><p className="mx-auto mt-7 max-w-[630px] text-sm leading-7 text-[#68716c]">Find the opportunities that fit your expertise, your schedule and your ambitions. We connect healthcare professionals and facilities, with thoughtful support along the way.</p></Reveal>
         {/* ── STATS RIBBON ── */}
-        <section className="bg-[#368B62] border-y border-black/5">
-          <div ref={statsRef} className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <section className="mx-auto max-w-[1280px] px-6">
+          <div ref={statsRef} className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
             {STATS.map((stat, i) => {
               const Icon = stat.icon;
               return (
                 <motion.div
                   key={stat.label}
-                  className="flex flex-col items-center text-center"
+                  className={`flex min-h-[220px] flex-col rounded-[24px] p-6 sm:min-h-[260px] sm:p-8 ${["bg-[#dceee4]", "bg-[#eef0f1]", "bg-[#faf0e1]", "bg-[#e3eff4]"][i % 4]}`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <Icon className="w-5 h-5 text-green-200 mb-2" />
-                  <div className="text-3xl font-bold text-white">{stat.value}</div>
-                  <p className="text-green-100/80 text-xs mt-1 font-medium">{stat.label}</p>
+                  <div className="text-[42px] font-medium leading-none tracking-[-0.03em] text-[#24332d] sm:text-[54px]">{stat.value}</div>
+                  <Icon className="mb-3 mt-auto h-6 w-6 text-[#53685b]" />
+                  <p className="text-xs font-medium text-[#53685b]">{stat.label}</p>
                 </motion.div>
               );
             })}
           </div>
         </section>
 
-        <section className="border-b border-black/5 bg-white px-6 py-10"><div className="mx-auto grid max-w-[1184px] gap-6 md:grid-cols-2 md:gap-20"><p className="text-2xl font-medium leading-snug text-[#24332d]">Care is personal.<br />Your working life should be, too.</p><p className="text-sm leading-7 text-[#68716c]">Find the opportunities that fit your expertise, your schedule and your ambitions. We connect healthcare professionals and facilities, with thoughtful support along the way.</p></div></section>
+
 
         {/* ── ABOUT ── */}
-        <section className="py-28 max-w-[1280px] mx-auto px-6 lg:px-12">
+        <section className="py-20 max-w-[1280px] mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Stacked images with offset */}
-            <Reveal variant={slideLeft} className="relative h-[520px] hidden lg:block">
+            <Reveal variant={slideLeft} className="relative grid h-[430px] grid-cols-2 gap-4 sm:h-[520px]">
               <motion.div
-                className="absolute left-0 top-0 w-[330px] h-[460px] rounded-3xl overflow-hidden ring-1 ring-black/5"
+                className="relative mt-10 h-[calc(100%-40px)] w-full rounded-3xl overflow-hidden "
                 whileHover={{ scale: 1.02, rotate: -1 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               >
                 <img src={imgTjqvmx3} alt="Healthcare professional" className="w-full h-full object-cover" />
               </motion.div>
               <motion.div
-                className="absolute right-0 bottom-0 w-[300px] h-[420px] rounded-3xl overflow-hidden ring-1 ring-black/5 border border-black/5"
+                className="relative mb-10 h-[calc(100%-40px)] w-full rounded-3xl overflow-hidden "
                 whileHover={{ scale: 1.02, rotate: 1 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               >
@@ -617,7 +637,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </motion.div>
               {/* Floating badge */}
               <motion.div
-                className="absolute left-[270px] top-[200px] bg-white rounded-2xl border border-black/5 px-4 py-3 z-10"
+                className="absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white rounded-2xl border border-black/5 px-4 py-3 z-10"
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -693,7 +713,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── WHO CAN JOIN ── */}
-        <section className="py-24 bg-slate-50 border-y border-black/5">
+        <section className="py-20 bg-[#f7f9f8]">
           <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
             <Reveal className="text-center mb-14">
               <SectionLabel>Who can join MployUs Locums</SectionLabel>
@@ -713,7 +733,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               {WHO_CAN_JOIN.map((item, i) => (
                 <motion.div
                   key={i}
-                  className="group shrink-0 cursor-pointer"
+                  className="group shrink-0"
                   variants={{
                     hidden: { opacity: 0, y: 40, scale: 0.96 },
                     visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
@@ -721,7 +741,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   whileHover={{ y: -6 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                 >
-                  <div className="relative w-[260px] h-[380px] rounded-2xl overflow-hidden ring-1 ring-black/5">
+                  <div className="relative w-[280px] h-[360px] rounded-[24px] overflow-hidden ">
                     <motion.img
                       src={item.img}
                       alt={item.label}
@@ -729,10 +749,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       whileHover={{ scale: 1.08 }}
                       transition={{ duration: 0.5 }}
                     />
-                    <div className="absolute inset-0 bg-slate-900/80" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#20372b]/80 via-transparent to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-5">
                       <div className="text-2xl mb-1">{item.emoji}</div>
-                      <p className="text-white font-semibold text-[15px] leading-tight">{item.label}</p>
+                      <p className="inline-flex rounded-full bg-white px-4 py-2.5 text-[#24332d] font-medium text-[13px] leading-tight">{item.label}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -748,7 +768,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── WHY MPLOYUS ── */}
-        <section className="py-28 max-w-[1280px] mx-auto px-6 lg:px-12">
+        <section className="py-20 max-w-[1280px] mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Feature list */}
             <motion.div
@@ -814,7 +834,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
             {/* Image */}
             <Reveal variant={slideRight} className="order-1 lg:order-2">
-              <div className="relative rounded-3xl overflow-hidden ring-1 ring-black/5 h-[520px]">
+              <div className="relative rounded-3xl overflow-hidden  h-[520px]">
                 <motion.img
                   src={imgWmremoveTransformed1}
                   alt="Healthcare professional"
@@ -847,21 +867,19 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         {/* ── MOBILE APP ── */}
         <Reveal className="py-8 px-6 lg:px-12 max-w-[1280px] mx-auto">
-          <div className="relative rounded-3xl overflow-hidden bg-slate-900">
+          <div className="relative rounded-3xl overflow-hidden bg-[#e6f0e9]">
             {/* Decorative blobs */}
-            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#368B62]/20 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-green-500/15 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl pointer-events-none" />
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-[420px]">
               {/* Text */}
               <div className="p-10 lg:p-14 flex flex-col justify-center space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/80 text-[11px] font-semibold uppercase tracking-widest w-fit">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-black/5 text-[#53685b] text-[11px] font-semibold uppercase tracking-widest w-fit">
                   <Smartphone className="w-3 h-3" /> Mobile App
                 </div>
-                <h2 className="text-4xl font-bold text-white leading-tight">
+                <h2 className="text-4xl font-bold text-[#24332d] leading-tight">
                   Your shifts,<br />in your pocket.
                 </h2>
-                <p className="text-white/60 text-[15px] leading-relaxed max-w-md">
+                <p className="text-[#64716a] text-[15px] leading-relaxed max-w-md">
                   Find and apply for locum shifts on the go. Manage your schedule, submit timesheets, and track payments — all in one app.
                 </p>
                 <ul className="space-y-2.5">
@@ -872,8 +890,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   ].map(f => {
                     const Icon = f.icon;
                     return (
-                      <li key={f.label} className="flex items-center gap-2.5 text-sm text-white/75">
-                        <Icon className="w-4 h-4 text-green-400 shrink-0" /> {f.label}
+                      <li key={f.label} className="flex items-center gap-2.5 text-sm text-[#53685b]">
+                        <Icon className="w-4 h-4 text-[#368B62] shrink-0" /> {f.label}
                       </li>
                     );
                   })}
@@ -888,12 +906,12 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <button
                         key={btn.key}
                         onClick={() => onBookDemo(btn.key)}
-                        className="flex items-center gap-3 px-5 py-3 bg-white/10 hover:bg-white/20 border border-black/5 rounded-xl transition-all group"
+                        className="flex items-center gap-3 px-5 py-3 bg-white hover:bg-[#d5e6db] border border-black/5 rounded-xl transition-all group"
                       >
-                        <Icon className="w-5 h-5 text-white fill-current" />
+                        <Icon className="w-5 h-5 text-[#24332d] fill-current" />
                         <span className="text-left">
-                          <span className="block text-[9px] text-white/50">{btn.top}</span>
-                          <span className="block text-sm font-bold text-white">{btn.bottom}</span>
+                          <span className="block text-[9px] text-[#64716a]">{btn.top}</span>
+                          <span className="block text-sm font-bold text-[#24332d]">{btn.bottom}</span>
                         </span>
                       </button>
                     );
@@ -938,7 +956,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </Reveal>
 
         {/* ── TESTIMONIALS ── */}
-        <section className="py-28 max-w-[1280px] mx-auto px-6 lg:px-12">
+        <section className="py-20 max-w-[1280px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-14">
             <SectionLabel>Testimonials</SectionLabel>
             <h2 className="text-4xl font-bold text-slate-900 tracking-[-0.02em] mt-4 mb-3">Trusted by healthcare professionals</h2>
@@ -946,7 +964,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5"
+            className="grid grid-cols-1 md:grid-cols-2 gap-5"
             variants={stagger(0.1)}
             initial="hidden"
             whileInView="visible"
@@ -955,7 +973,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             {TESTIMONIALS.map((t, i) => (
               <motion.div
                 key={i}
-                className="group relative bg-white border border-black/5 rounded-2xl p-6 cursor-default"
+                className="group relative flex flex-col bg-[#f5f7f6] rounded-[24px] p-8 cursor-default"
                 variants={{
                   hidden: { opacity: 0, y: 30, scale: 0.97 },
                   visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
@@ -965,10 +983,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               >
                 <div className="text-5xl text-green-100 font-serif leading-none mb-3 select-none">"</div>
                 <div className="flex gap-0.5 mb-3">
-                  {[...Array(t.stars)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}
+                  {[...Array(t.stars)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-[#368B62] text-[#368B62]" />)}
                 </div>
                 <p className="text-slate-700 text-sm leading-relaxed mb-5">{t.quote}</p>
-                <div className="flex items-center gap-3 pt-3 border-t border-black/5">
+                <div className="mt-auto flex items-center gap-3 pt-3">
                   <div className="w-9 h-9 rounded-full bg-[#368B62] flex items-center justify-center text-white text-sm font-bold shrink-0">
                     {t.name[0]}
                   </div>
@@ -983,7 +1001,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── FAQ SECTION ── */}
-        <section className="py-28 bg-slate-50 border-t border-black/5">
+        <section className="py-20 bg-white">
           <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
               {/* Left sticky */}
@@ -1073,7 +1091,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── CTA STRIP ── */}
-        <section className="py-20 bg-slate-900 overflow-hidden">
+        <section className="mx-6 mb-12 max-w-[1184px] rounded-[28px] bg-[#e6f0e9] py-14 overflow-hidden xl:mx-auto">
           <motion.div
             className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8"
             variants={stagger(0.12)}
@@ -1082,14 +1100,14 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             viewport={{ once: true, margin: '-40px' }}
           >
             <motion.div variants={slideLeft} className="space-y-3 text-center lg:text-left">
-              <div className="text-xs font-bold text-green-400 uppercase tracking-widest">Join MployUs Locums</div>
-              <h3 className="text-3xl font-bold text-white">Start finding — or filling — shifts today</h3>
-              <p className="text-slate-400 text-sm">Free to register in Ireland and the UK. Verified professionals only.</p>
+              <div className="text-xs font-bold text-[#368B62] uppercase tracking-widest">Join MployUs Locums</div>
+              <h3 className="text-3xl font-medium text-[#24332d]">Start finding — or filling — shifts today</h3>
+              <p className="text-[#64716a] text-sm">Free to register in Ireland and the UK. Verified professionals only.</p>
             </motion.div>
             <motion.div variants={slideRight} className="flex w-full flex-wrap items-center gap-3 lg:w-auto">
               <motion.button
                 onClick={() => openAuth('signup')}
-                className="px-7 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-xl"
+                className="px-7 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-full"
                 whileHover={{ scale: 1.04, backgroundColor: '#f8fafc' }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 350, damping: 22 }}
@@ -1098,7 +1116,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </motion.button>
               <motion.button
                 onClick={onBackToHome}
-                className="px-6 py-3.5 bg-white/10 border border-black/5 text-white font-semibold text-sm rounded-xl"
+                className="px-6 py-3.5 bg-white border border-black/5 text-[#24332d] font-semibold text-sm rounded-full"
                 whileHover={{ scale: 1.03, backgroundColor: 'rgba(255,255,255,0.15)' }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 350, damping: 22 }}
@@ -1109,7 +1127,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </motion.div>
         </section>
 
-        </>
+        </div>
       )}
 
       {/* ══════════════════════════════════════
