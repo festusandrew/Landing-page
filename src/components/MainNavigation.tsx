@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, useState } from "react"
-import * as Dialog from "@radix-ui/react-dialog"
-import { X } from "lucide-react"
 
 interface MainNavigationProps {
   onNavigate: (view: string) => void
@@ -26,12 +24,10 @@ const menus = {
 export function MainNavigation({
   onNavigate,
   onSection,
-  onBookDemo,
   onAction,
   mobile = false,
 }: MainNavigationProps) {
   const [openMenu, setOpenMenu] = useState<string | null>(null)
-  const [pricingOpen, setPricingOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({})
   const closeMenu = () => {
@@ -133,46 +129,16 @@ export function MainNavigation({
       >
         How It Works
       </button>
-      <Dialog.Root open={pricingOpen} onOpenChange={setPricingOpen}>
-        <Dialog.Trigger asChild>
-          <button
-            type="button"
-            onClick={() => setOpenMenu(null)}
-            className={smallLink}
-          >
-            Pricing
-          </button>
-        </Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-[90] bg-black/30" />
-          <Dialog.Content className="fixed left-1/2 top-1/2 z-[100] w-[calc(100%-32px)] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-black/5 bg-white p-8 font-['Plus_Jakarta_Sans',sans-serif]">
-            <Dialog.Title className="pr-6 text-2xl font-semibold text-[#0f172b]">
-              A plan that fits your team.
-            </Dialog.Title>
-            <Dialog.Description className="mt-5 text-sm leading-7 text-[#45556c]">
-              Discuss your preferred software, team size and care settings with
-              us to request pricing tailored to your organisation.
-            </Dialog.Description>
-            <button
-              type="button"
-              onClick={() => {
-                setPricingOpen(false)
-                closeMenu()
-                onBookDemo()
-              }}
-              className="mt-7 rounded-lg bg-[#368B62] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c]"
-            >
-              Discuss pricing with our team
-            </button>
-            <Dialog.Close
-              aria-label="Close pricing"
-              className="absolute right-4 top-4 rounded-md p-2 text-[#45556c] hover:bg-[#f8fafc]"
-            >
-              <X size={18} />
-            </Dialog.Close>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
+      <button
+        type="button"
+        onClick={() => {
+          closeMenu()
+          onSection("pricing")
+        }}
+        className={smallLink}
+      >
+        Pricing
+      </button>
       <button
         type="button"
         onClick={() => {
