@@ -4,7 +4,6 @@ import { MotionConfig } from 'motion/react';
 import { PolicyPage, SoftwareAnimation } from '../components/PlatformExperiences';
 import { ArrowUpRight, ArrowRight, ChevronDown, Check, Heart, Users, BriefcaseBusiness, CalendarDays, ShieldCheck, Globe2, Menu, X, Plus, Minus } from 'lucide-react';
 import { Navbar } from '../components/Navbar';
-import { MainNavigation } from '../components/MainNavigation';
 import { Footer } from '../components/Footer';
 
 import { LocumProvisionPage } from '../components/pages/LocumProvisionPage';
@@ -32,7 +31,6 @@ const solutions = [
 
 function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (view: string) => void; onBookDemo: () => void; onStartTrial: () => void }) {
   const [country, setCountry] = useState('Ireland');
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const primaryButton = 'inline-flex items-center justify-center gap-3 rounded-sm bg-[#368B62] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]';
   const secondaryButton = 'inline-flex items-center justify-center gap-3 rounded-sm border border-black/5 bg-white px-6 py-3.5 text-sm font-semibold text-[#233b35] transition-colors hover:bg-[#edf5ef] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]';
@@ -47,24 +45,16 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
     ['Can I use just one service?', 'Absolutely. Start with the service you need today, whether that is locum cover, permanent recruitment or software. Add other services as your organisation grows.'],
     ['How do I register as a locum?', 'Visit Locum Provision, select sign up and choose Locum. The registration flow guides you through your country, profession and required details.'],
   ];
-  const scrollTo = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); setMobileOpen(false); };
+  const scrollTo = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); };
   return (
     <div id="overview" className="bg-white font-['DM_Sans',sans-serif] text-[#233b35] selection:bg-[#dfeee4] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
-      <header className="relative z-30 bg-white">
+      <div className="relative bg-white">
         <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-3 text-[11px] text-[#5d6862] lg:px-10">
           <div className="flex items-center gap-5"><Globe2 size={12} /><label className="flex items-center gap-2 text-[11px]">Your region <select aria-label="Country" value={country} onChange={event => setCountry(event.target.value)} className="cursor-pointer bg-transparent text-[11px] font-medium text-[#233b35]"><option>Ireland</option><option>United Kingdom</option></select></label><span className="hidden sm:block">Built for better healthcare.</span></div>
           <button onClick={onBookDemo} className="transition-colors hover:text-[#368B62]">Talk to our team <ArrowUpRight size={11} className="ml-1 inline" /></button>
         </div>
-        <div className="border-y border-black/5">
-          <nav aria-label="Main navigation" className="mx-auto flex max-w-[1240px] items-center justify-between gap-4 px-6 py-5 lg:px-10">
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="MployUs home" className="text-[28px] font-bold tracking-[-1px]">mploy<span className="text-[#368B62]">us</span><span className="text-[#368B62]">.</span></button>
-            <div className="hidden flex-1 justify-center xl:flex"><MainNavigation onNavigate={onNavigate} onSection={scrollTo} onBookDemo={onBookDemo} /></div>
-            <div className="hidden items-center gap-3 sm:flex"><button onClick={onBookDemo} className={primaryButton}>Book a demo</button><button onClick={onStartTrial} className={secondaryButton}>Get started <ArrowUpRight size={15} /></button></div>
-            <button aria-label={mobileOpen ? 'Close menu' : 'Open menu'} aria-expanded={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)} className="p-2 xl:hidden">{mobileOpen ? <X size={22} /> : <Menu size={22} />}</button>
-          </nav>
-          {mobileOpen && <div className="border-t border-black/5 px-6 pb-5 xl:hidden"><MainNavigation mobile onNavigate={onNavigate} onSection={scrollTo} onBookDemo={onBookDemo} onAction={() => setMobileOpen(false)} /><div className="flex flex-wrap gap-3"><button onClick={onBookDemo} className={primaryButton}>Book a demo</button><button onClick={onStartTrial} className={secondaryButton}>Get started</button></div></div>}
-        </div>
-      </header>
+        <Navbar embedded onNavigate={onNavigate} onBookDemo={onBookDemo} onStartTrial={onStartTrial} />
+      </div>
 
       <section className="mx-auto max-w-[1100px] px-6 pb-16 pt-16 text-center md:pb-20 md:pt-20">
         <p className="mb-6 text-[10px] font-semibold tracking-[0.18em] text-[#5d6862]">PEOPLE. CARE. CONNECTED.</p>
