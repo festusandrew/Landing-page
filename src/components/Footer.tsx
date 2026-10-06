@@ -1,8 +1,12 @@
 import React from "react"
 import { Link } from "react-router"
-import workspaceArrow from "../imports/footer-reference/0d194.svg"
-import staffArrow from "../imports/footer-reference/d7301.svg"
-import topArrow from "../imports/footer-reference/59b01.svg"
+import mailIcon from "../imports/footer-directory/9e5cd.svg"
+import phoneIcon from "../imports/footer-directory/770f9.svg"
+import locationIcon from "../imports/footer-directory/beae3.svg"
+import linkedinIcon from "../imports/footer-directory/c3e17.svg"
+import twitterIcon from "../imports/footer-directory/df4ea.svg"
+import facebookIcon from "../imports/footer-directory/d323b.svg"
+import shieldIcon from "../imports/footer-directory/159cd.svg"
 
 export interface FooterLink {
   label: string
@@ -10,12 +14,10 @@ export interface FooterLink {
   href?: string
   arrow?: boolean
 }
-
 export interface FooterColumn {
   title: string
   links: FooterLink[]
 }
-
 interface FooterProps {
   onNavigate: (viewId: string) => void
   onBookDemo: () => void
@@ -32,181 +34,262 @@ export const Footer: React.FC<FooterProps> = ({
   onBookDemo,
   onStartTrial,
   brandSuffix,
-  description,
   tagline,
   columns,
   onCookiePreferences,
 }) => {
-  const defaultColumns: FooterColumn[] = [
-    {
-      title: "Platform",
-      links: [
-        {
-          label: "Recruitment services",
-          onClick: () => onNavigate("recruitment-service"),
-        },
-        {
-          label: "Locum provision",
-          onClick: () => onNavigate("locum-provision"),
-        },
-        {
-          label: "Care management",
-          onClick: () => onNavigate("care-management"),
-        },
-        {
-          label: "Recruitment software",
-          onClick: () => onNavigate("recruitment-software"),
-        },
-        {
-          label: "Product design",
-          onClick: () => onNavigate("product-design"),
-        },
-        {
-          label: "Web development",
-          onClick: () => onNavigate("web-development"),
-        },
-      ],
-    },
-    {
-      title: "Explore",
-      links: [
-        {
-          label: "Why MployUs",
-          onClick: () => {
-            onNavigate("home")
-            setTimeout(
-              () =>
-                document
-                  .getElementById("about")
-                  ?.scrollIntoView({ behavior: "smooth" }),
-              100,
-            )
-          },
-        },
-        {
-          label: "Frequently asked questions",
-          onClick: () => {
-            onNavigate("home")
-            setTimeout(
-              () =>
-                document
-                  .getElementById("questions")
-                  ?.scrollIntoView({ behavior: "smooth" }),
-              100,
-            )
-          },
-        },
-        { label: "Book a demo", onClick: onBookDemo },
-        { label: "Privacy policy", href: "/policies/privacy" },
-        { label: "Terms of service", href: "/policies/terms" },
-        { label: "Cookie policy", href: "/policies/cookies" },
-      ],
-    },
-    {
-      title: "Your workspace",
-      links: [
-        { label: "Book a platform demo", onClick: onBookDemo, arrow: true },
-        { label: "Start a free trial", onClick: onStartTrial, arrow: true },
-      ],
-    },
+  const mainSection = (id: string) => {
+    onNavigate("home")
+    window.setTimeout(
+      () =>
+        document
+          .getElementById(id)
+          ?.scrollIntoView({
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+              .matches
+              ? "auto"
+              : "smooth",
+          }),
+      100,
+    )
+  }
+  const headingClass =
+    "font-['Plus_Jakarta_Sans:Bold',sans-serif] text-xs font-bold uppercase leading-4 tracking-[0.6px] text-[#0f172b]"
+  const smallLinkClass =
+    "inline-flex max-w-full items-center gap-1 text-left font-['Plus_Jakarta_Sans:Regular',sans-serif] text-xs font-normal leading-4 text-[#45556c] transition-colors hover:text-[#368B62] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-black/5"
+  const productLinkClass =
+    "inline-flex max-w-full text-left font-['Plus_Jakarta_Sans:Medium',sans-serif] text-base font-medium leading-6 text-[#45556c] transition-colors hover:text-[#368B62]"
+  const renderLink = (link: FooterLink, className = smallLinkClass) =>
+    link.href ? (
+      <Link to={link.href} className={className}>
+        {link.label}
+      </Link>
+    ) : (
+      <button type="button" onClick={link.onClick} className={className}>
+        {link.label}
+        {link.arrow && <span aria-hidden="true"> ↗</span>}
+      </button>
+    )
+  const customPlatform = columns?.find((column) => column.title === "Platform")
+  const customExplore = columns?.find((column) => column.title === "Explore")
+  const workspaceLinks = columns?.find(
+    (column) => column.title === "Your workspace",
+  )?.links || [
+    { label: "Book a platform demo", onClick: onBookDemo },
+    { label: "Start a free trial", onClick: onStartTrial },
   ]
-  const linkClasses =
-    "inline-flex max-w-full items-center gap-[8.113px] text-left font-['Inter:Regular',Inter,sans-serif] text-[16.225px] font-normal leading-[21.634px] text-[#62748e] transition-colors hover:text-[#0f172a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#62748e]"
+  const platformLinks = customPlatform?.links || [
+    { label: "How it works", onClick: () => mainSection("solutions") },
+    { label: "Why MployUs", onClick: () => mainSection("about") },
+    { label: "Book a demo", onClick: onBookDemo },
+    { label: "FAQ & support", onClick: () => mainSection("questions") },
+  ]
+  const companyLinks = customExplore?.links.filter(
+    (link) => !link.href?.startsWith("/policies/"),
+  ) || [
+    { label: "About MployUs", onClick: () => mainSection("about") },
+    {
+      label: "Explore recruitment",
+      onClick: () => onNavigate("recruitment-service"),
+    },
+    { label: "Privacy & data protection", href: "/policies/privacy" },
+  ]
+  const shareUrl =
+    typeof window === "undefined"
+      ? ""
+      : encodeURIComponent(window.location.origin)
   return (
-    <footer className="border-t border-black/5 bg-white pb-[32.451px] pt-12 sm:pt-[75.718px]">
-      <div className="mx-auto w-full max-w-[1622.535px] px-6 sm:px-[43.268px]">
-        <div className="grid gap-x-[54.085px] gap-y-10 sm:grid-cols-2 lg:min-h-[254.2px] lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
-          <div>
+    <footer className="border-t border-black/5 bg-white pb-12 pt-16">
+      <div className="mx-auto max-w-[1280px] px-6 sm:px-8">
+        <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="min-w-0">
+            <nav aria-label="Products footer links">
+              <h3 className={headingClass}>Products</h3>
+              <ul className="mt-3 space-y-2">
+                {[
+                  {
+                    label: "Recruitment Software",
+                    onClick: () => onNavigate("recruitment-software"),
+                  },
+                  {
+                    label: "Care Management Software",
+                    onClick: () => onNavigate("care-management"),
+                  },
+                ].map((link) => (
+                  <li key={link.label}>{renderLink(link, productLinkClass)}</li>
+                ))}
+              </ul>
+            </nav>
+            <nav aria-label="Services footer links" className="mt-5">
+              <h3 className={headingClass}>Services</h3>
+              <ul className="mt-3 space-y-2">
+                {[
+                  {
+                    label: "Locum Provision",
+                    onClick: () => onNavigate("locum-provision"),
+                  },
+                  {
+                    label: "Recruitment Service",
+                    onClick: () => onNavigate("recruitment-service"),
+                  },
+                  {
+                    label: "Product Design",
+                    onClick: () => onNavigate("product-design"),
+                  },
+                  {
+                    label: "Web Development",
+                    onClick: () => onNavigate("web-development"),
+                  },
+                ].map((link) => (
+                  <li key={link.label}>{renderLink(link, productLinkClass)}</li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+          <nav aria-label="Platform footer links" className="min-w-0">
+            <h3 className={headingClass}>Platform</h3>
+            <ul className="mt-3 space-y-2">
+              {platformLinks.map((link) => (
+                <li key={link.label}>{renderLink(link)}</li>
+              ))}
+            </ul>
+          </nav>
+          <nav aria-label="Company footer links" className="min-w-0">
+            <h3 className={headingClass}>Company</h3>
+            <ul className="mt-3 space-y-2">
+              {companyLinks.map((link) => (
+                <li key={link.label}>{renderLink(link)}</li>
+              ))}
+            </ul>
+          </nav>
+          <nav aria-label="Legal footer links" className="min-w-0">
+            <h3 className={headingClass}>Legal</h3>
+            <ul className="mt-3 space-y-2">
+              {[
+                { label: "Privacy Policy", href: "/policies/privacy" },
+                { label: "Terms of Service", href: "/policies/terms" },
+                { label: "Cookie Policy", href: "/policies/cookies" },
+                {
+                  label: "UK GDPR & data protection",
+                  href: "/policies/privacy",
+                },
+              ].map((link) => (
+                <li key={link.label}>{renderLink(link)}</li>
+              ))}
+              {onCookiePreferences && (
+                <li>
+                  <button
+                    type="button"
+                    onClick={onCookiePreferences}
+                    className={smallLinkClass}
+                  >
+                    Manage cookie preferences
+                  </button>
+                </li>
+              )}
+            </ul>
+          </nav>
+          <div className="min-w-0">
+            <h3 className={headingClass}>Contact us</h3>
+            <address className="mt-3 space-y-2 font-['Plus_Jakarta_Sans:Medium',sans-serif] text-[11px] font-medium not-italic leading-[14.667px] text-[#45556c]">
+              <a
+                href="mailto:hello@mployus.cloud"
+                className="flex items-center gap-2 hover:text-[#368B62]"
+              >
+                <img src={mailIcon} alt="" className="shrink-0" />
+                hello@mployus.cloud
+              </a>
+              <a
+                href="tel:08009008000"
+                className="flex items-center gap-2 hover:text-[#368B62]"
+              >
+                <img src={phoneIcon} alt="" className="shrink-0" />
+                0800 900 8000 (IR Toll-Free)
+              </a>
+              <p className="flex items-start gap-2">
+                <img src={locationIcon} alt="" className="mt-0.5 shrink-0" />
+                <span>124 Healthcare Place, Dublin, EC1A 1BB</span>
+              </p>
+            </address>
+            <div className="mt-5 flex gap-3">
+              {[
+                {
+                  label: "Share MployUs on LinkedIn",
+                  icon: linkedinIcon,
+                  href:
+                    "https://www.linkedin.com/sharing/share-offsite/?url=" +
+                    shareUrl,
+                },
+                {
+                  label: "Share MployUs on X",
+                  icon: twitterIcon,
+                  href: "https://twitter.com/intent/tweet?url=" + shareUrl,
+                },
+                {
+                  label: "Share MployUs on Facebook",
+                  icon: facebookIcon,
+                  href:
+                    "https://www.facebook.com/sharer/sharer.php?u=" + shareUrl,
+                },
+              ].map((social) => (
+                <a
+                  key={social.label}
+                  aria-label={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-[10px] border border-black/5 bg-[#f8fafc] p-[9px] transition-colors hover:bg-[#edf0f6]"
+                >
+                  <img src={social.icon} alt="" />
+                </a>
+              ))}
+            </div>
+            <nav aria-label="Your workspace footer links" className="mt-5">
+              <ul className="space-y-2">
+                {workspaceLinks.map((link) => (
+                  <li key={link.label}>{renderLink(link)}</li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-x-6 gap-y-4 border-t border-black/5 pt-8">
+          <div className="flex flex-wrap items-baseline gap-2">
             <button
+              type="button"
               onClick={() => onNavigate("home")}
               aria-label="MployUs home"
-              className="flex min-h-[51.11px] flex-wrap items-baseline gap-2 font-['Inter:Semi_Bold',Inter,sans-serif] text-[38px] font-semibold leading-[51.11px] tracking-[-0.025em] text-[#0f172a]"
+              className="font-['Plus_Jakarta_Sans:Bold',sans-serif] text-sm font-bold leading-5 text-[#0f172b]"
             >
               MployUs
               {brandSuffix && (
                 <span
-                  className={`text-[14px] font-normal tracking-normal ${
+                  className={
                     brandSuffix === "recruit"
-                      ? "text-[#810161]"
-                      : "text-[#368B62]"
-                  }`}
+                      ? "ml-1 text-[#810161]"
+                      : "ml-1 text-[#368B62]"
+                  }
                 >
                   {brandSuffix}.
                 </span>
               )}
             </button>
-            <div className="mt-[17.17px] font-['Inter:Regular',Inter,sans-serif] text-[16.225px] font-normal leading-[32.451px] text-[#62748e]">
-              {description || (
-                <>
-                  The connected platform for healthcare.
-                  <br />
-                  Less busywork. More time for care.
-                </>
-              )}
-            </div>
+            <p className="font-['Plus_Jakarta_Sans:Regular',sans-serif] text-[11px] leading-[14.667px] text-[#62748e]">
+              • © {new Date().getFullYear()} MployUs Platform. All rights
+              reserved.
+            </p>
           </div>
-          {(columns || defaultColumns).map((column) => (
-            <nav
-              key={column.title}
-              aria-label={`${column.title} footer links`}
-              className="min-w-0"
-            >
-              <h3 className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[16.225px] font-semibold leading-[21.634px] text-[#0f172a]">
-                {column.title}
-              </h3>
-              <ul className="space-y-[16.225px] pt-[21.634px]">
-                {column.links.map((link, index) => (
-                  <li key={link.label}>
-                    {link.href ? (
-                      <Link to={link.href} className={linkClasses}>
-                        {link.label}
-                      </Link>
-                    ) : (
-                      <button onClick={link.onClick} className={linkClasses}>
-                        <span>{link.label}</span>
-                        {link.arrow && (
-                          <img
-                            src={index === 0 ? workspaceArrow : staffArrow}
-                            alt=""
-                            className="shrink-0"
-                          />
-                        )}
-                      </button>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ))}
-        </div>
-        {onCookiePreferences && (
           <button
-            onClick={onCookiePreferences}
-            className="mt-6 font-['Inter:Regular',Inter,sans-serif] text-[13.521px] text-[#62748e] hover:text-[#0f172a]"
-          >
-            Manage cookie preferences
-          </button>
-        )}
-        <div className="mt-10 grid items-center gap-5 border-t border-black/5 pt-[32.451px] font-['Inter:Regular',Inter,sans-serif] text-[13.521px] font-normal leading-[20.282px] text-[#62748e] sm:mt-[64.901px] lg:grid-cols-[1fr_auto_1fr]">
-          <p>
-            © {new Date().getFullYear()} MployUs
-            {brandSuffix === "recruit"
-              ? " Recruit"
-              : brandSuffix === "locums"
-                ? " Locums"
-                : ""}
-            . All rights reserved.
-          </p>
-          <button
+            type="button"
             onClick={() => onNavigate("home")}
-            className="flex items-center gap-[8.113px] justify-self-start hover:text-[#0f172a] lg:justify-self-center"
+            className={smallLinkClass}
           >
-            Back to homepage
-            <img src={topArrow} alt="" className="rotate-180" />
+            Back to homepage ↗
           </button>
-          <p className="lg:text-right">
-            {tagline || "One platform. Your people, connected."}
-          </p>
+          <div className="flex items-center gap-2 font-['Plus_Jakarta_Sans:Regular',sans-serif] text-[11px] leading-[14.667px] text-[#62748e]">
+            <img src={shieldIcon} alt="" className="shrink-0" />
+            <span>{tagline || "One platform. Your people, connected."}</span>
+          </div>
         </div>
       </div>
     </footer>

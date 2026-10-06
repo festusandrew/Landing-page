@@ -6,6 +6,38 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Libre+Caslon+Display&display=swap');
 
 @font-face {
+  font-family: 'Plus Jakarta Sans:Bold';
+  src: url('https://static.figma.com/font/PlusJakartaSans_wght__2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans:Medium';
+  src: url('https://static.figma.com/font/PlusJakartaSans_wght__2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans:Regular';
+  src: url('https://static.figma.com/font/PlusJakartaSans_wght__2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans:SemiBold';
+  src: url('https://static.figma.com/font/PlusJakartaSans_wght__2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Inter:Medium';
   src: url('https://static.figma.com/font/Inter_1') format('woff2');
   font-style: normal;
