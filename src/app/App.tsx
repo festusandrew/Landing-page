@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { createBrowserRouter, Link, RouterProvider, useLocation, useNavigate } from 'react-router';
 import { MotionConfig } from 'motion/react';
-import { PolicyPage, SoftwareAnimation } from '../components/PlatformExperiences';
+import { PolicyPage } from '../components/PlatformExperiences';
 import { ArrowUpRight, ArrowRight, ChevronDown, Check, Heart, Users, BriefcaseBusiness, CalendarDays, ShieldCheck, Globe2, Menu, X, Plus, Minus } from 'lucide-react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { Pricing } from '../components/Pricing';
+import recruitmentPhoto from '../imports/homepage-reference/6104b.png';
+import locumPhoto from '../imports/homepage-reference/09cba.png';
+import carePhoto from '../imports/homepage-reference/ca8d0.png';
+import trustedTeamOne from '../imports/homepage-reference/87c6c.png';
+import trustedTeamTwo from '../imports/homepage-reference/87c20.png';
+import trustedTeamThree from '../imports/homepage-reference/a08fb.png';
 
 import { LocumProvisionPage } from '../components/pages/LocumProvisionPage';
 import { RecruitmentSoftwarePage } from '../components/pages/RecruitmentSoftwarePage';
@@ -33,12 +39,12 @@ const solutions = [
 function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (view: string) => void; onBookDemo: () => void; onStartTrial: () => void }) {
   const [country, setCountry] = useState('Ireland');
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const primaryButton = 'inline-flex items-center justify-center gap-3 rounded-sm bg-[#368B62] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]';
-  const secondaryButton = 'inline-flex items-center justify-center gap-3 rounded-sm border border-black/5 bg-white px-6 py-3.5 text-sm font-semibold text-[#233b35] transition-colors hover:bg-[#edf5ef] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]';
+  const primaryButton = 'inline-flex items-center justify-center gap-3 rounded-lg bg-[#368B62] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]';
+  const secondaryButton = 'inline-flex items-center justify-center gap-3 rounded-lg border border-black/5 bg-white px-6 py-3.5 text-sm font-semibold text-[#233b35] transition-colors hover:bg-[#edf5ef] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]';
   const photos = [
-    { image: 'https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?auto=format&fit=crop&w=1000&q=85', title: 'Good people.\nExceptional care.', category: 'RECRUITMENT SERVICES', id: 'recruitment-service', label: 'Find your people', alt: 'Healthcare professional wearing a stethoscope', tint: 'bg-[#810161]' },
-    { image: 'https://images.unsplash.com/photo-1517120026326-d87759a7b63b?auto=format&fit=crop&w=1000&q=85', title: 'The cover you need.\nThe confidence you deserve.', category: 'LOCUM PROVISION', id: 'locum-provision', label: 'Find your cover', alt: 'Healthcare professional providing care in a hospital', tint: 'bg-[#368B62]' },
-    { image: 'https://images.unsplash.com/photo-1599045118108-bf9954418b76?auto=format&fit=crop&w=1000&q=85', title: 'Less admin.\nMore human.', category: 'CARE MANAGEMENT', id: 'care-management', label: 'Simplify your day', alt: 'Medical professional focused on patient care', tint: 'bg-[#ae663d]' },
+    { image: recruitmentPhoto, title: 'Good people.\nExceptional care.', category: 'RECRUITMENT SERVICES', id: 'recruitment-service', label: 'Find your people', alt: 'Healthcare professional smiling in a bright interior', tint: 'bg-[#810161]' },
+    { image: locumPhoto, title: 'The cover you need.\nThe confidence you deserve.', category: 'LOCUM PROVISION', id: 'locum-provision', label: 'Find your cover', alt: 'Healthcare professional providing care in a hospital', tint: 'bg-[#368B62]' },
+    { image: carePhoto, title: 'Less admin.\nMore human.', category: 'CARE MANAGEMENT', id: 'care-management', label: 'Simplify your day', alt: 'Medical professional focused on patient care', tint: 'bg-[#ae663d]' },
   ];
   const faqs = [
     ['Who is MployUs for?', 'MployUs supports healthcare providers, care homes, hospitals and healthcare professionals with recruitment, locum staffing and care management. Choose a service to explore how we can help your team.'],
@@ -57,13 +63,21 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
         <Navbar embedded onNavigate={onNavigate} onBookDemo={onBookDemo} onStartTrial={onStartTrial} />
       </div>
 
-      <section className="mx-auto max-w-[1100px] px-6 pb-16 pt-16 text-center md:pb-20 md:pt-20">
-        <p className="mb-6 text-[10px] font-semibold tracking-[0.18em] text-[#5d6862]">PEOPLE. CARE. CONNECTED.</p>
-        <h1 className="font-['Libre_Caslon_Display',serif] text-[48px] leading-[1.07] md:text-[76px]">Better people. Better care.<br />All connected<span className="text-[#368B62]">.</span></h1>
-        <p className="mx-auto mt-6 max-w-[550px] text-[15px] leading-7 text-[#68736e]">Recruitment, locum staffing and care management — brought together.<br className="hidden sm:block" /> So you can focus on what matters most: people.</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3"><button onClick={onBookDemo} className={primaryButton}>Book a demo <ArrowUpRight size={16} /></button><button onClick={() => scrollTo('solutions')} className={secondaryButton}>Explore our solutions</button></div>
-        <p className="mt-5 text-[11px] text-[#7b837e]">Built for healthcare providers across Ireland & the UK</p>
-        <SoftwareAnimation />
+      <section aria-labelledby="homepage-hero-heading" className="relative isolate overflow-hidden px-6 pb-24 pt-16 text-center md:pb-36 md:pt-[81px]">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_85%,rgba(54,139,98,0.16)_0%,rgba(54,139,98,0.07)_40%,rgba(255,255,255,0)_72%)]" />
+        <div className="mx-auto max-w-[1500px]">
+          <div className="mb-[17px] flex flex-wrap items-center justify-center gap-x-[27px] gap-y-3">
+            <div className="flex -space-x-[13px]" aria-hidden="true">
+              <img src={trustedTeamOne} alt="" className="h-[43.327px] w-[43.327px] -scale-x-100 rounded-full object-cover" />
+              <img src={trustedTeamTwo} alt="" className="h-[43.327px] w-[43.327px] rounded-full object-cover" />
+              <span className="relative h-[43.327px] w-[43.327px] overflow-hidden rounded-full"><img src={trustedTeamThree} alt="" className="absolute -top-[8.08%] left-[-0.56%] h-[150%] w-full object-cover" /></span>
+            </div>
+            <p className="flex flex-wrap items-center justify-center gap-3 font-['Inter:Regular',Inter,sans-serif] text-[18px] font-normal leading-[37.859px] text-[#475569] sm:text-[22.986px]">Trusted by <strong className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[36px] font-semibold leading-[54.085px] tracking-[-0.8113px] text-[#0f172a]">2K+</strong> teams</p>
+          </div>
+          <h1 id="homepage-hero-heading" className="font-['Libre_Caslon_Display:Regular',serif] text-[48px] font-normal leading-[1.07] tracking-[-2.1634px] sm:text-[76px] min-[1440px]:text-[102.761px] min-[1440px]:leading-[109.954px]">Better people. Better care.<br />All connected<span className="text-[#368B62]">.</span></h1>
+          <p className="mx-auto mt-[17px] max-w-[770.704px] font-['DM_Sans:Regular',sans-serif] text-[17px] font-normal leading-8 text-[#68736e] [font-variation-settings:'opsz'_14] md:text-[20.282px] md:leading-[37.859px]">Recruitment, locum staffing and care management — brought together.<br />So you can focus on what matters most: people.</p>
+          <div className="mt-[43.268px] flex flex-wrap justify-center gap-[16.225px]"><button onClick={onBookDemo} className={primaryButton}>Book a demo <ArrowUpRight size={16} /></button><button onClick={() => scrollTo('solutions')} className={secondaryButton}>Explore our solutions</button></div>
+        </div>
       </section>
 
       <section aria-label="Our healthcare services" className="grid gap-[3px] sm:grid-cols-3">
@@ -74,47 +88,49 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
         </button>)}
       </section>
 
-      <section id="about" className="mx-auto max-w-[1160px] px-6 py-16 md:py-20">
+      <section id="about" className="mx-auto max-w-[1568.451px] px-6 py-16 md:py-20">
         <div className="grid gap-8 md:grid-cols-2 md:gap-20"><div><p className="mb-4 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">MEET MPLOYUS</p><h2 className="font-['Libre_Caslon_Display',serif] text-4xl md:text-[46px]">Healthcare works better<br />when we work together.</h2></div><div className="pt-2 text-sm leading-7 text-[#68736e]"><p>Great care starts with great people. But finding them, supporting them and managing the everyday shouldn’t stand in the way.</p><p className="mt-4">MployUs brings your people and processes together. One connected partner for the way healthcare works today — and where it goes tomorrow.</p><button onClick={onBookDemo} className="mt-5 flex items-center gap-2 font-semibold text-[#233b35] hover:text-[#368B62]">Let’s talk about your team <ArrowRight size={15} /></button></div></div>
       </section>
 
       <section id="solutions" className="bg-[#f6f7f3] py-16 md:py-24">
-        <div className="mx-auto grid max-w-[1160px] gap-12 px-6 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
+        <div className="mx-auto grid max-w-[1568.451px] gap-12 px-6 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
           <div className="lg:pt-3"><p className="mb-5 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">ONE PARTNER. MORE POSSIBILITIES.</p><h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.06] md:text-[52px]">Everything you need.<br />Better, together.</h2><p className="mt-6 max-w-sm text-sm leading-7 text-[#68736e]">Find your next team member. Cover your next shift. Simplify your care operations. Choose what you need, and we’ll help you move forward.</p><button onClick={onBookDemo} className={`${primaryButton} mt-7`}>Find your solution <ArrowUpRight size={15} /></button><p className="mt-5 text-[11px] text-[#7b837e]">A real conversation. A solution that fits.</p></div>
-          <div className="grid gap-4 sm:grid-cols-2">{solutions.map(solution => <article key={solution.id} className="group flex flex-col rounded-sm border border-black/5 bg-white p-7 transition-colors hover:bg-[#fdfefc]"><div className={`mb-5 flex h-10 w-10 items-center justify-center rounded-lg ${solution.background} ${solution.color}`}><solution.icon size={21} strokeWidth={1.5} /></div><h3 className="text-[17px] font-semibold">{solution.name}</h3><p className="mb-5 mt-3 text-[12px] leading-6 text-[#68736e]">{solution.description}</p><ul className="mb-7 space-y-3">{solution.features.map(feature => <li key={feature} className="flex items-start gap-2 text-[11px] leading-5 text-[#68736e]"><Check size={13} className={`mt-1 shrink-0 ${solution.color}`} />{feature}</li>)}</ul><button onClick={() => onNavigate(solution.id)} className="mt-auto flex items-center gap-2 text-xs font-semibold">Explore {solution.name.toLowerCase()} <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" /></button></article>)}</div>
+          <div className="grid gap-4 sm:grid-cols-2">{solutions.map(solution => <article key={solution.id} className="group flex flex-col rounded-lg border border-black/5 bg-white p-7 transition-colors hover:bg-[#fdfefc]"><div className={`mb-5 flex h-10 w-10 items-center justify-center rounded-lg ${solution.background} ${solution.color}`}><solution.icon size={21} strokeWidth={1.5} /></div><h3 className="text-[17px] font-semibold">{solution.name}</h3><p className="mb-5 mt-3 text-[12px] leading-6 text-[#68736e]">{solution.description}</p><ul className="mb-7 space-y-3">{solution.features.map(feature => <li key={feature} className="flex items-start gap-2 text-[11px] leading-5 text-[#68736e]"><Check size={13} className={`mt-1 shrink-0 ${solution.color}`} />{feature}</li>)}</ul><button onClick={() => onNavigate(solution.id)} className="mt-auto flex items-center gap-2 text-xs font-semibold">Explore {solution.name.toLowerCase()} <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" /></button></article>)}</div>
         </div>
       </section>
 
-      <section id="how-it-works" aria-labelledby="how-it-works-heading" className="scroll-mt-6 bg-white py-16 md:py-[108.169px]">
-        <div className="mx-auto max-w-[1622.535px] px-6 md:px-[43.268px]">
-          <div className="mx-auto max-w-[892.394px] text-center">
-            <p className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[14.873px] font-semibold uppercase leading-[22.31px] tracking-[2.3797px] text-[#368B62]">A LITTLE LESS COMPLEXITY</p>
-            <h2 id="how-it-works-heading" className="mt-[21.634px] font-['Inter:Semi_Bold',Inter,sans-serif] text-[36px] font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px] md:leading-[64.901px]">More connected.<br />More time for care.</h2>
-            <p className="mt-[21.634px] font-['Inter:Regular',Inter,sans-serif] text-[18px] font-normal leading-8 text-[#64748b] md:text-[20.282px] md:leading-[37.859px]">Healthcare is human. Your systems should be too.<br />We make the complicated feel a little simpler.</p>
+      <section id="how-it-works" aria-labelledby="how-it-works-heading" className="scroll-mt-6 bg-[#e9f0e7] py-16 md:py-[108.169px]">
+        <div className="mx-auto max-w-[1568.451px] px-6 md:px-[32.451px]">
+          <div className="flex flex-wrap items-end justify-between gap-8">
+            <div>
+              <p className="font-['DM_Sans:SemiBold',sans-serif] text-[13.521px] font-semibold leading-[20.282px] tracking-[1.893px] text-[#368B62] [font-variation-settings:'opsz'_14]">A LITTLE LESS COMPLEXITY</p>
+              <h2 id="how-it-works-heading" className="mt-[21.634px] font-['Libre_Caslon_Display:Regular',serif] text-[44px] font-normal leading-[1.08] md:text-[67.606px] md:leading-[73.014px]">More connected.<br />More time for care.</h2>
+            </div>
+            <p className="max-w-[519.211px] font-['DM_Sans:Regular',sans-serif] text-[18.93px] font-normal leading-[37.859px] text-[#68736e] [font-variation-settings:'opsz'_14]">Healthcare is human. Your systems should be too.<br />We make the complicated feel a little simpler.</p>
           </div>
-          <div className="mt-[64.901px] grid gap-[43.268px] md:grid-cols-3">
+          <div className="mt-8 grid gap-[20.282px] md:grid-cols-3">
             {[
               { number: '01', title: 'Start with your people', body: 'Tell us about your team, your challenges and what better looks like for you.' },
               { number: '02', title: 'Find your perfect fit', body: 'We connect you with the right service, software or healthcare professional.' },
               { number: '03', title: 'Move forward, together', body: 'Get practical support from people who understand your world.' },
             ].map(step => (
-              <article key={step.number} className="border-t border-black/5 pt-[37.859px]">
-                <p aria-hidden="true" className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[96px] font-semibold leading-[109px] text-[#368B62]/10">{step.number}</p>
-                <h3 className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[24.338px] font-semibold leading-[37.859px] text-[#0f172a]">{step.title}</h3>
-                <p className="mt-[16.225px] font-['Inter:Regular',Inter,sans-serif] text-[18.93px] font-normal leading-[37.859px] text-[#62748e]">{step.body}</p>
+              <article key={step.number} className="min-w-0 border-t border-black/5 pt-8 lg:pt-[51.19px]">
+                <p aria-hidden="true" className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[96px] font-semibold leading-[109px] text-[#368B62]/10 lg:text-[129.803px] lg:leading-[147.38px]">{step.number}</p>
+                <h3 className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[24.338px] font-semibold leading-[37.859px] text-[#0f172a] lg:text-[32.908px] lg:leading-[51.19px]">{step.title}</h3>
+                <p className="mt-[21.938px] font-['Inter:Regular',Inter,sans-serif] text-[18.93px] font-normal leading-[37.859px] text-[#62748e] lg:text-[25.595px] lg:leading-[51.19px]">{step.body}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1160px] items-center gap-10 px-6 py-20 md:grid-cols-2 md:gap-20"><div className="relative overflow-hidden rounded-sm"><img src={photos[0].image} alt="A healthcare professional ready to support your team" loading="lazy" className="h-[380px] w-full object-cover" /><div className="absolute bottom-5 left-5 right-5 rounded-sm bg-[#fffffff2] p-5"><p className="text-[10px] font-semibold tracking-[0.12em] text-[#368B62]">FOR THE PEOPLE BEHIND THE CARE</p><p className="mt-2 font-['Libre_Caslon_Display',serif] text-2xl">Your next chapter starts here.</p></div></div><div><p className="mb-5 text-[10px] font-semibold tracking-[0.14em] text-[#810161]">HEALTHCARE PROFESSIONALS</p><h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.08] md:text-[50px]">A career that cares<br />for you, too.</h2><p className="mt-5 text-sm leading-7 text-[#68736e]">Looking for your next permanent role or the flexibility of locum work? We’ll help you find opportunities that fit your skills, your ambitions and your life.</p><div className="mt-7 flex flex-wrap gap-3"><button onClick={() => onNavigate('recruitment-service')} className="inline-flex items-center gap-3 rounded-sm bg-[#810161] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#67014e]">Explore opportunities <ArrowUpRight size={15} /></button><button onClick={() => onNavigate('locum-provision')} className={secondaryButton}>Become a locum</button></div></div></section>
+      <section className="mx-auto grid max-w-[1568.451px] items-center gap-10 px-6 py-20 md:grid-cols-2 md:gap-20"><div className="relative overflow-hidden rounded-lg"><img src={photos[0].image} alt="A healthcare professional ready to support your team" loading="lazy" className="h-[380px] w-full object-cover object-top" /><div className="absolute bottom-5 left-5 right-5 rounded-lg bg-[#fffffff2] p-5"><p className="text-[10px] font-semibold tracking-[0.12em] text-[#368B62]">FOR THE PEOPLE BEHIND THE CARE</p><p className="mt-2 font-['Libre_Caslon_Display',serif] text-2xl">Your next chapter starts here.</p></div></div><div><p className="mb-5 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">HEALTHCARE PROFESSIONALS</p><h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.08] md:text-[50px]">A career that cares<br />for you, too.</h2><p className="mt-5 text-sm leading-7 text-[#68736e]">Looking for your next permanent role or the flexibility of locum work? We’ll help you find opportunities that fit your skills, your ambitions and your life.</p><div className="mt-7 flex flex-wrap gap-3"><button onClick={() => onNavigate('recruitment-service')} className="inline-flex items-center gap-3 rounded-lg bg-[#368B62] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c]">Explore opportunities <ArrowUpRight size={15} /></button><button onClick={() => onNavigate('locum-provision')} className={secondaryButton}>Become a locum</button></div></div></section>
 
       <Pricing onBookDemo={onBookDemo} onStartTrial={onStartTrial} />
 
-      <section id="questions" className="border-t border-black/5 bg-[#fafaf8] py-16 md:py-20"><div className="mx-auto grid max-w-[1160px] gap-10 px-6 md:grid-cols-[1fr_1.4fr] md:gap-20"><div><p className="mb-5 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">GOOD TO KNOW</p><h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.08]">A few questions.<br />Clear answers.</h2><button onClick={onBookDemo} className="mt-7 flex items-center gap-2 text-sm font-semibold">Talk to our team <ArrowRight size={15} /></button></div><div>{faqs.map(([question, answer], index) => <div key={question} className="border-b border-black/5"><button aria-expanded={openFaq === index} aria-controls={`faq-${index}`} onClick={() => setOpenFaq(openFaq === index ? null : index)} className="flex w-full items-center justify-between gap-5 py-5 text-left text-sm font-medium">{question}{openFaq === index ? <Minus size={16} className="shrink-0 text-[#368B62]" /> : <Plus size={16} className="shrink-0" />}</button>{openFaq === index && <p id={`faq-${index}`} className="pb-5 pr-8 text-[13px] leading-7 text-[#68736e]">{answer}</p>}</div>)}</div></div></section>
+      <section id="questions" className="border-t border-black/5 bg-[#fafaf8] py-16 md:py-20"><div className="mx-auto grid max-w-[1568.451px] gap-10 px-6 md:grid-cols-[1fr_1.4fr] md:gap-20"><div><p className="mb-5 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">GOOD TO KNOW</p><h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.08]">A few questions.<br />Clear answers.</h2><button onClick={onBookDemo} className="mt-7 flex items-center gap-2 text-sm font-semibold">Talk to our team <ArrowRight size={15} /></button></div><div>{faqs.map(([question, answer], index) => <div key={question} className="border-b border-black/5"><button aria-expanded={openFaq === index} aria-controls={`faq-${index}`} onClick={() => setOpenFaq(openFaq === index ? null : index)} className="flex w-full items-center justify-between gap-5 py-5 text-left text-sm font-medium">{question}{openFaq === index ? <Minus size={16} className="shrink-0 text-[#368B62]" /> : <Plus size={16} className="shrink-0" />}</button>{openFaq === index && <p id={`faq-${index}`} className="pb-5 pr-8 text-[13px] leading-7 text-[#68736e]">{answer}</p>}</div>)}</div></div></section>
 
-      <section className="bg-[#173e30] py-16 md:py-20"><div className="mx-auto flex max-w-[1160px] flex-wrap items-center justify-between gap-8 px-6"><div><p className="mb-4 text-[10px] font-medium tracking-[0.14em] text-[#b1ccbb]">LET’S MAKE BETTER HAPPEN</p><h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.1] text-white md:text-[52px]">Better healthcare starts<br />with a conversation.</h2></div><div><div className="flex flex-wrap gap-3"><button onClick={onBookDemo} className={primaryButton}>Book a demo <ArrowUpRight size={15} /></button><button onClick={onStartTrial} className={secondaryButton}>Get started</button></div><p className="mt-4 text-xs text-[#b1ccbb]">Your people. Your purpose. Our partnership.</p></div></div></section>
+      <section className="bg-[#173e30] py-16 md:py-20"><div className="mx-auto flex max-w-[1568.451px] min-w-0 flex-wrap items-center justify-between gap-8 px-6"><div><p className="mb-4 text-[10px] font-medium tracking-[0.14em] text-[#b1ccbb]">LET’S MAKE BETTER HAPPEN</p><h2 className="font-['Libre_Caslon_Display',serif] text-[38px] leading-[1.1] text-white sm:text-[44px] md:text-[52px]">Better healthcare starts<br />with a conversation.</h2></div><div><div className="flex flex-wrap gap-3"><button onClick={onBookDemo} className={primaryButton}>Book a demo <ArrowUpRight size={15} /></button><button onClick={onStartTrial} className={secondaryButton}>Get started</button></div><p className="mt-4 text-xs text-[#b1ccbb]">Your people. Your purpose. Our partnership.</p></div></div></section>
 <Footer onNavigate={onNavigate} onBookDemo={onBookDemo} onStartTrial={onStartTrial} />
     </div>
   );
