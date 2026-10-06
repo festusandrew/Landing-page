@@ -155,7 +155,7 @@ function PlatformApp() {
   // Standalone platforms with their own navbar/footer.
   const isStandaloneLocum = activeView === 'locum-provision';
   const isStandaloneRecruitment = activeView === 'recruitment-service';
-  const isStandalone = isStandaloneLocum || isStandaloneRecruitment;
+  const isStandalone = isStandaloneLocum || isStandaloneRecruitment || activeView === 'care-management';
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] selection:bg-slate-900 selection:text-white">
@@ -193,6 +193,7 @@ function PlatformApp() {
         )}
         {activeView === 'care-management' && (
           <CareManagementPage
+            onNavigate={handleNavigate}
             onBackToHome={() => handleNavigate('home')}
             onBookDemo={(mod) => handleBookDemoWithModule(mod || 'Care Management Software')}
             onStartTrial={() => setFreeTrialOpen(true)}
