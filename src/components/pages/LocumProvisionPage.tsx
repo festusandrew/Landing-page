@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useNavigate } from 'react-router';
 import { LoginExperience } from '../PlatformExperiences';
+import VerticalMarqueeDemo from "@/components/ui/marquee-03";
 import { Footer } from '../Footer';
 import imgLocumProfessional from '../../imports/locum-professional.jpg';
 import {
@@ -963,41 +964,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             <p className="text-slate-500 text-base max-w-md mx-auto">Hear what our community has to say about working with MployUs Locums.</p>
           </div>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-5"
-            variants={stagger(0.1)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-40px' }}
-          >
-            {TESTIMONIALS.map((t, i) => (
-              <motion.div
-                key={i}
-                className="group relative flex flex-col bg-[#f5f7f6] rounded-[24px] p-8 cursor-default"
-                variants={{
-                  hidden: { opacity: 0, y: 30, scale: 0.97 },
-                  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
-                }}
-                whileHover={{ y: -6 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-              >
-                <div className="text-5xl text-green-100 font-serif leading-none mb-3 select-none">"</div>
-                <div className="flex gap-0.5 mb-3">
-                  {[...Array(t.stars)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-[#368B62] text-[#368B62]" />)}
-                </div>
-                <p className="text-slate-700 text-sm leading-relaxed mb-5">{t.quote}</p>
-                <div className="mt-auto flex items-center gap-3 pt-3">
-                  <div className="w-9 h-9 rounded-full bg-[#368B62] flex items-center justify-center text-white text-sm font-bold shrink-0">
-                    {t.name[0]}
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-slate-900">{t.name}</div>
-                    <div className="text-[10px] text-slate-400 mt-0.5">{t.role}</div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+          <VerticalMarqueeDemo reviews={TESTIMONIALS.map(testimonial => ({
+            name: testimonial.name,
+            username: testimonial.role,
+            body: testimonial.quote,
+          }))} />
         </section>
 
         {/* ── FAQ SECTION ── */}
