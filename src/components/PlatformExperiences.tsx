@@ -531,6 +531,10 @@ const policies: Record<string, {
         "Complaints",
         "You may raise concerns with the Irish Data Protection Commission or the UK Information Commissioner’s Office, as appropriate. This draft does not limit your statutory rights.",
       ],
+      [
+        "Locum applications and compliance documents",
+        "Locum registration may require professional registration details, identity and right-to-work information, indemnity evidence and role-appropriate vetting information. Only necessary information should be shared with the hiring facility. Criminal-record and other sensitive information require additional safeguards and a valid legal condition. The production document workflow, recipients and retention schedule must be verified before launch.",
+      ],
     ],
   },
   terms: {
@@ -566,6 +570,14 @@ const policies: Record<string, {
         "Governing law and disputes",
         "Applicable law, jurisdiction, dispute procedures and notice details must be specified for each operating entity and service. Consumer and employment protections remain unaffected.",
       ],
+      [
+        "Locum shift briefs and confirmation",
+        "Preview vacancies are demonstration content, not offers of work. For an actual booking, the facility and professional should confirm the exact site, dates, hours, breaks, duties, registration requirements, rate, engagement status, payment schedule, expenses and cancellation terms in writing. An application alone does not confirm a booking. Estimated gross pay is not a guarantee of take-home pay.",
+      ],
+      [
+        "Changes, cancellations and safe practice",
+        "Report changes to availability or professional eligibility promptly. Any cancellation notice, replacement process, payment for cancelled work and dispute procedure must be stated in the applicable agreement. Professionals and facilities remain responsible for complying with applicable professional, safeguarding and workplace obligations in Ireland, England, Wales, Scotland or Northern Ireland.",
+      ],
     ],
   },
   cookies: {
@@ -592,6 +604,31 @@ const policies: Record<string, {
         "Inventory and updates",
         "Before launch, add each cookie’s name, provider, purpose, category and lifetime, verify actual behaviour and date the approved policy. This draft is not a verified cookie inventory.",
       ],
+      [
+        "Consent preference storage in this preview",
+        "The Locum preview stores your necessary, functional, performance and targeting choices in first-party local storage under mployus-cookie-preferences. It remembers your decision between visits and has no automatic expiry in the current implementation; it remains until overwritten or browser storage is cleared. Optional choices do not activate analytics or advertising integrations in this preview. Use Manage cookie preferences in the footer to change your decision. Third-party images and fonts may make network requests independently of these stored choices; production integrations must be reviewed before launch.",
+      ],
+    ],
+  },
+  "data-protection": {
+    title: "Ireland & UK data protection",
+    intro: "A draft framework for protecting candidate, professional and facility information across the Locum service.",
+    sections: [
+      ["Applicable framework", "Processing in Ireland is subject to EU GDPR and applicable Irish legislation. UK processing is subject to UK GDPR and applicable UK legislation. The operating entity must confirm which framework applies to each activity and identify controller and processor roles."],
+      ["Purpose limitation and access", "Collect only the information needed for registration, compliance review, applications and agreed bookings. Restrict document access to authorised people and inform professionals about any disclosure to a facility."],
+      ["Sensitive and vetting information", "Professional vetting information may be subject to additional legal restrictions. Confirm the lawful basis, additional processing conditions, role eligibility, access controls and retention periods before collecting or sharing it."],
+      ["Rights and requests", "People may exercise applicable access, correction, deletion, restriction, objection and portability rights. The production service must publish a verified contact, identity-check process and response procedure; none is assumed by this draft."],
+      ["Incidents and complaints", "The operating entity must document incident response and applicable notification obligations. Complaints may be directed to the Irish Data Protection Commission or UK Information Commissioner’s Office, as appropriate."],
+    ],
+  },
+  accessibility: {
+    title: "Accessibility statement",
+    intro: "Our proposed approach to making MployUs Locums usable for healthcare professionals and facilities with different access needs.",
+    sections: [
+      ["Our aim", "We aim for clear language, keyboard-operable navigation, readable layouts and accessible forms. This draft is not a claim of audited WCAG conformance. A formal accessibility review and verified statement are required before publication."],
+      ["Motion and controls", "The testimonial marquee provides a pause control, pauses on hover and keyboard focus, and becomes static when reduced motion is requested. Users can choose reduced motion in their device or browser settings."],
+      ["Areas for review", "Registration, modal focus management, validation messages, colour contrast, third-party content and assistive-technology behaviour should be tested as part of a full accessibility audit. Any confirmed limitations and remediation dates must be published in the final statement."],
+      ["Requesting assistance", "Use the service’s published contact options to ask for help or report an access barrier. Describe the page, the task and any assistive technology involved. The production statement must include a verified accessibility contact and response process."],
     ],
   },
 }

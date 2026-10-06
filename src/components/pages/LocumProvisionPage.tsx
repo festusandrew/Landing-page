@@ -16,7 +16,6 @@ import {
 // Figma-imported images
 import imgOverlay from '../../imports/MacBookPro14372/1ce878ea07a35dd888253f3062acd8e1583d0cbc.png';
 import imgFindShiftsHero from '../../imports/MacBookPro1441/1d99878d3d95dcc6a2d5ffb9854dbccbc6b8cb8d.png';
-import imgIrelandMap from '../../imports/MacBookPro1441/4d4f0de56401e20dc9d2bd550fe89357c2414c3b.png';
 import imgTjqvmx3 from '../../imports/MacBookPro14372/a6d47f8f7e83368a63cf10d1c76fe22cf80acf83.png';
 import imgImage1 from '../../imports/MacBookPro14372/db6577642f84fa230c5ca308c9df636cad85556a.png';
 import imgRectangle3463566 from '../../imports/MacBookPro14372/d059709d7463adb6ae1fa5b1076a1facae34ff15.png';
@@ -29,6 +28,7 @@ import imgVector from '../../imports/MacBookPro14372/f0bc36634edad22f1ba0d9dc695
 import imgLogoWhite from '../../imports/MacBookPro14372/b8700eda655f89d95fde6a9a941327028643e451.png';
 import imgLogo from '../../imports/MacBookPro14372/b16ab5f34d40dbc6e584efa0666128eb7e0f9d4b.png';
 import { LocumRegistrationWizard } from './LocumRegistrationWizard';
+import { LocumJobDetails } from './LocumJobDetails';
 
 interface LocumProvisionPageProps {
   onBackToHome: () => void;
@@ -37,6 +37,35 @@ interface LocumProvisionPageProps {
 }
 
 type Region = 'IE' | 'UK';
+type WorkRegion = 'IE' | 'UK-eng' | 'UK-wal' | 'UK-sco' | 'UK-ni';
+
+const WORK_REGIONS: { id: WorkRegion; label: string; cities: string[] }[] = [
+  { id: 'IE', label: 'Republic of Ireland', cities: ['Dublin', 'Cork', 'Galway', 'Limerick', 'Waterford'] },
+  { id: 'UK-eng', label: 'England', cities: ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Leeds', 'Bristol', 'Newcastle'] },
+  { id: 'UK-wal', label: 'Wales', cities: ['Cardiff', 'Swansea', 'Newport', 'Wrexham'] },
+  { id: 'UK-sco', label: 'Scotland', cities: ['Glasgow', 'Edinburgh', 'Aberdeen', 'Dundee', 'Inverness'] },
+  { id: 'UK-ni', label: 'Northern Ireland', cities: ['Belfast', 'Derry / Londonderry', 'Lisburn', 'Newry', 'Bangor'] },
+];
+
+function shiftRegion(location: string): WorkRegion {
+  return WORK_REGIONS.find(area => area.cities.some(city => location.includes(city)))?.id ?? 'IE';
+}
+
+function shiftFacts(shift: { date: string; time: string; rate: string }) {
+  const [start, end] = shift.time.split('–').map(time => {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+  });
+  const paidHours = (end - start - 30) / 60;
+  const hourlyRate = Number(shift.rate.replace(/[^\d.]/g, ''));
+  const [, day, month] = shift.date.split(' ');
+  return {
+    paidHours,
+    totalPay: `${shift.rate.startsWith('€') ? '€' : '£'}${(paidHours * hourlyRate).toFixed(2)}`,
+    hourlyRate,
+    dateISO: `2026-${month === 'Jul' ? '07' : '08'}-${day.padStart(2, '0')}`,
+  };
+}
 
 const REGIONS: Record<Region, {
   country: string; flag: string; currency: string; defaultCity: string;
@@ -52,25 +81,26 @@ const REGIONS: Record<Region, {
       { facility: 'McCabes Pharmacy', location: 'Cork City, IE', date: 'Tue 28 Jul', time: '08:30–17:30', rate: '€52/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'McCabes Pharmacy Cork City requires a locum pharmacist for a day shift covering routine dispensing, Methadone supervision, and patient medication reviews. The team is friendly and the pharmacy is well-organised with a modern PMR system in place.', requirements: ['PSI registration', 'Methadone supervision experience preferred', 'Familiarity with Healthmail and eRx', 'Reliable and punctual'] },
       { facility: 'LloydsPharmacy', location: 'Galway, IE', date: 'Wed 29 Jul', time: '10:00–19:00', rate: '€58/hr', urgent: true, specialisation: 'Hospital Outpatient', description: 'Urgent cover needed at our Galway outpatient dispensary. The successful locum will manage a high volume of hospital prescriptions, liaise with clinical staff, and ensure seamless patient throughput. Familiarity with hospital formularies is a strong advantage.', requirements: ['PSI registration', 'Hospital pharmacy experience desirable', 'HPRA and dispensary SOPs compliance', 'Immediate availability essential'] },
       { facility: 'Hickeys Pharmacy', location: 'Limerick, IE', date: 'Thu 30 Jul', time: '09:00–18:00', rate: '€50/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Hickeys Pharmacy Limerick seeks a locum for a standard weekday shift. Duties include dispensing, patient consultations, and stock management. The team is small and supportive; the role suits a pharmacist comfortable working independently in a community setting.', requirements: ['PSI registration', 'Community pharmacy experience', 'Confident working independently', 'Knowledge of NMS and MUR services'] },
-      { facility: 'Allcare Pharmacy', location: 'Waterford, IE', date: 'Fri 01 Aug', time: '09:00–17:00', rate: '€53/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Allcare Pharmacy Waterford requires locum cover for a Friday shift. The branch operates a busy dispensary alongside a wellness clinic. Duties include prescription dispensing, health checks, and supporting the medicines adherence programme.', requirements: ['PSI registration', 'Wellness and adherence programme experience a bonus', 'Strong interpersonal skills', 'Garda vetting up to date'] },
-      { facility: 'Uniphar — Citywest', location: 'Dublin 24, IE', date: 'Sat 02 Aug', time: '08:00–16:00', rate: '€60/hr', urgent: true, specialisation: 'Hospital Pharmacy', description: 'Uniphar Citywest distribution centre requires a registered pharmacist for a Saturday shift overseeing wholesale prescription processing, controlled drug records, and dispatch sign-off. Excellent rate for an experienced hospital or wholesale pharmacist.', requirements: ['PSI registration', 'Controlled drugs handling experience', 'Wholesale or hospital background preferred', 'Available for Saturday shift'] },
-      { facility: 'Careway Pharmacy', location: 'Galway, IE', date: 'Mon 04 Aug', time: '09:00–18:00', rate: '€51/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Careway Pharmacy in Galway city seeks a locum for a Monday shift. The role involves standard dispensing, walk-in consultations, and minor ailment referrals. The branch has a loyal patient base and a well-stocked dispensary.', requirements: ['PSI registration', 'Community pharmacy experience', 'Good organisational skills', 'Experience with Touchstore or similar PMR'] },
-      { facility: 'Montague Pharmacy', location: 'Cork City, IE', date: 'Tue 05 Aug', time: '10:00–18:30', rate: '€54/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Montague Pharmacy Cork seeks a confident locum for a Tuesday afternoon shift. This is a medium-volume branch with a focus on patient engagement and chronic disease management. The existing team will support the locum with all PMR and workflow queries.', requirements: ['PSI registration', 'Chronic disease management experience preferred', 'Excellent communication skills', 'Garda vetting clearance'] },
+      { facility: 'Allcare Pharmacy', location: 'Waterford, IE', date: 'Sat 01 Aug', time: '09:00–17:00', rate: '€53/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Allcare Pharmacy Waterford requires locum cover for a Friday shift. The branch operates a busy dispensary alongside a wellness clinic. Duties include prescription dispensing, health checks, and supporting the medicines adherence programme.', requirements: ['PSI registration', 'Wellness and adherence programme experience a bonus', 'Strong interpersonal skills', 'Garda vetting up to date'] },
+      { facility: 'Uniphar — Citywest', location: 'Dublin 24, IE', date: 'Sun 02 Aug', time: '08:00–16:00', rate: '€60/hr', urgent: true, specialisation: 'Hospital Pharmacy', description: 'Uniphar Citywest distribution centre requires a registered pharmacist for a Saturday shift overseeing wholesale prescription processing, controlled drug records, and dispatch sign-off. Excellent rate for an experienced hospital or wholesale pharmacist.', requirements: ['PSI registration', 'Controlled drugs handling experience', 'Wholesale or hospital background preferred', 'Available for Saturday shift'] },
+      { facility: 'Careway Pharmacy', location: 'Galway, IE', date: 'Tue 04 Aug', time: '09:00–18:00', rate: '€51/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Careway Pharmacy in Galway city seeks a locum for a Monday shift. The role involves standard dispensing, walk-in consultations, and minor ailment referrals. The branch has a loyal patient base and a well-stocked dispensary.', requirements: ['PSI registration', 'Community pharmacy experience', 'Good organisational skills', 'Experience with Touchstore or similar PMR'] },
+      { facility: 'Montague Pharmacy', location: 'Cork City, IE', date: 'Wed 05 Aug', time: '10:00–18:30', rate: '€54/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Montague Pharmacy Cork seeks a confident locum for a Tuesday afternoon shift. This is a medium-volume branch with a focus on patient engagement and chronic disease management. The existing team will support the locum with all PMR and workflow queries.', requirements: ['PSI registration', 'Chronic disease management experience preferred', 'Excellent communication skills', 'Garda vetting clearance'] },
     ]
   },
   UK: {
     country: 'United Kingdom', flag: '🇬🇧', currency: '£', defaultCity: 'London',
-    cities: ['London', 'Manchester', 'Birmingham', 'Belfast', 'Glasgow'],
+    cities: WORK_REGIONS.filter(area => area.id !== 'IE').flatMap(area => area.cities),
     compliance: 'Enhanced DBS check', payGuide: '£28–£38/hr',
     shifts: [
       { facility: 'Boots — Oxford Street', location: 'London W1, UK', date: 'Mon 27 Jul', time: '09:00–18:00', rate: '£34/hr', urgent: true, specialisation: 'Community Pharmacy', description: 'Boots Oxford Street is one of the busiest pharmacy branches in the UK. We need an experienced locum to manage high prescription volume, supervise dispensing assistants, and deliver our NHS services including NMS and pharmacy first consultations.', requirements: ['GPhC registration (active)', 'Minimum 2 years community pharmacy experience', 'NHS services experience (NMS, MUR, Pharmacy First)', 'Enhanced DBS required'] },
       { facility: 'Well Pharmacy', location: 'Manchester, UK', date: 'Tue 28 Jul', time: '08:30–17:30', rate: '£30/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Well Pharmacy Manchester requires a locum for a standard weekday shift. Duties include dispensing, patient consultations, and supporting the healthy living programme. The branch has a well-established team and modern dispensing systems.', requirements: ['GPhC registration', 'Community experience preferred', 'Familiarity with Pharmacy First', 'Punctual and professional manner'] },
       { facility: 'Rowlands Pharmacy', location: 'Birmingham, UK', date: 'Wed 29 Jul', time: '10:00–19:00', rate: '£36/hr', urgent: true, specialisation: 'Hospital Outpatient', description: 'Urgent cover required at Rowlands Birmingham outpatient dispensary. You will work alongside the hospital clinical team dispensing inpatient TTOs, providing discharge counselling, and managing controlled drug records to standard.', requirements: ['GPhC registration', 'Hospital dispensary experience essential', 'Controlled drug handling', 'Available at short notice'] },
-      { facility: 'Gordons Chemists', location: 'Belfast, NI', date: 'Thu 30 Jul', time: '09:00–18:00', rate: '£32/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Gordons Chemists Belfast requires locum cover for a Thursday. The branch is a busy community pharmacy serving a large residential catchment. Duties include dispensing, MAS consultations, and Medicine Delivery Scheme support.', requirements: ['GPhC or PSNI registration', 'Community pharmacy experience in NI preferred', 'Familiarity with MAS and MDS', 'Enhanced DBS certificate'] },
-      { facility: 'Lloyds Pharmacy', location: 'Glasgow, UK', date: 'Fri 01 Aug', time: '09:00–17:30', rate: '£33/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Lloyds Pharmacy Glasgow seeks a locum for a Friday shift. The branch handles a medium volume of NHS prescriptions alongside a busy OTC section. The locum will work alongside two dispensing technicians and a medicines counter assistant.', requirements: ['GPhC registration', 'Scottish community pharmacy experience a bonus', 'NHS Pharmacy First Scotland awareness', 'Reliable and team-oriented'] },
-      { facility: 'Superdrug Health Clinic', location: 'London W2, UK', date: 'Sat 02 Aug', time: '10:00–18:00', rate: '£38/hr', urgent: true, specialisation: 'Pharmacy Clinic', description: 'Superdrug Health Clinic Bayswater requires a pharmacist to manage Saturday walk-in consultations including travel health, sexual health screening, and emergency contraception. High patient interaction role with strong clinical advisory component.', requirements: ['GPhC registration', 'Clinical or consultation experience', 'PGD experience (travel health, contraception)', 'Saturday availability essential'] },
-      { facility: 'Day Lewis Pharmacy', location: 'Birmingham, UK', date: 'Mon 04 Aug', time: '08:30–17:30', rate: '£31/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Day Lewis Pharmacy Birmingham requires a locum for Monday cover. This independent-style branch operates a strong patient relationship model with a focus on blister packing, chronic disease management, and medication reviews.', requirements: ['GPhC registration', 'Blister packing experience preferred', 'Medication review and MUR background', 'Friendly and patient-focused approach'] },
-      { facility: 'Cohens Chemist', location: 'Manchester, UK', date: 'Tue 05 Aug', time: '09:00–18:00', rate: '£29/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Cohens Chemist Manchester requires standard locum cover for a Tuesday shift. Duties include supervised consumption, dispensing, and patient counselling. A well-structured pharmacy with a supportive technician team already in place.', requirements: ['GPhC registration', 'Supervised consumption experience preferred', 'Familiar with RxWeb or Titan PMR', 'Flexible and adaptable'] },
+      { facility: 'Gordons Chemists', location: 'Belfast, NI', date: 'Thu 30 Jul', time: '09:00–18:00', rate: '£32/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Gordons Chemists Belfast requires locum cover for a Thursday. The branch is a busy community pharmacy serving a large residential catchment. Duties include dispensing, MAS consultations, and Medicine Delivery Scheme support.', requirements: ['PSNI registration (active)', 'Community pharmacy experience in NI preferred', 'Familiarity with MAS and MDS', 'Role-appropriate AccessNI check'] },
+      { facility: 'Lloyds Pharmacy', location: 'Glasgow, UK', date: 'Sat 01 Aug', time: '09:00–17:30', rate: '£33/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Lloyds Pharmacy Glasgow seeks a locum for a Friday shift. The branch handles a medium volume of NHS prescriptions alongside a busy OTC section. The locum will work alongside two dispensing technicians and a medicines counter assistant.', requirements: ['GPhC registration', 'Scottish community pharmacy experience a bonus', 'NHS Pharmacy First Scotland awareness', 'Reliable and team-oriented'] },
+      { facility: 'Superdrug Health Clinic', location: 'London W2, UK', date: 'Sun 02 Aug', time: '10:00–18:00', rate: '£38/hr', urgent: true, specialisation: 'Pharmacy Clinic', description: 'Superdrug Health Clinic Bayswater requires a pharmacist to manage Saturday walk-in consultations including travel health, sexual health screening, and emergency contraception. High patient interaction role with strong clinical advisory component.', requirements: ['GPhC registration', 'Clinical or consultation experience', 'PGD experience (travel health, contraception)', 'Saturday availability essential'] },
+      { facility: 'Day Lewis Pharmacy', location: 'Birmingham, UK', date: 'Tue 04 Aug', time: '08:30–17:30', rate: '£31/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Day Lewis Pharmacy Birmingham requires a locum for Monday cover. This independent-style branch operates a strong patient relationship model with a focus on blister packing, chronic disease management, and medication reviews.', requirements: ['GPhC registration', 'Blister packing experience preferred', 'Medication review and MUR background', 'Friendly and patient-focused approach'] },
+      { facility: 'Cohens Chemist', location: 'Manchester, UK', date: 'Wed 05 Aug', time: '09:00–18:00', rate: '£29/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Cohens Chemist Manchester requires standard locum cover for a Tuesday shift. Duties include supervised consumption, dispensing, and patient counselling. A well-structured pharmacy with a supportive technician team already in place.', requirements: ['GPhC registration', 'Supervised consumption experience preferred', 'Familiar with RxWeb or Titan PMR', 'Flexible and adaptable'] },
+      { facility: 'Example community pharmacy — Cardiff', location: 'Cardiff, UK', date: 'Thu 06 Aug', time: '09:00–17:30', rate: '£32/hr', urgent: false, specialisation: 'Community Pharmacy', description: 'Example Welsh locum listing for preview purposes. Community pharmacy cover involves prescription dispensing, patient advice and working with the pharmacy team. This is not a live vacancy; service responsibilities and booking terms must be confirmed by the employer.', requirements: ['Active GPhC registration', 'Right to work in the UK', 'Relevant community pharmacy experience', 'Role-appropriate background check and professional indemnity'] },
     ]
   }
 };
@@ -211,7 +241,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const [selectedShift, setSelectedShift] = useState(0);
   const [filterSpecialisation, setFilterSpecialisation] = useState('');
   const [filterDate, setFilterDate] = useState('');
-  const [filterCountry, setFilterCountry] = useState<'all' | 'IE' | 'UK-eng' | 'UK-wal' | 'UK-sco' | 'UK-ni'>('all');
+  const [filterCountry, setFilterCountry] = useState<'all' | 'UK' | WorkRegion>('IE');
   const [filterRateMin, setFilterRateMin] = useState('');
   const [filterUrgentOnly, setFilterUrgentOnly] = useState(false);
   const [filterExperience, setFilterExperience] = useState('');
@@ -260,6 +290,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     setRegion(r);
     setSearchLocation(REGIONS[r].defaultCity);
     setFaqRegion(r);
+    setFilterCountry(r);
+    setSelectedShift(0);
   };
 
   const openAuth = (mode: 'signin' | 'signup') => {
@@ -312,7 +344,31 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     { id: 'faq', label: 'FAQ' },
   ];
 
-  const shifts = loc.shifts;
+  const allShifts = [...REGIONS.IE.shifts, ...REGIONS.UK.shifts];
+  const shifts = allShifts.filter(shift => {
+    const area = shiftRegion(shift.location);
+    const countryMatches = filterCountry === 'all' || (filterCountry === 'UK' ? area !== 'IE' : area === filterCountry);
+    const professionMatches = !searchProfession || searchProfession === 'Locum Pharmacist';
+    const locationMatches = !searchLocation || shift.location.toLowerCase().includes(searchLocation.toLowerCase());
+    const facts = shiftFacts(shift);
+    const minimumExperience = shift.requirements.join(' ').match(/Minimum (\d+) year/i);
+    const experienceMatches = !filterExperience || (minimumExperience !== null && (filterExperience === 'Newly qualified' ? Number(minimumExperience[1]) === 0 : Number(minimumExperience[1]) <= Number(filterExperience.match(/\d+/)?.[0] ?? 0)));
+    return countryMatches && professionMatches && locationMatches && experienceMatches
+      && (!filterSpecialisation || shift.specialisation === filterSpecialisation)
+      && (!filterDate || facts.dateISO >= filterDate)
+      && (!filterRateMin || facts.hourlyRate >= Number(filterRateMin))
+      && (!filterUrgentOnly || shift.urgent);
+  }).sort((first, second) => sortBy === 'rate'
+    ? shiftFacts(second).hourlyRate - shiftFacts(first).hourlyRate
+    : shiftFacts(first).dateISO.localeCompare(shiftFacts(second).dateISO));
+  const filterCities = WORK_REGIONS.filter(area => filterCountry === 'all' || (filterCountry === 'UK' ? area.id !== 'IE' : area.id === filterCountry)).flatMap(area => area.cities);
+  const filterCurrency = filterCountry === 'all' ? '€ / £' : filterCountry === 'IE' ? '€' : '£';
+  const resetShiftFilters = () => {
+    setFilterCountry('all'); setSearchLocation(''); setSearchProfession('');
+    setFilterSpecialisation(''); setFilterDate(''); setFilterRateMin('');
+    setFilterExperience(''); setFilterUrgentOnly(false); setSelectedShift(0);
+  };
+  useEffect(() => setSelectedShift(0), [filterCountry, searchLocation, searchProfession, filterSpecialisation, filterDate, filterRateMin, filterExperience, filterUrgentOnly, sortBy]);
   const applyShift = shifts[selectedShift] ?? shifts[0];
 
   const faqs: Record<string, { q: string; a: string }[]> = {
@@ -338,11 +394,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
   const [blogPost, setBlogPost] = useState<number | null>(null);
   const [blogCategory, setBlogCategory] = useState('All');
+  const [blogAudience, setBlogAudience] = useState<'all' | Region>('all');
 
   const articles = [
     {
       tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-black/5', read: '8 min', date: 'Jul 2026', featured: true,
       img: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      audience: ['IE', 'UK'],
       title: '2026 Locum Pharmacist pay rates: Ireland vs UK',
       subtitle: 'A comprehensive breakdown of hourly rates by region, specialisation, and experience level — with projections for the rest of the year.',
       body: [
@@ -357,6 +415,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     {
       tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-black/5', read: '11 min', date: 'Jun 2026', featured: true,
       img: 'https://images.unsplash.com/photo-1754548930574-6a995e5eb5a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      audience: ['IE', 'UK'],
       title: 'The complete Garda vetting & DBS toolkit for locums and employers',
       subtitle: 'Everything you need to know about background checks in Irish and UK healthcare — what they cover, how long they take, and how to manage renewals.',
       body: [
@@ -371,6 +430,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     {
       tag: 'Market Report', tagColor: 'bg-amber-50 text-amber-700 border-black/5', read: '6 min', date: 'Jun 2026', featured: false,
       img: 'https://images.unsplash.com/photo-1576091358783-a212ec293ff3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      audience: ['IE'],
       title: 'How Irish pharmacy groups are rethinking locum staffing in 2026',
       subtitle: 'From agency dependence to direct marketplace access — what the data says about changing employer behaviour.',
       body: [
@@ -383,6 +443,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     {
       tag: 'Career', tagColor: 'bg-amber-50 text-amber-700 border-black/5', read: '7 min', date: 'May 2026', featured: false,
       img: 'https://images.unsplash.com/photo-1657551734497-30a09e6567bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      audience: ['IE', 'UK'],
       title: 'From staff pharmacist to locum: a practical transition guide',
       subtitle: 'The financial, logistical, and professional steps to make the leap — and what no one tells you about the first 90 days.',
       body: [
@@ -395,6 +456,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     {
       tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-black/5', read: '5 min', date: 'May 2026', featured: false,
       img: 'https://images.unsplash.com/photo-1619418602850-35ad20aa1700?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      audience: ['IE'],
       title: 'PSI revalidation in 2026: what has changed and what you need to do',
       subtitle: 'A plain-English walkthrough of the PSI continuing competence framework updates effective January 2026.',
       body: [
@@ -407,6 +469,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     {
       tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-black/5', read: '9 min', date: 'Apr 2026', featured: false,
       img: 'https://images.unsplash.com/photo-1580281657527-47f249e8f4df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      audience: ['IE', 'UK'],
       title: 'Pharmacy technician rates 2026: community, hospital, and primary care',
       subtitle: 'Technician locum rates have risen faster than pharmacist rates in the last two years. Here is the data.',
       body: [
@@ -416,7 +479,22 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       ],
       callout: null,
     },
+    {
+      tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-black/5', read: '4 min', date: 'Oct 2026', featured: false,
+      audience: ['UK'], img: imgLocumProfessional,
+      title: 'Locum work across the UK: a regional registration checklist',
+      subtitle: 'England, Wales, Scotland and Northern Ireland: know which registration and background-check route applies to your role.',
+      body: [
+        { h: 'England and Wales', p: 'Pharmacists should check their GPhC registration and the services required by the hiring facility. Background-check requirements depend on the role and eligibility; confirm the appropriate DBS level rather than assuming every role needs the same check.' },
+        { h: 'Scotland', p: 'Confirm GPhC registration for pharmacy roles, local service requirements and whether Disclosure Scotland or PVG scheme membership is required for the work. Check current guidance directly with the regulator and facility.' },
+        { h: 'Northern Ireland', p: 'Pharmacist registration is overseen by the Pharmaceutical Society of Northern Ireland (PSNI). Discuss AccessNI requirements with the facility. Do not assume that a GPhC registration or DBS certificate alone satisfies the requirements for work in Northern Ireland.' },
+        { h: 'Before confirming a shift', p: 'Agree the exact address, responsibilities, paid hours, breaks, rate, expenses and cancellation terms in writing. Verify right-to-work and professional indemnity requirements for the engagement. This is general guidance, not legal or regulatory advice.' },
+      ], callout: 'Always verify current requirements with GPhC, PSNI, DBS, Disclosure Scotland or AccessNI, as appropriate to the role and location.',
+    },
   ];
+  const countryArticles = articles.filter(article => blogAudience === 'all' || article.audience.includes(blogAudience));
+  const visibleArticles = countryArticles.filter(article => blogCategory === 'All' || article.tag === blogCategory);
+
 
 
   // ── Search bar (reused on multiple pages) ────────────────────────────────
@@ -592,6 +670,16 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <section aria-label="Find locum opportunities" className="relative z-20 mx-auto max-w-[1280px] px-6 pb-4 pt-8"><div className="mx-auto max-w-[1184px]"><p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#67716b]">A little closer to your next opportunity</p><SearchBar /></div></section>
 
         <Reveal className="mx-auto max-w-[1000px] px-6 pb-12 pt-20 text-center"><p className="text-[32px] font-medium uppercase leading-[1.15] tracking-[-0.02em] text-[#a5b9ad] sm:text-[48px]">Care is personal.<br />Your working life should be, too.</p><p className="mx-auto mt-7 max-w-[630px] text-sm leading-7 text-[#68716c]">Find the opportunities that fit your expertise, your schedule and your ambitions. We connect healthcare professionals and facilities, with thoughtful support along the way.</p></Reveal>
+        <section aria-label="Getting started with MployUs Locums" className="mx-auto max-w-[1280px] px-6 pb-12">
+          <div className="mb-7 flex flex-col justify-between gap-3 sm:flex-row sm:items-end"><div><SectionLabel>A simple place to start</SectionLabel><h2 className="mt-4 text-3xl">Flexible work. A clear next step.</h2></div><p className="max-w-sm text-sm leading-6 text-slate-500">For healthcare professionals and facilities across Ireland, Northern Ireland, England, Wales and Scotland.</p></div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              { number: '01', icon: ShieldCheck, title: 'Introduce yourself', description: 'Choose your country and profession, create your profile and prepare your registration and compliance documents.', label: 'Create your profile', action: () => openAuth('signup') },
+              { number: '02', icon: MapPin, title: 'Find your fit', description: 'Explore opportunities by region, location, specialisation and rate. Read the full shift brief before applying.', label: 'Explore locum shifts', action: () => goto('find-shifts') },
+              { number: '03', icon: Building2, title: 'Keep care moving', description: 'Need cover? Tell us your facility’s staffing requirements and use the guided flow to request a healthcare professional.', label: 'Request locum cover', action: () => goto('post-shift') },
+            ].map(item => <Reveal key={item.number} className="rounded-3xl bg-[#f4f8f5] p-7"><div className="mb-7 flex items-center justify-between"><item.icon className="h-6 w-6 text-[#368B62]" /><span className="text-sm text-[#9ab1a3]">{item.number}</span></div><h3 className="text-lg font-medium text-[#24332d]">{item.title}</h3><p className="mt-3 text-sm leading-6 text-slate-500">{item.description}</p><button onClick={item.action} className="mt-5 inline-flex items-center gap-2 text-xs font-semibold text-[#368B62] hover:gap-3 transition-all">{item.label}<ArrowRight className="h-3.5 w-3.5" /></button></Reveal>)}
+          </div>
+        </section>
         {/* ── STATS RIBBON ── */}
         <section className="mx-auto max-w-[1280px] px-6">
           <div ref={statsRef} className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
@@ -1062,6 +1150,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── CTA STRIP ── */}
+        <section className="mx-auto max-w-[1280px] px-6 pb-14 lg:px-12" aria-label="Locum policies"><div className="flex flex-col justify-between gap-6 rounded-3xl border border-black/5 p-7 md:flex-row md:items-center"><div><h2 className="text-2xl">Clear terms. Informed choices.</h2><p className="mt-2 text-sm text-slate-500">Understand the service, how your information is handled and your privacy choices.</p></div><nav aria-label="Locum legal documents" className="flex flex-wrap gap-x-5 gap-y-3 text-xs font-medium text-[#368B62]"><Link to="/policies/terms">Terms of service ↗</Link><Link to="/policies/privacy">Privacy policy ↗</Link><Link to="/policies/cookies">Cookie policy ↗</Link><Link to="/policies/data-protection">Data protection ↗</Link><Link to="/policies/accessibility">Accessibility ↗</Link></nav></div></section>
         <section className="mx-6 mb-12 max-w-[1184px] rounded-[28px] bg-[#e6f0e9] py-14 overflow-hidden xl:mx-auto">
           <motion.div
             className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8"
@@ -1142,8 +1231,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <option value="">Choose Specialization</option>
                       <option>Community Pharmacy</option>
                       <option>Hospital Pharmacy</option>
-                      <option>General Practice</option>
-                      <option>Primary Care</option>
+                      <option>Hospital Outpatient</option>
+                      <option>Pharmacy Clinic</option>
                     </select>
                     <ChevronDown className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
@@ -1158,7 +1247,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       className="appearance-none bg-white border border-black/5 rounded px-3.5 py-2.5 pr-8 text-sm text-slate-700 outline-none focus:border-green-500 w-[236px] cursor-pointer"
                     >
                       <option value="">Choose location</option>
-                      {loc.cities.map(c => <option key={c}>{c}</option>)}
+                      {filterCities.map(city => <option key={city}>{city}</option>)}
                     </select>
                     <ChevronDown className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
@@ -1177,7 +1266,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 </div>
                 {/* Min Rate */}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[#757575] text-sm font-normal">Min. Hourly Rate ({loc.currency})</label>
+                  <label className="text-[#757575] text-sm font-normal">Min. Hourly Rate ({filterCurrency})</label>
                   <div className="relative">
                     <select
                       value={filterRateMin}
@@ -1185,12 +1274,12 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       className="appearance-none bg-white border border-black/5 rounded px-3.5 py-2.5 pr-8 text-sm text-slate-700 outline-none focus:border-green-500 w-[180px] cursor-pointer"
                     >
                       <option value="">Any rate</option>
-                      <option value="30">{loc.currency}30+</option>
-                      <option value="35">{loc.currency}35+</option>
-                      <option value="40">{loc.currency}40+</option>
-                      <option value="50">{loc.currency}50+</option>
-                      <option value="55">{loc.currency}55+</option>
-                      <option value="60">{loc.currency}60+</option>
+                      <option value="30">{filterCurrency}30+</option>
+                      <option value="35">{filterCurrency}35+</option>
+                      <option value="40">{filterCurrency}40+</option>
+                      <option value="50">{filterCurrency}50+</option>
+                      <option value="55">{filterCurrency}55+</option>
+                      <option value="60">{filterCurrency}60+</option>
                     </select>
                     <ChevronDown className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
@@ -1237,10 +1326,12 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           {/* ── Country filter tabs ── */}
           <div className="border-b border-black/5 bg-white">
             <div className="max-w-[1286px] mx-auto px-10 py-4 flex flex-col gap-2">
-              <p className="text-[#3d3d3d] text-sm">Select Country</p>
+              <div className="flex items-center justify-between gap-4"><p className="text-[#3d3d3d] text-sm">Country &amp; region</p><button onClick={resetShiftFilters} className="text-xs font-semibold text-[#368B62]">Clear all filters</button></div>
+              <p className="text-xs leading-5 text-slate-500">Preview listings, not live vacancies. Rates remain in € for Ireland and £ for the UK; no currency conversion is applied. Minimum-rate and rate-sort comparisons use the numeric advertised rate. Dates shown are sample dates in 2026.</p>
               <div className="flex flex-wrap gap-8 items-center">
                 {[
                   { id: 'all', flag: '🌍', label: 'All' },
+                  { id: 'UK', flag: '🇬🇧', label: 'All UK regions' },
                   { id: 'UK-eng', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', label: 'England' },
                   { id: 'IE', flag: '🇮🇪', label: 'Republic of Ireland' },
                   { id: 'UK-wal', flag: '🏴󠁧󠁢󠁷󠁬󠁳󠁿', label: 'Wales' },
@@ -1251,10 +1342,12 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   return (
                     <button
                       key={c.id}
-                      onClick={() => setFilterCountry(c.id as typeof filterCountry)}
+                      onClick={() => { setFilterCountry(c.id as typeof filterCountry); setSearchLocation(''); setSelectedShift(0); if (c.id !== 'all') setRegion(c.id === 'IE' ? 'IE' : 'UK'); }}
+                      aria-pressed={active}
+                      aria-label={c.label}
                       className="flex items-center gap-2 text-[15px] text-black"
                     >
-                      <div className={`w-[22px] h-[22px] rounded-full border flex items-center justify-center shrink-0 transition-colors ${active ? 'bg-[#368B62] border-[#368B62]' : 'border-black/40 bg-white'}`}>
+                      <div className={`w-[22px] h-[22px] rounded-full border border-black/5 flex items-center justify-center shrink-0 transition-colors ${active ? 'bg-[#368B62]' : 'bg-white'}`}>
                         {active && <Check className="w-3 h-3 text-white" />}
                       </div>
                       <span className="text-lg leading-none">{c.flag}</span>
@@ -1273,10 +1366,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               {/* Left: shift list */}
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <p className="text-[#757575] text-base">Available Shift</p>
+                  <p aria-live="polite" className="text-[#757575] text-sm">{shifts.length} available {shifts.length === 1 ? 'shift' : 'shifts'}</p>
                   {/* Sort tabs */}
                   <div className="flex items-center gap-0.5 bg-white border border-black/5 rounded-full px-0.5 py-0.5">
-                    {(['date', 'rate', 'distance', 'added'] as const).map((s, i) => {
+                    {(['date', 'rate'] as const).map((s, i) => {
                       const labels = { date: 'Start Date', rate: 'Hourly Rate', distance: 'Distance', added: 'Date Added' };
                       const active = sortBy === s;
                       return (
@@ -1317,7 +1410,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                             </div>
                             <div>
                               <p className={`text-[13px] font-normal ${active ? 'text-[#a3d139]' : 'text-[#368B62]'}`}>{s.rate}</p>
-                              <p className={`text-[11px] ${active ? 'text-white/80' : 'text-black'}`}>Total Pay: {loc.currency}280</p>
+                              <p className={`text-[11px] ${active ? 'text-white/80' : 'text-black'}`}>Est. gross pay: {shiftFacts(s).totalPay}</p>
                             </div>
                           </div>
                           {/* Time + location row */}
@@ -1340,17 +1433,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   })}
                 </div>
 
-                {/* Pagination */}
-                <div className="flex items-center gap-1.5 mt-4 justify-center">
-                  {[1,2,3,'...',11].map((p, i) => (
-                    <button key={i} className={`min-w-[32px] h-8 rounded text-sm font-medium transition-colors ${p === 1 ? 'bg-[#368B62] text-white' : 'text-slate-600 hover:bg-slate-100'}`}>{p}</button>
-                  ))}
-                </div>
+                <p className="mt-4 text-center text-xs text-slate-500">Showing all {shifts.length} matching preview listings</p>
               </div>
 
               {/* Right: selected shift detail + map */}
               {(() => {
                 const s = shifts[selectedShift] ?? shifts[0];
+                if (!s) return <div className="rounded-3xl bg-[#f4f8f5] p-10 text-center"><Search className="mx-auto mb-5 h-8 w-8 text-[#368B62]" /><h2 className="text-xl font-medium">No shifts match these filters</h2><p className="mt-3 text-sm leading-6 text-slate-500">Try another region or clear your filters. Preview listings currently cover pharmacists; other professions and locations may have no sample vacancies.</p><button onClick={resetShiftFilters} className="mt-6 rounded-full bg-[#368B62] px-6 py-3 text-sm font-semibold text-white">Show all shifts</button></div>;
                 return (
                   <div className="flex flex-col gap-4">
                     {/* Detail card */}
@@ -1362,9 +1451,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <h2 className="text-2xl font-bold text-[#368B62] mt-0.5">{searchProfession || 'Locum Pharmacist'}</h2>
                           <span className="inline-block mt-1.5 px-2.5 py-0.5 rounded-full bg-green-50 border border-black/5 text-[11px] font-semibold text-[#368B62]">{s.specialisation}</span>
                         </div>
-                        <button className="flex items-center gap-1.5 px-3 py-1.5 border border-black/5 text-[#368B62] rounded text-xs font-semibold hover:bg-green-50 transition-colors shrink-0">
-                          <ArrowRight className="w-3.5 h-3.5" /> Share link
-                        </button>
+                        <a aria-label="Share this shift by email" href={`mailto:?subject=${encodeURIComponent(`Locum shift: ${s.facility}`)}&body=${encodeURIComponent(`${s.facility}\n${s.location}\n${s.date} 2026, ${s.time}\n${s.rate}\n${s.description}\nPreview listing only — confirm details with the facility.\n${window.location.href}`)}`} className="flex items-center gap-1.5 px-3 py-1.5 border border-black/5 text-[#368B62] rounded text-xs font-semibold hover:bg-green-50 transition-colors shrink-0"><Mail className="w-3.5 h-3.5" /> Share</a>
                       </div>
 
                       {/* Key details grid */}
@@ -1422,6 +1509,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         </ul>
                       </div>
 
+                      <LocumJobDetails reference={`LOC-${shiftRegion(s.location)}-${String(allShifts.indexOf(s) + 1).padStart(3, '0')}`} region={WORK_REGIONS.find(area => area.id === shiftRegion(s.location))!.label} date={s.date} hours={shiftFacts(s).paidHours} totalPay={shiftFacts(s).totalPay} onEnquire={() => onBookDemo(`Locum shift enquiry: ${s.facility}`)} />
+
                       {/* Apply */}
                       <div className="pt-1">
                         <motion.button
@@ -1440,7 +1529,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     <div className="rounded-xl overflow-hidden border border-black/5 ">
                       <p className="px-4 py-2.5 bg-white text-sm font-semibold text-slate-700 border-b border-black/5">Shift Location</p>
                       <div className="relative h-[320px] bg-[#e8f4ec]">
-                        <img src={imgIrelandMap} alt="Shift location map" className="w-full h-full object-cover object-center" />
+                        <div className="flex h-full flex-col items-center justify-center gap-4 px-6 text-center"><MapPin className="h-10 w-10 text-[#368B62]" /><p className="text-lg font-medium text-[#24332d]">{s.location}</p><p className="max-w-sm text-xs leading-6 text-slate-600">Only the general area is shown. The exact workplace address and arrival instructions must be confirmed with the facility.</p><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.location)}`} target="_blank" rel="noopener noreferrer" className="rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-[#368B62]">Explore this area ↗</a></div>
                         <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2">
                           <p className="text-xs font-bold text-slate-900">{s.location}</p>
                           <p className="text-[10px] text-slate-500">{s.facility}</p>
@@ -2387,7 +2476,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         {/* ── Article reader ── */}
         {blogPost !== null && (() => {
           const a = articles[blogPost];
-          const related = articles.filter((_, i) => i !== blogPost && (blogCategory === 'All' || articles[i].tag === a.tag)).slice(0, 3);
+          const related = countryArticles.filter(article => article !== a && (blogCategory === 'All' || article.tag === a.tag)).slice(0, 3);
           return (
             <motion.div className="pt-[70px] min-h-screen bg-white"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
@@ -2497,7 +2586,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     <div className="bg-white border border-black/5 rounded-2xl p-5">
                       <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">More articles</p>
                       <div className="space-y-3">
-                        {articles.filter((_, i) => i !== blogPost).slice(0, 4).map((r, ri) => (
+                        {countryArticles.filter(article => article !== a).slice(0, 4).map((r, ri) => (
                           <button key={ri} onClick={() => { setBlogPost(articles.indexOf(r)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                             className="w-full text-left group">
                             <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${r.tagColor}`}>{r.tag}</span>
@@ -2523,9 +2612,9 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               <div className="max-w-[1280px] mx-auto lg:px-6 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
                 <div>
                   <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/80 text-xs font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
-                    <BookOpen className="w-3.5 h-3.5 text-green-400" /> Insights & Resources
+                    <BookOpen className="w-3.5 h-3.5 text-green-400" /> Ireland & UK Insights
                   </div>
-                  <h1 className="text-5xl font-bold text-white tracking-[-0.02em] leading-[1.05]">Guides, salary reports<br />&amp; career insights</h1>
+                  <h1 className="text-4xl sm:text-5xl font-medium text-white tracking-[-0.02em] leading-[1.05]">Local knowledge.<br />Ireland &amp; UK insights.</h1>
                   <p className="text-white/60 text-base mt-3 max-w-lg leading-relaxed">Written for healthcare professionals and pharmacy employers across Ireland and the UK.</p>
                 </div>
                 {/* Category filter */}
@@ -2541,13 +2630,18 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </section>
 
             <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-14 space-y-14">
+              <div className="space-y-5">
+                <div aria-label="Filter insights by country" className="flex flex-wrap gap-2">{[{ id: 'all', label: 'All insights' }, { id: 'IE', label: 'Insights for Ireland' }, { id: 'UK', label: 'Insights for UK' }].map(option => <button key={option.id} onClick={() => setBlogAudience(option.id as typeof blogAudience)} aria-pressed={blogAudience === option.id} className={`rounded-full px-5 py-3 text-sm font-medium transition-colors ${blogAudience === option.id ? 'bg-[#368B62] text-white' : 'bg-white text-[#24332d] hover:bg-[#e6f0e9]'}`}>{option.label}</button>)}</div>
+                <p aria-live="polite" className="text-xs text-slate-500">{visibleArticles.length} insights · {blogAudience === 'all' ? 'Ireland and the UK' : blogAudience === 'IE' ? 'Ireland' : 'United Kingdom'} · Guides covering both countries appear in both filters.</p>
+                <p className="rounded-2xl bg-white p-4 text-xs leading-6 text-slate-500">Editorial preview: sample salary figures and regulatory claims in these draft articles are not independently verified. Confirm current requirements with the relevant regulator before acting on them.</p>
+              </div>
 
               {/* Featured articles (2-col) */}
               {blogCategory === 'All' && (
                 <div>
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Featured</p>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {articles.filter(a => a.featured).map((a, ai) => {
+                    {visibleArticles.filter(a => a.featured).map((a, ai) => {
                       const idx = articles.indexOf(a);
                       return (
                         <motion.div key={ai}
@@ -2583,10 +2677,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               {/* All articles grid */}
               <div>
                 {blogCategory === 'All' && <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">All articles</p>}
+                {visibleArticles.length === 0 && <div className="rounded-2xl bg-white p-8 text-center"><p className="text-sm text-slate-600">No insights match this country and topic yet.</p><button onClick={() => { setBlogAudience('all'); setBlogCategory('All'); }} className="mt-4 text-sm font-semibold text-[#368B62]">Show all insights</button></div>}
                 <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
                   variants={stagger(0.07)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
-                  {articles
-                    .filter(a => blogCategory === 'All' || a.tag === blogCategory)
+                  {visibleArticles
                     .map((a, ai) => {
                       const idx = articles.indexOf(a);
                       return (
