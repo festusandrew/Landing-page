@@ -198,18 +198,10 @@ export const Footer: React.FC<FooterProps> = ({
             . All rights reserved.
           </p>
           <button
-            onClick={() =>
-              window.scrollTo({
-                top: 0,
-                behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
-                  .matches
-                  ? "auto"
-                  : "smooth",
-              })
-            }
+            onClick={() => onNavigate("home")}
             className="flex items-center gap-[8.113px] justify-self-start hover:text-[#0f172a] lg:justify-self-center"
           >
-            Back to top
+            Back to homepage
             <img src={topArrow} alt="" className="rotate-180" />
           </button>
           <p className="lg:text-right">
