@@ -29,6 +29,7 @@ import imgLogoWhite from '../../imports/MacBookPro14372/b8700eda655f89d95fde6a9a
 import imgLogo from '../../imports/MacBookPro14372/b16ab5f34d40dbc6e584efa0666128eb7e0f9d4b.png';
 import { LocumRegistrationWizard } from './LocumRegistrationWizard';
 import { LocumJobDetails } from './LocumJobDetails';
+import { LocumEmployerLanding } from './LocumEmployerLanding';
 
 interface LocumProvisionPageProps {
   onBackToHome: () => void;
@@ -1826,59 +1827,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       ══════════════════════════════════════ */}
       {page === 'post-shift' && (
         <>
-        <div className="pt-[70px] min-h-screen bg-slate-50">
-
-          <div className="bg-slate-900 pt-16 pb-10 px-6 text-center">
-            <span className="text-xs font-bold text-amber-300 uppercase tracking-widest">For Employers</span>
-            <h1 className="text-4xl font-bold text-white mt-2 tracking-[-0.02em]">Post shifts from your dashboard</h1>
-            <p className="text-slate-400 text-sm mt-2 max-w-lg mx-auto">Facility accounts manage all shift postings, applications, and compliance documents directly from the MployUs employer dashboard.</p>
-          </div>
-
-          <div className="max-w-2xl mx-auto px-4 py-16 flex flex-col items-center gap-8">
-            {/* Dashboard CTA card */}
-            <motion.div
-              className="w-full bg-white rounded-2xl border border-black/5 p-8 flex flex-col items-center text-center gap-5"
-              initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}>
-              <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center">
-                <Building2 className="w-8 h-8 text-[#368B62]" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-slate-900">Go to your Employer Dashboard</h2>
-                <p className="text-slate-500 text-sm mt-2 max-w-md leading-relaxed">
-                  Post locum shifts and permanent roles, review applicant compliance profiles, accept bookings, and manage timesheets — all in one place.
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-3 w-full mt-2">
-                {[
-                  { icon: Clock, title: 'Post locum shifts', desc: 'Live within minutes, notified to verified locums instantly.' },
-                  { icon: Briefcase, title: 'Post permanent roles', desc: 'Reach qualified candidates actively seeking roles.' },
-                  { icon: ShieldCheck, title: 'Compliance at a glance', desc: "Every applicant's docs verified before they appear." },
-                  { icon: Bell, title: 'Real-time notifications', desc: 'Get alerted the moment a locum applies or confirms.' },
-                ].map(({ icon: Icon, title, desc }) => (
-                  <div key={title} className="flex items-start gap-3 p-4 rounded-xl bg-slate-50 text-left border border-black/5">
-                    <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center shrink-0">
-                      <Icon className="w-4 h-4 text-green-700" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-900">{title}</p>
-                      <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">{desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <motion.button
-                onClick={() => openAuth('signin')}
-                className="w-full py-3.5 bg-[#368B62] hover:bg-[#286d4c] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
-                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 22 }}>
-                Open Employer Dashboard <ArrowRight className="w-4 h-4" />
-              </motion.button>
-              <p className="text-xs text-slate-400">Don't have a facility account? <button onClick={() => openAuth('signup')} className="text-[#368B62] font-semibold hover:underline">Register your facility</button></p>
-            </motion.div>
-          </div>
-
-        </div>
+        <LocumEmployerLanding country={loc.country} onRequest={(type, urgent = false) => { openPostModal(type); setPostForm(form => ({ ...form, urgent })); }} onRegister={() => { openAuth('signup'); setRole('Client'); }} onLogin={() => openAuth('signin')} onTalk={() => onBookDemo('Locum employer staffing')} />
 
         {/* ══ POST FLOW MODAL ══ */}
         {postModalOpen && (
@@ -1906,12 +1855,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     </div>
                   </div>
                 ) : <div />}
-                <button onClick={closePostModal} className="ml-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors shrink-0">
+                <button onClick={closePostModal} aria-label="Close posting preview" className="ml-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors shrink-0">
                   <X className="w-4 h-4 text-slate-600" />
                 </button>
               </div>
 
               <div className="px-7 pb-7 pt-5">
+                <p className="mb-5 rounded-xl bg-[#edf4ef] p-3 text-xs leading-5 text-[#53685b]">Guided posting preview. No vacancy is published and no notifications are sent. Use your facility account to manage live postings.</p>
 
                 {/* ── SUCCESS SCREEN ── */}
                 {postSuccess && (
@@ -1923,27 +1873,22 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     </motion.div>
                     <div>
                       <h2 className="text-2xl font-bold text-slate-900 mb-1">
-                        {postType === 'Locum Shift' ? 'Shift posted successfully!' : 'Role posted successfully!'}
+                        {postType === 'Locum Shift' ? 'Your shift draft is ready' : 'Your role draft is ready'}
                       </h2>
                       <p className="text-slate-500 text-sm max-w-sm mx-auto">
                         {postType === 'Locum Shift'
-                          ? `Verified ${postForm.profession || 'healthcare professionals'} near ${postForm.town || loc.defaultCity} have been notified. You'll hear back within hours.`
-                          : `Your ${postForm.jobTitle || 'role'} listing is now live. Qualified candidates in ${loc.country} will be able to apply directly.`}
+                          ? `You have prepared a brief for ${postForm.profession || 'healthcare professionals'} near ${postForm.town || loc.defaultCity}. This preview has not published or submitted it.`
+                          : `You have prepared a brief for ${postForm.jobTitle || 'your role'} in ${loc.country}. This preview has not published or submitted it.`}
                       </p>
                     </div>
                     <div className="w-full bg-slate-50 border border-black/5 rounded-xl p-5 text-left space-y-2">
                       <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">What happens next</p>
-                      {(postType === 'Locum Shift' ? [
-                        { icon: '🔔', title: 'Locums notified immediately', desc: `Registered ${postForm.profession || 'professionals'} within range receive a push and SMS alert.` },
-                        { icon: '📋', title: 'Applications reviewed', desc: 'Applicants appear in your MployUs dashboard with their full compliance profile.' },
-                        { icon: '✅', title: 'Accept and confirm', desc: "Accept the locum you want — they're notified instantly and the shift is locked in." },
-                        { icon: '📄', title: 'Compliance summary sent', desc: 'Registration, insurance, and DBS documents are emailed to you automatically.' },
-                      ] : [
-                        { icon: '🌍', title: 'Role goes live', desc: `Your listing is visible to job seekers across ${loc.country} immediately.` },
-                        { icon: '📩', title: 'Applications arrive', desc: 'Candidates apply directly through MployUs — no email chains or external forms.' },
-                        { icon: '🔍', title: 'Review & shortlist', desc: 'Filter applicants by registration, experience, and availability in your dashboard.' },
-                        { icon: '🤝', title: 'Make an offer', desc: 'Connect with your preferred candidate and arrange interviews through the platform.' },
-                      ]).map((step, i) => (
+                      {[
+                        { icon: '🏥', title: 'Set up your facility account', desc: 'Register your facility or sign in to access the intended employer workspace.' },
+                        { icon: '📋', title: 'Check your brief', desc: 'Confirm the profession, location, dates, rate and all practical requirements.' },
+                        { icon: '🔍', title: 'Review applications', desc: 'For a live posting, review relevant experience and role-appropriate compliance information.' },
+                        { icon: '🤝', title: 'Agree the arrangement', desc: 'Confirm the complete brief, pay and booking terms in writing before work starts.' },
+                      ].map((step, i) => (
                         <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.3 + i * 0.08 }}
                           className="flex items-start gap-3 py-2.5 border-b border-black/5 last:border-0">
@@ -1962,7 +1907,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       </button>
                       <button onClick={() => openPostModal(postType)}
                         className="flex-1 py-3 bg-[#368B62] hover:bg-[#276647] text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                        Post another <PlusCircle className="w-4 h-4" />
+                        Create another draft <PlusCircle className="w-4 h-4" />
                       </button>
                     </div>
                   </motion.div>
@@ -1994,11 +1939,12 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         <div className="flex items-center justify-between p-4 rounded-xl border border-black/5 bg-slate-50">
                           <div>
                             <p className="text-sm font-bold text-slate-900">Mark as urgent</p>
-                            <p className="text-xs text-slate-500 mt-0.5">Urgent shifts are pinned to the top and trigger SMS alerts.</p>
+                            <p className="text-xs text-slate-500 mt-0.5">Flag this draft for last-minute cover. No alerts are sent in this preview.</p>
                           </div>
                           <button onClick={() => setPostForm(f => ({ ...f, urgent: !f.urgent }))}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ${postForm.urgent ? 'bg-green-500' : 'bg-slate-200'}`}>
-                            <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${postForm.urgent ? 'translate-x-6' : 'translate-x-1'}`} />
+                            role="switch" aria-checked={postForm.urgent} aria-label="Mark request as urgent"
+                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ${postForm.urgent ? 'bg-[#368B62]' : 'bg-slate-200'}`}>
+                            <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${postForm.urgent ? 'translate-x-6' : 'translate-x-1'}`} />
                           </button>
                         </div>
                         <button onClick={() => setPostStep(2)}
@@ -2148,7 +2094,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           </button>
                           <button onClick={() => setPostStep(4)} disabled={!postForm.facility || !postForm.contact || !postForm.phone || !postForm.email}
                             className="flex-1 py-3 bg-[#368B62] disabled:opacity-40 hover:bg-[#276647] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                            Review & Publish <ChevronRight className="w-4 h-4" />
+                            Review your draft <ChevronRight className="w-4 h-4" />
                           </button>
                         </div>
                       </motion.div>
@@ -2175,7 +2121,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           {[
                             { label: 'Profession', val: postForm.profession || '—' },
                             { label: 'Location', val: postForm.town || '—' },
-                            { label: 'Urgent', val: postForm.urgent ? '🔴 Yes — SMS alerts enabled' : 'No' },
+                            { label: 'Urgent', val: postForm.urgent ? 'Yes — urgent cover requested' : 'No' },
                             { label: 'Facility', val: postForm.facility || '—' },
                             { label: 'Contact', val: postForm.contact || '—' },
                             { label: 'Email', val: postForm.email || '—' },
@@ -2202,7 +2148,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <button onClick={() => { if (postForm.termsAccepted) setPostSuccess(true); }}
                             disabled={!postForm.termsAccepted}
                             className="flex-1 py-3 bg-[#368B62] disabled:opacity-40 hover:bg-[#276647] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                            Publish Shift <PlusCircle className="w-4 h-4" />
+                            Finish shift draft <PlusCircle className="w-4 h-4" />
                           </button>
                         </div>
                       </motion.div>
@@ -2452,7 +2398,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                           <button onClick={() => { if (postForm.termsAccepted) setPostSuccess(true); }}
                             disabled={!postForm.termsAccepted}
                             className="flex-1 py-3 bg-amber-600 disabled:opacity-40 hover:bg-amber-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                            Post Role <PlusCircle className="w-4 h-4" />
+                            Finish role draft <PlusCircle className="w-4 h-4" />
                           </button>
                         </div>
                       </motion.div>
