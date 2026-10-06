@@ -54,7 +54,11 @@ export const Navbar: React.FC<NavbarProps> = ({
     >
       <nav
         aria-label="Main navigation"
-        className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-4 px-6 py-4 lg:px-8"
+        className={
+          embedded
+            ? "mx-auto grid max-w-[1280px] grid-cols-1 items-center justify-items-center gap-4 px-6 py-4 sm:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-8"
+            : "mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-4 px-6 py-4 lg:px-8"
+        }
       >
         <button
           type="button"
@@ -66,14 +70,26 @@ export const Navbar: React.FC<NavbarProps> = ({
         >
           mploy<span className="text-[#368B62]">us.</span>
         </button>
-        <div className="order-3 w-full border-t border-black/5 pt-3 xl:order-none xl:w-auto xl:flex-1 xl:border-0 xl:pt-0">
+        <div
+          className={
+            embedded
+              ? "min-w-0 w-full [&>div]:justify-center [&>div]:gap-x-4 xl:[&>div]:gap-x-6"
+              : "order-3 w-full border-t border-black/5 pt-3 xl:order-none xl:w-auto xl:flex-1 xl:border-0 xl:pt-0"
+          }
+        >
           <MainNavigation
             onNavigate={navigate}
             onSection={section}
             onBookDemo={demo}
           />
         </div>
-        <div className="ml-auto flex flex-wrap items-center gap-3">
+        <div
+          className={
+            embedded
+              ? "flex flex-wrap items-center justify-center gap-3 sm:flex-col xl:flex-row"
+              : "ml-auto flex flex-wrap items-center gap-3"
+          }
+        >
           <button type="button" onClick={demo} className={primaryButton}>
             Book a demo
           </button>
