@@ -87,7 +87,7 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
       <section id="how-it-works" aria-labelledby="how-it-works-heading" className="scroll-mt-6 bg-white py-16 md:py-[108.169px]">
         <div className="mx-auto max-w-[1622.535px] px-6 md:px-[43.268px]">
           <div className="mx-auto max-w-[892.394px] text-center">
-            <p className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[14.873px] font-semibold uppercase leading-[22.31px] tracking-[2.3797px] text-[#4f46e5]">A LITTLE LESS COMPLEXITY</p>
+            <p className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[14.873px] font-semibold uppercase leading-[22.31px] tracking-[2.3797px] text-[#368B62]">A LITTLE LESS COMPLEXITY</p>
             <h2 id="how-it-works-heading" className="mt-[21.634px] font-['Inter:Semi_Bold',Inter,sans-serif] text-[36px] font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px] md:leading-[64.901px]">More connected.<br />More time for care.</h2>
             <p className="mt-[21.634px] font-['Inter:Regular',Inter,sans-serif] text-[18px] font-normal leading-8 text-[#64748b] md:text-[20.282px] md:leading-[37.859px]">Healthcare is human. Your systems should be too.<br />We make the complicated feel a little simpler.</p>
           </div>
@@ -98,7 +98,7 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
               { number: '03', title: 'Move forward, together', body: 'Get practical support from people who understand your world.' },
             ].map(step => (
               <article key={step.number} className="border-t border-black/5 pt-[37.859px]">
-                <p aria-hidden="true" className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[96px] font-semibold leading-[109px] text-[#4f46e5]/10">{step.number}</p>
+                <p aria-hidden="true" className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[96px] font-semibold leading-[109px] text-[#368B62]/10">{step.number}</p>
                 <h3 className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[24.338px] font-semibold leading-[37.859px] text-[#0f172a]">{step.title}</h3>
                 <p className="mt-[16.225px] font-['Inter:Regular',Inter,sans-serif] text-[18.93px] font-normal leading-[37.859px] text-[#62748e]">{step.body}</p>
               </article>
