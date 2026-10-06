@@ -64,6 +64,164 @@ export function PeopleAnimation({
   )
 }
 
+export function ModernServiceHero({
+  kind,
+  image,
+  onPrimary,
+  onSecondary,
+}: {
+  kind: "recruitment" | "locum"
+  image: string
+  onPrimary: () => void
+  onSecondary: () => void
+}) {
+  const locum = kind === "locum"
+  const reducedMotion = useReducedMotion()
+  return (
+    <section
+      className={`relative overflow-hidden px-6 py-12 font-['DM_Sans',sans-serif] sm:py-16 lg:py-20 ${
+        locum ? "bg-[#f5f7f1]" : "bg-[#faf5f8]"
+      }`}
+    >
+      <div className="mx-auto grid max-w-[1184px] items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
+        <motion.div
+          initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="mb-7 flex items-center gap-3">
+            <span
+              className={`h-2 w-2 rounded-full ${
+                locum ? "bg-[#368B62]" : "bg-[#810161]"
+              }`}
+            />
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#67716b]">
+              {locum
+                ? "Healthcare, on your terms"
+                : "People first. Possibility next."}{" "}
+              · Ireland & UK
+            </p>
+          </div>
+          <h1 className="text-[46px] font-medium leading-[1.06] tracking-[-0.025em] text-[#24332d] sm:text-[62px] lg:text-[72px]">
+            {locum ? (
+              <>
+                Great care.
+                <br />
+                More freedom.
+                <br />
+                <span className="text-[#368B62]">Your next shift.</span>
+              </>
+            ) : (
+              <>
+                Good people.
+                <br />
+                Great potential.
+                <br />
+                <span className="text-[#810161]">The right fit.</span>
+              </>
+            )}
+          </h1>
+          <p className="mb-8 mt-6 max-w-[440px] text-[15px] leading-7 text-[#68716c]">
+            {locum
+              ? "A more human way to work in healthcare. Find flexible shifts, connect with trusted facilities and make room for the life you want to live."
+              : "We bring talented people and ambitious teams together. Personal recruitment, thoughtful matches and a partner who sees the bigger picture."}
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={onPrimary}
+              className={`group inline-flex items-center gap-4 rounded-full px-6 py-3.5 text-sm font-semibold text-white transition-colors ${
+                locum
+                  ? "bg-[#368B62] hover:bg-[#286d4c]"
+                  : "bg-[#810161] hover:bg-[#65014c]"
+              }`}
+            >
+              {locum ? "Find your next shift" : "Find your next role"}
+              <ArrowRight
+                size={16}
+                className="transition-transform group-hover:translate-x-1"
+              />
+            </button>
+            <button
+              onClick={onSecondary}
+              className="inline-flex items-center gap-3 rounded-full border border-black/5 bg-white px-6 py-3.5 text-sm font-semibold text-[#24332d] transition-colors hover:bg-[#f0f0eb]"
+            >
+              {locum ? "Join as a locum" : "I’m looking for talent"}
+            </button>
+          </div>
+          <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-black/5 pt-6">
+            {(locum
+              ? [
+                  "Flexible opportunities",
+                  "Country-aware registration",
+                  "People-first support",
+                ]
+              : ["Permanent & contract", "Executive search", "Ireland & the UK"]
+            ).map((label) => (
+              <span
+                key={label}
+                className="flex items-center gap-2 text-[11px] text-[#68716c]"
+              >
+                <Check
+                  size={13}
+                  className={locum ? "text-[#368B62]" : "text-[#810161]"}
+                />
+                {label}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+        <motion.div
+          initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="relative mx-auto w-full max-w-[480px] pb-8"
+        >
+          <div
+            className={`relative overflow-hidden rounded-t-[180px] rounded-b-[24px] ${
+              locum ? "bg-[#dfe9dd]" : "bg-[#eedee9]"
+            }`}
+          >
+            <img
+              src={image}
+              alt={
+                locum
+                  ? "Healthcare professional in teal scrubs"
+                  : "Professional ready for their next career opportunity"
+              }
+              className="h-[360px] w-full object-cover object-top sm:h-[460px] lg:h-[510px]"
+            />
+          </div>
+          <motion.div
+            animate={reducedMotion ? {} : { y: [0, -5, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -bottom-1 left-4 right-4 flex items-center justify-between gap-4 rounded-2xl border border-black/5 bg-white p-5 sm:left-8 sm:right-8"
+          >
+            <div>
+              <p className="mb-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#7a827c]">
+                {locum ? "A schedule that fits" : "A career that fits"}
+              </p>
+              <p className="text-sm font-semibold text-[#24332d]">
+                {locum
+                  ? "Your expertise. Your choice."
+                  : "Your next chapter starts here."}
+              </p>
+            </div>
+            <span
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${
+                locum
+                  ? "bg-[#edf5ef] text-[#368B62]"
+                  : "bg-[#f8eef5] text-[#810161]"
+              }`}
+            >
+              <Check size={19} />
+            </span>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
 export function SoftwareAnimation() {
   const reducedMotion = useReducedMotion()
   return (

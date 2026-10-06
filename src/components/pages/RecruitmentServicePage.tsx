@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router';
-import { LoginExperience, PeopleAnimation } from '../PlatformExperiences';
+import { LoginExperience, ModernServiceHero } from '../PlatformExperiences';
 import {
   ArrowRight, Menu, X, Globe, Clock, Target, Users,
   Check, Mail, Phone, Building2, Briefcase, Send, CheckCircle2,
@@ -34,11 +34,11 @@ interface Props {
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
 const P   = '#810161';           // primary magenta
-const TD  = '#364153';           // text dark
-const TM  = '#6a7282';           // text medium
-const TT  = '#99a1af';           // text muted / tag
-const TN  = '#4a5565';           // nav link colour
-const BGL = '#f9fafb';           // bg light
+const TD  = '#24332d';           // text dark
+const TM  = '#68716c';           // text medium
+const TT  = '#67716b';           // text muted / tag
+const TN  = '#4b5750';           // nav link colour
+const BGL = '#f8f8f5';           // bg light
 const BD  = 'rgba(0,0,0,0.05)'; // border — 1px black 5%
 const BDL = 'rgba(0,0,0,0.05)'; // border light — same
 
@@ -71,22 +71,22 @@ const Reveal = ({
 
 // ── Tiny shared components ────────────────────────────────────────────────────
 const Eyebrow = ({ children, light = false }: { children: React.ReactNode; light?: boolean }) => (
-  <p className="text-[13px] font-['Inter',sans-serif] uppercase font-normal mb-3"
+  <p className="text-[13px] font-['DM_Sans',sans-serif] uppercase font-normal mb-3"
     style={{ color: light ? 'rgba(255,255,255,0.6)' : TT, letterSpacing: '1.56px' }}>
     {children}
   </p>
 );
 
 const H1 = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
-  <h1 className={`font-['Arimo',sans-serif] text-[48px] sm:text-[56px] leading-[1.12] font-normal ${className}`}
-    style={{ color: P }}>
+  <h1 className={`font-['DM_Sans',sans-serif] text-[42px] sm:text-[56px] leading-[1.08] font-medium tracking-[-0.02em] ${className}`}
+    style={{ color: TD }}>
     {children}
   </h1>
 );
 
 const H2 = ({ children, className = '', light = false }: { children: React.ReactNode; className?: string; light?: boolean }) => (
-  <h2 className={`font-['Arimo',sans-serif] text-[36px] leading-[1.2] font-normal ${className}`}
-    style={{ color: light ? 'white' : P }}>
+  <h2 className={`font-['DM_Sans',sans-serif] text-[30px] sm:text-[38px] leading-[1.15] font-medium ${className}`}
+    style={{ color: light ? 'white' : TD }}>
     {children}
   </h2>
 );
@@ -305,7 +305,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
           {TESTIMONIALS.map(t => (
             <motion.div key={t.name} variants={fadeUp}
               className="bg-white rounded-xl p-6 border border-black/5 flex flex-col gap-5"
-              whileHover={{ y: -3, borderColor: 'rgba(129,1,97,0.15)' }}
+              whileHover={{ y: -3, borderColor: 'rgba(0,0,0,0.05)' }}
               transition={{ type: 'spring', stiffness: 380, damping: 26 }}
             >
               <p className="text-[15px] leading-[1.65] flex-1" style={{ color: TN }}>{t.quote}</p>
@@ -327,7 +327,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
     <section className="py-14 px-6 text-center text-white" style={{ backgroundColor: P }}>
       <div className="max-w-xl mx-auto">
         <Eyebrow light>Stay in the loop</Eyebrow>
-        <h2 className="font-['Arimo',sans-serif] text-[32px] font-normal leading-snug mb-2">Hiring insights, market trends &amp; salary reports</h2>
+        <h2 className="font-['DM_Sans',sans-serif] text-[32px] font-normal leading-snug mb-2">Hiring insights, market trends &amp; salary reports</h2>
         <p className="text-[14px] mb-7 text-white/70">Delivered monthly. No spam, ever.</p>
         <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
           <div className="flex items-center gap-2.5 flex-1 px-4 py-3 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }}>
@@ -386,105 +386,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
   const HomePage = () => (
     <Fade>
-      {/* Hero */}
-      <section className="relative min-h-[88vh] flex flex-col overflow-hidden">
-        {/* Background image with scale-in */}
-        <motion.div
-          className="absolute inset-0"
-          initial={{ scale: 1.08 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <img src={imgHiring} alt="" className="w-full h-full object-cover object-center" />
-          <div className="absolute inset-0 bg-slate-950/85" />
-          <div className="absolute inset-0 bg-slate-950/55" />
-        </motion.div>
+      <ModernServiceHero kind="recruitment" image={imgSarah} onPrimary={() => goTo('jobseekers')} onSecondary={openContact} />
 
-        {/* Glassmorphic stat cards — right side */}
-        <div className="absolute right-[6%] top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-3 z-10">
-          {[
-            { val: '1,200+', label: 'Placements Made',      color: 'text-pink-300' },
-            { val: '4',      label: 'Industry Sectors',     color: 'text-fuchsia-300' },
-            { val: '90-day', label: 'Replacement Guarantee', color: 'text-rose-300' },
-          ].map((stat, i) => (
-            <motion.div
-              key={stat.val}
-              className="backdrop-blur-2xl bg-white/10 border border-black/5 rounded-2xl px-6 py-5 text-center w-52"
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.8 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.15)' }}
-            >
-              <div className={`text-4xl font-bold ${stat.color}`}>{stat.val}</div>
-              <p className="text-white/70 text-xs mt-1.5 leading-snug">{stat.label}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Hero copy — staggered */}
-        <motion.div
-          className="relative z-10 flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-20 xl:px-28 max-w-[780px] py-24"
-          initial="hidden"
-          animate="visible"
-          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
-        >
-          <motion.div variants={{ hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/90 text-xs font-semibold uppercase tracking-widest mb-6 w-fit backdrop-blur-sm">
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#f472b6' }} />
-              Recruitment · Staffing · HR Advisory · Ireland &amp; UK
-            </div>
-          </motion.div>
-
-          <motion.h1
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-5 font-['Arimo',sans-serif]"
-            variants={{ hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
-          >
-            Find the right people.<br />
-            <span style={{ color: '#f472b6' }}>Build a stronger</span><br />
-            team.
-          </motion.h1>
-
-          <motion.p
-            className="text-lg text-white/75 leading-relaxed max-w-[520px] mb-8 font-normal"
-            variants={{ hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
-          >
-            MployUs connects businesses across Ireland and the UK with skilled professionals in logistics, healthcare, hospitality and education. Permanent, contract, executive search or a complete talent solution — start with people, grow with confidence.
-          </motion.p>
-
-          <motion.div
-            className="flex flex-wrap gap-3"
-            variants={{ hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
-          >
-            <motion.button
-              onClick={openContact}
-              className="group flex items-center gap-2 px-7 py-3.5 text-white font-semibold text-sm rounded-xl"
-              style={{ backgroundColor: P }}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-            >
-              Request Talent
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </motion.button>
-            <motion.button
-              onClick={() => goTo('jobseekers')}
-              className="flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-black/5 text-white font-semibold text-sm rounded-xl backdrop-blur-sm"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-            >
-              Explore Vacancies
-            </motion.button>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      <section className="bg-[#fbf5f9] px-6 py-16">
-        <div className="mx-auto grid max-w-[1184px] items-center gap-10 md:grid-cols-2">
-          <div><Eyebrow>A personal introduction</Eyebrow><H2>Your next chapter.<br />Our shared ambition.</H2><p className="mt-5 max-w-lg text-sm leading-7 text-slate-600">We’re MployUs Recruit. We connect ambition with opportunity — helping employers build lasting teams and people find work that fits their lives, across Ireland and every part of the UK.</p><div className="mt-6 flex flex-wrap gap-3"><button onClick={openContact} className="rounded-lg bg-[#810161] px-5 py-3 text-sm font-semibold text-white">I’m hiring <ArrowRight className="ml-2 inline h-4 w-4" /></button><button onClick={() => goTo('jobseekers')} className="rounded-lg bg-white px-5 py-3 text-sm font-semibold text-[#810161]">I’m looking for work</button></div></div>
-          <PeopleAnimation kind="recruitment" image={imgSarah} />
-        </div>
-      </section>
+      <section className="border-b border-black/5 bg-white px-6 py-10"><div className="mx-auto grid max-w-[1184px] gap-6 md:grid-cols-2 md:gap-20"><p className="text-2xl font-medium leading-snug text-[#24332d]">Not just a recruitment agency.<br />A partner for your next chapter.</p><p className="text-sm leading-7 text-[#68716c]">From your first conversation to your next opportunity, we take the time to understand what matters. Specialist support for logistics, healthcare, hospitality and education across Ireland and the UK.</p></div></section>
 
       {/* Features */}
       <section style={{ backgroundColor: BGL }} className="py-16 border-y border-black/5">
@@ -544,7 +448,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             {SERVICES.map(s => (
               <motion.div key={s.n} variants={fadeUp}
                 className="flex gap-5 p-6 bg-white rounded-xl border border-black/5"
-                whileHover={{ x: 3, borderColor: 'rgba(129,1,97,0.15)' }}
+                whileHover={{ x: 3, borderColor: 'rgba(0,0,0,0.05)' }}
                 transition={{ type: 'spring', stiffness: 380, damping: 26 }}
               >
                 <div className="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center text-[13px] border border-black/5" style={{ backgroundColor: BGL, color: TT }}>{s.n}</div>
@@ -618,16 +522,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
     return (
     <Fade>
       {/* Hero banner */}
-      <div className="relative h-[300px] overflow-hidden">
-        <img src={imgHiring} alt="" className="absolute inset-0 w-full h-full object-cover object-center" />
-        <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.68)' }} />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6 gap-3">
-          <p className="text-white/90 text-sm font-semibold tracking-widest uppercase">Find Your Next Role</p>
-          <h1 className="text-3xl lg:text-[35px] font-bold text-white leading-tight max-w-3xl">
-            Find your next opportunity, with a consultant by your side.
-          </h1>
-        </div>
-      </div>
+      <section className="bg-[#faf5f8] px-6 py-14 sm:py-16"><div className="mx-auto max-w-[1184px]"><Eyebrow>Opportunities across Ireland &amp; the UK</Eyebrow><H1>A role that fits.<br />A future that’s yours.</H1><p className="mt-5 max-w-lg text-sm leading-7 text-[#68716c]">Explore opportunities across four specialist sectors, with a consultant by your side.</p></div></section>
 
       {/* Filter bar */}
       <p className="bg-[#fbf5f9] px-6 py-3 text-center text-xs text-[#810161]">Preview vacancies: these sample listings demonstrate recruitment across Ireland and the UK. Availability and full terms require confirmation.</p>
@@ -752,29 +647,29 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                   return (
                     <motion.button key={r.title + r.location} onClick={() => setSelectedIdx(i)}
                       className="w-full text-left border-b border-black/5 last:border-0"
-                      style={{ backgroundColor: active ? P : i % 2 === 0 ? 'rgba(245,245,245,0.5)' : 'white' }}
-                      whileHover={{ backgroundColor: active ? P : 'rgba(129,1,97,0.04)' }}
+                      style={{ backgroundColor: active ? 'rgba(129,1,97,0.06)' : i % 2 === 0 ? 'rgba(245,245,245,0.5)' : 'white' }}
+                      whileHover={{ backgroundColor: active ? 'rgba(129,1,97,0.06)' : 'rgba(129,1,97,0.03)' }}
                       transition={{ duration: 0.15 }}
                     >
                       <div className="flex flex-col gap-2 px-4 py-3.5">
                         <div>
-                          <p className="text-[11px] leading-snug" style={{ color: active ? 'rgba(255,255,255,0.65)' : '#555' }}>{r.sector}</p>
-                          <p className="font-semibold text-[17px] leading-snug" style={{ color: active ? 'rgba(255,200,240,0.9)' : P }}>{r.title}</p>
+                          <p className="text-[11px] leading-snug" style={{ color: active ? TD : '#555' }}>{r.sector}</p>
+                          <p className="font-semibold text-[17px] leading-snug" style={{ color: active ? P : P }}>{r.title}</p>
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
-                            <MapPin className="w-3.5 h-3.5 shrink-0" style={{ color: active ? 'rgba(255,255,255,0.7)' : '#757575' }} />
-                            <span className="text-[13px]" style={{ color: active ? 'rgba(255,255,255,0.85)' : '#333' }}>{r.location}</span>
+                            <MapPin className="w-3.5 h-3.5 shrink-0" style={{ color: active ? TD : '#757575' }} />
+                            <span className="text-[13px]" style={{ color: active ? TD : '#333' }}>{r.location}</span>
                           </div>
-                          <p className="text-[13px] font-medium" style={{ color: active ? 'rgba(255,200,240,0.9)' : P }}>{r.salary}</p>
+                          <p className="text-[13px] font-medium" style={{ color: active ? P : P }}>{r.salary}</p>
                         </div>
                         <div className="flex items-center gap-3">
                           <span className="text-[11px] px-2 py-0.5 rounded-full border"
-                            style={{ backgroundColor: active ? 'rgba(255,255,255,0.15)' : BGL, borderColor: active ? 'rgba(255,255,255,0.2)' : BDL, color: active ? 'rgba(255,255,255,0.8)' : TT }}>
+                            style={{ backgroundColor: active ? 'white' : BGL, borderColor: active ? BD : BDL, color: active ? TD : TT }}>
                             {r.type}
                           </span>
-                          <Briefcase className="w-3.5 h-3.5" style={{ color: active ? 'rgba(255,255,255,0.5)' : '#757575' }} />
-                          <span className="text-[13px]" style={{ color: active ? 'rgba(255,255,255,0.75)' : '#333' }}>{r.sector}</span>
+                          <Briefcase className="w-3.5 h-3.5" style={{ color: active ? TD : '#757575' }} />
+                          <span className="text-[13px]" style={{ color: active ? TD : '#333' }}>{r.sector}</span>
                         </div>
                       </div>
                     </motion.button>
@@ -946,7 +841,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             className="rounded-xl overflow-hidden border border-black/5 flex flex-col lg:flex-row group cursor-pointer"
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ borderColor: 'rgba(129,1,97,0.15)' }}
+            whileHover={{ borderColor: 'rgba(0,0,0,0.05)' }}
           >
             <div className="lg:w-[480px] h-56 lg:h-auto shrink-0 overflow-hidden">
               <img src={(visibleArticles[0] || ARTICLES[0]).img} alt={(visibleArticles[0] || ARTICLES[0]).title} className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-105" />
@@ -956,7 +851,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 <span className="text-[12px] px-2.5 py-1 rounded-full font-medium" style={{ backgroundColor: 'rgba(129,1,97,0.08)', color: P }}>{(visibleArticles[0] || ARTICLES[0]).cat}</span>
                 <span className="text-[12px]" style={{ color: TT }}>{(visibleArticles[0] || ARTICLES[0]).date} · {(visibleArticles[0] || ARTICLES[0]).read} read</span>
               </div>
-              <h3 className="font-['Arimo',sans-serif] text-[28px] leading-snug mb-4" style={{ color: P }}>{(visibleArticles[0] || ARTICLES[0]).title}</h3>
+              <h3 className="font-['DM_Sans',sans-serif] text-[28px] leading-snug mb-4" style={{ color: P }}>{(visibleArticles[0] || ARTICLES[0]).title}</h3>
               <p className="text-[15px] leading-relaxed mb-6" style={{ color: TM }}>{(visibleArticles[0] || ARTICLES[0]).excerpt}</p>
               <motion.button className="self-start flex items-center gap-2 text-[14px] font-medium" style={{ color: P }}
                 whileHover={{ x: 3 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
@@ -990,7 +885,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             {visibleArticles.map(a => (
               <motion.div key={a.title} variants={fadeUp}
                 className="bg-white rounded-xl overflow-hidden border border-black/5 flex flex-col group cursor-pointer"
-                whileHover={{ y: -4, borderColor: 'rgba(129,1,97,0.15)' }}
+                whileHover={{ y: -4, borderColor: 'rgba(0,0,0,0.05)' }}
                 transition={{ type: 'spring', stiffness: 380, damping: 26 }}
               >
                 <div className="h-[200px] overflow-hidden">
@@ -1042,7 +937,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-56px' }}
             variants={staggerGrid(0.08)}
           >
-            <motion.p variants={fadeUp} className="text-[18px] font-['Arimo',sans-serif] mb-6" style={{ color: P }}>Send us a message</motion.p>
+            <motion.p variants={fadeUp} className="text-[18px] font-['DM_Sans',sans-serif] mb-6" style={{ color: P }}>Send us a message</motion.p>
             <div className="space-y-3">
               {[
                 { icon: Users,    placeholder: 'Full name',                    key: 'name',    type: 'text' },
@@ -1054,7 +949,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 <motion.div key={key} variants={fadeUp}
                   className="flex items-center gap-3 px-4 py-3 rounded-lg border border-black/5"
                   style={{ backgroundColor: BGL }}
-                  whileFocus={{ borderColor: 'rgba(129,1,97,0.3)' }}
+                  whileFocus={{ borderColor: 'rgba(0,0,0,0.05)' }}
                 >
                   <Icon className="w-4 h-4 shrink-0" style={{ color: TT }} />
                   <input type={type} placeholder={placeholder}
@@ -1088,7 +983,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             variants={staggerGrid(0.12)}
           >
             <motion.div variants={fadeUp}>
-              <p className="text-[18px] font-['Arimo',sans-serif] mb-5" style={{ color: P }}>Our offices</p>
+              <p className="text-[18px] font-['DM_Sans',sans-serif] mb-5" style={{ color: P }}>Our offices</p>
               <div className="space-y-4">
                 {[
                   { city: 'Dublin', addr: '12 Fitzwilliam Square, Dublin 2', phone: '+353 1 234 5678', email: 'dublin@mployus.ie' },
@@ -1096,7 +991,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 ].map(o => (
                   <motion.div key={o.city}
                     className="p-5 rounded-xl border border-black/5"
-                    whileHover={{ borderColor: 'rgba(129,1,97,0.15)', x: 2 }}
+                    whileHover={{ borderColor: 'rgba(0,0,0,0.05)', x: 2 }}
                     transition={{ type: 'spring', stiffness: 380, damping: 26 }}
                   >
                     <p className="text-[15px] font-medium mb-3" style={{ color: P }}>{o.city}</p>
@@ -1147,7 +1042,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   };
 
   return (
-    <div className="min-h-screen bg-white font-['Inter',sans-serif]" style={{ color: TD }}>
+    <div className="min-h-screen bg-white font-['DM_Sans',sans-serif]" style={{ color: TD }}>
 
       {/* ══ NAVBAR ══ */}
       <header className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
@@ -1155,7 +1050,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
           <motion.button onClick={() => goTo('home')} className="shrink-0"
             whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-            <img src={imgMployUs} alt="MployUs" className="h-7 w-auto object-contain" />
+            <span className="flex items-baseline gap-2 text-[23px] font-semibold tracking-[-0.02em] text-[#24332d]">mployus<span className="text-xs font-medium tracking-normal text-[#810161]">recruit.</span></span>
           </motion.button>
 
           <nav className="hidden lg:flex items-center gap-8">
@@ -1187,7 +1082,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               Login
             </motion.button>
             <motion.button onClick={openContact}
-              className="h-[41px] px-5 rounded-lg text-white text-[14px] whitespace-nowrap"
+              className="h-[41px] px-5 rounded-full text-white text-[14px] whitespace-nowrap"
               style={{ backgroundColor: P }}
               whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
@@ -1195,7 +1090,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             </motion.button>
           </div>
 
-          <button onClick={() => setMobileOpen(v => !v)} className="lg:hidden p-2 rounded-lg" style={{ color: TN }}>
+          <button aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={mobileOpen} onClick={() => setMobileOpen(v => !v)} className="lg:hidden p-2 rounded-lg" style={{ color: TN }}>
             <AnimatePresence mode="wait" initial={false}>
               {mobileOpen
                 ? <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.18 }}><X className="w-5 h-5" /></motion.div>
@@ -1571,7 +1466,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               <div className="flex items-center justify-between p-5 border-b border-black/5">
                 <div>
                   <p className="text-[12px] font-semibold uppercase tracking-widest" style={{ color: P }}>Candidates</p>
-                  <h3 className="text-[18px] font-['Arimo',sans-serif]" style={{ color: P }}>Upload your CV</h3>
+                  <h3 className="text-[18px] font-['DM_Sans',sans-serif]" style={{ color: P }}>Upload your CV</h3>
                 </div>
                 <button onClick={() => setCvOpen(false)} className="w-8 h-8 rounded-lg flex items-center justify-center border border-black/5" style={{ backgroundColor: BGL }}>
                   <X className="w-4 h-4" style={{ color: TM }} />
@@ -1586,7 +1481,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                         <input type={type} placeholder={placeholder} className="bg-transparent text-[14px] outline-none w-full" style={{ color: TD }} />
                       </div>
                     ))}
-                    <div className="border-dashed border-2 rounded-xl px-5 py-8 text-center cursor-pointer border-black/5 transition-colors"
+                    <div className="border-dashed border rounded-xl px-5 py-8 text-center cursor-pointer border-black/5 transition-colors"
                       onMouseEnter={e => (e.currentTarget.style.borderColor = P)} onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)')}>
                       <FileText className="w-8 h-8 mx-auto mb-2" style={{ color: TT }} />
                       <p className="text-[14px] font-medium mb-0.5" style={{ color: TD }}>Drop your CV here</p>
@@ -1604,7 +1499,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                       <CheckCircle2 className="w-7 h-7" style={{ color: P }} />
                     </div>
                     <div>
-                      <h4 className="text-[18px] font-['Arimo',sans-serif]" style={{ color: P }}>CV received</h4>
+                      <h4 className="text-[18px] font-['DM_Sans',sans-serif]" style={{ color: P }}>CV received</h4>
                       <p className="text-[14px] mt-1 leading-relaxed max-w-xs" style={{ color: TM }}>A consultant will review your profile and be in touch within one business day.</p>
                     </div>
                     <button onClick={() => setCvOpen(false)} className="px-6 py-2.5 rounded-lg text-white text-[14px] font-medium" style={{ backgroundColor: P }}>Done</button>
@@ -1766,7 +1661,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                         ].map(t => (
                           <button key={t.label} type="button"
                             onClick={() => setApplyForm(f => ({ ...f, transport: t.label }))}
-                            className="flex items-center gap-2.5 px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all"
+                            className="flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-medium transition-all"
                             style={{
                               borderColor: 'rgba(0,0,0,0.05)',
                               backgroundColor: applyForm.transport === t.label ? 'rgba(129,1,97,0.06)' : '#f8fafc',
