@@ -84,7 +84,28 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
         </div>
       </section>
 
-      <section id="how-it-works" className="scroll-mt-6 bg-[#e9f0e7] py-16 md:py-20"><div className="mx-auto max-w-[1160px] px-6"><div className="flex flex-wrap items-end justify-between gap-6"><div><p className="mb-4 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">A LITTLE LESS COMPLEXITY</p><h2 className="font-['Libre_Caslon_Display',serif] text-[42px] leading-[1.08] md:text-[50px]">More connected.<br />More time for care.</h2></div><p className="max-w-sm text-sm leading-7 text-[#68736e]">Healthcare is human. Your systems should be too.<br />We make the complicated feel a little simpler.</p></div><div className="mt-12 grid gap-5 md:grid-cols-3">{[{ number: '01', title: 'Start with your people', body: 'Tell us about your team, your challenges and what better looks like for you.' }, { number: '02', title: 'Find your perfect fit', body: 'We connect you with the right service, software or healthcare professional.' }, { number: '03', title: 'Move forward, together', body: 'Get practical support from people who understand your world.' }].map(step => <div key={step.number} className="rounded-sm bg-white/65 p-7"><span className="font-['Libre_Caslon_Display',serif] text-4xl text-[#368B62]">{step.number}</span><h3 className="mb-3 mt-7 text-lg font-semibold">{step.title}</h3><p className="text-[13px] leading-6 text-[#68736e]">{step.body}</p></div>)}</div></div></section>
+      <section id="how-it-works" aria-labelledby="how-it-works-heading" className="scroll-mt-6 bg-white py-16 md:py-[108.169px]">
+        <div className="mx-auto max-w-[1622.535px] px-6 md:px-[43.268px]">
+          <div className="mx-auto max-w-[892.394px] text-center">
+            <p className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[14.873px] font-semibold uppercase leading-[22.31px] tracking-[2.3797px] text-[#4f46e5]">A LITTLE LESS COMPLEXITY</p>
+            <h2 id="how-it-works-heading" className="mt-[21.634px] font-['Inter:Semi_Bold',Inter,sans-serif] text-[36px] font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px] md:leading-[64.901px]">More connected.<br />More time for care.</h2>
+            <p className="mt-[21.634px] font-['Inter:Regular',Inter,sans-serif] text-[18px] font-normal leading-8 text-[#64748b] md:text-[20.282px] md:leading-[37.859px]">Healthcare is human. Your systems should be too.<br />We make the complicated feel a little simpler.</p>
+          </div>
+          <div className="mt-[64.901px] grid gap-[43.268px] md:grid-cols-3">
+            {[
+              { number: '01', title: 'Start with your people', body: 'Tell us about your team, your challenges and what better looks like for you.' },
+              { number: '02', title: 'Find your perfect fit', body: 'We connect you with the right service, software or healthcare professional.' },
+              { number: '03', title: 'Move forward, together', body: 'Get practical support from people who understand your world.' },
+            ].map(step => (
+              <article key={step.number} className="border-t border-black/5 pt-[37.859px]">
+                <p aria-hidden="true" className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[96px] font-semibold leading-[109px] text-[#4f46e5]/10">{step.number}</p>
+                <h3 className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[24.338px] font-semibold leading-[37.859px] text-[#0f172a]">{step.title}</h3>
+                <p className="mt-[16.225px] font-['Inter:Regular',Inter,sans-serif] text-[18.93px] font-normal leading-[37.859px] text-[#62748e]">{step.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="mx-auto grid max-w-[1160px] items-center gap-10 px-6 py-20 md:grid-cols-2 md:gap-20"><div className="relative overflow-hidden rounded-sm"><img src={photos[0].image} alt="A healthcare professional ready to support your team" loading="lazy" className="h-[380px] w-full object-cover" /><div className="absolute bottom-5 left-5 right-5 rounded-sm bg-[#fffffff2] p-5"><p className="text-[10px] font-semibold tracking-[0.12em] text-[#368B62]">FOR THE PEOPLE BEHIND THE CARE</p><p className="mt-2 font-['Libre_Caslon_Display',serif] text-2xl">Your next chapter starts here.</p></div></div><div><p className="mb-5 text-[10px] font-semibold tracking-[0.14em] text-[#810161]">HEALTHCARE PROFESSIONALS</p><h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.08] md:text-[50px]">A career that cares<br />for you, too.</h2><p className="mt-5 text-sm leading-7 text-[#68736e]">Looking for your next permanent role or the flexibility of locum work? We’ll help you find opportunities that fit your skills, your ambitions and your life.</p><div className="mt-7 flex flex-wrap gap-3"><button onClick={() => onNavigate('recruitment-service')} className="inline-flex items-center gap-3 rounded-sm bg-[#810161] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#67014e]">Explore opportunities <ArrowUpRight size={15} /></button><button onClick={() => onNavigate('locum-provision')} className={secondaryButton}>Become a locum</button></div></div></section>
 
