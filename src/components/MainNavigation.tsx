@@ -51,7 +51,9 @@ export function MainNavigation({
     <div
       ref={rootRef}
       className={
-        mobile ? "flex flex-col gap-5 py-5" : "flex items-center gap-6"
+        mobile
+          ? "relative flex flex-col gap-5 py-5"
+          : "relative flex flex-wrap items-center gap-x-6 gap-y-2 xl:justify-center"
       }
       onKeyDown={(event) => {
         if (event.key === "Escape" && openMenu) {
@@ -65,7 +67,7 @@ export function MainNavigation({
       }}
     >
       {Object.entries(menus).map(([name, links], index) => (
-        <div key={name} className="relative">
+        <div key={name} className="sm:relative">
           <button
             type="button"
             ref={(element) => {
@@ -91,7 +93,7 @@ export function MainNavigation({
               className={
                 mobile
                   ? "mt-2 space-y-1 rounded-lg bg-[#f8fafc] p-2"
-                  : "absolute left-0 top-full z-50 mt-2 w-64 rounded-lg border border-black/5 bg-white p-2"
+                  : "absolute left-0 top-full z-50 mt-2 w-64 max-w-full rounded-lg border border-black/5 bg-white p-2 sm:max-w-none"
               }
             >
               {links.map((link) => (
