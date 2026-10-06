@@ -1,268 +1,720 @@
-import React, { useState } from 'react';
-import { UserPlus, CheckCircle2, ArrowRight, ArrowLeft, Building2, Star, Play, LayoutDashboard, Rocket, Users, FileCheck, BarChart3 } from 'lucide-react';
-import recruitmentDashboard from '../../imports/Screenshot_2026-07-24_140138.png';
+import React, { useRef, useState } from "react"
+import { motion, useReducedMotion } from "motion/react"
+import {
+  BarChart3,
+  ArrowRight,
+  Check,
+  ClipboardList,
+  Users,
+  Menu,
+  BriefcaseBusiness,
+  ShieldCheck,
+  X,
+} from "lucide-react"
+import { Footer } from "../Footer"
+import recruitmentDashboard from "../../imports/Screenshot_2026-07-24_140138.png"
 
 interface RecruitmentSoftwarePageProps {
-  onBackToHome: () => void;
-  onBookDemo: (moduleTitle?: string) => void;
-  onStartTrial: () => void;
+  onBackToHome: () => void
+  onBookDemo: (moduleTitle?: string) => void
+  onStartTrial: () => void
+  onNavigate: (view: string) => void
 }
 
-export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = ({
-  onBackToHome,
-  onBookDemo,
-  onStartTrial
-}) => {
-  const [pipelineStage, setPipelineStage] = useState<'Applied' | 'Screened' | 'Interview' | 'Offered'>('Screened');
+const features = [
+  {
+    icon: BriefcaseBusiness,
+    title: "Vacancies, organised.",
+    description:
+      "Keep role requirements, job descriptions and application activity together. Give your team a shared starting point for every hire.",
+    label: "Jobs & applications",
+  },
+  {
+    icon: Users,
+    title: "People, not spreadsheets.",
+    description:
+      "Follow each candidate from application to offer with a visual pipeline and a clear history of progress.",
+    label: "Candidate pipeline",
+  },
+  {
+    icon: ClipboardList,
+    title: "Better conversations.",
+    description:
+      "Keep interview notes, feedback and next steps in context so hiring teams can make informed decisions together.",
+    label: "Team collaboration",
+  },
+  {
+    icon: BarChart3,
+    title: "A clearer hiring picture.",
+    description:
+      "Bring applications, active vacancies and hiring progress into view. See where your team needs to focus next.",
+    label: "Hiring insights",
+  },
+]
+const tabs = ["Applied", "Screened", "Interview", "Offered"] as const
+type PipelineTab = typeof tabs[number]
+const candidates = {
+  Applied: {
+    name: "Priya Sharma",
+    role: "Registered Nurse",
+    detail: "Application received · Awaiting initial review",
+    next: "Review application",
+  },
+  Screened: {
+    name: "Marcus Bell",
+    role: "Financial Analyst",
+    detail: "Initial review complete · References pending",
+    next: "Arrange an interview",
+  },
+  Interview: {
+    name: "Alistair Vance",
+    role: "Senior Software Engineer",
+    detail: "Interview scheduled · Feedback pending",
+    next: "Collect team feedback",
+  },
+  Offered: {
+    name: "Hannah Wright",
+    role: "Retail Store Manager",
+    detail: "Offer sent · Awaiting candidate response",
+    next: "Follow up on offer",
+  },
+}
 
-  const candidates = [
-    { name: 'Alistair Vance', role: 'Senior Software Engineer', experience: '8 Yrs Full-Stack', stage: 'Interview', score: '98% Match', status: 'ID Verified' },
-    { name: 'Hannah Wright', role: 'Retail Store Manager', experience: '5 Yrs Multi-site', stage: 'Offered', score: '94% Match', status: 'Right-to-Work OK' },
-    { name: 'Marcus Bell', role: 'Financial Analyst', experience: '3 Yrs Fintech', stage: 'Screened', score: '89% Match', status: 'Checking References' },
-    { name: 'Priya Sharma', role: 'Registered Nurse (RGN)', experience: '6 Yrs Clinical', stage: 'Applied', score: '96% Match', status: 'New Application' }
-  ];
-
-  const filteredCandidates = candidates.filter(c => c.stage === pipelineStage);
-
-  const dashboardFeatures = [
-    {
-      icon: Rocket,
-      title: '1-click multi-board posting',
-      desc: 'Publish vacancies to 10+ job boards at once — from tech and retail to finance and healthcare — and watch applications land in a single inbox.'
-    },
-    {
-      icon: Users,
-      title: 'Visual candidate pipeline',
-      desc: 'Drag candidates through Applied, Screened, Interview and Offered stages with match scores updating in real time.'
-    },
-    {
-      icon: FileCheck,
-      title: 'Automated screening & checks',
-      desc: 'ID, right-to-work and reference checks run automatically so every hire is compliant and onboard-ready before day one.'
-    },
-    {
-      icon: BarChart3,
-      title: 'Hiring analytics at a glance',
-      desc: 'Track applications, time-to-hire and active jobs from the dashboard — and auto-onboard new hires into your team.'
+export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
+  ({ onBackToHome, onBookDemo, onStartTrial, onNavigate }) => {
+    const [activeTab, setActiveTab] = useState<PipelineTab>("Screened")
+    const [mobileOpen, setMobileOpen] = useState(false)
+    const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
+    const reducedMotion = useReducedMotion()
+    const bookDemo = () => onBookDemo("recruitment-software")
+    const scrollTo = (id: string) => {
+      document
+        .getElementById(id)
+        ?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" })
+      setMobileOpen(false)
     }
-  ];
-
-  return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 pt-20 pb-16 animate-fade-in font-['Plus_Jakarta_Sans',sans-serif]">
-      {/* Top Header */}
-      <div className="bg-white border-b border-black/10 py-3 sticky top-16 z-30 shadow-2xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <button
-            onClick={onBackToHome}
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Overview
-          </button>
-          <div className="flex items-center gap-2 text-xs font-semibold text-blue-700">
-            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
-            <span>Recruitment Dashboard Live (24 active jobs)</span>
-          </div>
-        </div>
-      </div>
-
-      {/* HERO — Dashboard-led landing */}
-      <section className="py-14 lg:py-20 bg-white border-b border-black/10 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-5">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold uppercase tracking-wider">
-              <LayoutDashboard className="w-3.5 h-3.5" /> The Recruitment Dashboard
-            </span>
-
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.08]">
-              Hire great people 60% faster
-            </h1>
-
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl">
-              Post to 10+ job boards in one click, screen candidates with automated checks, and manage your whole hiring pipeline from a single dashboard — for any role, in any industry, then auto-onboard new hires straight into your team.
-            </p>
-
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+    const primaryButton =
+      "group inline-flex items-center justify-center gap-3 rounded-full bg-[#52658e] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#405273]"
+    const secondaryButton =
+      "inline-flex items-center justify-center gap-3 rounded-full border border-black/5 bg-white px-6 py-3.5 text-sm font-semibold text-[#24332d] transition-colors hover:bg-[#edf0f4]"
+    const reveal = {
+      initial: reducedMotion ? false as const : { opacity: 0, y: 20 },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true },
+      transition: { duration: 0.5 },
+    }
+    return (
+      <div className="min-h-screen overflow-x-clip bg-white font-['DM_Sans',sans-serif] text-[#24332d] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
+        <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-sm">
+          <div className="mx-auto flex h-[70px] max-w-[1312px] items-center justify-between gap-6 px-6 lg:px-16">
+            <button
+              onClick={() =>
+                window.scrollTo({
+                  top: 0,
+                  behavior: reducedMotion ? "auto" : "smooth",
+                })
+              }
+              aria-label="MployUs recruitment software home"
+              className="flex items-baseline gap-2 text-[23px] font-semibold tracking-[-0.02em]"
+            >
+              mployus
+              <span className="text-xs font-medium tracking-normal text-[#52658e]">
+                hire.
+              </span>
+            </button>
+            <nav
+              aria-label="Recruitment software navigation"
+              className="hidden items-center gap-7 text-[13px] text-[#4b5750] lg:flex"
+            >
               <button
-                onClick={() => onBookDemo('Recruitment Software')}
-                className="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm rounded-lg transition-colors shadow-xs flex items-center gap-2"
+                onClick={() => scrollTo("recruitment-overview")}
+                className="hover:text-[#52658e]"
               >
-                Book a Dashboard Demo <ArrowRight className="w-4 h-4 text-slate-300" />
+                Overview
               </button>
               <button
-                onClick={onStartTrial}
-                className="px-6 py-3.5 bg-white hover:bg-slate-50 text-slate-900 font-semibold text-sm rounded-lg border border-black/10 shadow-2xs transition-colors flex items-center gap-2"
+                onClick={() => scrollTo("recruitment-features")}
+                className="hover:text-[#52658e]"
               >
-                <Play className="w-3.5 h-3.5 fill-current" /> Start 14-Day Free Trial
+                Features
               </button>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-xs text-slate-600 font-medium">
-              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-blue-600" /> 10+ job boards</span>
-              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-blue-600" /> Automated screening</span>
-              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-blue-600" /> Any industry</span>
-            </div>
-          </div>
-
-          {/* Dashboard screenshot in browser frame */}
-          <div className="relative max-w-5xl mx-auto mt-12">
-            <div className="rounded-2xl bg-white border border-black/10 shadow-sm overflow-hidden">
-              <div className="bg-slate-50 px-4 py-3 border-b border-black/10 flex items-center gap-2">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-slate-300" />
-                  <div className="w-3 h-3 rounded-full bg-slate-300" />
-                  <div className="w-3 h-3 rounded-full bg-slate-300" />
-                </div>
-                <span className="text-xs font-mono text-slate-500 ml-2 hidden sm:inline">mployus.cloud/recruitment/dashboard</span>
-              </div>
-              <img
-                src={recruitmentDashboard}
-                alt="MployUs recruitment dashboard showing hiring overview, active jobs, applicant counts and team activity"
-                className="w-full object-cover object-top"
-              />
-            </div>
-            {/* Floating stat callout */}
-            <div className="hidden sm:flex absolute -bottom-5 -left-5 items-center gap-3 bg-white border border-black/10 rounded-xl shadow-sm px-4 py-3">
-              <div className="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center">
-                <Rocket className="w-4 h-4" />
-              </div>
-              <div className="text-left">
-                <div className="text-sm font-extrabold text-slate-900">60% faster</div>
-                <div className="text-[11px] text-slate-500 font-medium">Time to hire</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats strip */}
-      <section className="bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[
-            { value: '60%', label: 'Faster time to hire' },
-            { value: '10+', label: 'Job boards, 1 click' },
-            { value: '1,847', label: 'Candidates managed' },
-            { value: '100%', label: 'Compliant hires' }
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div className="text-3xl sm:text-4xl font-extrabold text-white">{stat.value}</div>
-              <div className="text-[11px] sm:text-xs text-slate-400 font-medium mt-1">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Dashboard feature highlights */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Inside the dashboard</span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-2">
-            Your entire hiring funnel, on one screen
-          </h2>
-          <p className="text-slate-600 text-sm mt-3">
-            From job posting to signed offer, the recruitment dashboard keeps sourcing, screening and compliance in one place — for teams in every industry.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {dashboardFeatures.map((f) => {
-            const Icon = f.icon;
-            return (
-              <div key={f.title} className="p-6 rounded-2xl bg-white border border-black/10 shadow-2xs space-y-3">
-                <div className="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center">
-                  <Icon className="w-5 h-5" />
-                </div>
-                <h4 className="text-sm font-bold text-slate-900">{f.title}</h4>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">{f.desc}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Interactive Candidate Pipeline Simulator */}
-      <section className="py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center max-w-2xl mx-auto">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Try it live</span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Move a candidate through the pipeline</h2>
-          <p className="text-xs sm:text-sm text-slate-600 mt-2">Click through the stages to see candidate screening and match scorecards exactly as they appear in the dashboard.</p>
-        </div>
-
-        <div className="bg-white rounded-2xl border border-black/10 shadow-xs p-6 space-y-6">
-          <div className="flex items-center gap-2 bg-slate-100 p-1.5 rounded-xl text-xs font-semibold border border-black/10">
-            {(['Applied', 'Screened', 'Interview', 'Offered'] as const).map(stage => (
               <button
-                key={stage}
-                onClick={() => setPipelineStage(stage)}
-                className={`flex-1 py-2 rounded-lg transition-all ${
-                  pipelineStage === stage ? 'bg-white text-slate-900 shadow-2xs font-bold' : 'text-slate-600 hover:text-slate-900'
-                }`}
+                onClick={() => scrollTo("recruitment-preview")}
+                className="hover:text-[#52658e]"
               >
-                {stage} Stage
+                See it in action
               </button>
-            ))}
+              <button
+                onClick={() => scrollTo("recruitment-onboarding")}
+                className="hover:text-[#52658e]"
+              >
+                Getting started
+              </button>
+            </nav>
+            <div className="hidden items-center gap-5 lg:flex">
+              <button
+                onClick={onBackToHome}
+                className="text-xs text-[#67716b] hover:text-[#24332d]"
+              >
+                MployUs.com ↗
+              </button>
+              <button
+                onClick={bookDemo}
+                className="rounded-full bg-[#52658e] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#405273]"
+              >
+                Book a demo
+              </button>
+            </div>
+            <button
+              aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
+              aria-expanded={mobileOpen}
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="rounded-lg p-2 lg:hidden"
+            >
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
+          {mobileOpen && (
+            <nav
+              aria-label="Mobile recruitment software navigation"
+              className="space-y-3 border-t border-black/5 px-6 py-5 lg:hidden"
+            >
+              {[
+                ["Overview", "recruitment-overview"],
+                ["Features", "recruitment-features"],
+                ["See it in action", "recruitment-preview"],
+                ["Getting started", "recruitment-onboarding"],
+              ].map(([label, id]) => (
+                <button
+                  key={id}
+                  onClick={() => scrollTo(id)}
+                  className="block w-full py-1 text-left text-sm"
+                >
+                  {label}
+                </button>
+              ))}
+              <button
+                onClick={() => {
+                  setMobileOpen(false)
+                  bookDemo()
+                }}
+                className={primaryButton}
+              >
+                Book a demo
+              </button>
+              <button
+                onClick={onBackToHome}
+                className="ml-4 text-xs text-[#67716b]"
+              >
+                Back to MployUs
+              </button>
+            </nav>
+          )}
+        </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredCandidates.map((c, i) => (
-              <div key={i} className="p-4 rounded-xl bg-slate-50 border border-black/10 space-y-2">
-                <div className="flex items-center justify-between">
-                  <h4 className="text-sm font-bold text-slate-900">{c.name}</h4>
-                  <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold">{c.score}</span>
-                </div>
-                <div className="text-xs text-slate-600 font-medium">{c.role} • {c.experience}</div>
-                <div className="pt-2 border-t border-black/10 flex items-center justify-between text-[11px] text-slate-500">
-                  <span className="flex items-center gap-1 text-blue-700 font-semibold">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" /> {c.status}
-                  </span>
-                  <button
-                    onClick={() => onBookDemo(`Candidate: ${c.name}`)}
-                    className="text-slate-900 hover:underline font-bold"
+        <section
+          id="recruitment-overview"
+          className="scroll-mt-[70px] bg-[#f5f6f8] px-6 pb-12 pt-[118px] sm:pb-16 sm:pt-[134px] lg:pb-20 lg:pt-[150px]"
+        >
+          <div className="mx-auto grid max-w-[1184px] items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
+            <motion.div {...reveal}>
+              <div className="mb-7 flex items-center gap-3">
+                <span className="h-2 w-2 rounded-full bg-[#52658e]" />
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#67716b]">
+                  Connected hiring · Ireland &amp; UK
+                </p>
+              </div>
+              <h1 className="text-[46px] font-medium leading-[1.06] tracking-[-0.025em] sm:text-[62px] lg:text-[72px]">
+                Better hiring.
+                <br />
+                Less busywork.
+                <br />
+                <span className="text-[#52658e]">More human.</span>
+              </h1>
+              <p className="mb-8 mt-6 max-w-[440px] text-[15px] leading-7 text-[#68716c]">
+                A more human way to recruit. Bring vacancies, candidates and
+                hiring conversations together — so your team can focus on
+                finding the right people.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <button onClick={bookDemo} className={primaryButton}>
+                  Book a dashboard demo
+                  <ArrowRight
+                    size={16}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </button>
+                <button onClick={onStartTrial} className={secondaryButton}>
+                  Start a free trial
+                </button>
+              </div>
+              <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-black/5 pt-6">
+                {[
+                  "Candidate-first workflows",
+                  "Connected workflows",
+                  "Hiring insights",
+                ].map((label) => (
+                  <span
+                    key={label}
+                    className="flex items-center gap-2 text-[11px] text-[#68716c]"
                   >
-                    View Scorecard &rarr;
-                  </button>
+                    <Check size={13} className="text-[#52658e]" />
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+            <motion.div {...reveal} className="relative min-w-0 pb-7">
+              <div className="rounded-[24px] bg-[#e6ebf2] px-4 pb-16 pt-9 sm:px-6 sm:pt-12">
+                <div className="overflow-hidden rounded-xl border border-black/5 bg-white">
+                  <div className="flex items-center justify-between gap-2 border-b border-black/5 px-4 py-3">
+                    <span className="flex gap-1.5" aria-hidden="true">
+                      {[0, 1, 2].map((dot) => (
+                        <span
+                          key={dot}
+                          className="h-1.5 w-1.5 rounded-full bg-[#c5cfdb]"
+                        />
+                      ))}
+                    </span>
+                    <span className="text-[10px] text-[#67716b]">
+                      Your hiring workspace · Preview
+                    </span>
+                    <Users size={14} className="text-[#52658e]" />
+                  </div>
+                  <img
+                    src={recruitmentDashboard}
+                    alt="Recruitment dashboard preview showing applications, vacancies and hiring activity"
+                    className="block h-auto w-full"
+                  />
                 </div>
               </div>
-            ))}
+              <motion.div
+                animate={reducedMotion ? {} : { y: [0, -5, 0] }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute bottom-0 left-4 right-4 flex items-center gap-4 rounded-2xl border border-black/5 bg-white p-5 sm:left-8 sm:right-8"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edf0f6] text-[#52658e]">
+                  <ClipboardList size={19} />
+                </span>
+                <div>
+                  <p className="mb-1 text-[9px] uppercase tracking-[0.14em] text-[#7a827c]">
+                    One clearer picture
+                  </p>
+                  <p className="text-sm font-semibold">
+                    Your roles. Your people. Connected.
+                  </p>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
+        </section>
 
-        {/* Testimonial */}
-        <div className="p-8 rounded-2xl bg-white border border-black/10 shadow-2xs text-center max-w-3xl mx-auto space-y-4">
-          <div className="flex items-center justify-center gap-1 text-amber-400">
-            {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
-          </div>
-          <p className="text-base sm:text-lg text-slate-800 font-medium leading-relaxed">
-            "We hire across engineering, retail and finance, and this replaced three separate tools. Posting to every job board at once and having checks run themselves means our managers actually spend time with candidates, not spreadsheets."
-          </p>
-          <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
-            <Building2 className="w-4 h-4 text-slate-400" />
-            <span className="font-semibold text-slate-700">Jane Doe</span> · Head of Talent, Northwind Group
-          </div>
-        </div>
+        <div className="font-['Inter:Regular',Inter,sans-serif] text-[#0f172a]">
+          <section className="px-6 pb-4 pt-20 text-center">
+            <div className="mx-auto max-w-[820px]">
+              <p className="text-[14.873px] font-semibold uppercase leading-[22.31px] tracking-[2.3797px] text-[#52658e]">
+                One workspace. Every step of hiring.
+              </p>
+              <h2 className="mt-5 font-['Inter:Semi_Bold',Inter,sans-serif] text-[36px] font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px] md:leading-[64.901px]">
+                Hiring isn’t in silos.
+                <br />
+                Your software shouldn’t be either.
+              </h2>
+              <p className="mx-auto mt-5 max-w-[720px] text-[17px] leading-8 text-[#64748b] md:text-[20.282px] md:leading-[37.859px]">
+                Replace disconnected tools with a shared workspace. Vacancies,
+                applications and team feedback — a clearer picture, together.
+              </p>
+            </div>
+          </section>
 
-        {/* CTA Banner */}
-        <div className="p-8 rounded-2xl bg-slate-900 text-white shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800">
-          <div className="space-y-2">
-            <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Ready to hire faster?</span>
-            <h3 className="text-2xl font-bold text-white">Start filling roles in minutes</h3>
-            <p className="text-xs text-slate-300">Set up your recruitment dashboard today with zero upfront setup fees.</p>
-          </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <button
-              onClick={() => onBookDemo('Recruitment Software')}
-              className="px-6 py-3 bg-white text-slate-900 font-semibold text-xs rounded-md hover:bg-slate-100 transition-colors shadow-2xs"
-            >
-              Book Dashboard Demo
-            </button>
-            <button
-              onClick={onBackToHome}
-              className="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs rounded-md border border-slate-700 transition-colors"
-            >
-              Back to Overview
-            </button>
-          </div>
+          <section
+            id="recruitment-features"
+            className="scroll-mt-24 px-6 py-12 lg:py-16"
+          >
+            <div className="mx-auto grid max-w-[1184px] items-center gap-12 rounded-2xl border border-black/5 bg-[#f8fafc] p-6 md:p-10 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
+              <motion.div {...reveal}>
+                <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52658e]">
+                  The everyday, made simpler
+                </p>
+                <h2 className="text-[38px] font-medium leading-[1.12] sm:text-[46px]">
+                  People first.
+                  <br />
+                  Paperwork last.
+                </h2>
+                <p className="mt-6 text-sm leading-7 text-[#68716c]">
+                  Vacancies, candidate profiles and team feedback in one
+                  connected workspace. Thoughtful tools for the people doing the
+                  hiring.
+                </p>
+                <button
+                  onClick={bookDemo}
+                  className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[#52658e]"
+                >
+                  Explore your hiring dashboard
+                  <ArrowRight size={16} />
+                </button>
+              </motion.div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {features.map((feature) => (
+                  <motion.article
+                    key={feature.title}
+                    {...reveal}
+                    className="rounded-xl bg-white p-6 transition-colors hover:bg-[#edf0f6]"
+                  >
+                    <span className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl bg-[#edf0f6] text-[#52658e]">
+                      <feature.icon size={21} strokeWidth={1.5} />
+                    </span>
+                    <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.1em] text-[#67716b]">
+                      {feature.label}
+                    </p>
+                    <h3 className="text-lg font-semibold">{feature.title}</h3>
+                    <p className="mt-3 text-[13px] leading-6 text-[#68716c]">
+                      {feature.description}
+                    </p>
+                  </motion.article>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="recruitment-preview"
+            className="scroll-mt-24 px-6 py-16 lg:py-20"
+          >
+            <div className="mx-auto grid max-w-[1184px] items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+              <div className="flex flex-col gap-6 lg:order-2">
+                <div>
+                  <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52658e]">
+                    A closer look
+                  </p>
+                  <h2 className="text-[38px] font-medium leading-[1.12] sm:text-[46px]">
+                    Every candidate’s journey.
+                    <br />
+                    No loose ends.
+                  </h2>
+                </div>
+                <p className="max-w-sm text-sm leading-7 text-[#68716c]">
+                  Explore a few everyday workflows.
+                  <br />
+                  Sample candidates only — not live applications.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-black/5 bg-[#f0f1ff] p-4 sm:p-7 lg:order-1">
+                <div
+                  role="tablist"
+                  aria-label="Candidate pipeline stages"
+                  className="mb-7 flex flex-wrap gap-2"
+                >
+                  {tabs.map((tab, index) => (
+                    <button
+                      key={tab}
+                      ref={(element) => {
+                        tabRefs.current[index] = element
+                      }}
+                      role="tab"
+                      id={`recruitment-tab-${index}`}
+                      aria-selected={activeTab === tab}
+                      aria-controls={`recruitment-panel-${index}`}
+                      tabIndex={activeTab === tab ? 0 : -1}
+                      onClick={() => setActiveTab(tab)}
+                      onKeyDown={(event) => {
+                        const next =
+                          event.key === "ArrowRight"
+                            ? (index + 1) % tabs.length
+                            : event.key === "ArrowLeft"
+                              ? (index + tabs.length - 1) % tabs.length
+                              : event.key === "Home"
+                                ? 0
+                                : event.key === "End"
+                                  ? tabs.length - 1
+                                  : null
+                        if (next !== null) {
+                          event.preventDefault()
+                          setActiveTab(tabs[next])
+                          tabRefs.current[next]?.focus()
+                        }
+                      }}
+                      className={`rounded-full px-5 py-2.5 text-sm font-medium transition-colors ${
+                        activeTab === tab
+                          ? "bg-[#52658e] text-white"
+                          : "bg-white text-[#68716c] hover:bg-[#edf0f6]"
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+                <motion.div
+                  key={activeTab}
+                  initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  role="tabpanel"
+                  tabIndex={0}
+                  id={`recruitment-panel-${tabs.indexOf(activeTab)}`}
+                  aria-labelledby={`recruitment-tab-${tabs.indexOf(activeTab)}`}
+                  className="min-h-[200px]"
+                >
+                  <div className="rounded-xl border border-black/5 bg-white p-6">
+                    <div className="flex items-center gap-4">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#edf0f6] text-sm font-semibold text-[#52658e]">
+                        {candidates[activeTab].name
+                          .split(" ")
+                          .map((part) => part[0])
+                          .join("")}
+                      </span>
+                      <div>
+                        <h3 className="text-sm font-semibold">
+                          {candidates[activeTab].name}
+                        </h3>
+                        <p className="mt-1 text-xs text-[#64748b]">
+                          {candidates[activeTab].role}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="mt-6 text-sm leading-6 text-[#64748b]">
+                      {candidates[activeTab].detail}
+                    </p>
+                    <div className="mt-6 border-t border-black/5 pt-4">
+                      <p className="text-[10px] uppercase tracking-[0.1em] text-[#64748b]">
+                        Suggested next step
+                      </p>
+                      <p className="mt-2 flex items-center gap-2 text-sm text-[#52658e]">
+                        <Check size={15} />
+                        {candidates[activeTab].next}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+                <button
+                  onClick={bookDemo}
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#52658e]"
+                >
+                  See this workflow in a demo
+                  <ArrowRight size={15} />
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section className="bg-[#52658e] px-6 py-16 text-white lg:py-24">
+            <div className="mx-auto max-w-[1184px]">
+              <div className="grid items-end gap-6 md:grid-cols-[1.3fr_1fr]">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/75">
+                    Clarity isn’t an add-on
+                  </p>
+                  <h2 className="mt-5 font-['Inter:Semi_Bold',Inter,sans-serif] text-4xl font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px]">
+                    Give your team confidence.
+                    <br />
+                    Keep hiring connected.
+                  </h2>
+                </div>
+                <p className="text-sm leading-7 text-white/80">
+                  Organised applications and a shared history help your team
+                  understand what has happened, what comes next and where
+                  attention is needed.
+                </p>
+              </div>
+              <div className="mt-10 grid gap-4 md:grid-cols-3">
+                {[
+                  {
+                    icon: ShieldCheck,
+                    title: "Applications with context",
+                    text: "Candidate profiles, notes and stage history keep each application in context.",
+                  },
+                  {
+                    icon: ClipboardList,
+                    title: "Continuity across your team",
+                    text: "Keep feedback and next steps together so hiring teams can work from the same picture.",
+                  },
+                  {
+                    icon: Users,
+                    title: "A candidate-first picture",
+                    text: "Bring skills, experience and conversations into view, without losing the person behind the CV.",
+                  },
+                ].map((item) => (
+                  <motion.article
+                    key={item.title}
+                    {...reveal}
+                    className="rounded-xl bg-white/10 p-7 transition-colors hover:bg-white/15"
+                  >
+                    <item.icon size={23} strokeWidth={1.5} />
+                    <h3 className="mt-6 text-lg font-semibold">{item.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-white/80">
+                      {item.text}
+                    </p>
+                  </motion.article>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="recruitment-onboarding"
+            className="scroll-mt-24 px-6 py-16 lg:py-24"
+          >
+            <div className="mx-auto max-w-[1184px]">
+              <p className="mb-5 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[#52658e]">
+                A thoughtful way to get started
+              </p>
+              <h2 className="text-center font-['Inter:Semi_Bold',Inter,sans-serif] text-[38px] font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px]">
+                Less complexity.
+                <br />
+                Right from the start.
+              </h2>
+              <div className="mt-10 grid gap-4 md:grid-cols-3">
+                {[
+                  {
+                    title: "Start with your team",
+                    description:
+                      "Tell us about your hiring team, current processes and the roles you recruit for.",
+                  },
+                  {
+                    title: "Build your workspace",
+                    description:
+                      "Explore your pipeline stages and plan a careful transition from existing hiring tools.",
+                  },
+                  {
+                    title: "Move forward, together",
+                    description:
+                      "Help your team get familiar with the tools and make connected hiring part of the everyday.",
+                  },
+                ].map((step, index) => (
+                  <motion.div
+                    key={step.title}
+                    {...reveal}
+                    className="border-t border-black/5 px-2 py-7"
+                  >
+                    <p className="text-5xl font-semibold text-[#dce2f0]">
+                      0{index + 1}
+                    </p>
+                    <h3 className="mb-3 mt-7 text-lg font-semibold">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm leading-7 text-[#68716c]">
+                      {step.description}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="bg-[#f8fafc] px-6 py-16 lg:py-20">
+            <div className="mx-auto grid max-w-[1184px] gap-12 md:grid-cols-[0.8fr_1.2fr]">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#52658e]">
+                  A little more clarity
+                </p>
+                <h2 className="mt-5 font-['Inter:Semi_Bold',Inter,sans-serif] text-[38px] font-semibold leading-[1.2] md:text-[54.085px]">
+                  Good questions.
+                  <br />
+                  Straight answers.
+                </h2>
+              </div>
+              <div>
+                {[
+                  {
+                    question: "Who is MployUs Recruitment Software for?",
+                    answer:
+                      "It is designed for hiring teams who want to organise vacancies, candidates and recruitment activity in one workspace, across healthcare and other sectors.",
+                  },
+                  {
+                    question: "Can we see how it fits our hiring process?",
+                    answer:
+                      "Yes. Book a personal demo to discuss your roles, current hiring process and the workflows your team needs.",
+                  },
+                  {
+                    question: "How do we move from existing records?",
+                    answer:
+                      "We start by understanding your current records and planning the transition with your team. Discuss migration requirements and available support during your demo.",
+                  },
+                  {
+                    question: "Does software make hiring decisions for us?",
+                    answer:
+                      "No. The workspace supports your hiring process. Your team remains responsible for reviewing candidates and making fair, informed recruitment decisions.",
+                  },
+                ].map((item) => (
+                  <details
+                    key={item.question}
+                    className="group border-b border-black/5 py-5"
+                  >
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold [&::-webkit-details-marker]:hidden">
+                      {item.question}
+                      <span className="text-xl font-normal text-[#52658e] group-open:hidden">
+                        +
+                      </span>
+                      <span className="hidden text-xl font-normal text-[#52658e] group-open:block">
+                        −
+                      </span>
+                    </summary>
+                    <p className="mt-4 text-sm leading-7 text-[#64748b]">
+                      {item.answer}
+                    </p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </section>
+          <section className="px-6 py-16 lg:py-20">
+            <div className="relative mx-auto flex max-w-[1184px] flex-col items-center gap-8 overflow-hidden rounded-2xl bg-[#edf0fa] px-6 py-16 text-center">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -left-28 -top-32 h-80 w-80 rounded-full border-[36px] border-white/30"
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -bottom-36 -right-24 h-80 w-80 rounded-full border-[36px] border-white/30"
+              />
+              <div>
+                <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#52658e]">
+                  For the people behind every hire
+                </p>
+                <h2 className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[38px] font-semibold leading-[1.2] text-[#0f172a] sm:text-[54.085px]">
+                  Your next chapter.
+                  <br />
+                  All in one workspace.
+                </h2>
+                <p className="mt-5 text-sm text-[#64748b]">
+                  Let’s find a way of working that fits your team.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={bookDemo}
+                  className="inline-flex items-center gap-3 rounded-lg bg-[#52658e] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#435479]"
+                >
+                  Book a demo
+                  <ArrowRight size={16} />
+                </button>
+                <button
+                  onClick={onStartTrial}
+                  className="rounded-lg border border-black/5 bg-white px-6 py-3.5 text-sm font-semibold text-[#0f172a] transition-colors hover:bg-[#f8fafc]"
+                >
+                  Start a free trial
+                </button>
+              </div>
+            </div>
+          </section>
         </div>
-      </section>
-    </div>
-  );
-};
+        <Footer
+          onNavigate={onNavigate}
+          onBookDemo={bookDemo}
+          onStartTrial={onStartTrial}
+          description={
+            <>
+              Connected hiring. Candidate-first thinking.
+              <br />
+              Less busywork. More time for people.
+            </>
+          }
+          tagline="Your roles. Your people. Connected."
+        />
+      </div>
+    )
+  }
