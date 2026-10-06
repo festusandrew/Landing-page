@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router';
 import { LoginExperience, ModernServiceHero } from '../PlatformExperiences';
+import { Footer } from '../Footer';
 import {
   ArrowRight, Menu, X, Globe, Clock, Target, Users,
   Check, Mail, Phone, Building2, Briefcase, Send, CheckCircle2,
@@ -1125,48 +1126,19 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       <LoginExperience open={loginOpen} onClose={() => setLoginOpen(false)} kind="recruitment" image={imgSarah} onRegister={() => { setLoginOpen(false); openCV(); }} />
 
       {/* ══ FOOTER ══ */}
-      <footer className="bg-white border-t border-black/5 py-12 px-6">
-        <div className="max-w-[1280px] mx-auto lg:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-10 border-b border-black/5 mb-8">
-            <div className="md:col-span-2 space-y-4">
-              <img src={imgMployUs} alt="MployUs" className="h-8 w-auto object-contain" />
-              <p className="text-[14px] leading-relaxed max-w-xs" style={{ color: TM }}>
-                Specialist managed recruitment for logistics, healthcare, hospitality, and education across Ireland and the UK.
-              </p>
-              <div className="flex items-center gap-2 text-[13px]" style={{ color: TT }}>
-                <span>🇮🇪 Dublin</span><span>·</span><span>🇮🇪 Cork</span>
-              </div>
-            </div>
-            {[
-              { heading: 'Services', links: [['Permanent Placement', 'employers'], ['Contract Staffing', 'employers'], ['RPO', 'employers'], ['Executive Search', 'employers']] },
-              { heading: 'Navigate', links: [['For Jobseekers', 'jobseekers'], ['For Employers', 'employers'], ['Blog', 'blog'], ['Contact Us', 'contact']] },
-            ].map(col => (
-              <div key={col.heading}>
-                <p className="text-[11px] font-semibold uppercase tracking-widest mb-4" style={{ color: TT }}>{col.heading}</p>
-                <ul className="space-y-2">
-                  {col.links.map(([l, p]) => (
-                    <li key={l}>
-                      <button onClick={() => goTo(p as Page)} className="text-[14px]" style={{ color: TM }}
-                        onMouseEnter={e => (e.currentTarget.style.color = P)} onMouseLeave={e => (e.currentTarget.style.color = TM)}>
-                        {l}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px]" style={{ color: TT }}>
-            <p>© {new Date().getFullYear()} MployUs Recruit. All rights reserved.</p>
-            <div className="flex items-center gap-5">
-              <Link to="/policies/privacy" className="hover:underline">Privacy Policy</Link>
-              <Link to="/policies/terms" className="hover:underline">Terms of Service</Link>
-              <Link to="/policies/cookies" className="hover:underline">Cookie Policy</Link>
-              <button onClick={onBackToHome} className="hover:underline">Back to MployUs</button>
-            </div>
-          </div>
-        </div>
-      </footer>
+<Footer
+        brandSuffix="recruit"
+        description={<>Specialist recruitment across Ireland &amp; the UK.<br />Good people. Great potential.</>}
+        tagline="Your next chapter. Our shared ambition."
+        onNavigate={view => view === 'home' ? onBackToHome() : goTo(view as Page)}
+        onBookDemo={openContact}
+        onStartTrial={openCV}
+        columns={[
+          { title: 'Platform', links: ['Permanent recruitment', 'Contract recruitment', 'Executive search', 'Talent solutions'].map(label => ({ label, onClick: () => goTo('employers') })) },
+          { title: 'Explore', links: [{ label: 'For jobseekers', onClick: () => goTo('jobseekers') }, { label: 'Insights & resources', onClick: () => goTo('blog') }, { label: 'Contact us', onClick: () => goTo('contact') }, { label: 'Privacy policy', href: '/policies/privacy' }, { label: 'Terms of service', href: '/policies/terms' }, { label: 'Cookie policy', href: '/policies/cookies' }] },
+          { title: 'Your workspace', links: [{ label: 'Candidate login', onClick: () => setLoginOpen(true), arrow: true }, { label: 'Request talent', onClick: openContact, arrow: true }] },
+        ]}
+      />
 
       {/* ══ REQUEST TALENT MODAL ══ */}
       <AnimatePresence>

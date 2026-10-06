@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useNavigate } from 'react-router';
 import { LoginExperience, ModernServiceHero } from '../PlatformExperiences';
+import { Footer } from '../Footer';
 import imgLocumProfessional from '../../imports/locum-professional.jpg';
 import {
   Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, Building2,
@@ -2785,64 +2786,20 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       {/* ══════════════════════════════════════
           FOOTER
       ══════════════════════════════════════ */}
-      <footer className="bg-slate-950 text-slate-400">
-        {/* Top bar */}
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 pt-16 pb-12">
-          <div className="flex flex-col lg:flex-row items-start justify-between gap-10 pb-12 border-b border-black/5">
-            <div className="space-y-4">
-              <img src={imgLogoWhite} alt="MployUs Locums" className="h-12 w-auto object-contain opacity-90" />
-              <p className="text-sm text-slate-500 max-w-xs leading-relaxed">The healthcare locum marketplace for Ireland & the UK. Flexible shifts, transparent pay, zero agency commission.</p>
-              {/* Region switcher */}
-              <div className="flex items-center gap-1.5">
-                {(Object.keys(REGIONS) as Region[]).map(r => (
-                  <button key={r} onClick={() => applyRegion(r)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold border transition-colors ${region === r ? 'bg-[#368B62]/10 border-black/5 text-green-400' : 'border-black/5 text-slate-500 hover:text-white'}`}>
-                    <span>{REGIONS[r].flag}</span> {REGIONS[r].country}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Newsletter */}
-            <div className="space-y-3 lg:w-80">
-              <h4 className="text-white font-semibold text-base">Get new shifts in your inbox</h4>
-              <p className="text-slate-500 text-xs">Weekly shift digests and rate updates. No spam.</p>
-              <div className="flex gap-2">
-                <div className="flex-1 flex items-center gap-2 px-3.5 py-2.5 bg-white/5 border border-black/5 rounded-xl">
-                  <Mail className="w-4 h-4 text-slate-500 shrink-0" />
-                  <input type="email" placeholder="you@email.com" className="bg-transparent text-sm text-white w-full outline-none placeholder:text-slate-600" />
-                </div>
-                <button className="px-4 py-2.5 bg-[#368B62] hover:bg-[#286d4c] text-white text-sm font-semibold rounded-xl transition-colors shrink-0">
-                  Subscribe
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Links */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12">
-            {[
-              { title: 'Platform', links: navLinks.map(l => ({ label: l.label, onClick: () => goto(l.id) })) },
-              { title: 'Legal', links: [...['Privacy Statement', 'Terms & Conditions', 'Cookie Policy', 'FAQs'].map((label, index) => ({ label, onClick: () => index === 3 ? goto('faq') : navigate(`/policies/${['privacy', 'terms', 'cookies'][index]}`) })), { label: 'Cookie preferences', onClick: () => { setCookieOpen(true); setCookiePrefsOpen(true); } }] },
-              { title: 'Account', links: ['Sign In', 'Register', 'Register a Facility'].map(l => ({ label: l, onClick: () => openAuth(l === 'Sign In' ? 'signin' : 'signup') })) },
-              { title: 'Contact', links: [{ label: 'info@mployuslocums.com', onClick: () => {} }, { label: '+353 1 234 5678', onClick: () => {} }, { label: 'Ireland & United Kingdom', onClick: () => {} }] },
-            ].map(col => (
-              <div key={col.title} className="space-y-3">
-                <h5 className="text-white text-sm font-bold uppercase tracking-wider">{col.title}</h5>
-                {col.links.map(link => (
-                  <button key={link.label} onClick={link.onClick} className="block max-w-full break-words text-sm text-slate-500 hover:text-white transition-colors text-left">{link.label}</button>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="border-t border-black/5">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-600">
-            <span>© 2026 MployUs Locums Ltd. All rights reserved.</span>
-            <button onClick={onBackToHome} className="hover:text-white transition-colors">← Back to MployUs.com</button>
-          </div>
-        </div>
-      </footer>
+<Footer
+        brandSuffix="locums"
+        description={<><p>Flexible shifts. More time for you.<br />Healthcare in Ireland &amp; the UK.</p><div className="mt-3 flex flex-wrap gap-3">{(Object.keys(REGIONS) as Region[]).map(country => <button key={country} onClick={() => applyRegion(country)} aria-pressed={region === country} className="text-xs text-[#62748e] transition-colors hover:text-[#368B62] aria-pressed:text-[#368B62]"><span>{REGIONS[country].flag}</span> {REGIONS[country].country}</button>)}</div></>}
+        tagline="Your expertise. Your schedule. Connected."
+        onNavigate={view => view === 'home' ? onBackToHome() : goto(view as LocumPage)}
+        onBookDemo={() => onBookDemo('Locum Provision')}
+        onStartTrial={() => openAuth('signup')}
+        onCookiePreferences={() => { setCookieOpen(true); setCookiePrefsOpen(true); }}
+        columns={[
+          { title: 'Platform', links: navLinks.map(link => ({ label: link.label, onClick: () => goto(link.id) })) },
+          { title: 'Explore', links: [{ label: 'Back to MployUs', onClick: onBackToHome }, { label: 'Talk to our team', onClick: () => onBookDemo('Locum Provision') }, { label: 'Privacy policy', href: '/policies/privacy' }, { label: 'Terms of service', href: '/policies/terms' }, { label: 'Cookie policy', href: '/policies/cookies' }] },
+          { title: 'Your workspace', links: [{ label: 'Sign in', onClick: () => openAuth('signin'), arrow: true }, { label: 'Register your account', onClick: () => openAuth('signup'), arrow: true }] },
+        ]}
+      />
 
       {/* ══════════════════════════════════════
           AUTH MODAL
