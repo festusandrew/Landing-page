@@ -30,6 +30,7 @@ import imgLogo from '../../imports/MacBookPro14372/b16ab5f34d40dbc6e584efa066612
 import { LocumRegistrationWizard } from './LocumRegistrationWizard';
 import { LocumJobDetails } from './LocumJobDetails';
 import { LocumEmployerLanding } from './LocumEmployerLanding';
+import { LocumInsights } from './LocumInsights';
 import { LocumDialog } from '../LocumDialog';
 
 interface LocumProvisionPageProps {
@@ -401,7 +402,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const articles = [
     {
       tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-black/5', read: '8 min', date: 'Jul 2026', featured: true,
-      img: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      img: '/images/locum-journal/pharmacist.jpg',
       audience: ['IE', 'UK'],
       title: '2026 Locum Pharmacist pay rates: Ireland vs UK',
       subtitle: 'A comprehensive breakdown of hourly rates by region, specialisation, and experience level — with projections for the rest of the year.',
@@ -416,7 +417,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     },
     {
       tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-black/5', read: '11 min', date: 'Jun 2026', featured: true,
-      img: 'https://images.unsplash.com/photo-1754548930574-6a995e5eb5a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      img: '/images/locum-journal/consultation.jpg',
       audience: ['IE', 'UK'],
       title: 'The complete Garda vetting & DBS toolkit for locums and employers',
       subtitle: 'Everything you need to know about background checks in Irish and UK healthcare — what they cover, how long they take, and how to manage renewals.',
@@ -431,7 +432,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     },
     {
       tag: 'Market Report', tagColor: 'bg-amber-50 text-amber-700 border-black/5', read: '6 min', date: 'Jun 2026', featured: false,
-      img: 'https://images.unsplash.com/photo-1576091358783-a212ec293ff3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      img: '/images/locum-journal/pharmacy.jpg',
       audience: ['IE'],
       title: 'How Irish pharmacy groups are rethinking locum staffing in 2026',
       subtitle: 'From agency dependence to direct marketplace access — what the data says about changing employer behaviour.',
@@ -444,7 +445,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     },
     {
       tag: 'Career', tagColor: 'bg-amber-50 text-amber-700 border-black/5', read: '7 min', date: 'May 2026', featured: false,
-      img: 'https://images.unsplash.com/photo-1657551734497-30a09e6567bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      img: '/images/locum-journal/pharmacist.jpg',
       audience: ['IE', 'UK'],
       title: 'From staff pharmacist to locum: a practical transition guide',
       subtitle: 'The financial, logistical, and professional steps to make the leap — and what no one tells you about the first 90 days.',
@@ -457,7 +458,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     },
     {
       tag: 'Compliance', tagColor: 'bg-emerald-50 text-emerald-700 border-black/5', read: '5 min', date: 'May 2026', featured: false,
-      img: 'https://images.unsplash.com/photo-1619418602850-35ad20aa1700?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      img: '/images/locum-journal/consultation.jpg',
       audience: ['IE'],
       title: 'PSI revalidation in 2026: what has changed and what you need to do',
       subtitle: 'A plain-English walkthrough of the PSI continuing competence framework updates effective January 2026.',
@@ -470,7 +471,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     },
     {
       tag: 'Salary Guide', tagColor: 'bg-green-50 text-green-700 border-black/5', read: '9 min', date: 'Apr 2026', featured: false,
-      img: 'https://images.unsplash.com/photo-1580281657527-47f249e8f4df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80',
+      img: '/images/locum-journal/pharmacy.jpg',
       audience: ['IE', 'UK'],
       title: 'Pharmacy technician rates 2026: community, hospital, and primary care',
       subtitle: 'Technician locum rates have risen faster than pharmacist rates in the last two years. Here is the data.',
@@ -2381,7 +2382,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </div>
 
               {/* Article hero */}
-              <div className="bg-slate-900 px-6 pt-14 pb-16">
+              <div className="bg-[#edf2e9] px-6 pt-14 pb-16">
                 <div className="max-w-[860px] mx-auto">
                   <div className="flex flex-wrap items-center gap-3 mb-5">
                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border ${a.tagColor}`}>{a.tag}</span>
@@ -2389,8 +2390,9 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     <span className="text-slate-600 text-xs">·</span>
                     <span className="text-slate-400 text-xs font-medium">{a.read} read</span>
                   </div>
-                  <h1 className="text-3xl sm:text-5xl font-bold text-white leading-[1.1] tracking-[-0.02em] mb-4">{a.title}</h1>
-                  <p className="text-white/65 text-base leading-relaxed max-w-2xl">{a.subtitle}</p>
+                  <h1 className="font-['Libre_Caslon_Display'] text-4xl sm:text-6xl font-normal text-[#20382c] leading-[1.1] mb-5">{a.title}</h1>
+                  <p className="text-[#53685b] text-base leading-relaxed max-w-2xl">{a.subtitle}</p>
+                  <img src={a.img} alt="" className="mt-9 aspect-[16/7] w-full rounded-2xl object-cover" />
                 </div>
               </div>
 
@@ -2490,134 +2492,15 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         {/* ── Blog index ── */}
         {blogPost === null && (
-          <div className="pt-[70px] min-h-screen bg-slate-50">
-
-            {/* Hero */}
-            <section className="bg-slate-900 px-6 pt-16 pb-14">
-              <div className="max-w-[1280px] mx-auto lg:px-6 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-                <div>
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/80 text-xs font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
-                    <BookOpen className="w-3.5 h-3.5 text-green-400" /> Ireland & UK Insights
-                  </div>
-                  <h1 className="text-4xl sm:text-5xl font-medium text-white tracking-[-0.02em] leading-[1.05]">Local knowledge.<br />Ireland &amp; UK insights.</h1>
-                  <p className="text-white/60 text-base mt-3 max-w-lg leading-relaxed">Written for healthcare professionals and pharmacy employers across Ireland and the UK.</p>
-                </div>
-                {/* Category filter */}
-                <div className="flex flex-wrap gap-2 shrink-0">
-                  {['All', 'Salary Guide', 'Compliance', 'Market Report', 'Career'].map(cat => (
-                    <button key={cat} onClick={() => setBlogCategory(cat)}
-                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${blogCategory === cat ? 'bg-white text-slate-900' : 'bg-white/10 text-white/70 border border-black/5 hover:bg-white/20'}`}>
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-14 space-y-14">
-              <div className="space-y-5">
-                <div aria-label="Filter insights by country" className="flex flex-wrap gap-2">{[{ id: 'all', label: 'All insights' }, { id: 'IE', label: 'Insights for Ireland' }, { id: 'UK', label: 'Insights for UK' }].map(option => <button key={option.id} onClick={() => setBlogAudience(option.id as typeof blogAudience)} aria-pressed={blogAudience === option.id} className={`rounded-full px-5 py-3 text-sm font-medium transition-colors ${blogAudience === option.id ? 'bg-[#368B62] text-white' : 'bg-white text-[#24332d] hover:bg-[#e6f0e9]'}`}>{option.label}</button>)}</div>
-                <p aria-live="polite" className="text-xs text-slate-500">{visibleArticles.length} insights · {blogAudience === 'all' ? 'Ireland and the UK' : blogAudience === 'IE' ? 'Ireland' : 'United Kingdom'} · Guides covering both countries appear in both filters.</p>
-                <p className="rounded-2xl bg-white p-4 text-xs leading-6 text-slate-500">Editorial preview: sample salary figures and regulatory claims in these draft articles are not independently verified. Confirm current requirements with the relevant regulator before acting on them.</p>
-              </div>
-
-              {/* Featured articles (2-col) */}
-              {blogCategory === 'All' && (
-                <div>
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Featured</p>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {visibleArticles.filter(a => a.featured).map((a, ai) => {
-                      const idx = articles.indexOf(a);
-                      return (
-                        <motion.div key={ai}
-                          className="bg-white border border-black/5 rounded-2xl overflow-hidden transition-all cursor-pointer group"
-                          whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 280, damping: 20 }}
-                          onClick={() => { setBlogPost(idx); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-                          <div className="relative h-44 overflow-hidden bg-slate-900">
-                            <img src={a.img} alt={a.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
-                            <div className="absolute inset-0 bg-slate-900/80" />
-                            <span className={`absolute top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border ${a.tagColor} backdrop-blur-sm`}>{a.tag}</span>
-                          </div>
-                          <div className="px-6 py-5">
-                            <h2 className="text-base font-bold text-slate-900 leading-snug mb-1.5 group-hover:text-[#368B62] transition-colors">{a.title}</h2>
-                            <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-4">{a.subtitle}</p>
-                            <div className="flex items-center justify-between pt-3 border-t border-black/5">
-                              <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
-                                <span>{a.date}</span>
-                                <span>·</span>
-                                <span>{a.read} read</span>
-                              </div>
-                              <span className="text-xs font-bold text-[#368B62] flex items-center gap-1 group-hover:gap-2 transition-all">
-                                Read <ArrowRight className="w-3.5 h-3.5" />
-                              </span>
-                            </div>
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* All articles grid */}
-              <div>
-                {blogCategory === 'All' && <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">All articles</p>}
-                {visibleArticles.length === 0 && <div className="rounded-2xl bg-white p-8 text-center"><p className="text-sm text-slate-600">No insights match this country and topic yet.</p><button onClick={() => { setBlogAudience('all'); setBlogCategory('All'); }} className="mt-4 text-sm font-semibold text-[#368B62]">Show all insights</button></div>}
-                <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
-                  variants={stagger(0.07)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}>
-                  {visibleArticles
-                    .map((a, ai) => {
-                      const idx = articles.indexOf(a);
-                      return (
-                        <motion.div key={ai} variants={fadeUp}
-                          className="bg-white border border-black/5 rounded-2xl overflow-hidden transition-all cursor-pointer group flex flex-col"
-                          whileHover={{ y: -4 }}
-                          transition={{ type: 'spring', stiffness: 280, damping: 20 }}
-                          onClick={() => { setBlogPost(idx); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-                          <div className="relative h-36 overflow-hidden bg-slate-900 shrink-0">
-                            <img src={a.img} alt={a.title} className="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
-                            <div className="absolute inset-0 bg-slate-900/60" />
-                            <span className={`absolute top-3 left-3 inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold border ${a.tagColor} backdrop-blur-sm`}>{a.tag}</span>
-                          </div>
-                          <div className="p-5 flex flex-col flex-1">
-                            <h3 className="text-sm font-bold text-slate-900 leading-snug mb-2 group-hover:text-[#368B62] transition-colors flex-1">{a.title}</h3>
-                            <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-4">{a.subtitle}</p>
-                            <div className="flex items-center justify-between pt-3 border-t border-black/5">
-                              <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium">
-                                <span>{a.date}</span><span>·</span><span>{a.read} read</span>
-                              </div>
-                              <span className="text-xs font-bold text-[#368B62] flex items-center gap-1 group-hover:gap-2 transition-all">
-                                Read <ArrowRight className="w-3 h-3" />
-                              </span>
-                            </div>
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                </motion.div>
-              </div>
-
-              {/* Newsletter strip */}
-              <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-                className="bg-slate-900 rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-                <div className="space-y-1.5">
-                  <div className="text-xs font-bold text-green-400 uppercase tracking-widest">MployUs Insights</div>
-                  <h3 className="text-xl font-bold text-white">Get the monthly salary &amp; market report</h3>
-                  <p className="text-slate-400 text-sm">Rate benchmarks, compliance updates, and career tips — free, once a month.</p>
-                </div>
-                <div className="flex gap-2 w-full sm:w-auto">
-                  <div className="flex items-center gap-2.5 flex-1 sm:w-56 px-4 py-2.5 rounded-xl bg-white/10 border border-black/5 focus-within:border-green-400 transition-colors">
-                    <Mail className="w-4 h-4 text-white/40 shrink-0" />
-                    <input placeholder="your@email.com" className="bg-transparent text-white text-sm placeholder-white/40 outline-none w-full" />
-                  </div>
-                  <button onClick={() => onBookDemo('Newsletter')} className="shrink-0 px-5 py-2.5 bg-[#368B62] hover:bg-[#276647] text-white font-bold text-sm rounded-xl transition-colors">
-                    Subscribe
-                  </button>
-                </div>
-              </motion.div>
-
-            </div>
-          </div>
+          <LocumInsights
+            articles={visibleArticles}
+            audience={blogAudience}
+            category={blogCategory}
+            onAudience={setBlogAudience}
+            onCategory={setBlogCategory}
+            onRead={article => { setBlogPost(articles.findIndex(item => item.title === article.title)); window.scrollTo({ top: 0, behavior: 'instant' }); }}
+            onFindShifts={() => goto('find-shifts')}
+          />
         )}
         </>
       )}
