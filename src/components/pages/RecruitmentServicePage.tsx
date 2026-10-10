@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router';
 import { LoginExperience, ModernServiceHero } from '../PlatformExperiences';
 import { Footer } from '../Footer';
+import { RecruitmentArticle, type RecruitmentStory } from './RecruitmentArticle';
+import './recruitment-article.css';
 import {
   ArrowRight, Menu, X, Globe, Clock, Target, Users,
   Check, Mail, Phone, Building2, Briefcase, Send, CheckCircle2,
@@ -25,7 +27,7 @@ import imgMichael      from '@/src/imports/RecruitmentLandingPage/ca27e31ef2c2e6
 import imgMployUs      from '@/src/imports/RecruitmentLandingPage/afa262f7bab0644138f6a6848b0032c4e2a7d048.png';
 import imgHiring       from '@/src/imports/RecruitmentLandingPage/d7b4f06932544d5c20501c4962c2946b7d37b4f0.png';
 
-type Page = 'home' | 'jobseekers' | 'employers' | 'blog' | 'contact';
+type Page = 'home' | 'jobseekers' | 'employers' | 'blog' | 'article' | 'contact';
 
 interface Props {
   onBackToHome: () => void;
@@ -180,6 +182,25 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const [employerCompany, setEmployerCompany] = useState('');
   const [employerRegion, setEmployerRegion] = useState('Ireland');
   const [blogRegion, setBlogRegion] = useState('All');
+  const [activeArticle, setActiveArticle] = useState<RecruitmentStory | null>(null);
+  const readArticle = (article: RecruitmentStory) => {
+    setActiveArticle(article);
+    goTo('article');
+    const url = new URL(window.location.href);
+    url.searchParams.set('recruitment-article', article.title);
+    window.history.replaceState(window.history.state, '', url);
+  };
+  useEffect(() => {
+    const title = new URLSearchParams(window.location.search).get('recruitment-article');
+    const article = ARTICLES.find(item => item.title === title);
+    if (article) { setActiveArticle(article); setPage('article'); }
+  }, []);
+  useEffect(() => {
+    if (page === 'article') return;
+    const url = new URL(window.location.href);
+    url.searchParams.delete('recruitment-article');
+    window.history.replaceState(window.history.state, '', url);
+  }, [page]);
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [sortBy, setSortBy] = useState<'title' | 'salary' | 'location' | 'added'>('title');
   const [filterRegion, setFilterRegion] = useState('All regions');
@@ -484,7 +505,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
           >
             {ARTICLES.slice(0, 3).map(a => (
               <motion.button key={a.title} variants={fadeUp}
-                onClick={() => goTo('blog')} className="flex flex-col gap-4 text-left group"
+                onClick={() => readArticle(a)} className="flex flex-col gap-4 text-left group"
                 whileHover={{ y: -4 }}
                 transition={{ type: 'spring', stiffness: 380, damping: 26 }}
               >
@@ -854,7 +875,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               </div>
               <h3 className="font-['DM_Sans',sans-serif] text-[28px] leading-snug mb-4" style={{ color: P }}>{(visibleArticles[0] || ARTICLES[0]).title}</h3>
               <p className="text-[15px] leading-relaxed mb-6" style={{ color: TM }}>{(visibleArticles[0] || ARTICLES[0]).excerpt}</p>
-              <motion.button className="self-start flex items-center gap-2 text-[14px] font-medium" style={{ color: P }}
+              <motion.button onClick={() => readArticle(visibleArticles[0])} className="self-start flex items-center gap-2 text-[14px] font-medium" style={{ color: P }}
                 whileHover={{ x: 3 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
                 Read article <ArrowRight className="w-4 h-4" />
               </motion.button>
@@ -900,7 +921,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                   </div>
                   <p className="text-[15px] font-medium leading-snug flex-1" style={{ color: P }}>{a.title}</p>
                   <p className="text-[13px] leading-relaxed" style={{ color: TM }}>{a.excerpt.slice(0, 90)}…</p>
-                  <motion.button className="self-start flex items-center gap-1.5 text-[13px] font-medium mt-1" style={{ color: P }}
+                  <motion.button onClick={() => readArticle(a)} className="self-start flex items-center gap-1.5 text-[13px] font-medium mt-1" style={{ color: P }}
                     whileHover={{ x: 2 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
                     Read more <ChevronRight className="w-4 h-4" />
                   </motion.button>
@@ -1039,6 +1060,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
     jobseekers: page === 'jobseekers' ? JobseekersPage() : null,
     employers: page === 'employers' ? EmployersPage() : null,
     blog: page === 'blog' ? BlogPage() : null,
+    article: page === 'article' && activeArticle ? <RecruitmentArticle key={activeArticle.title} article={activeArticle} articles={ARTICLES} onBack={() => goTo('blog')} onRead={readArticle} onContact={openContact} /> : null,
     contact: page === 'contact' ? ContactPage() : null,
   };
 

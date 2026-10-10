@@ -33,7 +33,9 @@ import { UserRole, ProductModule } from './types';
 
 export default function App() {
   const [activeRole, setActiveRole] = useState<UserRole>('all');
-  const [activeView, setActiveView] = useState<string>('home');
+  const [activeView, setActiveView] = useState<string>(() =>
+    new URLSearchParams(window.location.search).has('recruitment-article') ? 'recruitment-service' : 'home'
+  );
   
   // Modal states
   const [bookDemoOpen, setBookDemoOpen] = useState(false);
