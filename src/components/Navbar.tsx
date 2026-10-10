@@ -86,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div
           className={
             embedded
-              ? "flex flex-wrap items-center justify-center gap-3 sm:flex-col xl:flex-row"
+              ? "flex flex-wrap items-center justify-center gap-3 sm:flex-col xl:flex-Co"
               : "ml-auto flex flex-wrap items-center gap-3"
           }
         >
