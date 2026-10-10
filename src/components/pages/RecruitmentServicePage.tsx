@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router';
-import { LoginExperience, ModernServiceHero } from '../PlatformExperiences';
+import { ModernServiceHero } from '../PlatformExperiences';
+import { RecruitmentAuthScreen, type RecruitmentAuthMode } from '../RecruitmentAuthScreen';
 import { Footer } from '../Footer';
 import { RecruitmentDialog } from '../RecruitmentDialog';
 import { RecruitmentCVDialog } from '../RecruitmentCVDialog';
@@ -180,6 +181,8 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const [page, setPage] = useState<Page>('home');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<RecruitmentAuthMode>('login');
+  const openAuth = (mode: RecruitmentAuthMode) => { setAuthMode(mode); setLoginOpen(true); setMobileOpen(false); };
   const [headcount, setHeadcount] = useState('1');
   const [employerCompany, setEmployerCompany] = useState('');
   const [employerRegion, setEmployerRegion] = useState('Ireland');
@@ -1098,12 +1101,13 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
           </nav>
 
           <div className="hidden lg:flex items-center gap-4">
-            <motion.button onClick={() => setLoginOpen(true)}
+            <motion.button onClick={() => openAuth('login')}
               className="text-[14px] leading-[21px]" style={{ color: TN }}
               whileHover={{ color: P }}
               onMouseEnter={e => (e.currentTarget.style.color = P)} onMouseLeave={e => (e.currentTarget.style.color = TN)}>
               Login
             </motion.button>
+            <button onClick={() => openAuth('register')} className="rounded-full border border-black/5 px-4 py-2.5 text-sm whitespace-nowrap" style={{ color: P }}>Get started</button>
             <motion.button onClick={openContact}
               className="h-[41px] px-5 rounded-full text-white text-[14px] whitespace-nowrap"
               style={{ backgroundColor: P }}
@@ -1136,7 +1140,8 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 </button>
               ))}
               <div className="flex gap-2 pt-3">
-                <button onClick={() => { setLoginOpen(true); setMobileOpen(false); }} className="flex-1 py-2.5 border border-black/5 rounded-lg text-[14px]" style={{ color: TN }}>Login</button>
+                <button onClick={() => openAuth('login')} className="flex-1 py-2.5 border border-black/5 rounded-lg text-[14px]" style={{ color: TN }}>Login</button>
+                <button onClick={() => openAuth('register')} className="flex-1 py-2.5 border border-black/5 rounded-lg text-[14px]" style={{ color: P }}>Get started</button>
                 <button onClick={openContact} className="flex-1 py-2.5 rounded-lg text-white text-[14px]" style={{ backgroundColor: P }}>Request talent</button>
               </div>
             </motion.div>
@@ -1145,7 +1150,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       </header>
 
       <main className="pt-[68px]">{pages[page]}</main>
-      <LoginExperience recruitmentRedesign open={loginOpen} onClose={() => setLoginOpen(false)} kind="recruitment" image={imgSarah} onRegister={() => { setLoginOpen(false); openCV(); }} />
+      {loginOpen && <RecruitmentAuthScreen mode={authMode} onMode={setAuthMode} onClose={() => setLoginOpen(false)} onUploadCV={() => { setLoginOpen(false); openCV(); }} onRequestTalent={() => { setLoginOpen(false); openContact(); }} />}
 
       {/* ══ FOOTER ══ */}
 <Footer
@@ -1158,7 +1163,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         columns={[
           { title: 'Platform', links: ['Permanent recruitment', 'Contract recruitment', 'Executive search', 'Talent solutions'].map(label => ({ label, onClick: () => goTo('employers') })) },
           { title: 'Explore', links: [{ label: 'For jobseekers', onClick: () => goTo('jobseekers') }, { label: 'Insights & resources', onClick: () => goTo('blog') }, { label: 'Contact us', onClick: () => goTo('contact') }, { label: 'Privacy policy', href: '/policies/privacy' }, { label: 'Terms of service', href: '/policies/terms' }, { label: 'Cookie policy', href: '/policies/cookies' }] },
-          { title: 'Your workspace', links: [{ label: 'Candidate login', onClick: () => setLoginOpen(true), arrow: true }, { label: 'Request talent', onClick: openContact, arrow: true }] },
+          { title: 'Your workspace', links: [{ label: 'Candidate login', onClick: () => openAuth('login'), arrow: true }, { label: 'Create an account', onClick: () => openAuth('register'), arrow: true }, { label: 'Request talent', onClick: openContact, arrow: true }] },
         ]}
       />
 
