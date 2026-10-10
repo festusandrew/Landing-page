@@ -2669,7 +2669,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       </div>
                       <div className="space-y-2.5">
                         {([
-                          { key: 'Locum' as const, icon: Stethoscope, desc: 'A registered healthcare professional seeking flexible shifts', badge: 'Verification required' },
+                          { key: 'Locum' as const, icon: Stethoscope, desc: 'A healthcare professional, support worker or trainee seeking role-appropriate opportunities', badge: 'Verification required' },
                           { key: 'Client' as const, icon: Building2, desc: 'A healthcare facility or pharmacy posting shifts', badge: 'Dashboard access' },
                         ]).map(r => {
                           const Icon = r.icon;
@@ -2790,7 +2790,6 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <LocumRegistrationWizard
           initialRegion={region}
           onClose={() => setRegWizardOpen(false)}
-          onComplete={() => onBookDemo('Locum registration')}
         />
       )}
 
