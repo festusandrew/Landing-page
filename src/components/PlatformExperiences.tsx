@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "motion/react"
 import { ArrowRight, Check, Eye, EyeOff, LockKeyhole, X } from "lucide-react"
 import { Link, useNavigate, useParams } from "react-router"
 import { LocumDialog } from "./LocumDialog"
+import { RecruitmentDialog } from "./RecruitmentDialog"
 
 export function PeopleAnimation({
   kind,
@@ -277,12 +278,14 @@ export function LoginExperience({
   kind,
   image,
   onRegister,
+  recruitmentRedesign = false,
 }: {
   open: boolean
   onClose: () => void
   kind: "recruitment" | "locum"
   image: string
   onRegister: () => void
+  recruitmentRedesign?: boolean
 }) {
   const [showPassword, setShowPassword] = useState(false)
   const [recover, setRecover] = useState(false)
@@ -295,7 +298,7 @@ export function LoginExperience({
     setStatus("")
     setRecover(false)
     setShowPassword(false)
-    if (locum) return
+    if (locum || recruitmentRedesign) return
     const previousFocus = document.activeElement as HTMLElement | null
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = "hidden"
@@ -334,8 +337,8 @@ export function LoginExperience({
     }
   }, [open])
   const loginContent = (
-<div className={locum ? "flex flex-col px-7 py-7" : "flex flex-col justify-center px-7 py-14 md:px-10"}>
-          {!locum && (<>
+<div className={recruitmentRedesign ? "flex flex-col" : locum ? "flex flex-col px-7 py-7" : "flex flex-col justify-center px-7 py-14 md:px-10"}>
+          {!locum && !recruitmentRedesign && (<>
           <LockKeyhole
             size={26}
             className={locum ? "text-[#368B62]" : "text-[#810161]"}
@@ -451,6 +454,7 @@ export function LoginExperience({
         </div>
   )
   if (!open) return null
+  if (recruitmentRedesign) return <RecruitmentDialog onClose={onClose} title={recover ? "Let’s get you back in." : "Good to see you again."} description={recover ? "A fresh start for your account." : "Your opportunities, applications and team, all connected."} headline={"Your ambition.\nA world of possibility."} eyebrow={recover ? "Account recovery" : "Your recruitment workspace"}>{loginContent}</RecruitmentDialog>
   if (locum) return <LocumDialog onClose={onClose} closeLabel="Close login" title={recover ? "Let’s get you back in." : "Good to see you again."} description={recover ? "A fresh start for your account." : "Your opportunities, applications and team, all connected."} headline={"Care with purpose.\nWork with freedom."} image={image}>{loginContent}</LocumDialog>
   return (
     <div

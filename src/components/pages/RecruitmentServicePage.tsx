@@ -3,13 +3,15 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router';
 import { LoginExperience, ModernServiceHero } from '../PlatformExperiences';
 import { Footer } from '../Footer';
+import { RecruitmentDialog } from '../RecruitmentDialog';
+import { RecruitmentCVDialog } from '../RecruitmentCVDialog';
 import { RecruitmentArticle, type RecruitmentStory } from './RecruitmentArticle';
 import './recruitment-article.css';
 import {
   ArrowRight, Menu, X, Globe, Clock, Target, Users,
   Check, Mail, Phone, Building2, Briefcase, Send, CheckCircle2,
   Plus, Minus, FileText, ChevronRight, Search, MapPin,
-  Star, Award, TrendingUp, Shield,
+  Star, Award, TrendingUp, Shield, Car, Bus, Bike, Plane,
 } from 'lucide-react';
 
 // ── Figma images ──────────────────────────────────────────────────────────────
@@ -208,12 +210,10 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   // Contact modal
   const [contactOpen, setContactOpen]   = useState(false);
   const [contactStep, setContactStep]   = useState<1 | 2 | 3 | 4>(1);
-  const [contactType, setContactType]   = useState<'Employer' | 'Candidate' | ''>('');
   const [contactForm, setContactForm]   = useState({ name: '', email: '', phone: '', company: '', role: '', message: '' });
 
   // CV modal
   const [cvOpen, setCvOpen]   = useState(false);
-  const [cvStep, setCvStep]   = useState<1 | 2>(1);
 
   // Apply modal
   const [applyOpen,  setApplyOpen]  = useState(false);
@@ -250,8 +250,8 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
   const goTo = (p: Page) => { setPage(p); setMobileOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
-  const openContact = () => { setContactStep(1); setHeadcount('1'); setEmployerCompany(''); setEmployerRegion('Ireland'); setContactType(''); setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' }); setMobileOpen(false); setContactOpen(true); };
-  const openCV = () => { setCvStep(1); setCvOpen(true); };
+  const openContact = () => { setContactStep(1); setHeadcount('1'); setEmployerCompany(''); setEmployerRegion('Ireland'); setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' }); setMobileOpen(false); setContactOpen(true); };
+  const openCV = () => { setApplyOpen(false); setCvOpen(true); };
 
   const filteredRoles = useMemo(() => ALL_ROLES.filter(r => {
     const kw = jobKeyword.toLowerCase();
@@ -1145,7 +1145,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       </header>
 
       <main className="pt-[68px]">{pages[page]}</main>
-      <LoginExperience open={loginOpen} onClose={() => setLoginOpen(false)} kind="recruitment" image={imgSarah} onRegister={() => { setLoginOpen(false); openCV(); }} />
+      <LoginExperience recruitmentRedesign open={loginOpen} onClose={() => setLoginOpen(false)} kind="recruitment" image={imgSarah} onRegister={() => { setLoginOpen(false); openCV(); }} />
 
       {/* ══ FOOTER ══ */}
 <Footer
@@ -1165,50 +1165,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       {/* ══ REQUEST TALENT MODAL ══ */}
       <AnimatePresence>
         {contactOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setContactOpen(false)} />
-            <motion.div
-              className="relative z-10 bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
-              initial={{ opacity: 0, y: 40, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 40, scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 320, damping: 28 }}>
+          <RecruitmentDialog onClose={() => setContactOpen(false)} eyebrow="Request talent" title={contactStep === 4 ? 'A clearer brief. A better beginning.' : 'Find your next great hire.'} description="A few details to understand your team and the people you need." headline={'Good people.\nStronger teams.'} steps={['Your hiring needs', 'Your organisation', 'Review your brief']} currentStep={contactStep - 1}>
+              <div>
 
-              {/* Sticky header with progress bar */}
-              <div className="sticky top-0 z-10 bg-white border-b border-black/5 px-7 py-5 flex items-center justify-between rounded-t-2xl">
-                {contactStep < 4 ? (
-                  <div className="flex-1">
-                    <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: P }}>Step {contactStep} of 3</p>
-                    <div className="flex gap-1.5">
-                      {[1, 2, 3].map(n => (
-                        <div key={n} className="h-1 flex-1 rounded-full transition-all duration-400"
-                          style={{ backgroundColor: contactStep >= n ? P : '#f1f5f9' }} />
-                      ))}
-                    </div>
-                  </div>
-                ) : <div />}
-                <button onClick={() => setContactOpen(false)} className="ml-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors">
-                  <X className="w-4 h-4 text-slate-600" />
-                </button>
-              </div>
-
-              {/* Service type strip (steps 1–3) */}
-              {contactStep < 4 && (
-                <div className="mx-7 mt-5 mb-1 border border-black/5 rounded-xl px-4 py-3 flex items-center gap-4"
-                  style={{ backgroundColor: 'rgba(129,1,97,0.05)' }}>
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: P }}>
-                    <Building2 className="w-4 h-4 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-500">MployUs Recruit</p>
-                    <p className="font-bold text-sm" style={{ color: P }}>Request Talent · Employer Enquiry</p>
-                  </div>
-                </div>
-              )}
-
-              <div className="px-7 pb-7 pt-4">
 
                 {/* ── STEP 1: Hiring need ── */}
                 {contactStep === 1 && (
@@ -1226,15 +1185,16 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                         { key: 'Talent Solutions', icon: Briefcase, desc: 'An embedded hiring partner or workforce strategy' },
                       ].map(({ key, icon: Icon, desc }) => (
                         <button key={key} type="button"
+                          aria-pressed={contactForm.role === key}
                           onClick={() => setContactForm(f => ({ ...f, role: key }))}
                           className="flex items-start gap-3 p-4 rounded-xl border border-black/5 text-left transition-all"
                           style={{
                             borderColor: BD,
-                            backgroundColor: contactForm.role === key ? 'rgba(129,1,97,0.06)' : '#f8fafc',
+                            backgroundColor: contactForm.role === key ? 'rgba(129,1,97,0.06)' : 'var(--recruit-paper)',
                           }}>
                           <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
-                            style={{ backgroundColor: contactForm.role === key ? P : '#e2e8f0' }}>
-                            <Icon className="w-4 h-4" style={{ color: contactForm.role === key ? 'white' : '#64748b' }} />
+                            style={{ backgroundColor: contactForm.role === key ? P : 'var(--recruit-tint)' }}>
+                            <Icon className="w-4 h-4" style={{ color: contactForm.role === key ? 'white' : 'var(--recruit-muted)' }} />
                           </div>
                           <div>
                             <p className="text-sm font-semibold text-slate-800">{key}</p>
@@ -1281,7 +1241,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     <label className="block text-xs font-semibold text-slate-700">Company name <span className="text-rose-500">*</span><input value={employerCompany} onChange={event => setEmployerCompany(event.target.value)} placeholder="Your organisation" className="mt-2 block w-full rounded-xl border border-black/5 bg-slate-50 px-3.5 py-2.5 text-sm" /></label>
                     <label className="block text-xs font-semibold text-slate-700">Hiring region<select value={employerRegion} onChange={event => setEmployerRegion(event.target.value)} className="mt-2 block w-full rounded-xl border border-black/5 bg-slate-50 px-3.5 py-2.5 text-sm">{['Ireland', 'Northern Ireland', 'England', 'Wales', 'Scotland', 'Multiple regions'].map(region => <option key={region}>{region}</option>)}</select></label>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold text-slate-700">First name <span className="text-rose-500">*</span></label>
                         <input value={contactForm.name.split(' ')[0] || ''} onChange={e => setContactForm(f => ({ ...f, name: e.target.value + ' ' + (f.name.split(' ')[1] || '') }))}
@@ -1315,12 +1275,13 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                       <div className="grid grid-cols-4 gap-2">
                         {['1', '2–5', '6–10', '10+'].map(n => (
                           <button key={n} type="button"
+                            aria-pressed={headcount === n}
                             onClick={() => setHeadcount(n)}
                             className="py-2.5 rounded-xl border border-black/5 text-sm font-semibold transition-all"
                             style={{
                               borderColor: BD,
-                              backgroundColor: headcount === n ? 'rgba(129,1,97,0.06)' : '#f8fafc',
-                              color: headcount === n ? P : '#334155',
+                              backgroundColor: headcount === n ? 'rgba(129,1,97,0.06)' : 'var(--recruit-paper)',
+                              color: headcount === n ? P : 'var(--recruit-ink)',
                             }}>
                             {n}
                           </button>
@@ -1360,12 +1321,12 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     {/* Enquiry summary */}
                     <div className="bg-slate-50 border border-black/5 rounded-xl p-4 space-y-3">
                       <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Enquiry summary</p>
-                      <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
                         <div><span className="text-slate-400">Contact</span><p className="font-semibold text-slate-900 mt-0.5">{contactForm.name.trim() || '—'}</p></div>
                         <div><span className="text-slate-400">Email</span><p className="font-semibold text-slate-900 mt-0.5 break-all">{contactForm.email || '—'}</p></div>
                         <div><span className="text-slate-400">Service</span><p className="font-semibold text-slate-900 mt-0.5">{contactForm.role || '—'}</p></div>
                         <div><span className="text-slate-400">Sector</span><p className="font-semibold text-slate-900 mt-0.5">{contactForm.company || '—'}</p></div>
-                        <div><span className="text-slate-400">Roles needed</span><p className="font-semibold text-slate-900 mt-0.5">{contactType || '—'}</p></div>
+                        <div><span className="text-slate-400">Roles needed</span><p className="font-semibold text-slate-900 mt-0.5">{headcount || '—'}</p></div>
                         <div><span className="text-slate-400">Phone</span><p className="font-semibold text-slate-900 mt-0.5">{contactForm.phone || '—'}</p></div>
                       </div>
                     </div>
@@ -1411,15 +1372,15 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                       <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Your talent brief</p>
                       <div className="space-y-3">
                         {[
-                          { icon: '🏢', title: employerCompany, desc: `${employerRegion} · ${contactForm.company}` },
-                          { icon: '🎯', title: contactForm.role, desc: `${headcount} role(s) requested` },
-                          { icon: '👤', title: contactForm.name, desc: contactForm.email },
-                          { icon: '📋', title: 'Your requirements', desc: contactForm.message || 'No additional requirements supplied.' },
+                          { icon: Building2, title: employerCompany, desc: `${employerRegion} · ${contactForm.company}` },
+                          { icon: Target, title: contactForm.role, desc: `${headcount} role(s) requested` },
+                          { icon: Users, title: contactForm.name, desc: contactForm.email },
+                          { icon: FileText, title: 'Your requirements', desc: contactForm.message || 'No additional requirements supplied.' },
                         ].map((step, i) => (
                           <motion.div key={i} className="flex items-start gap-3"
                             initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.4 + i * 0.08 }}>
-                            <span className="text-xl shrink-0 mt-0.5">{step.icon}</span>
+                            <step.icon className="w-5 h-5 shrink-0 mt-0.5" style={{ color: P }} />
                             <div>
                               <p className="text-sm font-semibold text-slate-800">{step.title}</p>
                               <p className="text-xs text-slate-500 mt-0.5">{step.desc}</p>
@@ -1443,103 +1404,20 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 )}
 
               </div>
-            </motion.div>
-          </div>
+          </RecruitmentDialog>
         )}
       </AnimatePresence>
 
       {/* ══ CV MODAL ══ */}
-      <AnimatePresence>
-        {cvOpen && (
-          <motion.div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setCvOpen(false)} />
-            <motion.div className="relative bg-white rounded-2xl w-full max-w-sm"
-              initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 32 }}
-              transition={{ type: 'spring', stiffness: 280, damping: 24 }}>
-              <div className="flex items-center justify-between p-5 border-b border-black/5">
-                <div>
-                  <p className="text-[12px] font-semibold uppercase tracking-widest" style={{ color: P }}>Candidates</p>
-                  <h3 className="text-[18px] font-['DM_Sans',sans-serif]" style={{ color: P }}>Upload your CV</h3>
-                </div>
-                <button onClick={() => setCvOpen(false)} className="w-8 h-8 rounded-lg flex items-center justify-center border border-black/5" style={{ backgroundColor: BGL }}>
-                  <X className="w-4 h-4" style={{ color: TM }} />
-                </button>
-              </div>
-              <div className="p-5">
-                {cvStep === 1 ? (
-                  <div className="space-y-3">
-                    {[{ icon: Users, placeholder: 'Full name', type: 'text' }, { icon: Mail, placeholder: 'Email address', type: 'email' }, { icon: Briefcase, placeholder: 'Profession / job title', type: 'text' }].map(({ icon: Icon, placeholder, type }) => (
-                      <div key={placeholder} className="flex items-center gap-3 px-4 py-3 rounded-lg border" style={{ borderColor: BD, backgroundColor: BGL }}>
-                        <Icon className="w-4 h-4 shrink-0" style={{ color: TT }} />
-                        <input type={type} placeholder={placeholder} className="bg-transparent text-[14px] outline-none w-full" style={{ color: TD }} />
-                      </div>
-                    ))}
-                    <div className="border-dashed border rounded-xl px-5 py-8 text-center cursor-pointer border-black/5 transition-colors"
-                      onMouseEnter={e => (e.currentTarget.style.borderColor = P)} onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)')}>
-                      <FileText className="w-8 h-8 mx-auto mb-2" style={{ color: TT }} />
-                      <p className="text-[14px] font-medium mb-0.5" style={{ color: TD }}>Drop your CV here</p>
-                      <p className="text-[12px]" style={{ color: TT }}>PDF or Word · max 5 MB</p>
-                    </div>
-                    <button onClick={() => { setCvStep(2); onBookDemo('CV Upload'); }}
-                      className="w-full py-3 rounded-lg text-white text-[14px] font-medium flex items-center justify-center gap-2"
-                      style={{ backgroundColor: P }}>
-                      <Send className="w-4 h-4" /> Submit CV
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center text-center py-6 space-y-4">
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ backgroundColor: 'rgba(129,1,97,0.08)' }}>
-                      <CheckCircle2 className="w-7 h-7" style={{ color: P }} />
-                    </div>
-                    <div>
-                      <h4 className="text-[18px] font-['DM_Sans',sans-serif]" style={{ color: P }}>CV received</h4>
-                      <p className="text-[14px] mt-1 leading-relaxed max-w-xs" style={{ color: TM }}>A consultant will review your profile and be in touch within one business day.</p>
-                    </div>
-                    <button onClick={() => setCvOpen(false)} className="px-6 py-2.5 rounded-lg text-white text-[14px] font-medium" style={{ backgroundColor: P }}>Done</button>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {cvOpen && <RecruitmentCVDialog onClose={() => setCvOpen(false)} />}
 
       {/* ══ APPLY MODAL ══ */}
       <AnimatePresence>
         {applyOpen && applyRole && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={closeApply} />
-            <motion.div
-              className="relative z-10 bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
-              initial={{ opacity: 0, y: 40, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 40, scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 320, damping: 28 }}>
-
-              {/* Header */}
-              <div className="sticky top-0 z-10 bg-white border-b border-black/5 px-7 py-5 flex items-center justify-between rounded-t-2xl">
-                {applyStep < 4 ? (
-                  <div className="flex-1">
-                    <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: P }}>Step {applyStep} of 3</p>
-                    <div className="flex gap-1.5">
-                      {[1, 2, 3].map(n => (
-                        <div key={n} className="h-1 flex-1 rounded-full transition-all duration-400"
-                          style={{ backgroundColor: applyStep >= n ? P : '#f1f5f9' }} />
-                      ))}
-                    </div>
-                  </div>
-                ) : <div />}
-                <button onClick={closeApply} className="ml-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors">
-                  <X className="w-4 h-4 text-slate-600" />
-                </button>
-              </div>
-
+          <RecruitmentDialog onClose={closeApply} eyebrow="Your application" title={applyStep === 4 ? 'Your next step, prepared.' : 'Make your next move.'} description="Introduce yourself and tell us why this opportunity feels right." headline={'Your potential.\nA new chapter.'} steps={['Your details', 'Suitability & availability', 'Review your application']} currentStep={applyStep - 1}>
               {/* Role summary strip */}
               {applyStep < 4 && (
-                <div className="mx-7 mt-5 mb-1 border border-black/5 rounded-xl px-4 py-3 flex items-center justify-between gap-4"
+                <div className="mb-6 border border-black/5 rounded-xl px-4 py-3 flex flex-wrap items-center justify-between gap-4"
                   style={{ backgroundColor: 'rgba(129,1,97,0.05)' }}>
                   <div>
                     <p className="text-xs text-slate-500">{applyRole.sector} · {applyRole.location}</p>
@@ -1552,7 +1430,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 </div>
               )}
 
-              <div className="px-7 pb-7 pt-4">
+              <div>
 
                 {/* ── STEP 1: Your Details ── */}
                 {applyStep === 1 && (
@@ -1561,7 +1439,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                       <h2 className="text-xl font-bold text-slate-900">Your details</h2>
                       <p className="text-sm text-slate-500 mt-1">{"We'll use these to confirm your identity and contact you about this role."}</p>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold text-slate-700">First name <span className="text-rose-500">*</span></label>
                         <input value={applyForm.firstName} onChange={e => setApplyForm(f => ({ ...f, firstName: e.target.value }))}
@@ -1648,20 +1526,21 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                       <label className="text-xs font-semibold text-slate-700">How will you commute? <span className="text-rose-500">*</span></label>
                       <div className="grid grid-cols-2 gap-2.5">
                         {[
-                          { icon: '🚗', label: 'Own car' },
-                          { icon: '🚌', label: 'Public transport' },
-                          { icon: '🚶', label: 'Walking / cycling' },
-                          { icon: '✈️', label: 'Relocating' },
+                          { icon: Car, label: 'Own car' },
+                          { icon: Bus, label: 'Public transport' },
+                          { icon: Bike, label: 'Walking / cycling' },
+                          { icon: Plane, label: 'Relocating' },
                         ].map(t => (
                           <button key={t.label} type="button"
+                            aria-pressed={applyForm.transport === t.label}
                             onClick={() => setApplyForm(f => ({ ...f, transport: t.label }))}
                             className="flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-medium transition-all"
                             style={{
                               borderColor: 'rgba(0,0,0,0.05)',
-                              backgroundColor: applyForm.transport === t.label ? 'rgba(129,1,97,0.06)' : '#f8fafc',
-                              color: applyForm.transport === t.label ? P : '#334155',
+                              backgroundColor: applyForm.transport === t.label ? 'rgba(129,1,97,0.06)' : 'var(--recruit-paper)',
+                              color: applyForm.transport === t.label ? P : 'var(--recruit-ink)',
                             }}>
-                            <span className="text-lg">{t.icon}</span> {t.label}
+                            <t.icon className="w-4 h-4 shrink-0" /> {t.label}
                           </button>
                         ))}
                       </div>
@@ -1707,7 +1586,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     {/* Summary */}
                     <div className="bg-slate-50 border border-black/5 rounded-xl p-4 space-y-3">
                       <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Application summary</p>
-                      <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
                         <div><span className="text-slate-400">Name</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.firstName} {applyForm.lastName}</p></div>
                         <div><span className="text-slate-400">Email</span><p className="font-semibold text-slate-900 mt-0.5 break-all">{applyForm.email}</p></div>
                         <div><span className="text-slate-400">Phone</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.phone}</p></div>
@@ -1726,13 +1605,13 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
                     <div className="flex gap-3 pt-1">
                       <button onClick={() => setApplyStep(2)} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
-                      <motion.button onClick={() => { setApplyStep(4); onBookDemo('Job Application'); }}
+                      <motion.button onClick={() => setApplyStep(4)}
                         disabled={!applyForm.termsAccepted}
                         className="flex-1 py-3 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-40"
                         style={{ backgroundColor: P }}
                         whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                         transition={{ type: 'spring', stiffness: 350, damping: 22 }}>
-                        Submit application
+                        Prepare application
                       </motion.button>
                     </div>
                   </motion.div>
@@ -1754,26 +1633,26 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     </motion.div>
 
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="space-y-2">
-                      <h2 className="text-2xl font-bold text-slate-900">Application submitted!</h2>
+                      <h2 className="text-2xl font-bold text-slate-900">Your application preview is ready.</h2>
                       <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
-                        Your application for <span className="font-semibold text-slate-700">{applyRole.title}</span> in <span className="font-semibold text-slate-700">{applyRole.location}</span> has been sent successfully.
+                        Your application for <span className="font-semibold text-slate-700">{applyRole.title}</span> in <span className="font-semibold text-slate-700">{applyRole.location}</span> is prepared locally. Nothing has been sent in this preview.
                       </p>
                     </motion.div>
 
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
                       className="w-full bg-slate-50 border border-black/5 rounded-xl p-5 text-left space-y-3">
-                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">What happens next?</p>
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Your application details</p>
                       <div className="space-y-3">
                         {[
-                          { icon: '📧', title: 'Confirmation email sent',  desc: `A confirmation has been sent to ${applyForm.email}` },
-                          { icon: '🔍', title: 'Consultant review',         desc: 'A MployUs consultant will review your profile within 24 hours.' },
-                          { icon: '📱', title: "You'll be contacted",       desc: "We'll call or email you to discuss the role and next steps." },
-                          { icon: '✅', title: 'Interview arranged',        desc: 'If shortlisted, we will coordinate the interview with the employer.' },
+                          { icon: Mail, title: 'Your contact details', desc: applyForm.email },
+                          { icon: Briefcase, title: 'Your opportunity', desc: `${applyRole.title} · ${applyRole.location}` },
+                          { icon: Clock, title: 'Experience & availability', desc: `${applyForm.yearsExp || 'Not specified'} · ${applyForm.transport}` },
+                          { icon: FileText, title: 'Live submission not connected', desc: 'No application, email or interview request has been sent.' },
                         ].map((step, i) => (
                           <motion.div key={i} className="flex items-start gap-3"
                             initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.4 + i * 0.08 }}>
-                            <span className="text-xl shrink-0 mt-0.5">{step.icon}</span>
+                            <step.icon className="w-5 h-5 shrink-0 mt-0.5" style={{ color: P }} />
                             <div>
                               <p className="text-sm font-semibold text-slate-800">{step.title}</p>
                               <p className="text-xs text-slate-500 mt-0.5">{step.desc}</p>
@@ -1797,8 +1676,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 )}
 
               </div>
-            </motion.div>
-          </div>
+          </RecruitmentDialog>
         )}
       </AnimatePresence>
 
