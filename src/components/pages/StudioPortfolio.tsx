@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import * as Dialog from '@radix-ui/react-dialog';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Check, Code2, Layers, Minus, Plus, X } from 'lucide-react';
 import './studio-portfolio.css';
+import { ProjectEnquiryDialog } from '../modals/ProjectEnquiryDialog';
 
 type Discipline = 'design' | 'development';
 type Project = {
@@ -48,8 +49,11 @@ export function StudioPortfolio({ discipline, onBackToHome, onBookDemo }: {
   const work = projects[discipline];
   const [category, setCategory] = useState('All work');
   const [selected, setSelected] = useState<Project | null>(null);
+  const [enquiryProject, setEnquiryProject] = useState<Project | null>(null);
   const [openCapability, setOpenCapability] = useState<number | null>(0);
   const returnFocus = useRef<HTMLElement | null>(null);
+  // The closing project dialog must not steal focus from the enquiry opening next.
+  const openingEnquiry = useRef(false);
   const filters = ['All work', ...new Set(work.map(project => project.category))];
   const visible = work.filter(project => category === 'All work' || project.category === category);
   const discuss = () => onBookDemo(design ? 'Product Design Service' : 'Web Development Service');
@@ -108,13 +112,14 @@ export function StudioPortfolio({ discipline, onBackToHome, onBookDemo }: {
 
     <section className="studio-contact"><div className="studio-container"><p className="studio-eyebrow">YOUR NEXT PROJECT STARTS WITH A CONVERSATION</p><div><h2>Something in mind?<br /><em>Let’s make it matter.</em></h2><div><button className="studio-button" onClick={discuss}>Discuss your project <ArrowUpRight size={18} /></button><p>A conversation about your brief.<br />No one-size-fits-all pitch.</p></div></div><button className="studio-back-link" onClick={onBackToHome}><ArrowLeft size={14} />Back to homepage</button></div></section>
 
-    <Dialog.Root open={selected !== null} onOpenChange={open => { if (!open) setSelected(null); }}><Dialog.Portal><Dialog.Overlay className="studio-dialog-overlay" />{selected && <Dialog.Content className="studio-dialog studiofolio" onCloseAutoFocus={event => { event.preventDefault(); if (returnFocus.current?.isConnected) returnFocus.current.focus(); }}>
+    <Dialog.Root open={selected !== null} onOpenChange={open => { if (!open) setSelected(null); }}><Dialog.Portal><Dialog.Overlay className="studio-dialog-overlay" />{selected && <Dialog.Content className="studio-dialog studiofolio" onCloseAutoFocus={event => { event.preventDefault(); if (!openingEnquiry.current && returnFocus.current?.isConnected) returnFocus.current.focus(); }}>
       <Dialog.Close className="studio-dialog-close" aria-label="Close project notes"><X size={20} /></Dialog.Close>
       <p className="studio-eyebrow">{selected.category} / IN-HOUSE PROJECT</p><Dialog.Title className="studio-dialog-title">{selected.name}</Dialog.Title><Dialog.Description className="studio-dialog-description">{selected.summary}</Dialog.Description>
       <div className={`studio-dialog-image studio-stage-${selected.tone}`}><img src={`/images/studio/${selected.image}.png`} alt={`Actual interface preview for ${selected.name}`} /></div>
       <div className="studio-dialog-tags">{selected.deliverables.map(deliverable => <span key={deliverable}>{deliverable}</span>)}</div>
       <div className="studio-dialog-notes"><section><h3>The brief</h3><p>{selected.brief}</p></section><section><h3>{design ? 'The design thinking' : 'The implementation'}</h3><p>{selected.approach}</p></section><section><h3>Where it stands</h3><p>This is an in-house MployUs front-end preview, not a commissioned client case study. Live services, production compliance and commercial outcomes have not been verified.</p></section></div>
-      <div className="studio-dialog-actions"><Link to={selected.href} className="studio-button" onClick={() => setSelected(null)}>{selected.linkLabel}<ArrowUpRight size={16} /></Link><button className="studio-text-link" onClick={() => { setSelected(null); discuss(); }}>Discuss a similar project<ArrowRight size={16} /></button></div>
+      <div className="studio-dialog-actions"><Link to={selected.href} className="studio-button" onClick={() => setSelected(null)}>{selected.linkLabel}<ArrowUpRight size={16} /></Link><button className="studio-text-link" onClick={() => { openingEnquiry.current = true; setEnquiryProject(selected); setSelected(null); }}>Discuss a similar project<ArrowRight size={16} /></button></div>
     </Dialog.Content>}</Dialog.Portal></Dialog.Root>
+    {enquiryProject && <ProjectEnquiryDialog projectName={enquiryProject.name} discipline={discipline} onClose={() => { openingEnquiry.current = false; setEnquiryProject(null); requestAnimationFrame(() => returnFocus.current?.focus()); }} />}
   </div>;
 }
