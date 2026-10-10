@@ -189,6 +189,7 @@ function PlatformApp() {
     <div className="min-h-screen bg-white text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] selection:bg-slate-900 selection:text-white">
       {!isStandalone && activeView !== 'home' && (
         <Navbar
+          embedded={activeView === 'product-design' || activeView === 'web-development'}
           activeRole={activeRole}
           onRoleChange={setActiveRole}
           onBookDemo={(mod) => handleBookDemoWithModule(mod)}

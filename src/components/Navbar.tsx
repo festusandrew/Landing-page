@@ -48,7 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header
       className={
         embedded
-          ? "relative z-40 border-y border-black/5 bg-white"
+          ? "relative z-40 border-y border-black/5 bg-white font-['DM_Sans',sans-serif]"
           : "sticky top-0 z-40 border-b border-black/5 bg-white"
       }
     >

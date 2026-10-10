@@ -32,10 +32,12 @@ const capabilities: Record<Discipline, [string, string][]> = {
     ['Brand & digital identity', 'Visual identities and marketing experiences with a distinctive point of view.'],
   ],
   development: [
-    ['Websites & web apps', 'Responsive marketing sites and application interfaces built for everyday use.'],
-    ['Mobile experiences', 'Mobile-first journeys and cross-platform application development, scoped to your needs.'],
-    ['APIs & integrations', 'Back-end services, payments, CRM and data connections, planned around the project.'],
-    ['Cloud & automation', 'Deployment, monitoring and workflow automation, with security requirements agreed upfront.'],
+    ['Full-stack websites & web apps', 'Responsive React interfaces connected to Node.js backends, from marketing websites to complex business applications.'],
+    ['Node.js backends & APIs', 'Server-side applications with Node.js and Express, REST APIs, authentication, role-based access and business logic, scoped around your requirements.'],
+    ['Databases & integrations', 'PostgreSQL and other suitable data stores, data modelling, migrations, payments, CRM connections and third-party APIs.'],
+    ['Mobile experiences', 'Mobile-first journeys and cross-platform applications connected to the same back-end services.'],
+    ['Cloud & deployment', 'Hosting, Docker, CI/CD pipelines, monitoring and operational handover, with security requirements agreed upfront.'],
+    ['Automation & ongoing support', 'Background jobs, workflow automation, maintenance and iterative improvements across the front end and back end.'],
   ],
 };
 
@@ -61,9 +63,9 @@ export function StudioPortfolio({ discipline, onBackToHome, onBookDemo }: {
     </div>
 
     <section className="studio-hero studio-container" aria-labelledby={`${discipline}-heading`}>
-      <div className="studio-eyebrow"><span className="studio-dot" />{design ? 'PRODUCT DESIGN & DIGITAL EXPERIENCES' : 'WEB DEVELOPMENT & DIGITAL PLATFORMS'}<span className="studio-location">Ireland & the UK</span></div>
+      <div className="studio-eyebrow"><span className="studio-dot" />{design ? 'PRODUCT DESIGN & DIGITAL EXPERIENCES' : 'FULL-STACK WEB & APPLICATION DEVELOPMENT'}<span className="studio-location">Ireland & the UK</span></div>
       <div className="studio-hero-copy"><h1 id={`${discipline}-heading`}>{design ? <>Good design.<br /><em>Better everyday.</em></> : <>Thoughtfully built.<br /><em>Made to work.</em></>}</h1>
-        <div className="studio-hero-description"><p>{design ? 'Thoughtful interfaces. Clearer journeys. Products that put people first. Explore the thinking and craft behind our in-house digital work.' : 'From a first impression to a complex workflow. Explore the websites and front-end platforms we’ve built to make the everyday feel simpler.'}</p><a className="studio-text-link" href={`#${sectionId('work')}`}>Explore our work <ArrowDown size={16} /></a></div>
+        <div className="studio-hero-description"><p>{design ? 'Thoughtful interfaces. Clearer journeys. Products that put people first. Explore the thinking and craft behind our in-house digital work.' : 'From the interface to the infrastructure. Full-stack development with React, Node.js backends, APIs and databases — brought together around your business. Explore our digital work below.'}</p><a className="studio-text-link" href={`#${sectionId('work')}`}>Explore our work <ArrowDown size={16} /></a></div>
       </div>
       <button className={`studio-hero-stage studio-stage-${work[0].tone}`} onClick={() => openProject(work[0])} aria-label={`View project notes: ${work[0].name}`}>
         <span className="studio-stage-label">IN-HOUSE PROJECT / 01</span>
@@ -92,15 +94,15 @@ export function StudioPortfolio({ discipline, onBackToHome, onBookDemo }: {
           ['Refine', 'Develop the visual language, check the details and document the experience for a confident handover.'],
         ] : [
           ['Define', 'Agree the scope, content, integrations and acceptance criteria. Choose the tools around the problem, not the trend.'],
-          ['Build', 'Develop in useful increments, with responsive layouts, reusable components and visible progress.'],
-          ['Review', 'Test key journeys, review accessibility and performance, and plan hosting, handover and ongoing support.'],
+          ['Build', 'Develop front-end interfaces, Node.js services, APIs and database models in useful increments, with reusable components and visible progress.'],
+          ['Review', 'Test end-to-end journeys and API behaviour, review accessibility and performance, and plan deployment, monitoring, handover and ongoing support.'],
         ]).map(([title, text], index) => <div key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></div>)}</div>
         <div className="studio-standards"><span><Check size={15} />Accessibility considered from the start</span><span><Check size={15} />Privacy-conscious design</span><span><Check size={15} />Built for mobile, not just desktop</span></div>
         <p className="studio-standards-note">For UK projects, scope includes reviewing WCAG 2.2 AA targets and UK GDPR responsibilities. Conformance and compliance require project-specific assessment, not a blanket promise.</p>
       </div>
     </section>
 
-    <section id={sectionId('capabilities')} className="studio-capabilities studio-container"><div><p className="studio-eyebrow">03 / WHAT WE BRING</p><h2>{design ? <>From first idea<br />to <em>every detail.</em></> : <>The right tools.<br />The <em>right reasons.</em></>}</h2><p>{design ? 'Product design, research, systems and identity — brought together around your brief.' : 'Front-end experiences, platform foundations and connected services — scoped to what your business needs.'}</p>{!design && <div className="studio-stack">{['React', 'TypeScript', 'Vite', 'Tailwind CSS'].map(tool => <span key={tool}>{tool}</span>)}</div>}<Link className="studio-text-link" to={design ? '/web-development' : '/product-design'}>{design ? 'Explore our development work' : 'Explore our design work'}<ArrowUpRight size={16} /></Link></div>
+    <section id={sectionId('capabilities')} className="studio-capabilities studio-container"><div><p className="studio-eyebrow">03 / WHAT WE BRING</p><h2>{design ? <>From first idea<br />to <em>every detail.</em></> : <>The right tools.<br />The <em>right reasons.</em></>}</h2><p>{design ? 'Product design, research, systems and identity — brought together around your brief.' : 'End-to-end engineering: front-end experiences, Node.js backends, databases and cloud deployment. The stack is chosen around your project, not the other way round.'}</p>{!design && <div className="studio-stack">{['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'REST APIs', 'Docker', 'AWS'].map(tool => <span key={tool}>{tool}</span>)}</div>}<Link className="studio-text-link" to={design ? '/web-development' : '/product-design'}>{design ? 'Explore our development work' : 'Explore our design work'}<ArrowUpRight size={16} /></Link></div>
       <div className="studio-capability-list">{capabilities[discipline].map(([title, text], index) => <div key={title}><button aria-expanded={openCapability === index} aria-controls={`${discipline}-capability-${index}`} onClick={() => setOpenCapability(openCapability === index ? null : index)}><span>0{index + 1}</span>{title}<span className="studio-capability-sign" aria-hidden="true">{openCapability === index ? <Minus size={18} /> : <Plus size={18} />}</span></button><div id={`${discipline}-capability-${index}`} hidden={openCapability !== index}><p>{text}</p></div></div>)}</div>
     </section>
 
