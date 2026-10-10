@@ -1,6 +1,6 @@
 import { useRef, type ReactNode } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { ArrowUpRight, Check, Sparkles, X } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import './recruitment-dialog.css';
 
 type Props = {
@@ -25,22 +25,16 @@ export function RecruitmentDialog({ onClose, title, description, headline, eyebr
           event.preventDefault();
           if (returnFocus.current?.isConnected) returnFocus.current.focus();
         }}>
-          <aside className="recruit-dialog-story">
-            <div className="recruit-dialog-wordmark">mployus<span>recruit.</span></div>
-            <div className="recruit-dialog-orbit" aria-hidden="true"><span /><span /><ArrowUpRight /></div>
-            <div className="recruit-dialog-pitch"><p>{eyebrow}</p><div>{headline}</div></div>
-            {steps.length > 0 ? <ol className="recruit-dialog-steps" aria-label="Your progress">{steps.map((step, index) => <li key={step} aria-current={index === currentStep ? 'step' : undefined} data-active={index <= currentStep}><span>{index < currentStep ? <Check size={14} /> : `0${index + 1}`}</span><div>{step}</div></li>)}</ol> : <div className="recruit-dialog-promise"><Sparkles size={16} /><span>Good people.<br />Great potential.</span></div>}
-            <div className="recruit-dialog-note"><span>Ireland & UK</span><p>Design preview. Accounts and submissions are not connected.</p></div>
-          </aside>
           <div className="recruit-dialog-main">
             <header className="recruit-dialog-header">
-              <div className="recruit-dialog-topline"><span>{eyebrow}</span><Dialog.Close aria-label={`Close ${eyebrow.toLowerCase()}`} className="recruit-dialog-close"><X size={18} /></Dialog.Close></div>
+              <div className="recruit-dialog-topline"><div className="recruit-dialog-wordmark">mployus<span>recruit.</span></div><Dialog.Close aria-label={`Close ${eyebrow.toLowerCase()}`} className="recruit-dialog-close"><X size={18} /></Dialog.Close></div>
+              <div className="recruit-dialog-eyebrow"><span>{eyebrow}</span><span>Ireland & UK</span></div>
               <Dialog.Title className="recruit-dialog-title">{title}</Dialog.Title>
               <Dialog.Description className="recruit-dialog-description">{description}</Dialog.Description>
-              {steps.length > 0 && <div className="recruit-dialog-progress"><div><span>{currentStep >= steps.length ? 'Ready to review' : `Step ${currentStep + 1} of ${steps.length}`}</span><span>{steps[Math.min(currentStep, steps.length - 1)]}</span></div><div aria-hidden="true">{steps.map((step, index) => <span key={step} data-active={index <= currentStep} />)}</div></div>}
+              {steps.length > 0 && <ol className="recruit-dialog-steps" aria-label="Your progress">{steps.map((step, index) => <li key={step} aria-current={index === currentStep ? 'step' : undefined} data-active={index <= currentStep}><span>{index < currentStep ? <Check size={12} /> : index + 1}</span><div>{step}</div></li>)}</ol>}
             </header>
             <div className="recruit-dialog-body">{children}</div>
-            <footer className="recruit-dialog-footer">Your next chapter. Our shared ambition.</footer>
+            <footer className="recruit-dialog-footer"><span>{headline.replace(/\n/g, ' ')}</span><p>Preview only · Accounts and submissions are not connected.</p></footer>
           </div>
         </Dialog.Content>
       </Dialog.Portal>
