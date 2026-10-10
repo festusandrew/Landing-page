@@ -29,8 +29,16 @@ export function RecruitmentDialog({ onClose, title, description, headline, eyebr
             <header className="recruit-dialog-header">
               <div className="recruit-dialog-topline"><div className="recruit-dialog-wordmark">mployus<span>recruit.</span></div><Dialog.Close aria-label={`Close ${eyebrow.toLowerCase()}`} className="recruit-dialog-close"><X size={18} /></Dialog.Close></div>
               <div className="recruit-dialog-eyebrow"><span>{eyebrow}</span><span>Ireland & UK</span></div>
-              <Dialog.Title className="recruit-dialog-title">{title}</Dialog.Title>
-              <Dialog.Description className="recruit-dialog-description">{description}</Dialog.Description>
+              <div className="recruit-dialog-intro">
+                <div>
+                  <Dialog.Title className="recruit-dialog-title">{title}</Dialog.Title>
+                  <Dialog.Description className="recruit-dialog-description">{description}</Dialog.Description>
+                </div>
+                <div className="recruit-dialog-chapter" aria-hidden="true">
+                  <span>{steps.length > 0 ? currentStep >= steps.length ? <Check aria-hidden="true" /> : String(currentStep + 1).padStart(2, '0') : 'm.'}</span>
+                  <small>{steps.length > 0 ? currentStep >= steps.length ? 'PREPARED' : 'YOUR NEXT STEP' : 'YOUR NEXT CHAPTER'}</small>
+                </div>
+              </div>
               {steps.length > 0 && <ol className="recruit-dialog-steps" aria-label="Your progress">{steps.map((step, index) => <li key={step} aria-current={index === currentStep ? 'step' : undefined} data-active={index <= currentStep}><span>{index < currentStep ? <Check size={12} /> : index + 1}</span><div>{step}</div></li>)}</ol>}
             </header>
             <div className="recruit-dialog-body">{children}</div>
