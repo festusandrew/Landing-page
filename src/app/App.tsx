@@ -667,14 +667,13 @@ function PlatformApp() {
     setBookDemoOpen(true)
   }
 
-  // Standalone platforms with their own navbar/footer.
+  // Service pages own their navigation; product pages keep only their own footer.
   const isStandaloneLocum = activeView === "locum-provision"
   const isStandaloneRecruitment = activeView === "recruitment-service"
-  const isStandalone =
-    isStandaloneLocum ||
-    isStandaloneRecruitment ||
-    activeView === "care-management" ||
-    activeView === "recruitment-software"
+  const hasServiceNavigation = isStandaloneLocum || isStandaloneRecruitment
+  const isProductPage =
+    activeView === "care-management" || activeView === "recruitment-software"
+  const ownsFooter = hasServiceNavigation || isProductPage
 
   return (
     <div
@@ -682,20 +681,27 @@ function PlatformApp() {
         activeView === "pricing" ? "homepage-magenta " : ""
       }min-h-screen bg-white text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] selection:bg-slate-900 selection:text-white`}
     >
-      {!isStandalone && activeView !== "home" && (
-        <Navbar
-          embedded={
-            activeView === "product-design" ||
-            activeView === "web-development" ||
-            activeView === "pricing"
-          }
-          activeRole={activeRole}
-          onRoleChange={setActiveRole}
-          onBookDemo={(mod) => handleBookDemoWithModule(mod)}
-          onStartTrial={() => setFreeTrialOpen(true)}
-          onNavigate={handleNavigate}
-          activeView={activeView}
-        />
+      {!hasServiceNavigation && activeView !== "home" && (
+        <div className="homepage-magenta">
+          <Navbar
+            embedded={
+              activeView === "product-design" ||
+              activeView === "web-development" ||
+              activeView === "pricing" ||
+              isProductPage
+            }
+            activeRole={activeRole}
+            onRoleChange={setActiveRole}
+            onBookDemo={(mod) =>
+              handleBookDemoWithModule(
+                mod || (isProductPage ? activeView : undefined),
+              )
+            }
+            onStartTrial={() => setFreeTrialOpen(true)}
+            onNavigate={handleNavigate}
+            activeView={activeView}
+          />
+        </div>
       )}
 
       <main>
@@ -727,6 +733,7 @@ function PlatformApp() {
         )}
         {activeView === "recruitment-software" && (
           <RecruitmentSoftwarePage
+            showHeader={false}
             onNavigate={handleNavigate}
             onBackToHome={() => handleNavigate("home")}
             onBookDemo={(mod) =>
@@ -737,6 +744,7 @@ function PlatformApp() {
         )}
         {activeView === "care-management" && (
           <CareManagementPage
+            showHeader={false}
             onNavigate={handleNavigate}
             onBackToHome={() => handleNavigate("home")}
             onBookDemo={(mod) =>
@@ -772,7 +780,7 @@ function PlatformApp() {
         )}
       </main>
 
-      {!isStandalone && activeView !== "home" && (
+      {!ownsFooter && activeView !== "home" && (
         <Footer
           onNavigate={handleNavigate}
           onBookDemo={() => handleBookDemoWithModule()}

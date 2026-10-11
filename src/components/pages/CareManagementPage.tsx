@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react"
 import { Footer } from "../Footer"
+import { ProductPageNavigation } from "../ProductPageNavigation"
 import careDashboard from "../../imports/Screenshot_2026-07-24_140316.png"
 
 interface CareManagementPageProps {
@@ -19,6 +20,7 @@ interface CareManagementPageProps {
   onBookDemo: (moduleTitle?: string) => void
   onStartTrial: () => void
   onNavigate: (view: string) => void
+  showHeader?: boolean
 }
 
 const features = [
@@ -59,6 +61,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
   onBookDemo,
   onStartTrial,
   onNavigate,
+  showHeader = true,
 }) => {
   const [activeTab, setActiveTab] = useState<CareTab>("eMAR")
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -83,116 +86,134 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
   }
   return (
     <div className="min-h-screen overflow-x-clip bg-white font-['DM_Sans',sans-serif] text-[#24332d] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-sm">
-        <div className="mx-auto flex h-[70px] max-w-[1312px] items-center justify-between gap-6 px-6 lg:px-16">
-          <button
-            onClick={() =>
-              window.scrollTo({
-                top: 0,
-                behavior: reducedMotion ? "auto" : "smooth",
-              })
-            }
-            aria-label="MployUs care management home"
-            className="flex items-baseline gap-2 text-[23px] font-semibold tracking-[-0.02em]"
-          >
-            mployus
-            <span className="text-xs font-medium tracking-normal text-[#52658e]">
-              care.
-            </span>
-          </button>
-          <nav
-            aria-label="Care management navigation"
-            className="hidden items-center gap-7 text-[13px] text-[#4b5750] lg:flex"
-          >
+      {showHeader ? (
+        <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-sm">
+          <div className="mx-auto flex h-[70px] max-w-[1312px] items-center justify-between gap-6 px-6 lg:px-16">
             <button
-              onClick={() => scrollTo("care-overview")}
-              className="hover:text-[#52658e]"
+              onClick={() =>
+                window.scrollTo({
+                  top: 0,
+                  behavior: reducedMotion ? "auto" : "smooth",
+                })
+              }
+              aria-label="MployUs care management home"
+              className="flex items-baseline gap-2 text-[23px] font-semibold tracking-[-0.02em]"
             >
-              Overview
+              mployus
+              <span className="text-xs font-medium tracking-normal text-[#52658e]">
+                care.
+              </span>
             </button>
-            <button
-              onClick={() => scrollTo("care-features")}
-              className="hover:text-[#52658e]"
+            <nav
+              aria-label="Care management navigation"
+              className="hidden items-center gap-7 text-[13px] text-[#4b5750] lg:flex"
             >
-              Features
-            </button>
+              <button
+                onClick={() => scrollTo("care-overview")}
+                className="hover:text-[#52658e]"
+              >
+                Overview
+              </button>
+              <button
+                onClick={() => scrollTo("care-features")}
+                className="hover:text-[#52658e]"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => scrollTo("care-preview")}
+                className="hover:text-[#52658e]"
+              >
+                See it in action
+              </button>
+              <button
+                onClick={() => scrollTo("care-onboarding")}
+                className="hover:text-[#52658e]"
+              >
+                Getting started
+              </button>
+            </nav>
+            <div className="hidden items-center gap-5 lg:flex">
+              <button
+                onClick={onBackToHome}
+                className="text-xs text-[#67716b] hover:text-[#24332d]"
+              >
+                MployUs.com ↗
+              </button>
+              <button
+                onClick={bookDemo}
+                className="rounded-full bg-[#52658e] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#405273]"
+              >
+                Book a demo
+              </button>
+            </div>
             <button
-              onClick={() => scrollTo("care-preview")}
-              className="hover:text-[#52658e]"
+              aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
+              aria-expanded={mobileOpen}
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="rounded-lg p-2 lg:hidden"
             >
-              See it in action
-            </button>
-            <button
-              onClick={() => scrollTo("care-onboarding")}
-              className="hover:text-[#52658e]"
-            >
-              Getting started
-            </button>
-          </nav>
-          <div className="hidden items-center gap-5 lg:flex">
-            <button
-              onClick={onBackToHome}
-              className="text-xs text-[#67716b] hover:text-[#24332d]"
-            >
-              MployUs.com ↗
-            </button>
-            <button
-              onClick={bookDemo}
-              className="rounded-full bg-[#52658e] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#405273]"
-            >
-              Book a demo
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
-          <button
-            aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
-            aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="rounded-lg p-2 lg:hidden"
-          >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-        {mobileOpen && (
-          <nav
-            aria-label="Mobile care navigation"
-            className="space-y-3 border-t border-black/5 px-6 py-5 lg:hidden"
-          >
-            {[
-              ["Overview", "care-overview"],
-              ["Features", "care-features"],
-              ["See it in action", "care-preview"],
-              ["Getting started", "care-onboarding"],
-            ].map(([label, id]) => (
+          {mobileOpen && (
+            <nav
+              aria-label="Mobile care navigation"
+              className="space-y-3 border-t border-black/5 px-6 py-5 lg:hidden"
+            >
+              {[
+                ["Overview", "care-overview"],
+                ["Features", "care-features"],
+                ["See it in action", "care-preview"],
+                ["Getting started", "care-onboarding"],
+              ].map(([label, id]) => (
+                <button
+                  key={id}
+                  onClick={() => scrollTo(id)}
+                  className="block w-full py-1 text-left text-sm"
+                >
+                  {label}
+                </button>
+              ))}
               <button
-                key={id}
-                onClick={() => scrollTo(id)}
-                className="block w-full py-1 text-left text-sm"
+                onClick={() => {
+                  setMobileOpen(false)
+                  bookDemo()
+                }}
+                className={primaryButton}
               >
-                {label}
+                Book a demo
               </button>
-            ))}
-            <button
-              onClick={() => {
-                setMobileOpen(false)
-                bookDemo()
-              }}
-              className={primaryButton}
-            >
-              Book a demo
-            </button>
-            <button
-              onClick={onBackToHome}
-              className="ml-4 text-xs text-[#67716b]"
-            >
-              Back to MployUs
-            </button>
-          </nav>
-        )}
-      </header>
+              <button
+                onClick={onBackToHome}
+                className="ml-4 text-xs text-[#67716b]"
+              >
+                Back to MployUs
+              </button>
+            </nav>
+          )}
+        </header>
+      ) : (
+        <ProductPageNavigation
+          product="Care Management"
+          onBackToHome={onBackToHome}
+          onSelect={scrollTo}
+          sections={[
+            { label: "Overview", id: "care-overview" },
+            { label: "Features", id: "care-features" },
+            { label: "See it in action", id: "care-preview" },
+            { label: "Getting started", id: "care-onboarding" },
+          ]}
+        />
+      )}
 
       <section
         id="care-overview"
-        className="scroll-mt-[70px] bg-[#f5f6f8] px-6 pb-12 pt-[118px] sm:pb-16 sm:pt-[134px] lg:pb-20 lg:pt-[150px]"
+        className={
+          showHeader
+            ? "scroll-mt-[70px] bg-[#f5f6f8] px-6 pb-12 pt-[118px] sm:pb-16 sm:pt-[134px] lg:pb-20 lg:pt-[150px]"
+            : "scroll-mt-6 bg-[#f5f6f8] px-6 pb-12 pt-12 sm:pb-16 sm:pt-16 lg:pb-20 lg:pt-20"
+        }
       >
         <div className="mx-auto grid max-w-[1184px] items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
           <motion.div {...reveal}>

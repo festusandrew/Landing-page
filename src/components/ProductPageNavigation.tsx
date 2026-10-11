@@ -1,0 +1,48 @@
+import { ArrowLeft } from "lucide-react"
+
+interface ProductPageNavigationProps {
+  product: string
+  sections: Array<{
+    label: string
+    id: string
+  }>
+  onSelect: (id: string) => void
+  onBackToHome: () => void
+}
+
+export function ProductPageNavigation({
+  product,
+  sections,
+  onSelect,
+  onBackToHome,
+}: ProductPageNavigationProps) {
+  return (
+    <div className="border-b border-black/5 bg-white">
+      <div className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-4 px-6 py-5 text-[11px] lg:px-8">
+        <button
+          type="button"
+          onClick={onBackToHome}
+          className="inline-flex shrink-0 items-center gap-2 text-[#4b5750] transition-colors hover:text-[#52658e]"
+        >
+          <ArrowLeft size={14} /> Back to homepage
+        </button>
+        <nav
+          aria-label={`${product} page sections`}
+          className="order-3 flex w-full flex-wrap gap-x-5 gap-y-3 text-[#4b5750] sm:order-none sm:w-auto"
+        >
+          {sections.map(({ label, id }) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => onSelect(id)}
+              className="transition-colors hover:text-[#52658e]"
+            >
+              {label}
+            </button>
+          ))}
+        </nav>
+        <span className="text-[#67716b]">{product}</span>
+      </div>
+    </div>
+  )
+}
