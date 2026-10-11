@@ -614,7 +614,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         <div className="max-w-[1286px] mx-auto px-6 lg:px-10 py-4 flex flex-col gap-2">
           <p className="text-[#3d3d3d] text-sm">Filter by region</p>
           <div className="flex flex-wrap gap-8 items-center">
-            {['All regions', 'Ireland', 'United Kingdom', 'Northern Ireland', 'England', 'Wales', 'Scotland'].map(label => ({ id: label, label, flag: label === 'Ireland' ? '🇮🇪' : label === 'All regions' ? '🌍' : '🇬🇧' })).map(c => {
+            {['All regions', 'Ireland', 'Northern Ireland', 'England', 'Wales', 'Scotland'].map(label => ({ id: label, label, flag: label === 'Ireland' ? '🇮🇪' : label === 'All regions' ? '🌍' : '🇬🇧' })).map(c => {
               const active = filterRegion === c.id;
               return (
                 <button key={c.id} aria-pressed={active} onClick={() => { setFilterRegion(c.id); setJobLocation('All Locations'); setSelectedIdx(0); }}
