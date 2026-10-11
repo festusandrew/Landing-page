@@ -231,6 +231,22 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const [contactOpen, setContactOpen]   = useState(false);
   const [contactStep, setContactStep]   = useState<1 | 2 | 3 | 4>(1);
   const [contactForm, setContactForm]   = useState({ name: '', email: '', phone: '', company: '', role: '', message: '' });
+  const [permanentReferral, setPermanentReferral] = useState(false);
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('recruitment-enquiry') !== 'permanent') return;
+    setPage('employers');
+    setPermanentReferral(true);
+    setContactStep(1);
+    setEmployerCompany('');
+    setEmployerRegion('');
+    setHeadcount('1');
+    setContactForm({ name: '', email: '', phone: '', company: '', role: 'Permanent Placement', message: '' });
+    setContactOpen(true);
+    // This URL opens an enquiry once; it never creates or publishes a job.
+    url.searchParams.delete('recruitment-enquiry');
+    window.history.replaceState(window.history.state, '', url);
+  }, []);
 
   // CV modal
   const [cvOpen, setCvOpen]   = useState(false);
@@ -292,7 +308,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   }, []);
   const navPage = page;
 
-  const openContact = () => { setContactStep(1); setHeadcount('1'); setEmployerCompany(''); setEmployerRegion('Ireland'); setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' }); setMobileOpen(false); setContactOpen(true); };
+  const openContact = () => { setPermanentReferral(false); setContactStep(1); setHeadcount('1'); setEmployerCompany(''); setEmployerRegion('Ireland'); setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' }); setMobileOpen(false); setContactOpen(true); };
   const openCV = () => { setApplyOpen(false); setCvOpen(true); };
 
   const filteredRoles = useMemo(() => ALL_ROLES.filter(r => {
@@ -1120,6 +1136,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         {contactOpen && (
           <RecruitmentDialog onClose={() => setContactOpen(false)} eyebrow="Request talent" title={contactStep === 4 ? 'A clearer brief. A better beginning.' : 'Find your next great hire.'} description="A few details to understand your team and the people you need." headline={'Good people.\nStronger teams.'} steps={['Your hiring needs', 'Your organisation', 'Review your brief']} currentStep={contactStep - 1}>
               <div>
+                {permanentReferral && <div className="mb-5 rounded-xl bg-[#f8eef5] p-4 text-xs leading-6 text-slate-600"><p className="font-semibold text-[#810161]">Permanent recruitment is managed by MployUs.</p><p className="mt-2">Share your requirements with our recruitment team. MployUs will review the brief and arrange posting on the recruitment site, not the locum shift platform. This preview prepares an enquiry only; it does not send or publish anything.</p></div>}
 
 
                 {/* ── STEP 1: Hiring need ── */}
@@ -1192,7 +1209,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                       <p className="text-sm text-slate-500 mt-1">{"We'll use these to connect you with the right consultant."}</p>
                     </div>
                     <label className="block text-xs font-semibold text-slate-700">Company name <span className="text-rose-500">*</span><input value={employerCompany} onChange={event => setEmployerCompany(event.target.value)} placeholder="Your organisation" className="mt-2 block w-full rounded-xl border border-black/5 bg-slate-50 px-3.5 py-2.5 text-sm" /></label>
-                    <label className="block text-xs font-semibold text-slate-700">Hiring region<select value={employerRegion} onChange={event => setEmployerRegion(event.target.value)} className="mt-2 block w-full rounded-xl border border-black/5 bg-slate-50 px-3.5 py-2.5 text-sm">{['Ireland', 'Northern Ireland', 'England', 'Wales', 'Scotland', 'Multiple regions'].map(region => <option key={region}>{region}</option>)}</select></label>
+                    <label className="block text-xs font-semibold text-slate-700">Hiring region<select value={employerRegion} onChange={event => setEmployerRegion(event.target.value)} className="mt-2 block w-full rounded-xl border border-black/5 bg-slate-50 px-3.5 py-2.5 text-sm"><option value="">Choose the hiring region</option>{['Ireland', 'Northern Ireland', 'England', 'Wales', 'Scotland', 'Multiple regions'].map(region => <option key={region}>{region}</option>)}</select></label>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="flex flex-col gap-1.5">
@@ -1245,7 +1262,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     <div className="flex gap-3 pt-1">
                       <button onClick={() => setContactStep(1)} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">← Back</button>
                       <button onClick={() => setContactStep(3)}
-                        disabled={!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactForm.email) || !contactForm.name.trim() || !employerCompany.trim()}
+                        disabled={!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactForm.email) || !contactForm.name.trim() || !employerCompany.trim() || !employerRegion}
                         className="flex-1 py-3 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-40"
                         style={{ backgroundColor: P }}>
                         Continue <ChevronRight className="w-4 h-4" />

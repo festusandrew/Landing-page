@@ -306,28 +306,25 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   type LocumPage = 'home' | 'find-shifts' | 'post-shift' | 'blog' | 'faq';
   const [page, setPage] = useState<LocumPage>('home');
   const [wizardStep, setWizardStep] = useState(1);
-  const [postType, setPostType] = useState<'Locum Shift' | 'Permanent Job'>('Locum Shift');
 
   // Post-shift modal flow
   const [postModalOpen, setPostModalOpen] = useState(false);
-  const [postStep, setPostStep] = useState<1|2|3|4|5>(1);
+  const [postStep, setPostStep] = useState<1|2|3|4>(1);
   const [postSuccess, setPostSuccess] = useState(false);
   const [postForm, setPostForm] = useState({
     profession: '', specialisation: '', date: '', startTime: '09:00', endTime: '17:30',
     rate: '', town: '', urgent: false,
-    jobTitle: '', contractType: 'Full-time', salaryMin: '', salaryMax: '',
-    description: '', requirements: '', benefits: '',
+    description: '',
     facility: '', facilityAddress: '', contact: '', email: '', phone: '',
     termsAccepted: false,
   });
-  const openPostModal = (type: 'Locum Shift' | 'Permanent Job') => {
-    setPostType(type); setPostStep(1); setPostSuccess(false);
-    setPostForm({ profession: '', specialisation: '', date: '', startTime: '09:00', endTime: '17:30', rate: '', town: '', urgent: false, jobTitle: '', contractType: 'Full-time', salaryMin: '', salaryMax: '', description: '', requirements: '', benefits: '', facility: '', facilityAddress: '', contact: '', email: '', phone: '', termsAccepted: false });
+  const openPostModal = () => {
+    setPostStep(1); setPostSuccess(false);
+    setPostForm({ profession: '', specialisation: '', date: '', startTime: '09:00', endTime: '17:30', rate: '', town: '', urgent: false, description: '', facility: '', facilityAddress: '', contact: '', email: '', phone: '', termsAccepted: false });
     setPostModalOpen(true);
   };
   const closePostModal = () => { setPostModalOpen(false); setPostSuccess(false); };
-  // Locum: 4 steps. Permanent: 4 steps (different content)
-  const postTotalSteps = 4;
+  // Temporary locum shifts only; permanent recruitment is managed on the recruitment site.
   const [cookieOpen, setCookieOpen] = useState(() => { try { return !localStorage.getItem('mployus-cookie-preferences'); } catch { return true; } });
   const [cookiePrefsOpen, setCookiePrefsOpen] = useState(false);
   const [cookiePrefs, setCookiePrefs] = useState(() => { const defaults = { necessary: true, functional: false, performance: false, targeting: false }; try { const saved = JSON.parse(localStorage.getItem('mployus-cookie-preferences') || 'null'); return saved && typeof saved === 'object' ? { necessary: true, functional: saved.functional === true, performance: saved.performance === true, targeting: saved.targeting === true } : defaults; } catch { return defaults; } });
@@ -381,7 +378,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       { q: "What compliance documents do I need to upload?", a: "At minimum: a valid PSI or GPhC registration certificate, Garda vetting (Ireland) or Enhanced DBS (UK), proof of indemnity insurance, and your CV. Once uploaded and verified, your compliance status is shown to employers automatically — you won't need to resend documents for each shift." },
       { q: "How does payment work after completing a shift?", a: "After each shift, your timesheet is submitted and approved in-app — typically within a few hours of shift end. Payments are processed weekly via SEPA (Ireland) or Faster Payments (UK), landing in your account within 2–3 working days of approval. A full earnings summary is available in your dashboard." },
       { q: "Can I set my own hourly rate?", a: "Yes. You set your preferred rate when applying for each shift, or set a default in your profile. MployUs data shows that 61% of locums who name their rate in applications receive it or within 5% of it. Employers see your rate before accepting, so transparency works in your favour." },
-      { q: "What types of roles can I find on MployUs?", a: "Community pharmacy locum shifts, hospital pharmacy locum cover, and permanent pharmacist and pharmacy technician positions. Roles are available across Ireland (Republic and Northern Ireland) and Great Britain. You can filter by profession, date, rate, and travel distance." },
+      { q: "What types of roles can I find on MployUs?", a: "This locum platform is for temporary shifts across Ireland, Northern Ireland and Great Britain. Permanent jobs are separate and managed by MployUs on the recruitment site. You can filter locum opportunities by region, profession and location." },
       { q: "How do renewal reminders for compliance documents work?", a: "MployUs tracks expiry dates for your Garda vetting / DBS, registration, and indemnity certificates. You receive in-app and email notifications 6 months and 1 month before each document expires, giving you plenty of time to renew without disrupting your bookings." },
     ],
     Employers: [
@@ -391,7 +388,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       { q: "How quickly can I fill an urgent shift?", a: "MployUs data shows an average fill time of under 4 hours for urgent shifts posted on the platform — compared to an industry average of 11 hours via traditional agencies. Marking a shift as urgent surfaces it prominently to locums within your travel radius." },
       { q: "Can I request a specific locum I have worked with before?", a: "Yes. After a completed shift, you can add a locum to your favourites and send them a direct request for future shifts. If they are available and accept, the booking is confirmed immediately — no competition with other applicants." },
       { q: "What happens if a locum cancels close to shift time?", a: "MployUs sends an immediate notification and re-posts the shift automatically. Our network of verified locums is active around the clock, and urgent re-posts typically attract new applicants within 30–60 minutes. Your account manager is also available to assist with same-day cover." },
-      { q: "Can I post permanent positions as well as locum shifts?", a: "Yes. MployUs supports both locum shift postings and permanent job advertisements for pharmacists and pharmacy technicians. Permanent listings are displayed to candidates actively searching for career moves, with application management built into the employer dashboard." },
+      { q: "Can I post permanent positions as well as locum shifts?", a: "Permanent jobs are separate from locum shifts. Contact the MployUs recruitment team to review your requirements and arrange posting on the recruitment site. Permanent roles cannot be self-posted through the locum platform." },
     ],
   };
 
@@ -1796,11 +1793,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       ══════════════════════════════════════ */}
       {page === 'post-shift' && (
         <>
-        <LocumEmployerLanding country={loc.country} onRequest={(type, urgent = false) => { openPostModal(type); setPostForm(form => ({ ...form, urgent })); }} onRegister={() => { openAuth('signup'); setRole('Client'); }} onLogin={() => openAuth('signin')} onTalk={() => onBookDemo('Locum employer staffing')} />
+        <LocumEmployerLanding country={loc.country} onRequest={(urgent = false) => { openPostModal(); setPostForm(form => ({ ...form, urgent })); }} onRegister={() => { openAuth('signup'); setRole('Client'); }} onLogin={() => openAuth('signin')} onTalk={() => onBookDemo('Locum employer staffing')} />
 
         {/* ══ POST FLOW MODAL ══ */}
         {postModalOpen && (
-          <LocumDialog onClose={closePostModal} closeLabel="Close posting preview" title={postSuccess ? "A clearer staffing brief." : postType === 'Locum Shift' ? "Build your locum brief." : "Find your next colleague."} description={postType === 'Locum Shift' ? "The practical details behind a well-covered shift." : "Give the right candidate a complete picture of the role."} headline={"Good people.\nBetter-covered teams."} steps={postType === 'Locum Shift' ? ['Cover & urgency', 'Shift details', 'Your facility', 'Review your brief'] : ['Role & contract', 'Role details', 'Your facility', 'Review your brief']} currentStep={postSuccess ? 4 : postStep - 1}>
+          <LocumDialog onClose={closePostModal} closeLabel="Close posting preview" title={postSuccess ? "A clearer staffing brief." : "Build your locum brief."} description="The practical details behind a well-covered temporary shift." headline={"Good people.\nBetter-covered teams."} steps={['Cover & urgency', 'Shift details', 'Your facility', 'Review your brief']} currentStep={postSuccess ? 4 : postStep - 1}>
               <div className="px-7 pb-7 pt-5">
                 <p className="mb-5 rounded-xl bg-[#edf4ef] p-3 text-xs leading-5 text-[#53685b]">Guided posting preview. No vacancy is published and no notifications are sent. Use your facility account to manage live postings.</p>
 
@@ -1814,12 +1811,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     </motion.div>
                     <div>
                       <h2 className="text-2xl font-bold text-slate-900 mb-1">
-                        {postType === 'Locum Shift' ? 'Your shift draft is ready' : 'Your role draft is ready'}
+                        Your shift draft is ready
                       </h2>
                       <p className="text-slate-500 text-sm max-w-sm mx-auto">
-                        {postType === 'Locum Shift'
-                          ? `You have prepared a brief for ${postForm.profession || 'healthcare professionals'} near ${postForm.town || loc.defaultCity}. This preview has not published or submitted it.`
-                          : `You have prepared a brief for ${postForm.jobTitle || 'your role'} in ${loc.country}. This preview has not published or submitted it.`}
+                        {`You have prepared a brief for ${postForm.profession || 'healthcare professionals'} near ${postForm.town || loc.defaultCity}. This preview has not published or submitted it.`}
                       </p>
                     </div>
                     <div className="w-full bg-slate-50 border border-black/5 rounded-xl p-5 text-left space-y-2">
@@ -1846,7 +1841,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         className="flex-1 py-3 border border-black/5 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">
                         Back to Employers
                       </button>
-                      <button onClick={() => openPostModal(postType)}
+                      <button onClick={openPostModal}
                         className="flex-1 py-3 bg-[#368B62] hover:bg-[#276647] text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
                         Create another draft <PlusCircle className="w-4 h-4" />
                       </button>
@@ -1855,27 +1850,19 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 )}
 
                 {/* ══ LOCUM SHIFT FLOW ══ */}
-                {!postSuccess && postType === 'Locum Shift' && (
+                {!postSuccess && (
 
                   <>
                     {/* Locum Step 1 — Type & urgency */}
                     {postStep === 1 && (
                       <motion.div key="ls1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
                         <div>
-                          <h2 className="text-xl font-bold text-slate-900">What are you posting?</h2>
-                          <p className="text-sm text-slate-500 mt-1">You can switch between shift types at any time.</p>
+                          <h2 className="text-xl font-bold text-slate-900">Temporary locum cover</h2>
+                          <p className="text-sm text-slate-500 mt-1">This form is for temporary shifts, whether urgent or planned.</p>
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          {(['Locum Shift', 'Permanent Job'] as const).map(t => (
-                            <button key={t} onClick={() => setPostType(t)}
-                              className={`p-5 rounded-xl border text-left transition-all ${postType === t ? (t === 'Locum Shift' ? 'border-black/5 bg-green-50' : 'border-black/5 bg-[#edf4ef]') : 'border-black/5 bg-white hover:border-black/5'}`}>
-                              {t === 'Locum Shift'
-                                ? <Clock className={`w-5 h-5 mb-2 ${postType === t ? 'text-[#368B62]' : 'text-slate-400'}`} />
-                                : <Briefcase className={`w-5 h-5 mb-2 ${postType === t ? 'text-[#368B62]' : 'text-slate-400'}`} />}
-                              <div className={`font-bold text-sm ${postType === t ? (t === 'Locum Shift' ? 'text-green-700' : 'text-[#368B62]') : 'text-slate-700'}`}>{t}</div>
-                              <p className="text-[11px] text-slate-500 mt-0.5">{t === 'Locum Shift' ? 'Temporary cover — one or more days' : 'Full-time or part-time permanent role'}</p>
-                            </button>
-                          ))}
+                        <div className="rounded-xl bg-[#f8eef5] p-4 text-xs leading-6 text-slate-600">
+                          Need a permanent hire? MployUs manages permanent job postings on the recruitment site.
+                          <Link to="/recruitment-service?recruitment-enquiry=permanent" onClick={closePostModal} className="mt-2 flex items-center gap-2 font-semibold text-[#810161]">Contact MployUs Recruitment <ArrowRight size={14} /></Link>
                         </div>
                         <div className="flex items-center justify-between p-4 rounded-xl border border-black/5 bg-slate-50">
                           <div>
@@ -2045,8 +2032,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     {postStep === 4 && (
                       <motion.div key="ls4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
                         <div>
-                          <h2 className="text-xl font-bold text-slate-900">Review & publish</h2>
-                          <p className="text-sm text-slate-500 mt-1">Check everything looks right before going live.</p>
+                          <h2 className="text-xl font-bold text-slate-900">Review your shift draft</h2>
+                          <p className="text-sm text-slate-500 mt-1">Check your temporary cover details. This preview does not publish a shift.</p>
                         </div>
                         <div className="bg-green-50 border border-black/5 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
                           <div>
@@ -2097,255 +2084,6 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   </>
                 )}
 
-                {/* ══ PERMANENT JOB FLOW ══ */}
-                {!postSuccess && postType === 'Permanent Job' && (
-
-                  <>
-                    {/* Perm Step 1 — Type selection */}
-                    {postStep === 1 && (
-                      <motion.div key="pj1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
-                        <div>
-                          <h2 className="text-xl font-bold text-slate-900">What are you posting?</h2>
-                          <p className="text-sm text-slate-500 mt-1">You can switch between listing types at any time.</p>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          {(['Locum Shift', 'Permanent Job'] as const).map(t => (
-                            <button key={t} onClick={() => setPostType(t)}
-                              className={`p-5 rounded-xl border text-left transition-all ${postType === t ? (t === 'Locum Shift' ? 'border-black/5 bg-green-50' : 'border-black/5 bg-[#edf4ef]') : 'border-black/5 bg-white hover:border-black/5'}`}>
-                              {t === 'Locum Shift'
-                                ? <Clock className={`w-5 h-5 mb-2 ${postType === t ? 'text-[#368B62]' : 'text-slate-400'}`} />
-                                : <Briefcase className={`w-5 h-5 mb-2 ${postType === t ? 'text-[#368B62]' : 'text-slate-400'}`} />}
-                              <div className={`font-bold text-sm ${postType === t ? (t === 'Locum Shift' ? 'text-green-700' : 'text-[#368B62]') : 'text-slate-700'}`}>{t}</div>
-                              <p className="text-[11px] text-slate-500 mt-0.5">{t === 'Locum Shift' ? 'Temporary cover — one or more days' : 'Full-time or part-time permanent role'}</p>
-                            </button>
-                          ))}
-                        </div>
-                        <div className="space-y-3">
-                          <label className="text-xs font-semibold text-slate-700">Contract type</label>
-                          <div className="grid grid-cols-3 gap-2">
-                            {['Full-time', 'Part-time', 'Contract'].map(ct => (
-                              <button key={ct} onClick={() => setPostForm(f => ({ ...f, contractType: ct }))}
-                                className={`py-2.5 px-3 rounded-xl border text-xs font-bold transition-all ${postForm.contractType === ct ? 'border-black/5 bg-[#edf4ef] text-[#368B62]' : 'border-black/5 text-slate-500 hover:border-black/5'}`}>
-                                {ct}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                        <button onClick={() => setPostStep(2)}
-                          className="w-full py-3 bg-[#368B62] hover:bg-[#286d4c] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                          Continue <ChevronRight className="w-4 h-4" />
-                        </button>
-                      </motion.div>
-                    )}
-
-                    {/* Perm Step 2 — Role details */}
-                    {postStep === 2 && (
-                      <motion.div key="pj2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
-                        <div>
-                          <h2 className="text-xl font-bold text-slate-900">Role details</h2>
-                          <p className="text-sm text-slate-500 mt-1">Help candidates understand the position at a glance.</p>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="col-span-2 flex flex-col gap-1.5">
-                            <label className="text-xs font-semibold text-slate-700">Job title <span className="text-rose-500">*</span></label>
-                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-black/5 transition-colors">
-                              <Briefcase className="w-4 h-4 text-slate-400 shrink-0" />
-                              <input value={postForm.jobTitle} onChange={e => setPostForm(f => ({ ...f, jobTitle: e.target.value }))}
-                                placeholder="e.g. Superintendent Pharmacist"
-                                className="bg-transparent text-sm outline-none w-full" />
-                            </div>
-                          </div>
-                          <div className="col-span-2 flex flex-col gap-1.5">
-                            <label className="text-xs font-semibold text-slate-700">Profession / discipline <span className="text-rose-500">*</span></label>
-                            <div className="relative">
-                              <select value={postForm.profession} onChange={e => setPostForm(f => ({ ...f, profession: e.target.value }))}
-                                className="appearance-none w-full px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none focus:border-black/5 transition-colors bg-slate-50 cursor-pointer">
-                                <option value="">Select profession…</option>
-                                {['Pharmacist', 'Pharmacy Technician', 'GP / Doctor', 'Nurse', 'Healthcare Assistant', 'Optician', 'Allied Health Worker'].map(p => <option key={p}>{p}</option>)}
-                              </select>
-                              <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-1.5">
-                            <label className="text-xs font-semibold text-slate-700">Salary min ({loc.currency})</label>
-                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-black/5 transition-colors">
-                              <Wallet className="w-4 h-4 text-slate-400 shrink-0" />
-                              <input value={postForm.salaryMin} onChange={e => setPostForm(f => ({ ...f, salaryMin: e.target.value }))}
-                                placeholder={`e.g. ${loc.currency}45,000`}
-                                className="bg-transparent text-sm outline-none w-full" />
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-1.5">
-                            <label className="text-xs font-semibold text-slate-700">Salary max ({loc.currency})</label>
-                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-black/5 transition-colors">
-                              <Wallet className="w-4 h-4 text-slate-400 shrink-0" />
-                              <input value={postForm.salaryMax} onChange={e => setPostForm(f => ({ ...f, salaryMax: e.target.value }))}
-                                placeholder={`e.g. ${loc.currency}60,000`}
-                                className="bg-transparent text-sm outline-none w-full" />
-                            </div>
-                          </div>
-                          <div className="col-span-2 flex flex-col gap-1.5">
-                            <label className="text-xs font-semibold text-slate-700">Location <span className="text-rose-500">*</span></label>
-                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-black/5 transition-colors">
-                              <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
-                              <input value={postForm.town} onChange={e => setPostForm(f => ({ ...f, town: e.target.value }))}
-                                placeholder={`e.g. ${loc.defaultCity}`}
-                                className="bg-transparent text-sm outline-none w-full" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex gap-3">
-                          <button onClick={() => setPostStep(1)} className="px-5 py-3 border border-black/5 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
-                            <ChevronDown className="w-4 h-4 rotate-90" /> Back
-                          </button>
-                          <button onClick={() => setPostStep(3)} disabled={!postForm.jobTitle || !postForm.profession || !postForm.town}
-                            className="flex-1 py-3 bg-[#368B62] disabled:opacity-40 hover:bg-[#286d4c] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                            Continue <ChevronRight className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {/* Perm Step 3 — Description + facility */}
-                    {postStep === 3 && (
-                      <motion.div key="pj3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
-                        <div>
-                          <h2 className="text-xl font-bold text-slate-900">About the role & your facility</h2>
-                          <p className="text-sm text-slate-500 mt-1">A good description attracts the right candidates faster.</p>
-                        </div>
-                        <div className="flex flex-col gap-1.5">
-                          <label className="text-xs font-semibold text-slate-700">Role description <span className="text-rose-500">*</span></label>
-                          <textarea value={postForm.description} onChange={e => setPostForm(f => ({ ...f, description: e.target.value }))}
-                            placeholder="Describe the role, working environment, team, and day-to-day responsibilities…"
-                            rows={4} className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none resize-none focus:border-black/5 transition-colors bg-slate-50" />
-                        </div>
-                        <div className="flex flex-col gap-1.5">
-                          <label className="text-xs font-semibold text-slate-700">Key requirements <span className="text-slate-400 font-normal">(optional)</span></label>
-                          <textarea value={postForm.requirements} onChange={e => setPostForm(f => ({ ...f, requirements: e.target.value }))}
-                            placeholder="e.g. GPhC registration, 2+ years community pharmacy, full driving licence…"
-                            rows={3} className="px-3.5 py-2.5 rounded-xl border border-black/5 text-sm outline-none resize-none focus:border-black/5 transition-colors bg-slate-50" />
-                        </div>
-                        <div className="flex flex-col gap-1.5">
-                          <label className="text-xs font-semibold text-slate-700">Benefits <span className="text-slate-400 font-normal">(optional)</span></label>
-                          <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-black/5 transition-colors">
-                            <Star className="w-4 h-4 text-slate-400 shrink-0" />
-                            <input value={postForm.benefits} onChange={e => setPostForm(f => ({ ...f, benefits: e.target.value }))}
-                              placeholder="e.g. CPD allowance, pension, 25 days holiday, free parking…"
-                              className="bg-transparent text-sm outline-none w-full" />
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="col-span-2 flex flex-col gap-1.5">
-                            <label className="text-xs font-semibold text-slate-700">Facility name <span className="text-rose-500">*</span></label>
-                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-black/5 transition-colors">
-                              <Building2 className="w-4 h-4 text-slate-400 shrink-0" />
-                              <input value={postForm.facility} onChange={e => setPostForm(f => ({ ...f, facility: e.target.value }))}
-                                placeholder="e.g. Allcare Pharmacy Group"
-                                className="bg-transparent text-sm outline-none w-full" />
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-1.5">
-                            <label className="text-xs font-semibold text-slate-700">Contact name <span className="text-rose-500">*</span></label>
-                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-black/5 transition-colors">
-                              <Users className="w-4 h-4 text-slate-400 shrink-0" />
-                              <input value={postForm.contact} onChange={e => setPostForm(f => ({ ...f, contact: e.target.value }))}
-                                placeholder="HR / Manager"
-                                className="bg-transparent text-sm outline-none w-full" />
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-1.5">
-                            <label className="text-xs font-semibold text-slate-700">Phone number <span className="text-rose-500">*</span></label>
-                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-black/5 transition-colors">
-                              <Phone className="w-4 h-4 text-slate-400 shrink-0" />
-                              <input value={postForm.phone} onChange={e => setPostForm(f => ({ ...f, phone: e.target.value }))}
-                                placeholder="+353 / +44"
-                                className="bg-transparent text-sm outline-none w-full" />
-                            </div>
-                          </div>
-                          <div className="col-span-2 flex flex-col gap-1.5">
-                            <label className="text-xs font-semibold text-slate-700">Email address <span className="text-rose-500">*</span></label>
-                            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-black/5 bg-slate-50 focus-within:border-black/5 transition-colors">
-                              <Mail className="w-4 h-4 text-slate-400 shrink-0" />
-                              <input type="email" value={postForm.email} onChange={e => setPostForm(f => ({ ...f, email: e.target.value }))}
-                                placeholder="hr@facility.ie"
-                                className="bg-transparent text-sm outline-none w-full" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex gap-3">
-                          <button onClick={() => setPostStep(2)} className="px-5 py-3 border border-black/5 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
-                            <ChevronDown className="w-4 h-4 rotate-90" /> Back
-                          </button>
-                          <button onClick={() => setPostStep(4)} disabled={!postForm.description || !postForm.facility || !postForm.contact || !postForm.phone || !postForm.email}
-                            className="flex-1 py-3 bg-[#368B62] disabled:opacity-40 hover:bg-[#286d4c] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                            Review & Post <ChevronRight className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {/* Perm Step 4 — Review & post */}
-                    {postStep === 4 && (
-                      <motion.div key="pj4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
-                        <div>
-                          <h2 className="text-xl font-bold text-slate-900">Review & post</h2>
-                          <p className="text-sm text-slate-500 mt-1">Check everything before your listing goes live.</p>
-                        </div>
-                        <div className="bg-[#edf4ef] border border-black/5 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
-                          <div>
-                            <p className="text-xs text-slate-500">{postForm.facility}</p>
-                            <p className="font-bold text-[#368B62] text-sm">{postForm.jobTitle} · {postForm.contractType}</p>
-                          </div>
-                          <div className="text-right shrink-0">
-                            <p className="text-xs text-slate-500">{postForm.town}</p>
-                            <p className="font-bold text-[#368B62] text-sm">
-                              {postForm.salaryMin && postForm.salaryMax ? `${loc.currency}${postForm.salaryMin} – ${loc.currency}${postForm.salaryMax}` : 'Salary negotiable'}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="bg-slate-50 border border-black/5 rounded-xl divide-y divide-slate-100">
-                          {[
-                            { label: 'Profession', val: postForm.profession || '—' },
-                            { label: 'Contract', val: postForm.contractType },
-                            { label: 'Location', val: postForm.town || '—' },
-                            { label: 'Facility', val: postForm.facility || '—' },
-                            { label: 'Contact', val: `${postForm.contact} · ${postForm.email}` },
-                            ...(postForm.benefits ? [{ label: 'Benefits', val: postForm.benefits }] : []),
-                          ].map(({ label, val }) => (
-                            <div key={label} className="flex items-start justify-between px-4 py-3 text-sm gap-4">
-                              <span className="text-slate-500 font-medium shrink-0">{label}</span>
-                              <span className="font-semibold text-slate-900 text-right">{val}</span>
-                            </div>
-                          ))}
-                        </div>
-                        {postForm.description && (
-                          <div className="bg-slate-50 border border-black/5 rounded-xl p-4">
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Role description</p>
-                            <p className="text-xs text-slate-700 leading-relaxed line-clamp-4">{postForm.description}</p>
-                          </div>
-                        )}
-                        <label className="flex items-start gap-3 cursor-pointer">
-                          <input type="checkbox" checked={postForm.termsAccepted} onChange={e => setPostForm(f => ({ ...f, termsAccepted: e.target.checked }))} className="mt-0.5 accent-[#368B62]" />
-                          <span className="text-xs text-slate-500 leading-relaxed">
-                            I confirm this role is genuine and I agree to MployUs{" "}
-                            <Link to="/policies/terms" target="_blank" className="text-[#368B62] font-semibold underline">Terms of Service</Link> and{" "}
-                            <Link to="/policies/privacy" target="_blank" className="text-[#368B62] font-semibold underline">Privacy Policy</Link>.
-                          </span>
-                        </label>
-                        <div className="flex gap-3">
-                          <button onClick={() => setPostStep(3)} className="px-5 py-3 border border-black/5 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-1.5">
-                            <ChevronDown className="w-4 h-4 rotate-90" /> Back
-                          </button>
-                          <button onClick={() => { if (postForm.termsAccepted) setPostSuccess(true); }}
-                            disabled={!postForm.termsAccepted}
-                            className="flex-1 py-3 bg-[#368B62] disabled:opacity-40 hover:bg-[#286d4c] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                            Finish role draft <PlusCircle className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </>
-                )}
 
               </div>
           </LocumDialog>
