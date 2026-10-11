@@ -3,14 +3,12 @@ import {
   ArrowLeft,
   ArrowRight,
   Briefcase,
-  Check,
   FileText,
   MapPin,
   Share2,
   Wallet,
 } from "lucide-react"
 import {
-  getRecommendedRoles,
   getRoleDetails,
   getRoleReference,
   type RecruitmentRole,
@@ -21,14 +19,12 @@ export function RecruitmentRoleDetails({
   role,
   roles,
   onBack,
-  onRead,
   onApply,
   embedded = false,
 }: {
   role: RecruitmentRole
   roles: RecruitmentRole[]
   onBack: () => void
-  onRead: (role: RecruitmentRole) => void
   onApply: (role: RecruitmentRole) => void
   embedded?: boolean
 }) {
@@ -40,10 +36,8 @@ export function RecruitmentRoleDetails({
   }, [role, embedded])
   const details = getRoleDetails(role)
   const reference = getRoleReference(role, roles)
-  const recommended = getRecommendedRoles(role, roles)
   const Heading = embedded ? "h2" : "h1"
   const SectionHeading = embedded ? "h3" : "h2"
-  const CardHeading = embedded ? "h4" : "h3"
   async function share() {
     const url = new URL("/recruitment-service", window.location.origin)
     url.searchParams.set("recruitment-role", reference)
@@ -252,70 +246,6 @@ export function RecruitmentRoleDetails({
         </div>
       </article>
 
-      <section
-        className="recruit-role-recommendations"
-        aria-labelledby="recruit-recommended-heading"
-      >
-        <div className="recruit-role-container">
-          <div className="recruit-role-recommended-header">
-            <div>
-              <p>Keep exploring</p>
-              <SectionHeading id="recruit-recommended-heading">
-                Recommended roles for you
-              </SectionHeading>
-            </div>
-            <button onClick={onBack}>
-              {embedded ? "Back to results" : "View all roles"}
-              <ArrowRight size={15} />
-            </button>
-          </div>
-          <p className="recruit-role-recommended-note">
-            Related sample roles, prioritised by sector, region and contract
-            type.
-          </p>
-          <div className="recruit-role-recommended-grid">
-            {recommended.map((candidate) => (
-              <article
-                key={getRoleReference(candidate, roles)}
-                className="recruit-role-recommended-card"
-              >
-                <CardHeading>{candidate.title}</CardHeading>
-                <div className="recruit-role-tags">
-                  <span>
-                    <MapPin size={12} />
-                    {candidate.location}
-                  </span>
-                  <span>
-                    <Briefcase size={12} />
-                    {candidate.type}
-                  </span>
-                  <span>
-                    <Wallet size={12} />
-                    {candidate.salary}
-                  </span>
-                </div>
-                <div>
-                  <span className="recruit-role-status">
-                    <Check size={11} />
-                    Preview role
-                  </span>
-                  <button
-                    onClick={() => onRead(candidate)}
-                    aria-label={`View ${candidate.title} in ${candidate.location}`}
-                  >
-                    View role
-                    <ArrowRight size={14} />
-                  </button>
-                </div>
-                <p>
-                  <FileText size={12} />
-                  {getRoleReference(candidate, roles)}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   )
 }

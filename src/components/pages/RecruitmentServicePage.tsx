@@ -755,7 +755,6 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 role={sel}
                 roles={ALL_ROLES}
                 onBack={() => document.getElementById('recruitment-job-search')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}
-                onRead={readRole}
                 onApply={openApply}
               />
             </div>
