@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router';
 import { ModernServiceHero } from '../PlatformExperiences';
@@ -32,7 +32,7 @@ import imgMichael      from '@/src/imports/RecruitmentLandingPage/ca27e31ef2c2e6
 import imgMployUs      from '@/src/imports/RecruitmentLandingPage/afa262f7bab0644138f6a6848b0032c4e2a7d048.png';
 import imgHiring       from '@/src/imports/RecruitmentLandingPage/d7b4f06932544d5c20501c4962c2946b7d37b4f0.png';
 
-type Page = 'home' | 'jobseekers' | 'role' | 'employers' | 'blog' | 'article' | 'contact';
+type Page = 'home' | 'jobseekers' | 'employers' | 'blog' | 'article' | 'contact';
 
 interface Props {
   onBackToHome: () => void;
@@ -183,7 +183,7 @@ const FAQS = [
 
 // ═════════════════════════════════════════════════════════════════════════════
 export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDemo }) => {
-  const [page, setPage] = useState<Page>(() => findRoleFromUrl() ? 'role' : 'home');
+  const [page, setPage] = useState<Page>(() => findRoleFromUrl() ? 'jobseekers' : 'home');
   const [activeRole, setActiveRole] = useState<RecruitmentRole | null>(findRoleFromUrl);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -215,7 +215,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   }, [page]);
   useEffect(() => {
     const url = new URL(window.location.href);
-    if (page === 'role' && activeRole) {
+    if (page === 'jobseekers' && activeRole) {
       url.searchParams.set('recruitment-role', getRoleReference(activeRole, ALL_ROLES));
       url.searchParams.delete('recruitment-article');
     } else {
@@ -266,11 +266,31 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const [jobType,     setJobType]     = useState('All Types');
   const [openRoleIdx, setOpenRoleIdx] = useState<number | null>(null);
   const [showFilters, setShowFilters] = useState(false);
-  useEffect(() => { setSelectedIdx(0); }, [jobKeyword, jobLocation, jobSector, jobType, filterRegion, sortBy]);
+  const jobFilterKey = JSON.stringify([jobKeyword, jobLocation, jobSector, jobType, filterRegion, sortBy]);
+  const previousJobFilters = useRef(jobFilterKey);
+  useEffect(() => {
+    if (previousJobFilters.current === jobFilterKey) return;
+    previousJobFilters.current = jobFilterKey;
+    setSelectedIdx(0);
+    setActiveRole(null);
+  }, [jobFilterKey]);
 
   const goTo = (p: Page) => { setPage(p); setMobileOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
-  const readRole = (role: RecruitmentRole) => { setActiveRole(role); goTo('role'); };
-  const navPage = page === 'role' ? 'jobseekers' : page;
+  const readRole = (role: RecruitmentRole, fromList = false) => {
+    setActiveRole(role);
+    setPage('jobseekers');
+    requestAnimationFrame(() => {
+      document.getElementById('recruit-role-heading')?.focus({ preventScroll: true });
+      if (!fromList || window.matchMedia('(max-width: 1023px)').matches) {
+        document.getElementById('recruitment-role-panel')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      }
+    });
+  };
+  useEffect(() => {
+    if (!findRoleFromUrl()) return;
+    requestAnimationFrame(() => document.getElementById('recruitment-role-panel')?.scrollIntoView({ block: 'start' }));
+  }, []);
+  const navPage = page;
 
   const openContact = () => { setContactStep(1); setHeadcount('1'); setEmployerCompany(''); setEmployerRegion('Ireland'); setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' }); setMobileOpen(false); setContactOpen(true); };
   const openCV = () => { setApplyOpen(false); setCvOpen(true); };
@@ -561,7 +581,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       return list;
     })();
 
-    const sel = sorted[selectedIdx] ?? sorted[0];
+    const sel = activeRole ?? sorted[selectedIdx] ?? sorted[0];
 
     return (
     <Fade>
@@ -656,7 +676,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
 
           {/* Left: job list */}
-          <div>
+          <div id="recruitment-job-search" className="scroll-mt-24">
             <div className="flex items-center justify-between mb-3">
               <p className="text-[#757575] text-base">{sorted.length} role{sorted.length !== 1 ? 's' : ''} available</p>
               {/* Sort pills */}
@@ -687,9 +707,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             ) : (
               <div className="space-y-0 border border-black/5 rounded-lg overflow-hidden">
                 {sorted.map((r, i) => {
-                  const active = selectedIdx === i;
+                  const active = sel === r;
                   return (
-                    <motion.button key={r.title + r.location} onClick={() => setSelectedIdx(i)}
+                    <motion.button key={r.title + r.location} onClick={() => { setSelectedIdx(i); readRole(r, true); }}
                       className="w-full text-left border-b border-black/5 last:border-0"
                       style={{ backgroundColor: active ? 'rgba(129,1,97,0.06)' : i % 2 === 0 ? 'rgba(245,245,245,0.5)' : 'white' }}
                       whileHover={{ backgroundColor: active ? 'rgba(129,1,97,0.06)' : 'rgba(129,1,97,0.03)' }}
@@ -725,29 +745,20 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             <p className="mt-4 text-center text-xs text-slate-500">Showing all matching preview roles</p>
           </div>
 
-          {/* Selected-role preview; the complete brief opens on its own page. */}
+          {/* Complete role content stays alongside the search results. */}
           {sel && (
-            <aside aria-label="Selected role" className="h-fit rounded-xl border border-black/5 bg-white p-6 space-y-5">
-              <div>
-                <p className="text-xs text-slate-500">{sel.sector} · {sel.location}</p>
-                <h2 className="mt-2 text-2xl font-medium" style={{ color: P }}>{sel.title}</h2>
-                <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-600">
-                  <span className="rounded-full bg-[#fbf5f9] px-3 py-1.5">{sel.type}</span>
-                  <span className="rounded-full bg-[#fbf5f9] px-3 py-1.5">{sel.salary}</span>
-                  <span className="rounded-full bg-[#fbf5f9] px-3 py-1.5">{JOB_REGIONS[sel.location] || 'Ireland'}</span>
-                </div>
-              </div>
-              <div className="border-t border-black/5 pt-5">
-                <h3 className="mb-3 text-sm font-semibold">About this role</h3>
-                <p className="text-sm leading-7 text-slate-600">{sel.desc}</p>
-                <p className="mt-4 text-xs leading-6 text-slate-500">Preview listing. The full brief includes responsibilities, candidate requirements and application details to confirm with your consultant.</p>
-                <p className="mt-3 text-xs text-slate-500">Reference: {getRoleReference(sel, ALL_ROLES)}</p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <button onClick={() => readRole(sel)} className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-black/5 px-4 py-3 text-sm font-medium" style={{ color: P }}>View full role details <ArrowRight size={15} /></button>
-                <button onClick={() => openApply(sel)} className="flex-1 rounded-lg px-4 py-3 text-sm font-medium text-white" style={{ backgroundColor: P }}>Apply for this role</button>
-              </div>
-            </aside>
+            <div id="recruitment-role-panel" className="min-w-0 scroll-mt-24">
+              {activeRole && !sorted.includes(activeRole) && <p className="mb-3 rounded-lg bg-[#fbf5f9] p-3 text-xs leading-6 text-slate-600">This related role is outside your current filters. Your search results and filter selections are unchanged.</p>}
+              <RecruitmentRoleDetails
+                key={getRoleReference(sel, ALL_ROLES)}
+                embedded
+                role={sel}
+                roles={ALL_ROLES}
+                onBack={() => document.getElementById('recruitment-job-search')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}
+                onRead={readRole}
+                onApply={openApply}
+              />
+            </div>
           )}
         </div>
       </div>
@@ -999,7 +1010,6 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const pages: Record<Page, React.ReactNode> = {
     home: page === 'home' ? HomePage() : null,
     jobseekers: page === 'jobseekers' ? JobseekersPage() : null,
-    role: page === 'role' && activeRole ? <RecruitmentRoleDetails key={getRoleReference(activeRole, ALL_ROLES)} role={activeRole} roles={ALL_ROLES} onBack={() => goTo('jobseekers')} onRead={readRole} onApply={openApply} /> : null,
     employers: page === 'employers' ? EmployersPage() : null,
     blog: page === 'blog' ? BlogPage() : null,
     article: page === 'article' && activeArticle ? <RecruitmentArticle key={activeArticle.title} article={activeArticle} articles={ARTICLES} onBack={() => goTo('blog')} onRead={readArticle} onContact={openContact} /> : null,

@@ -23,22 +23,27 @@ export function RecruitmentRoleDetails({
   onBack,
   onRead,
   onApply,
+  embedded = false,
 }: {
   role: RecruitmentRole
   roles: RecruitmentRole[]
   onBack: () => void
   onRead: (role: RecruitmentRole) => void
   onApply: (role: RecruitmentRole) => void
+  embedded?: boolean
 }) {
   const [shareStatus, setShareStatus] = useState("")
   const [manualLink, setManualLink] = useState("")
   const heading = useRef<HTMLHeadingElement>(null)
   useEffect(() => {
-    heading.current?.focus({ preventScroll: true })
-  }, [role])
+    if (!embedded) heading.current?.focus({ preventScroll: true })
+  }, [role, embedded])
   const details = getRoleDetails(role)
   const reference = getRoleReference(role, roles)
   const recommended = getRecommendedRoles(role, roles)
+  const Heading = embedded ? "h2" : "h1"
+  const SectionHeading = embedded ? "h3" : "h2"
+  const CardHeading = embedded ? "h4" : "h3"
   async function share() {
     const url = new URL("/recruitment-service", window.location.origin)
     url.searchParams.set("recruitment-role", reference)
@@ -62,16 +67,26 @@ export function RecruitmentRoleDetails({
     }
   }
   return (
-    <div className="recruit-role-page">
-      <div className="recruit-role-band">
-        <div className="recruit-role-container">
-          <button className="recruit-role-back" onClick={onBack}>
-            <ArrowLeft size={15} />
-            Back to job search
-          </button>
-          <p>Recruitment · Ireland & UK</p>
+    <div
+      className={`recruit-role-page${embedded ? " recruit-role-embedded" : ""}`}
+    >
+      {embedded && (
+        <button className="recruit-role-inline-back" onClick={onBack}>
+          <ArrowLeft size={14} />
+          Back to results
+        </button>
+      )}
+      {!embedded && (
+        <div className="recruit-role-band">
+          <div className="recruit-role-container">
+            <button className="recruit-role-back" onClick={onBack}>
+              <ArrowLeft size={15} />
+              Back to job search
+            </button>
+            <p>Recruitment · Ireland & UK</p>
+          </div>
         </div>
-      </div>
+      )}
       <article
         className="recruit-role-card recruit-role-container"
         aria-labelledby="recruit-role-heading"
@@ -86,9 +101,9 @@ export function RecruitmentRoleDetails({
         <div className="recruit-role-header">
           <div>
             <span className="recruit-role-status">Preview role</span>
-            <h1 id="recruit-role-heading" ref={heading} tabIndex={-1}>
+            <Heading id="recruit-role-heading" ref={heading} tabIndex={-1}>
               {role.title}
-            </h1>
+            </Heading>
             <div className="recruit-role-tags">
               <span>
                 <MapPin size={14} />
@@ -149,7 +164,7 @@ export function RecruitmentRoleDetails({
           className="recruit-role-section"
           aria-labelledby="recruit-role-about"
         >
-          <h2 id="recruit-role-about">About the job</h2>
+          <SectionHeading id="recruit-role-about">About the job</SectionHeading>
           <p className="recruit-role-lead">
             {role.title} · {role.sector}
           </p>
@@ -170,7 +185,9 @@ export function RecruitmentRoleDetails({
           className="recruit-role-section"
           aria-labelledby="recruit-role-overview"
         >
-          <h2 id="recruit-role-overview">Position overview</h2>
+          <SectionHeading id="recruit-role-overview">
+            Position overview
+          </SectionHeading>
           {details.overview.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
@@ -179,7 +196,9 @@ export function RecruitmentRoleDetails({
           className="recruit-role-section"
           aria-labelledby="recruit-role-responsibilities"
         >
-          <h2 id="recruit-role-responsibilities">Key responsibilities</h2>
+          <SectionHeading id="recruit-role-responsibilities">
+            Key responsibilities
+          </SectionHeading>
           <p className="recruit-role-section-note">
             Illustrative duties for this sample role; confirm the exact scope
             with the employer.
@@ -194,9 +213,9 @@ export function RecruitmentRoleDetails({
           className="recruit-role-section"
           aria-labelledby="recruit-role-qualifications"
         >
-          <h2 id="recruit-role-qualifications">
+          <SectionHeading id="recruit-role-qualifications">
             Candidate profile & qualifications
-          </h2>
+          </SectionHeading>
           <ul>
             {details.qualifications.map((item) => (
               <li key={item}>{item}</li>
@@ -207,7 +226,9 @@ export function RecruitmentRoleDetails({
           className="recruit-role-section"
           aria-labelledby="recruit-role-application"
         >
-          <h2 id="recruit-role-application">Application details</h2>
+          <SectionHeading id="recruit-role-application">
+            Application details
+          </SectionHeading>
           <ul>
             {details.applicationDetails.map(([label, value]) => (
               <li key={label}>
@@ -239,12 +260,12 @@ export function RecruitmentRoleDetails({
           <div className="recruit-role-recommended-header">
             <div>
               <p>Keep exploring</p>
-              <h2 id="recruit-recommended-heading">
+              <SectionHeading id="recruit-recommended-heading">
                 Recommended roles for you
-              </h2>
+              </SectionHeading>
             </div>
             <button onClick={onBack}>
-              View all roles
+              {embedded ? "Back to results" : "View all roles"}
               <ArrowRight size={15} />
             </button>
           </div>
@@ -258,7 +279,7 @@ export function RecruitmentRoleDetails({
                 key={getRoleReference(candidate, roles)}
                 className="recruit-role-recommended-card"
               >
-                <h3>{candidate.title}</h3>
+                <CardHeading>{candidate.title}</CardHeading>
                 <div className="recruit-role-tags">
                   <span>
                     <MapPin size={12} />
