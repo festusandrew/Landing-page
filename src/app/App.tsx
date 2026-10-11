@@ -26,7 +26,7 @@ import {
 } from "lucide-react"
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
-import { Pricing } from "../components/Pricing"
+import { PricingPage } from "../components/pages/PricingPage"
 import recruitmentPhoto from "../imports/homepage-reference/6104b.png"
 import locumPhoto from "../imports/homepage-reference/09cba.png"
 import carePhoto from "../imports/homepage-reference/ca8d0.png"
@@ -525,8 +525,6 @@ function LandingPage({
         </div>
       </section>
 
-      <Pricing onBookDemo={onBookDemo} onStartTrial={onStartTrial} />
-
       <section
         id="questions"
         className="border-t border-black/5 bg-[#fafaf8] py-16 md:py-20"
@@ -626,6 +624,7 @@ function PlatformApp() {
     "care-management",
     "product-design",
     "web-development",
+    "pricing",
   ].includes(requestedView)
     ? requestedView
     : "home"
@@ -678,11 +677,17 @@ function PlatformApp() {
     activeView === "recruitment-software"
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] selection:bg-slate-900 selection:text-white">
+    <div
+      className={`${
+        activeView === "pricing" ? "homepage-magenta " : ""
+      }min-h-screen bg-white text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] selection:bg-slate-900 selection:text-white`}
+    >
       {!isStandalone && activeView !== "home" && (
         <Navbar
           embedded={
-            activeView === "product-design" || activeView === "web-development"
+            activeView === "product-design" ||
+            activeView === "web-development" ||
+            activeView === "pricing"
           }
           activeRole={activeRole}
           onRoleChange={setActiveRole}
@@ -694,6 +699,13 @@ function PlatformApp() {
       )}
 
       <main>
+        {activeView === "pricing" && (
+          <PricingPage
+            onBackToHome={() => handleNavigate("home")}
+            onBookDemo={() => handleBookDemoWithModule()}
+            onStartTrial={() => setFreeTrialOpen(true)}
+          />
+        )}
         {activeView === "home" && (
           <>
             <LandingPage

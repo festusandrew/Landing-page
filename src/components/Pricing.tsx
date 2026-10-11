@@ -25,6 +25,7 @@ import enterpriseCheck5 from "../imports/pricing-reference/c6a99.svg"
 interface PricingProps {
   onBookDemo: () => void
   onStartTrial: () => void
+  standalone?: boolean
 }
 const euro = new Intl.NumberFormat("en-IE", {
   style: "currency",
@@ -75,8 +76,10 @@ const greenIcon =
 export const Pricing: React.FC<PricingProps> = ({
   onBookDemo,
   onStartTrial,
+  standalone = false,
 }) => {
   const [isAnnual, setIsAnnual] = useState(false)
+  const Heading = standalone ? "h1" : "h2"
   return (
     <section
       id="pricing"
@@ -88,12 +91,12 @@ export const Pricing: React.FC<PricingProps> = ({
           <p className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[14.873px] font-semibold uppercase leading-[22.31px] tracking-[2.3797px] text-[#368B62]">
             Room to grow
           </p>
-          <h2
+          <Heading
             id="pricing-heading"
             className="mt-[21.634px] font-['Inter:Semi_Bold',Inter,sans-serif] text-[36px] font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px] md:leading-[64.901px]"
           >
             A plan for where you are. And where you’re going.
-          </h2>
+          </Heading>
           <p className="mt-[21.634px] font-['Inter:Regular',Inter,sans-serif] text-[18px] font-normal leading-8 text-[#64748b] md:text-[20.282px] md:leading-[37.859px]">
             Start with the essentials. Expand your capabilities as your business
             grows. Prices shown in euros are sample demo pricing, subject to

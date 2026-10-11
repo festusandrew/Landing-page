@@ -257,7 +257,7 @@ export function MainNavigation({
         type="button"
         onClick={() => {
           closeMenu()
-          onSection("pricing")
+          onNavigate("pricing")
         }}
         className={smallLink}
       >
