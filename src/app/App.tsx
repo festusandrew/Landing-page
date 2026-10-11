@@ -58,7 +58,7 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
     <div id="overview" className="homepage-magenta bg-white font-['DM_Sans',sans-serif] text-[#233b35] selection:bg-[#dfeee4] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
       <div className="relative bg-white">
         <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-3 text-[11px] text-[#5d6862] lg:px-10">
-          <div className="flex items-center gap-5"><Globe2 size={12} /><label className="flex items-center gap-2 text-[11px]">Your region <select aria-label="Country" value={country} onChange={event => setCountry(event.target.value)} className="cursor-pointer bg-transparent text-[11px] font-medium text-[#233b35]"><option>Ireland</option><option>United Kingdom</option></select></label>lock">Built for better healthcare.</span></div>
+          <div className="flex items-center gap-5"><Globe2 size={12} /><label className="flex items-center gap-2 text-[11px]">Your region <select aria-label="Country" value={country} onChange={event => setCountry(event.target.value)} className="cursor-pointer bg-transparent text-[11px] font-medium text-[#233b35]"><option>Ireland</option><option>United Kingdom</option></select></label>>Built for better healthcare.</span></div>
           <button onClick={onBookDemo} className="transition-colors hover:text-[#368B62]">Talk to our team <ArrowUpRight size={11} className="ml-1 inline" /></button>
         </div>
         <Navbar embedded onNavigate={onNavigate} onBookDemo={onBookDemo} onStartTrial={onStartTrial} />
