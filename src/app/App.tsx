@@ -55,7 +55,7 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
   ];
   const scrollTo = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); };
   return (
-    <div id="overview" className="bg-white font-['DM_Sans',sans-serif] text-[#233b35] selection:bg-[#dfeee4] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
+    <div id="overview" className="homepage-magenta bg-white font-['DM_Sans',sans-serif] text-[#233b35] selection:bg-[#dfeee4] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
       <div className="relative bg-white">
         <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-3 text-[11px] text-[#5d6862] lg:px-10">
           <div className="flex items-center gap-5"><Globe2 size={12} /><label className="flex items-center gap-2 text-[11px]">Your region <select aria-label="Country" value={country} onChange={event => setCountry(event.target.value)} className="cursor-pointer bg-transparent text-[11px] font-medium text-[#233b35]"><option>Ireland</option><option>United Kingdom</option></select></label><span className="hidden sm:block">Built for better healthcare.</span></div>
@@ -65,7 +65,7 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
       </div>
 
       <section aria-labelledby="homepage-hero-heading" className="relative isolate overflow-hidden px-6 pb-24 pt-16 text-center md:pb-36 md:pt-[81px]">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_85%,rgba(54,139,98,0.16)_0%,rgba(54,139,98,0.07)_40%,rgba(255,255,255,0)_72%)]" />
+        <div aria-hidden="true" className="homepage-hero-glow pointer-events-none absolute inset-0 -z-10" />
         <div className="mx-auto max-w-[1500px]">
           <div className="mb-[17px] flex flex-wrap items-center justify-center gap-x-[27px] gap-y-3">
             <div className="flex -space-x-[13px]" aria-hidden="true">
@@ -84,7 +84,7 @@ function LandingPage({ onNavigate, onBookDemo, onStartTrial }: { onNavigate: (vi
       <section aria-label="Our healthcare services" className="grid gap-[3px] sm:grid-cols-3">
         {photos.map(photo => <button key={photo.id} onClick={() => onNavigate(photo.id)} className="group relative min-h-[350px] overflow-hidden text-left md:min-h-[400px]">
           <img src={photo.image} alt={photo.alt} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transform-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#142720]/95 via-[#142720]/20 to-transparent" />
+          <div className="homepage-service-overlay absolute inset-0" />
           <div className="absolute bottom-0 left-0 right-0 p-7 text-white lg:p-10"><span className={`mb-5 inline-block h-1 w-8 ${photo.tint}`} /><p className="mb-3 text-[9px] font-medium tracking-[0.16em] text-white/80">{photo.category}</p><h2 className="whitespace-pre-line font-['Libre_Caslon_Display',serif] text-[32px] leading-[1.1] lg:text-[37px]">{photo.title}</h2><div className="mt-6 flex items-center justify-between text-xs"><span>{photo.label}</span><ArrowUpRight size={20} className="transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" /></div></div>
         </button>)}
       </section>
