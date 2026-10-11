@@ -1,81 +1,175 @@
-import { ArrowRight, Building2, FileText, ShieldCheck, Wallet } from "lucide-react";
-import { Link } from "react-router";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CalendarDays,
+  Clock,
+  ExternalLink,
+  LockKeyhole,
+  MapPin,
+  Monitor,
+  CircleHelp,
+} from "lucide-react"
+import {
+  getPublicShiftDate,
+  getShiftAreaMap,
+  type PublicLocumShift,
+} from "../../data/locumShiftPresentation"
 
-type LocumJobDetailsProps = {
-  reference: string;
-  region: string;
-  date: string;
-  hours: number;
-  totalPay: string;
-  onEnquire: () => void;
-};
-
-export function LocumJobDetails({ reference, region, date, hours, totalPay, onEnquire }: LocumJobDetailsProps) {
-  const groups = [
-    {
-      title: "Booking & contract", icon: FileText,
-      fields: [
-        ["Listing reference", reference],
-        ["Country / region", region],
-        ["Profession", "Locum Pharmacist"],
-        ["Engagement", "Temporary locum cover; employment status to be agreed in writing"],
-        ["Shift date", `${date} 2026 (sample date)`],
-        ["Application deadline", "Not provided — confirm availability with the facility"],
-        ["Number of vacancies", "Not provided by the facility"],
-        ["Cancellation & notice", "To be confirmed in the booking agreement"],
-      ],
-    },
-    {
-      title: "Pay, hours & benefits", icon: Wallet,
-      fields: [
-        ["Estimated paid hours", `${hours} hours, assuming a 30-minute unpaid break`],
-        ["Estimated gross shift pay", totalPay],
-        ["Payment frequency & method", "Not provided — agree before accepting the shift"],
-        ["Tax & deductions", "Depend on your engagement status and jurisdiction; estimate is before deductions"],
-        ["Overtime & premiums", "Not provided — confirm any additional hours or weekend premiums"],
-        ["Travel, accommodation & expenses", "Not specified; do not assume reimbursement"],
-        ["Platform or booking fees", "Confirm the applicable written agreement"],
-        ["Additional benefits", "Not specified by the facility"],
-      ],
-    },
-    {
-      title: "Workplace & practical details", icon: Building2,
-      fields: [
-        ["Exact address & arrival contact", "Not published in this preview — request before booking"],
-        ["On-site team & reporting line", "Confirm staffing levels and the supervising contact"],
-        ["Dispensing / clinical systems", "Confirm the PMR system and any training required"],
-        ["Induction, handover & dress code", "Confirm with the facility before your first shift"],
-        ["Parking & public transport", "Not provided — check the confirmed site address"],
-        ["Access & reasonable adjustments", "Discuss any adjustments with the facility before booking"],
-      ],
-    },
-    {
-      title: "Eligibility & application", icon: ShieldCheck,
-      fields: [
-        ["Professional registration", region === "Republic of Ireland" ? "Active PSI registration" : region === "Northern Ireland" ? "Active PSNI registration" : "Active GPhC registration"],
-        ["Background checks", region === "Republic of Ireland" ? "Role-appropriate Garda vetting" : region === "Scotland" ? "Role-appropriate Disclosure Scotland / PVG checks" : region === "Northern Ireland" ? "Role-appropriate AccessNI checks" : "Role-appropriate DBS checks"],
-        ["Right to work & identity", "Evidence appropriate to the country and engagement"],
-        ["Professional indemnity", "Confirm cover appropriate to the role and booking"],
-        ["Experience & qualifications", "See the employer requirements above; clarify any unstated minimum"],
-        ["Application process", "Complete the application, provide relevant compliance information and await review"],
-        ["Confirmation", "An application is not a confirmed booking; agree the full brief and terms first"],
-      ],
-    },
-  ];
-
+export function LocumJobDetails({
+  shift,
+  reference,
+  region,
+  onBack,
+  onApply,
+  onLogin,
+  onRegister,
+}: {
+  shift: PublicLocumShift
+  reference: string
+  region: string
+  onBack: () => void
+  onApply: () => void
+  onLogin: () => void
+  onRegister: () => void
+}) {
+  const date = getPublicShiftDate(shift.date)
+  const map = getShiftAreaMap(shift.location)
+  const area = shift.location.replace(/,\s*(IE|UK|NI)$/, "")
   return (
-    <div className="space-y-3 border-t border-black/5 pt-5">
-      <h3 className="text-lg font-medium text-[#24332d]">The complete shift brief</h3>
-      <p className="text-xs leading-6 text-slate-500">These are demonstration listings, not verified vacancies. The pay estimate uses the advertised hourly rate and an assumed 30-minute unpaid break. Missing employer details are marked below rather than inferred.</p>
-      {groups.map(group => (
-        <details key={group.title} open className="group rounded-2xl bg-[#f7f9f8] p-5">
-          <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-semibold text-[#24332d]"><group.icon className="h-4 w-4 text-[#368B62]" />{group.title}<span className="ml-auto text-lg font-normal group-open:rotate-45 transition-transform">+</span></summary>
-          <dl className="mt-5 grid gap-5 sm:grid-cols-2">
-            {group.fields.map(([label, value]) => <div key={label}><dt className="text-[11px] font-medium text-slate-500">{label}</dt><dd className="mt-1 text-sm leading-6 text-[#24332d]">{value}</dd></div>)}
-          </dl>
-        </details>
-      ))}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-3"><button onClick={onEnquire} className="inline-flex items-center gap-2 text-xs font-semibold text-[#368B62]">Ask about this shift<ArrowRight className="h-3.5 w-3.5" /></button><div className="flex gap-4 text-xs text-slate-500"><Link to="/policies/terms" className="hover:text-[#368B62]">Booking terms</Link><Link to="/policies/privacy" className="hover:text-[#368B62]">Your privacy</Link></div></div>
-    </div>
-  );
+    <section className="min-w-0 space-y-4" aria-label="Selected locum shift">
+      <div className="flex items-center justify-between gap-3 text-[10px] text-slate-500">
+        <span>Sample shift · {reference}</span>
+        <span>{region}</span>
+      </div>
+      <h2 className="text-2xl font-medium leading-tight text-[#24332d]">
+        Locum Pharmacist in {area}, {region}
+        <br />
+        <span className="text-[#368B62]">{date.long}</span>
+      </h2>
+      <div className="rounded-xl border border-black/5 bg-white p-5">
+        <p className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#368B62]">
+          <MapPin size={15} />
+          {area}
+        </p>
+        <div className="grid gap-5 text-sm sm:grid-cols-2">
+          <div className="space-y-3">
+            <p className="flex items-start gap-2 text-slate-700">
+              <Clock size={15} className="mt-1 shrink-0 text-[#368B62]" />
+              <span>{shift.time}</span>
+            </p>
+            <p className="flex items-center gap-2 text-slate-700">
+              <CalendarDays size={15} className="shrink-0 text-[#368B62]" />
+              {date.short}
+            </p>
+            <button
+              onClick={onLogin}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#368B62]"
+            >
+              <LockKeyhole size={15} />
+              Sign in to view pay
+            </button>
+          </div>
+          <div className="space-y-3">
+            <p className="flex items-center gap-2 text-slate-700">
+              <CircleHelp size={15} className="shrink-0 text-[#368B62]" />
+              {shift.availability || "Availability to be confirmed"}
+            </p>
+            <p className="flex items-center gap-2 text-slate-700">
+              <Monitor size={15} className="shrink-0 text-[#368B62]" />
+              {shift.dispensingSystem || "Dispensing system not supplied"}
+            </p>
+            <p className="pl-6 text-xs text-slate-500">
+              Start / end time
+              <br />
+              <span className="mt-1 inline-block text-sm text-slate-700">
+                {shift.time}
+              </span>
+            </p>
+          </div>
+        </div>
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-black/5 pt-4">
+          <p className="max-w-sm text-xs leading-6 text-slate-500">
+            Pay is account-only. Live account access is not connected in this
+            preview.
+          </p>
+          <button
+            onClick={onRegister}
+            className="inline-flex items-center gap-2 text-xs font-semibold text-[#368B62]"
+          >
+            Create an account
+            <ArrowRight size={13} />
+          </button>
+        </div>
+      </div>
+      <div className="flex gap-3">
+        <button
+          onClick={onBack}
+          className="inline-flex items-center justify-center gap-2 rounded-lg border border-black/5 bg-white px-5 py-3 text-sm font-medium text-[#24332d]"
+        >
+          <ArrowLeft size={15} />
+          Back to results
+        </button>
+        <button
+          onClick={onApply}
+          className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#368B62] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c]"
+        >
+          Apply
+          <ArrowRight size={15} />
+        </button>
+      </div>
+      <section
+        className="overflow-hidden rounded-xl border border-black/5 bg-white"
+        aria-labelledby="locum-shift-location"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/5 px-5 py-3">
+          <h3
+            id="locum-shift-location"
+            className="text-sm font-semibold text-[#24332d]"
+          >
+            Shift location
+          </h3>
+          {map && (
+            <a
+              href={map.external}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-medium text-[#368B62]"
+            >
+              Open larger map
+              <ExternalLink size={12} />
+            </a>
+          )}
+        </div>
+        {map ? (
+          <iframe
+            key={shift.location}
+            src={map.embed}
+            title={`Map of the general ${area} area`}
+            className="block h-[280px] w-full border-0 sm:h-[320px]"
+            loading="eager"
+            referrerPolicy="no-referrer"
+          />
+        ) : (
+          <div className="flex h-56 flex-col items-center justify-center gap-3 bg-[#edf4ef] px-6 text-center">
+            <MapPin size={28} className="text-[#368B62]" />
+            <p className="text-sm">{area}</p>
+            <p className="text-xs text-slate-500">
+              Map unavailable for this area. Confirm the site address before
+              booking.
+            </p>
+          </div>
+        )}
+        <p className="border-t border-black/5 px-5 py-3 text-[10px] leading-5 text-slate-500">
+          General area only, not a verified workplace address. Confirm the exact
+          location and arrival instructions with the facility. Map ©
+          OpenStreetMap contributors.
+        </p>
+      </section>
+      <p className="text-[10px] leading-5 text-slate-500">
+        Preview listing, not a verified live vacancy. Confirm current
+        availability, pay, duties, registration and booking terms before
+        accepting a shift.
+      </p>
+    </section>
+  )
 }
