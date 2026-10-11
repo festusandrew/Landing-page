@@ -7,6 +7,8 @@ import { Footer } from '../Footer';
 import { RecruitmentDialog } from '../RecruitmentDialog';
 import { RecruitmentCVDialog } from '../RecruitmentCVDialog';
 import { RecruitmentArticle, type RecruitmentStory } from './RecruitmentArticle';
+import { RecruitmentRoleDetails } from './RecruitmentRoleDetails';
+import { RECRUITMENT_JOB_REGIONS as JOB_REGIONS, getRoleReference, type RecruitmentRole } from '../../data/recruitmentRoleDetails';
 import './recruitment-article.css';
 import {
   ArrowRight, Menu, X, Globe, Clock, Target, Users,
@@ -30,7 +32,7 @@ import imgMichael      from '@/src/imports/RecruitmentLandingPage/ca27e31ef2c2e6
 import imgMployUs      from '@/src/imports/RecruitmentLandingPage/afa262f7bab0644138f6a6848b0032c4e2a7d048.png';
 import imgHiring       from '@/src/imports/RecruitmentLandingPage/d7b4f06932544d5c20501c4962c2946b7d37b4f0.png';
 
-type Page = 'home' | 'jobseekers' | 'employers' | 'blog' | 'article' | 'contact';
+type Page = 'home' | 'jobseekers' | 'role' | 'employers' | 'blog' | 'article' | 'contact';
 
 interface Props {
   onBackToHome: () => void;
@@ -137,7 +139,10 @@ const ALL_ROLES = [
 ];
 
 const LOCATIONS = ['All Locations', 'Dublin', 'Cork', 'Galway', 'Limerick', 'Kilkenny', 'Athlone', 'Belfast', 'Manchester', 'Cardiff', 'Edinburgh'];
-const JOB_REGIONS: Record<string, string> = { Belfast: 'Northern Ireland', Manchester: 'England', Cardiff: 'Wales', Edinburgh: 'Scotland' };
+const findRoleFromUrl = () => {
+  const reference = new URLSearchParams(window.location.search).get('recruitment-role');
+  return ALL_ROLES.find(role => getRoleReference(role, ALL_ROLES) === reference) || null;
+};
 const SECTORS   = ['All Sectors', 'Logistics', 'Healthcare', 'Hospitality', 'Education'];
 const JOB_TYPES = ['All Types', 'Permanent', 'Contract'];
 
@@ -178,7 +183,8 @@ const FAQS = [
 
 // ═════════════════════════════════════════════════════════════════════════════
 export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDemo }) => {
-  const [page, setPage] = useState<Page>('home');
+  const [page, setPage] = useState<Page>(() => findRoleFromUrl() ? 'role' : 'home');
+  const [activeRole, setActiveRole] = useState<RecruitmentRole | null>(findRoleFromUrl);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [authMode, setAuthMode] = useState<RecruitmentAuthMode>('login');
@@ -196,6 +202,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
     window.history.replaceState(window.history.state, '', url);
   };
   useEffect(() => {
+    if (findRoleFromUrl()) return;
     const title = new URLSearchParams(window.location.search).get('recruitment-article');
     const article = ARTICLES.find(item => item.title === title);
     if (article) { setActiveArticle(article); setPage('article'); }
@@ -206,6 +213,16 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
     url.searchParams.delete('recruitment-article');
     window.history.replaceState(window.history.state, '', url);
   }, [page]);
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (page === 'role' && activeRole) {
+      url.searchParams.set('recruitment-role', getRoleReference(activeRole, ALL_ROLES));
+      url.searchParams.delete('recruitment-article');
+    } else {
+      url.searchParams.delete('recruitment-role');
+    }
+    window.history.replaceState(window.history.state, '', url);
+  }, [page, activeRole]);
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [sortBy, setSortBy] = useState<'title' | 'salary' | 'location' | 'added'>('title');
   const [filterRegion, setFilterRegion] = useState('All regions');
@@ -252,6 +269,8 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   useEffect(() => { setSelectedIdx(0); }, [jobKeyword, jobLocation, jobSector, jobType, filterRegion, sortBy]);
 
   const goTo = (p: Page) => { setPage(p); setMobileOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  const readRole = (role: RecruitmentRole) => { setActiveRole(role); goTo('role'); };
+  const navPage = page === 'role' ? 'jobseekers' : page;
 
   const openContact = () => { setContactStep(1); setHeadcount('1'); setEmployerCompany(''); setEmployerRegion('Ireland'); setContactForm({ name: '', email: '', phone: '', company: '', role: '', message: '' }); setMobileOpen(false); setContactOpen(true); };
   const openCV = () => { setApplyOpen(false); setCvOpen(true); };
@@ -706,89 +725,29 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             <p className="mt-4 text-center text-xs text-slate-500">Showing all matching preview roles</p>
           </div>
 
-          {/* Right: detail panel */}
+          {/* Selected-role preview; the complete brief opens on its own page. */}
           {sel && (
-            <div className="flex flex-col gap-4">
-              <div className="bg-white border border-black/5 rounded-xl p-6 space-y-5">
-                {/* Header */}
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-sm text-slate-500">{sel.sector} · {sel.location}</p>
-                    <h2 className="text-2xl font-bold mt-0.5" style={{ color: P }}>{sel.title}</h2>
-                    <span className="inline-block mt-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border border-black/5"
-                      style={{ backgroundColor: 'rgba(129,1,97,0.06)', color: P }}>{sel.type}</span>
-                  </div>
-                  <button onClick={openContact}
-                    className="flex items-center gap-1.5 px-3 py-1.5 border border-black/5 rounded text-xs font-semibold hover:bg-slate-50 transition-colors shrink-0"
-                    style={{ color: P }}>
-                    <ArrowRight className="w-3.5 h-3.5" /> Share
-                  </button>
-                </div>
-
-                {/* Key details */}
-                <div className="grid grid-cols-2 gap-4 text-sm border-t border-black/5 pt-4">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2.5 text-slate-700">
-                      <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
-                      <div>
-                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Location</p>
-                        <p className="font-semibold">{sel.location}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2.5 text-slate-700">
-                      <Clock className="w-4 h-4 text-slate-400 shrink-0" />
-                      <div>
-                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Job Type</p>
-                        <p className="font-semibold">{sel.type}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2.5 text-slate-700">
-                      <Briefcase className="w-4 h-4 text-slate-400 shrink-0" />
-                      <div>
-                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Sector</p>
-                        <p className="font-semibold">{sel.sector}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2.5 text-slate-700">
-                      <Building2 className="w-4 h-4 text-slate-400 shrink-0" />
-                      <div>
-                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Salary</p>
-                        <p className="font-bold text-base" style={{ color: P }}>{sel.salary}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Description */}
-                <div className="border-t border-black/5 pt-4 space-y-2">
-                  <h4 className="text-sm font-bold text-slate-900">About this role</h4>
-                  <p className="text-sm text-slate-600 leading-relaxed">{sel.desc}</p>
-                </div>
-
-                {/* Apply */}
-                <div className="border-t border-black/5 pt-5">
-                  <h3 className="mb-4 text-base font-semibold text-[#810161]">The complete picture</h3>
-                  <p className="mb-4 rounded-lg bg-[#fbf5f9] p-3 text-xs leading-5 text-slate-600">Preview listing. Your consultant will confirm any details not supplied by the employer before you proceed.</p>
-                  <dl className="grid grid-cols-1 gap-x-6 gap-y-4 text-sm sm:grid-cols-2">{[
-                    ['Reference', `MPR-${String(ALL_ROLES.indexOf(sel) + 1).padStart(4, '0')}`], ['Country / region', JOB_REGIONS[sel.location] || 'Ireland'], ['Employer & workplace', 'Disclosed by your consultant'], ['Work arrangement', 'To be confirmed'], ['Hours & shift pattern', 'To be confirmed'], ['Contract duration', sel.type === 'Permanent' ? 'Permanent position' : sel.desc.includes('6-month') ? '6-month rolling contract with renewal' : 'Confirm length and renewal terms'], ['Start date', sel.desc.includes('Immediate start') ? 'Immediate start; confirm availability' : 'To be agreed'], ['Closing date', 'Not supplied'], ['Reporting to', 'To be confirmed'], ['Experience & qualifications', 'See role summary; confirm full requirements'], ['Right to work & sponsorship', 'Eligibility and sponsorship to be confirmed'], ['Registration & vetting', sel.sector === 'Healthcare' ? 'Relevant regulator and local checks to be confirmed' : 'Role-specific checks to be confirmed'], ['Benefits & leave', 'See role summary; full package to be confirmed'], ['Travel & relocation', 'To be confirmed'], ['Accessibility & adjustments', 'Discuss adjustments with your consultant'], ['Recruitment process', 'Application, consultant review and employer interview'],
-                  ].map(([label, value]) => <div key={label}><dt className="text-xs text-slate-500">{label}</dt><dd className="mt-1 leading-6 text-slate-700">{value}</dd></div>)}</dl>
-                  <h4 className="mt-6 text-sm font-semibold">Responsibilities and person specification</h4><p className="mt-2 text-sm leading-6 text-slate-600">{sel.desc} Request the employer-approved job description, essential and desirable criteria, pay frequency and overtime arrangements from your consultant.</p>
-                </div>
-
-                <div className="pt-1 flex flex-col sm:flex-row gap-2">
-                  <motion.button onClick={() => sel && openApply(sel)}
-                    className="flex-1 py-3 text-white font-bold text-base rounded-lg transition-colors"
-                    style={{ backgroundColor: P }}
-                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 22 }}>
-                    Apply for this role
-                  </motion.button>
+            <aside aria-label="Selected role" className="h-fit rounded-xl border border-black/5 bg-white p-6 space-y-5">
+              <div>
+                <p className="text-xs text-slate-500">{sel.sector} · {sel.location}</p>
+                <h2 className="mt-2 text-2xl font-medium" style={{ color: P }}>{sel.title}</h2>
+                <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-600">
+                  <span className="rounded-full bg-[#fbf5f9] px-3 py-1.5">{sel.type}</span>
+                  <span className="rounded-full bg-[#fbf5f9] px-3 py-1.5">{sel.salary}</span>
+                  <span className="rounded-full bg-[#fbf5f9] px-3 py-1.5">{JOB_REGIONS[sel.location] || 'Ireland'}</span>
                 </div>
               </div>
-
-            </div>
+              <div className="border-t border-black/5 pt-5">
+                <h3 className="mb-3 text-sm font-semibold">About this role</h3>
+                <p className="text-sm leading-7 text-slate-600">{sel.desc}</p>
+                <p className="mt-4 text-xs leading-6 text-slate-500">Preview listing. The full brief includes responsibilities, candidate requirements and application details to confirm with your consultant.</p>
+                <p className="mt-3 text-xs text-slate-500">Reference: {getRoleReference(sel, ALL_ROLES)}</p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <button onClick={() => readRole(sel)} className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-black/5 px-4 py-3 text-sm font-medium" style={{ color: P }}>View full role details <ArrowRight size={15} /></button>
+                <button onClick={() => openApply(sel)} className="flex-1 rounded-lg px-4 py-3 text-sm font-medium text-white" style={{ backgroundColor: P }}>Apply for this role</button>
+              </div>
+            </aside>
           )}
         </div>
       </div>
@@ -1040,6 +999,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const pages: Record<Page, React.ReactNode> = {
     home: page === 'home' ? HomePage() : null,
     jobseekers: page === 'jobseekers' ? JobseekersPage() : null,
+    role: page === 'role' && activeRole ? <RecruitmentRoleDetails key={getRoleReference(activeRole, ALL_ROLES)} role={activeRole} roles={ALL_ROLES} onBack={() => goTo('jobseekers')} onRead={readRole} onApply={openApply} /> : null,
     employers: page === 'employers' ? EmployersPage() : null,
     blog: page === 'blog' ? BlogPage() : null,
     article: page === 'article' && activeArticle ? <RecruitmentArticle key={activeArticle.title} article={activeArticle} articles={ARTICLES} onBack={() => goTo('blog')} onRead={readArticle} onContact={openContact} /> : null,
@@ -1062,12 +1022,12 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             {NAV.map(({ label, p }) => (
               <motion.button key={label} onClick={() => goTo(p)}
                 className="text-[14px] leading-[21px] whitespace-nowrap relative"
-                style={{ color: page === p ? P : TN, fontWeight: page === p ? 500 : 400 }}
+                style={{ color: navPage === p ? P : TN, fontWeight: navPage === p ? 500 : 400 }}
                 whileHover={{ color: P }}
                 onMouseEnter={e => (e.currentTarget.style.color = P)}
-                onMouseLeave={e => (e.currentTarget.style.color = page === p ? P : TN)}>
+                onMouseLeave={e => (e.currentTarget.style.color = navPage === p ? P : TN)}>
                 {label}
-                {page === p && (
+                {navPage === p && (
                   <motion.div
                     className="absolute -bottom-[22px] left-0 right-0 h-px"
                     style={{ backgroundColor: P }}
@@ -1114,7 +1074,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               {NAV.map(({ label, p }) => (
                 <button key={label} onClick={() => goTo(p)}
                   className="block w-full text-left py-2.5 text-[14px] border-b border-black/5 last:border-0"
-                  style={{ color: page === p ? P : TN, fontWeight: page === p ? 500 : 400 }}>
+                  style={{ color: navPage === p ? P : TN, fontWeight: navPage === p ? 500 : 400 }}>
                   {label}
                 </button>
               ))}
