@@ -785,30 +785,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     transition={{ type: 'spring', stiffness: 400, damping: 22 }}>
                     Apply for this role
                   </motion.button>
-                  <button onClick={openContact}
-                    className="px-6 py-3 border border-black/5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
-                    Ask a Question
-                  </button>
                 </div>
               </div>
 
-              {/* Industry photo card */}
-              <div className="rounded-xl overflow-hidden border border-black/5">
-                <p className="px-4 py-2.5 bg-white text-sm font-semibold text-slate-700 border-b border-black/5">About this Sector</p>
-                <div className="relative h-[220px]">
-                  {sel.sector === 'Logistics'   && <img src={imgLogistics}   alt={sel.sector} className="w-full h-full object-cover" />}
-                  {sel.sector === 'Healthcare'  && <img src={imgHealthcare}  alt={sel.sector} className="w-full h-full object-cover" />}
-                  {sel.sector === 'Hospitality' && <img src={imgHospitality} alt={sel.sector} className="w-full h-full object-cover" />}
-                  {sel.sector === 'Education'   && <img src={imgEducation}   alt={sel.sector} className="w-full h-full object-cover" />}
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)' }} />
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white font-semibold text-[16px]">{sel.sector}</p>
-                    <button onClick={openContact} className="mt-2 text-[12px] font-medium text-white/80 hover:text-white flex items-center gap-1">
-                      Speak to a {sel.sector} specialist <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
             </div>
           )}
         </div>
