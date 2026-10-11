@@ -26,7 +26,6 @@ export function LocumJobDetails({
   onBack,
   onApply,
   onLogin,
-  onRegister,
 }: {
   shift: PublicLocumShift
   reference: string
@@ -34,7 +33,6 @@ export function LocumJobDetails({
   onBack: () => void
   onApply: () => void
   onLogin: () => void
-  onRegister: () => void
 }) {
   const date = getPublicShiftDate(shift.date)
   const map = getShiftAreaMap(shift.location)
@@ -141,19 +139,6 @@ export function LocumJobDetails({
               </span>
             </p>
           </div>
-        </div>
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-black/5 pt-4">
-          <p className="max-w-sm text-xs leading-6 text-slate-500">
-            Pay is account-only. Live account access is not connected in this
-            preview.
-          </p>
-          <button
-            onClick={onRegister}
-            className="inline-flex items-center gap-2 text-xs font-semibold text-[#368B62]"
-          >
-            Create an account
-            <ArrowRight size={13} />
-          </button>
         </div>
       </div>
       <div className="flex gap-3">

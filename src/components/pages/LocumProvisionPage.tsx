@@ -1414,7 +1414,6 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       onBack={() => document.getElementById('locum-shift-results')?.scrollIntoView({ block: 'start', behavior: 'smooth' })}
                       onApply={openApply}
                       onLogin={() => openAuth('signin')}
-                      onRegister={() => openAuth('signup')}
                     />
                   </div>
                 );
