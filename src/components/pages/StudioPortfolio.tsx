@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Check, Code2, Layers, Minus, Plus, X } from 'lucide-react';
 import './studio-portfolio.css';
 import { ProjectEnquiryDialog } from '../modals/ProjectEnquiryDialog';
+import { StudioProjectCarousel } from '../StudioProjectCarousel';
 
 type Discipline = 'design' | 'development';
 type Project = {
@@ -56,9 +57,15 @@ export function StudioPortfolio({ discipline, onBackToHome, onBookDemo }: {
   const openingEnquiry = useRef(false);
   const filters = ['All work', ...new Set(work.map(project => project.category))];
   const visible = work.filter(project => category === 'All work' || project.category === category);
+  const featuredProject = category === 'All work' ? visible[0] : null;
+  const carouselProjects = featuredProject ? visible.slice(1) : visible;
   const discuss = () => onBookDemo(design ? 'Product Design Service' : 'Web Development Service');
   const sectionId = (section: string) => `${discipline}-${section}`;
   function openProject(project: Project) { returnFocus.current = document.activeElement as HTMLElement; setSelected(project); }
+  const projectCard = (project: Project, featured = false) => <button key={project.id} className={`studio-project ${featured ? 'studio-project-featured' : ''}`} onClick={() => openProject(project)}>
+    <div className={`studio-project-stage studio-stage-${project.tone}`}><span className="studio-project-number">0{work.indexOf(project) + 1} / {project.category.toUpperCase()}</span><div className="studio-browser"><div className="studio-browser-bar"><span /><span /><span /><p>mployus / {project.image}</p></div><img src={`/images/studio/${project.image}.png`} alt={`${project.summary} — screenshot of the existing MployUs interface`} loading="lazy" /></div><span className="studio-project-open"><ArrowUpRight size={20} /></span></div>
+    <div className="studio-project-info"><div><h3>{project.name}</h3><p>{project.summary}</p></div><span>{project.category}<br /><small>In-house project</small></span></div>
+  </button>;
   return <div className="studiofolio" data-discipline={discipline}>
     <div className="studio-subnav studio-container">
       <button onClick={onBackToHome}><ArrowLeft size={14} /> Back to homepage</button>
@@ -83,10 +90,10 @@ export function StudioPortfolio({ discipline, onBackToHome, onBookDemo }: {
     <section id={sectionId('work')} className="studio-work studio-container">
       <div className="studio-section-heading"><div><p className="studio-eyebrow">01 / A CLOSER LOOK</p><h2>Work with <em>purpose.</em></h2></div><p>Real interfaces from the MployUs ecosystem.<br />Not stock mock-ups. Not invented client results.</p></div>
       <div className="studio-work-toolbar"><div aria-label="Filter projects" className="studio-filters">{filters.map(filter => <button key={filter} onClick={() => setCategory(filter)} aria-pressed={category === filter}>{filter}</button>)}</div><span aria-live="polite">{String(visible.length).padStart(2, '0')} projects</span></div>
-      <div className="studio-project-grid">{visible.map((project, index) => <button key={project.id} className={`studio-project ${index === 0 && category === 'All work' ? 'studio-project-featured' : ''}`} onClick={() => openProject(project)}>
-        <div className={`studio-project-stage studio-stage-${project.tone}`}><span className="studio-project-number">0{work.indexOf(project) + 1} / {project.category.toUpperCase()}</span><div className="studio-browser"><div className="studio-browser-bar"><span /><span /><span /><p>mployus / {project.image}</p></div><img src={`/images/studio/${project.image}.png`} alt={`${project.summary} — screenshot of the existing MployUs interface`} loading="lazy" /></div><span className="studio-project-open"><ArrowUpRight size={20} /></span></div>
-        <div className="studio-project-info"><div><h3>{project.name}</h3><p>{project.summary}</p></div><span>{project.category}<br /><small>In-house project</small></span></div>
-      </button>)}</div>
+      <div className="studio-project-grid">
+        {featuredProject && projectCard(featuredProject, true)}
+        {carouselProjects.length > 0 && <StudioProjectCarousel key={category} id={`${discipline}-project-carousel`} label={`${design ? 'Product design' : 'Web development'} projects`}>{carouselProjects.map(project => projectCard(project))}</StudioProjectCarousel>}
+      </div>
       <p className="studio-work-note">Shown as front-end previews. Live authentication, submissions and integrations are not implied. Project outcomes have not been independently measured.</p>
     </section>
 
