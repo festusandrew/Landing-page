@@ -1375,7 +1375,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                               <span className={`text-[13px] ${active ? 'text-white/80' : 'text-black'}`}>{s.date}</span>
                             </div>
                             <div>
-                              <p className={`text-[13px] font-normal ${active ? 'text-[#a3d139]' : 'text-[#368B62]'}`}><span className="inline-flex items-center gap-1.5"><Lock size={12} />Account-only pay</span></p>
+                              <p className={`text-[13px] font-normal ${active ? 'text-[#a3d139]' : 'text-[#368B62]'}`}><span className="inline-flex items-center"><Lock size={12} aria-hidden="true" /><span className="sr-only">Pay locked until sign-in</span></span></p>
                             </div>
                           </div>
                           {/* Time + location row */}
@@ -1434,7 +1434,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   </div>
                   <div className="text-right shrink-0">
                     <p className="text-xs text-slate-500">{applyShift.time}</p>
-                    <p className="font-bold text-[#368B62] text-sm"><span className="inline-flex items-center gap-1.5"><Lock size={12} />Account-only pay</span></p>
+                    <p className="font-bold text-[#368B62] text-sm"><span className="inline-flex items-center"><Lock size={12} aria-hidden="true" /><span className="sr-only">Pay locked until sign-in</span></span></p>
                   </div>
                 </div>
               )}
@@ -1466,7 +1466,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         </div>
                         <div className="flex items-center gap-2 text-slate-700">
                           <Wallet className="w-4 h-4 text-[#368B62] shrink-0" />
-                          <span className="font-bold text-[#368B62]"><span className="inline-flex items-center gap-1.5"><Lock size={12} />Account-only pay</span></span>
+                          <span className="font-bold text-[#368B62]"><span className="inline-flex items-center"><Lock size={12} aria-hidden="true" /><span className="sr-only">Pay locked until sign-in</span></span></span>
                         </div>
                       </div>
                       <label className="flex items-start gap-3 cursor-pointer pt-1">
@@ -1555,7 +1555,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
                         <div><span className="text-slate-400">Shift</span><p className="font-semibold text-slate-900 mt-0.5">{applyShift.facility}</p></div>
                         <div><span className="text-slate-400">Date &amp; time</span><p className="font-semibold text-slate-900 mt-0.5">{applyShift.date} · {applyShift.time}</p></div>
-                        <div><span className="text-slate-400">Rate</span><p className="font-semibold text-slate-900 mt-0.5"><span className="inline-flex items-center gap-1.5"><Lock size={12} />Account-only pay</span></p></div>
+                        <div><span className="text-slate-400">Rate</span><p className="font-semibold text-slate-900 mt-0.5"><span className="inline-flex items-center"><Lock size={12} aria-hidden="true" /><span className="sr-only">Pay locked until sign-in</span></span></p></div>
                         <div><span className="text-slate-400">Location</span><p className="font-semibold text-slate-900 mt-0.5">{applyShift.location}</p></div>
                         <div><span className="text-slate-400">Transport</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.transport || '—'}</p></div>
                         <div><span className="text-slate-400">Travel time</span><p className="font-semibold text-slate-900 mt-0.5">{applyForm.travelTime || '—'}</p></div>
