@@ -6,7 +6,7 @@ import {
   useState,
   type ReactNode,
 } from "react"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 export function StudioProjectCarousel({
   id,
@@ -83,7 +83,7 @@ export function StudioProjectCarousel({
         <div>
           <p>More selected work</p>
           <span>
-            {count > 1 ? "Scroll horizontally to explore" : "Selected project"}
+            {count > 1 ? "Explore more projects" : "Selected project"}
           </span>
         </div>
         <div className="studio-carousel-controls">
@@ -98,7 +98,7 @@ export function StudioProjectCarousel({
             disabled={!position.previous}
             onClick={() => scroll(-1)}
           >
-            <ArrowLeft size={17} />
+            <ChevronLeft size={20} />
           </button>
           <button
             type="button"
@@ -107,7 +107,7 @@ export function StudioProjectCarousel({
             disabled={!position.next}
             onClick={() => scroll(1)}
           >
-            <ArrowRight size={17} />
+            <ChevronRight size={20} />
           </button>
         </div>
       </div>
