@@ -1,10 +1,15 @@
 .pricing-reference {
-  --pricing-accent: #810161;
-  --pricing-tint: #f8eef5;
+  --pricing-accent: var(--homepage-accent, #0E162A);
+  --pricing-tint: var(--homepage-tint, #eef1f6);
   color: #0f172a;
   font-family: 'Inter:Regular', Inter, sans-serif;
 }
 .pricing-reference img { max-width: none; flex-shrink: 0; }
+.pricing-reference-icon img,
+.pricing-reference-features li img,
+.pricing-reference-enterprise li img {
+  filter: brightness(0) saturate(100%) invert(7%) sepia(24%) saturate(1748%) hue-rotate(183deg) brightness(94%) contrast(96%);
+}
 .pricing-reference button { cursor: pointer; }
 .pricing-reference button:focus-visible { outline: 2px solid var(--pricing-accent); outline-offset: 4px; }
 .pricing-reference-back { max-width: 1730.704px; margin: auto; padding: 32.451px 43.268px; display: flex; justify-content: space-between; gap: 20px; }
@@ -37,9 +42,9 @@
 .pricing-reference-cta { width: 100%; display: flex; align-items: center; justify-content: center; gap: 14.626px; margin-top: 21.634px; padding: 18.282px 21.634px; border: 1px solid rgb(0 0 0 / 5%); border-radius: 14.626px; background: white; font-family: 'Inter:Semi Bold', sans-serif; font-weight: 600; font-size: 21.938px; line-height: 29.252px; transition: background .2s; }
 .pricing-reference-cta:hover { background: #f1f5f9; }
 .is-growth .pricing-reference-cta { background: var(--pricing-accent); color: white; }
-.is-growth .pricing-reference-cta:hover { background: #67014d; }
+.is-growth .pricing-reference-cta:hover { background: var(--homepage-accent-hover, #1c2942); }
 .pricing-reference-features { margin-top: 43.877px; padding-top: 36.564px; border-top: 1px solid rgb(0 0 0 / 5%); }
-.pricing-reference-capacity { min-height: 54.848px; font-family: 'Inter:Semi Bold', sans-serif; font-weight: 600; font-size: 18.282px; line-height: 27.424px; color: #90a1b9; letter-spacing: .9142px; text-transform: uppercase; }
+.pricing-reference-capacity { min-height: 54.848px; font-family: 'Inter:Semi Bold', sans-serif; font-weight: 600; font-size: 18.282px; line-height: 27.424px; color: #687184; letter-spacing: .9142px; text-transform: uppercase; }
 .pricing-reference-features ul { margin-top: 29.252px; display: flex; flex-direction: column; gap: 25.595px; }
 .pricing-reference-features li { display: flex; align-items: flex-start; gap: 18.282px; font-size: 25.595px; line-height: 43.877px; color: #475569; }
 .pricing-reference-features li img { margin-top: 7.312px; }
