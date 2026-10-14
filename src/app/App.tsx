@@ -237,9 +237,9 @@ function LandingPage({
                 />
               </span>
             </div>
-            <p className="flex flex-wrap items-center justify-center gap-3 font-['Inter:Regular',Inter,sans-serif] text-[18px] font-normal leading-[37.859px] text-[#475569] sm:text-[22.986px]">
+            <p className="flex flex-wrap items-center justify-center gap-3 font-['DM_Sans',sans-serif] text-[18px] font-normal leading-[37.859px] text-[#475569] sm:text-[22.986px]">
               Trusted by{" "}
-              <strong className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[36px] font-semibold leading-[54.085px] tracking-[-0.8113px] text-[#0f172a]">
+              <strong className="text-[36px] font-semibold leading-[54.085px] tracking-[-0.8113px] text-[#0f172a]">
                 2K+
               </strong>{" "}
               teams
