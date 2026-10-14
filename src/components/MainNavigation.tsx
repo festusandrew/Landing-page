@@ -116,7 +116,7 @@ export function MainNavigation({
             aria-expanded={openMenu === name}
             aria-controls={`main-${mobile ? "mobile" : "desktop"}-${name}`}
             onClick={() => setOpenMenu(openMenu === name ? null : name)}
-            className="flex items-center gap-1 py-2 font-['Plus_Jakarta_Sans:SemiBold',sans-serif] text-base font-semibold leading-6 text-[#314158] transition-colors hover:text-[#368B62]"
+            className="flex items-center gap-1 py-2 font-['Plus_Jakarta_Sans:SemiBold',sans-serif] text-xs font-semibold leading-4 text-[#314158] transition-colors hover:text-[#368B62]"
           >
             {name}
             <img
@@ -239,7 +239,7 @@ export function MainNavigation({
           closeMenu()
           onSection("overview")
         }}
-        className="text-left font-['Plus_Jakarta_Sans:Medium',sans-serif] text-base font-medium leading-6 text-[#45556c] hover:text-[#368B62]"
+        className="text-left font-['Plus_Jakarta_Sans:Medium',sans-serif] text-xs font-medium leading-4 text-[#45556c] hover:text-[#368B62]"
       >
         Overview
       </button>
