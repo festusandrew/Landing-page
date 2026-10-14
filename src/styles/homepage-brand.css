@@ -1,21 +1,21 @@
 /* Homepage-only palette: shared service-page components keep their own branding. */
 .homepage-magenta {
-  --homepage-accent: #810161;
-  --homepage-accent-hover: #67014d;
-  --homepage-tint: #f8eef5;
-  --homepage-soft: #f3e6ef;
-  --homepage-selection: #eed5e7;
-  --homepage-ink: #352331;
-  --homepage-muted: #766b73;
-  --homepage-deep: #420032;
-  --homepage-light-text: #d8b6cf;
+  --homepage-accent: #0E162A;
+  --homepage-accent-hover: #1c2942;
+  --homepage-tint: #eef1f6;
+  --homepage-soft: #e6ebf2;
+  --homepage-selection: #d5deed;
+  --homepage-ink: #0E162A;
+  --homepage-muted: #687184;
+  --homepage-deep: #0E162A;
+  --homepage-light-text: #bcc8dc;
   color: var(--homepage-ink);
 }
 .homepage-magenta :is([class~="text-[#368B62]"], [class~="text-[#368b62]"]) {
   color: var(--homepage-accent);
 }
 .homepage-magenta [class~="bg-[#368B62]"] { background-color: var(--homepage-accent); }
-.homepage-magenta [class~="text-[#368B62]/10"] { color: rgb(129 1 97 / 10%); }
+.homepage-magenta [class~="text-[#368B62]/10"] { color: rgb(14 22 42 / 10%); }
 .homepage-magenta [class~="hover:text-[#368B62]"]:hover,
 .homepage-magenta .group:hover [class~="group-hover:text-[#368B62]"] { color: var(--homepage-accent); }
 .homepage-magenta [class~="hover:bg-[#286d4c]"]:hover { background-color: var(--homepage-accent-hover); }
@@ -23,23 +23,23 @@
 .homepage-magenta [class~="bg-[#edf5ef]"] { background-color: var(--homepage-tint); }
 .homepage-magenta [class~="hover:bg-[#edf5ef]"]:hover { background-color: var(--homepage-tint); }
 .homepage-magenta [class~="bg-[#e9f0e7]"] { background-color: var(--homepage-soft); }
-.homepage-magenta [class~="bg-[#f6f7f3]"] { background-color: #faf6f9; }
-.homepage-magenta [class~="hover:bg-[#fdfefc]"]:hover { background-color: #fffafd; }
-.homepage-magenta [class~="bg-[#fafaf8]"] { background-color: #fcf9fb; }
+.homepage-magenta [class~="bg-[#f6f7f3]"] { background-color: #f6f7fa; }
+.homepage-magenta [class~="hover:bg-[#fdfefc]"]:hover { background-color: #fafbff; }
+.homepage-magenta [class~="bg-[#fafaf8]"] { background-color: #f9fafc; }
 .homepage-magenta [class~="bg-[#173e30]"] { background-color: var(--homepage-deep); }
 .homepage-magenta [class~="text-[#b1ccbb]"] { color: var(--homepage-light-text); }
 .homepage-magenta [class~="text-[#233b35]"] { color: var(--homepage-ink); }
 .homepage-magenta [class~="text-[#68736e]"] { color: var(--homepage-muted); }
-.homepage-magenta [class~="text-[#5d6862]"] { color: #705f6c; }
-.homepage-magenta [class~="text-[#7b837e]"] { color: #857780; }
+.homepage-magenta [class~="text-[#5d6862]"] { color: #5f6b80; }
+.homepage-magenta [class~="text-[#7b837e]"] { color: #778297; }
 .homepage-magenta::selection,
 .homepage-magenta *::selection { background-color: var(--homepage-selection); }
 .homepage-magenta .homepage-hero-glow {
-  background-image: radial-gradient(ellipse at 50% 85%, rgb(129 1 97 / 16%) 0%, rgb(129 1 97 / 7%) 40%, rgb(255 255 255 / 0%) 72%);
+  background-image: radial-gradient(ellipse at 50% 85%, rgb(14 22 42 / 16%) 0%, rgb(14 22 42 / 7%) 40%, rgb(255 255 255 / 0%) 72%);
 }
 .homepage-magenta .homepage-service-overlay {
-  background-image: linear-gradient(to top, rgb(46 16 40 / 95%), rgb(46 16 40 / 20%), transparent);
+  background-image: linear-gradient(to top, rgb(14 22 42 / 95%), rgb(14 22 42 / 20%), transparent);
 }
 .homepage-magenta #pricing img[class*="hue-rotate(99deg)"] {
-  filter: brightness(0) saturate(100%) invert(12%) sepia(91%) saturate(4890%) hue-rotate(300deg) brightness(80%) contrast(112%);
+  filter: brightness(0) saturate(100%) invert(7%) sepia(24%) saturate(1748%) hue-rotate(183deg) brightness(94%) contrast(96%);
 }
