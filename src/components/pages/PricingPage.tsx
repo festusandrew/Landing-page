@@ -1,12 +1,35 @@
 import { useState } from "react"
-import { ArrowLeft, ArrowUpRight, Check, HeartHandshake, Users, Plus } from "lucide-react"
 import { PLATFORM_PRICING } from "../../data/platformPricing"
-import starterIcon from "../../imports/pricing-reference/8cf1a.svg"
-import growthIcon from "../../imports/pricing-reference/25964.svg"
-import scaleIcon from "../../imports/pricing-reference/7cf9f.svg"
+import starterIcon from "../../imports/pricing-design/a2dd0.svg"
+import growthIcon from "../../imports/pricing-design/b122f.svg"
+import scaleIcon from "../../imports/pricing-design/f546f.svg"
+import backIcon from "../../imports/pricing-design/e2e5d.svg"
+import arrow from "../../imports/pricing-design/9ca7a.svg"
+import lightArrow from "../../imports/pricing-design/0701f.svg"
+import scaleArrow from "../../imports/pricing-design/96b6f.svg"
+import starterCheck1 from "../../imports/pricing-design/2d1a4.svg"
+import starterCheck2 from "../../imports/pricing-design/aaf41.svg"
+import starterCheck3 from "../../imports/pricing-design/58749.svg"
+import starterCheck4 from "../../imports/pricing-design/89974.svg"
+import starterCheck5 from "../../imports/pricing-design/862dc.svg"
+import growthCheck1 from "../../imports/pricing-design/c02f3.svg"
+import growthCheck2 from "../../imports/pricing-design/47744.svg"
+import growthCheck3 from "../../imports/pricing-design/410ab.svg"
+import growthCheck4 from "../../imports/pricing-design/4134c.svg"
+import growthCheck5 from "../../imports/pricing-design/13187.svg"
+import scaleCheck1 from "../../imports/pricing-design/b6239.svg"
+import scaleCheck2 from "../../imports/pricing-design/63874.svg"
+import scaleCheck3 from "../../imports/pricing-design/8e76e.svg"
+import scaleCheck4 from "../../imports/pricing-design/bc480.svg"
+import scaleCheck5 from "../../imports/pricing-design/a8129.svg"
+import "./pricing-page.css"
 
-const planIcons = [starterIcon, growthIcon, scaleIcon, scaleIcon]
-const pricingIcon = "shrink-0 [filter:brightness(0)_saturate(100%)_invert(47%)_sepia(16%)_saturate(1415%)_hue-rotate(99deg)_brightness(95%)_contrast(86%)]"
+const visuals = [
+  { icon: starterIcon, arrow, checks: [starterCheck1, starterCheck2, starterCheck3, starterCheck4, starterCheck5] },
+  { icon: growthIcon, arrow: lightArrow, checks: [growthCheck1, growthCheck2, growthCheck3, growthCheck4, growthCheck5] },
+  { icon: scaleIcon, arrow: scaleArrow, checks: [scaleCheck1, scaleCheck2, scaleCheck3, scaleCheck4, scaleCheck5] },
+]
+const pounds = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 0 })
 
 interface PricingPageProps {
   onBackToHome: () => void
@@ -14,77 +37,59 @@ interface PricingPageProps {
   onStartTrial: () => void
 }
 
-export function PricingPage({
-  onBackToHome,
-  onBookDemo,
-  onStartTrial,
-}: PricingPageProps) {
+export function PricingPage({ onBackToHome, onBookDemo, onStartTrial }: PricingPageProps) {
   const [platform, setPlatform] = useState<"care" | "hire">("care")
   const current = PLATFORM_PRICING[platform]
-  const pounds = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 0 })
+  const enterprise = current.plans[3]
+
   return (
-    <div className="font-['Inter',sans-serif] text-[var(--homepage-ink)]">
-      <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-6 py-6 lg:px-8">
-        <button
-          type="button"
-          onClick={onBackToHome}
-          className="inline-flex items-center gap-2 text-sm text-[#233b35] transition-colors hover:text-[#368B62]"
-        >
-          <ArrowLeft size={16} /> Back to homepage
-        </button>
-        <span className="text-xs text-[#68736e]">Plans &amp; pricing</span>
+    <div className="pricing-reference">
+      <div className="pricing-reference-back">
+        <button type="button" onClick={onBackToHome}><img src={backIcon} alt="" />Back to homepage</button>
+        <span>Plans &amp; pricing</span>
       </div>
-      <section id="pricing" aria-labelledby="pricing-heading" className="scroll-mt-6 border-y border-black/5 bg-slate-50 py-16 text-slate-900 md:py-20">
-        <div className="mx-auto max-w-[1622.535px] px-6 md:px-[43.268px]">
-          <div className="mx-auto max-w-[892.394px] text-center">
-            <p className="text-[14.873px] font-semibold uppercase leading-[22.31px] tracking-[2.3797px] text-[var(--homepage-accent)]">Room to grow</p>
-            <h1 id="pricing-heading" className="mt-[21.634px] text-[36px] font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px] md:leading-[64.901px]">A plan for where you are. And where you’re going.</h1>
-            <p className="mt-[21.634px] text-[18px] leading-8 text-slate-500 md:text-[20.282px] md:leading-[37.859px]">Start with the essentials. Expand your capabilities as your business grows. All prices are in pounds sterling (GBP), billed annually.</p>
-          </div>
-
-          <div role="group" aria-label="Choose a pricing platform" className="mx-auto mt-10 flex w-fit max-w-full flex-wrap justify-center gap-1 rounded-[10.817px] border border-black/5 bg-white p-[5.408px] md:mt-[64.901px]">
-            {(["care", "hire"] as const).map(key => {
-              const Icon = key === "care" ? HeartHandshake : Users
-              return <button key={key} type="button" aria-pressed={platform === key} aria-controls="platform-plans" onClick={() => setPlatform(key)} className={`inline-flex items-center justify-center gap-2 rounded-[8.113px] px-[21.634px] py-[10.817px] text-[16.225px] font-medium leading-[21.634px] transition-colors focus-visible:outline focus-visible:outline-offset-2 ${platform === key ? "bg-[var(--homepage-accent)] text-white" : "text-slate-600 hover:bg-slate-50"}`}><Icon size={16} />{PLATFORM_PRICING[key].label}</button>
-            })}
-          </div>
-
-          <div id="platform-plans" className="mt-10" aria-live="polite" aria-atomic="true">
-            <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
-              <div><h2 className="text-xl font-semibold">{current.label}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">{current.description}</p></div>
-              <p className="rounded-full bg-white px-4 py-2 text-xs font-medium text-slate-600">GBP · Annual billing</p>
+      <section id="pricing" aria-labelledby="pricing-heading" className="pricing-reference-section">
+        <div className="pricing-reference-inner">
+          <header className="pricing-reference-heading">
+            <p className="pricing-reference-kicker">Room to grow</p>
+            <h1 id="pricing-heading">A plan for where you are. And where you’re going.</h1>
+            <p className="pricing-reference-intro">Start with the essentials. Expand your capabilities as your business grows. All prices are in pounds sterling, billed annually.</p>
+          </header>
+          <div className="pricing-reference-controls">
+            <div className="pricing-reference-switch" role="group" aria-label="Choose a pricing platform">
+              {(["care", "hire"] as const).map(key => <button key={key} type="button" aria-pressed={platform === key} aria-controls="platform-plans" onClick={() => setPlatform(key)}>{PLATFORM_PRICING[key].label}</button>)}
             </div>
-            <div className="mt-[48.676px] grid gap-[27.042px] md:grid-cols-2 xl:grid-cols-4">
-              {current.plans.map((plan, index) => (
-                <article key={plan.name} className={`relative flex flex-col rounded-[16.225px] border border-black/5 p-6 transition-colors md:p-[37.859px] ${index === 1 ? "bg-[var(--homepage-tint)]" : "bg-white"}`}>
-                  {index === 1 && <p className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[var(--homepage-accent)] px-4 py-1.5 text-[13.521px] font-semibold leading-[20.282px] text-white">For growing teams</p>}
-                  <div className="flex items-center justify-between gap-3"><h3 className="text-[24.338px] font-semibold leading-[37.859px]">{plan.name}</h3><span className="rounded-[10.817px] bg-[var(--homepage-tint)] p-[10.817px]"><img src={planIcons[index]} alt="" className={pricingIcon} /></span></div>
-                  <p className="mt-[10.817px] min-h-[44px] text-[16.225px] leading-[21.634px] text-slate-500">{plan.staff}</p>
-                  <div className="mt-6">
-                    <p className="flex flex-wrap items-baseline gap-1"><span className="text-[43.268px] font-semibold leading-[64.901px] tracking-[-1.3521px]">{plan.price === null ? "Custom" : pounds.format(plan.price)}</span>{plan.price !== null && <span className="text-[16.225px] leading-[21.634px] text-slate-500">/month</span>}</p>
-                    <p className="min-h-[42px] text-[13.521px] leading-[20.282px] text-slate-500">{plan.price === null ? "A quote tailored to your organisation" : `${pounds.format(plan.price * 12)} billed annually`}</p>
+            <span className="pricing-reference-billing">GBP · Annual billing</span>
+          </div>
+          <p className="pricing-reference-platform">{current.description}</p>
+          <div id="platform-plans" aria-live="polite" aria-atomic="true">
+            <div className="pricing-reference-grid">
+              {current.plans.slice(0, 3).map((plan, index) => (
+                <article key={plan.name} className={`pricing-reference-card ${index === 1 ? "is-growth" : ""}`} aria-labelledby={`plan-${index}`}>
+                  {index === 1 && <p className="pricing-reference-badge">For growing teams</p>}
+                  <div className="pricing-reference-card-header">
+                    <h3 id={`plan-${index}`}>{plan.name}</h3>
+                    <span className="pricing-reference-icon"><img src={visuals[index].icon} alt="" /></span>
                   </div>
-                  <button type="button" onClick={index === 0 ? onStartTrial : onBookDemo} className={`mt-4 flex w-full items-center justify-center gap-[10.817px] rounded-[10.817px] border border-black/5 px-4 py-[13.521px] text-[16.225px] font-semibold leading-[21.634px] transition-colors ${index === 1 ? "bg-[var(--homepage-accent)] text-white hover:bg-[var(--homepage-accent-hover)]" : "bg-white hover:bg-slate-50"}`}>{index === 0 ? "Start free trial" : plan.price === null ? "Talk to our team" : "Book a demo"}<ArrowUpRight size={16} /></button>
-                  <div className="mt-[32.451px] border-t border-black/5 pt-[27.042px]">
-                    <p className="min-h-10 text-[13.521px] font-semibold uppercase leading-[20.282px] tracking-[0.6761px] text-slate-400">{plan.capacity}</p>
-                    <ul className="mt-[21.634px] space-y-[18.93px]">
-                      {plan.features.map((feature, featureIndex) => <li key={feature} className={`flex items-start gap-[13.521px] text-[18.93px] leading-[32.451px] ${featureIndex === 0 && index > 0 && index < 3 ? "font-semibold" : "text-slate-600"}`}><Check size={21} className="mt-[5.408px] shrink-0 text-[var(--homepage-accent)]" /><span>{feature}</span></li>)}
-                    </ul>
+                  <p className="pricing-reference-staff">{plan.staff}</p>
+                  <p className="pricing-reference-price"><strong>{pounds.format(plan.price!)}</strong><span>/month</span></p>
+                  <p className="pricing-reference-total">{pounds.format(plan.price! * 12)} billed annually in GBP.</p>
+                  <button type="button" className="pricing-reference-cta" onClick={index === 0 ? onStartTrial : onBookDemo}>{index === 0 ? "Start free trial" : "Book a demo"}<img src={visuals[index].arrow} alt="" /></button>
+                  <div className="pricing-reference-features">
+                    <p className="pricing-reference-capacity">{plan.capacity}</p>
+                    <ul>{plan.features.map((feature, featureIndex) => <li key={feature}><img src={visuals[index].checks[featureIndex]} alt="" /><span>{feature}</span></li>)}</ul>
                   </div>
                 </article>
               ))}
             </div>
+            <article className="pricing-reference-enterprise">
+              <div><h3>{enterprise.name}</h3><p>{enterprise.staff} · {enterprise.capacity}</p><p>Custom pricing for your organisation.</p></div>
+              <ul>{enterprise.features.map((feature, index) => <li key={feature}><img src={visuals[2].checks[index]} alt="" />{feature}</li>)}</ul>
+              <button type="button" className="pricing-reference-cta" onClick={onBookDemo}>Talk to our team<img src={scaleArrow} alt="" /></button>
+            </article>
           </div>
-
-          {platform === "care" && <aside className="mt-6 flex flex-wrap items-center justify-between gap-5 rounded-2xl border border-black/5 bg-white p-6">
-            <div className="flex items-start gap-3"><Plus size={20} className="mt-1 shrink-0" /><div><h3 className="text-sm font-semibold">More people to care for? Add capacity, not a new staff tier.</h3><p className="mt-2 text-sm leading-6 text-slate-500">Additional service-user bundles expand your care load within your existing staff tier.</p></div></div>
-            <button type="button" onClick={onBookDemo} className="inline-flex items-center gap-2 text-sm font-semibold hover:underline">Ask for a GBP quote<ArrowUpRight size={16} /></button>
-          </aside>}
-          <p className="mt-6 text-center text-xs leading-6 text-slate-500">Monthly equivalents shown for annual billing. Confirm applicable taxes, feature availability and final terms with our team before purchasing.</p>
-          <div className="mt-14 flex flex-wrap items-center justify-between gap-6 border-t border-black/5 pt-8">
-            <div><h2 className="text-xl font-semibold">Not sure which plan fits?</h2><p className="mt-2 text-sm text-slate-500">Tell us about your team. We’ll help you choose, without the guesswork.</p></div>
-            <div className="flex flex-wrap gap-3"><button type="button" onClick={onBookDemo} className="inline-flex items-center gap-2 rounded-lg bg-[var(--homepage-accent)] px-5 py-3 text-sm font-semibold text-white hover:bg-[var(--homepage-accent-hover)]">Talk to our team<ArrowUpRight size={16} /></button><button type="button" onClick={onStartTrial} className="rounded-lg border border-black/5 bg-white px-5 py-3 text-sm font-semibold hover:bg-slate-100">Explore a free trial</button></div>
-          </div>
+          {platform === "care" && <p className="pricing-reference-addon">Need more active service users within your staff tier? Additional bundles are available. <button type="button" onClick={onBookDemo}>Ask for a GBP quote.</button></p>}
+          <p className="pricing-reference-note">Monthly equivalents shown for annual billing. Confirm final GBP pricing, applicable taxes and available features with our team before purchasing.</p>
         </div>
       </section>
     </div>
