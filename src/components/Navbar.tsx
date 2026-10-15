@@ -86,8 +86,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div
           className={
             embedded
-              ? "flex flex-wrap items-center justify-center gap-3 sm:flex-col xl:flex-row"
-              : "ml-auto flex flex-wrap items-center gap-3"
+              ? "flex flex-row flex-nowrap items-center justify-center gap-3"
+              : "ml-auto flex flex-row flex-nowrap items-center gap-3"
           }
         >
           <button type="button" onClick={demo} className={primaryButton}>
