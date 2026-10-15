@@ -71,11 +71,15 @@ export function ModernServiceHero({
   image,
   onPrimary,
   onSecondary,
+  primaryIcon,
+  badgeIcon,
 }: {
   kind: "recruitment" | "locum"
   image: string
   onPrimary: () => void
   onSecondary: () => void
+  primaryIcon?: string
+  badgeIcon?: string
 }) {
   const locum = kind === "locum"
   const reducedMotion = useReducedMotion()
@@ -138,10 +142,10 @@ export function ModernServiceHero({
               }`}
             >
               {locum ? "Find your next shift" : "Find your next role"}
-              <ArrowRight
+              {primaryIcon ? <img src={primaryIcon} alt="" className="recruit-reference-icon" /> : <ArrowRight
                 size={16}
                 className="transition-transform group-hover:translate-x-1"
-              />
+              />}
             </button>
             <button
               onClick={onSecondary}
@@ -215,7 +219,7 @@ export function ModernServiceHero({
                   : "bg-[#f8eef5] text-[#810161]"
               }`}
             >
-              <Check size={19} />
+              {badgeIcon ? <img src={badgeIcon} alt="" className="recruit-reference-icon" /> : <Check size={19} />}
             </span>
           </motion.div>
         </motion.div>

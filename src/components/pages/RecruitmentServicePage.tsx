@@ -10,6 +10,8 @@ import { RecruitmentArticle, type RecruitmentStory } from './RecruitmentArticle'
 import { RecruitmentRoleDetails } from './RecruitmentRoleDetails';
 import { RECRUITMENT_JOB_REGIONS as JOB_REGIONS, getRoleReference, type RecruitmentRole } from '../../data/recruitmentRoleDetails';
 import './recruitment-article.css';
+import './recruitment-reference.css';
+import { RECRUITMENT_VISUALS } from '../../data/recruitmentVisuals';
 import {
   ArrowRight, Menu, X, Globe, Clock, Target, Users,
   Check, Mail, Phone, Building2, Briefcase, Send, CheckCircle2,
@@ -99,8 +101,8 @@ const H2 = ({ children, className = '', light = false }: { children: React.React
   </h2>
 );
 
-const Fade = ({ children }: { children: React.ReactNode }) => (
-  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
+const Fade = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+  <motion.div className={className} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
     {children}
   </motion.div>
 );
@@ -114,7 +116,7 @@ const IconField = ({
   <div className="flex items-center gap-3 px-4 py-3 rounded-lg border border-black/5"
     style={{ backgroundColor: BGL }}>
     <Icon className="w-4 h-4 shrink-0" style={{ color: TT }} />
-    <input type={type} placeholder={placeholder} value={value}
+    <input type={type} aria-label={placeholder} placeholder={placeholder} value={value}
       onChange={e => onChange?.(e.target.value)}
       className="bg-transparent text-[14px] outline-none w-full" style={{ color: TD }} />
   </div>
@@ -132,10 +134,10 @@ const ALL_ROLES = [
   { title: 'Secondary School Teacher', location: 'Cork',    type: 'Permanent', sector: 'Education',     salary: '€37,000–€58,000',   desc: 'Teaching post (maths/science) in a well-resourced secondary school. Teaching Council registration required.' },
   { title: 'Transport Manager',        location: 'Athlone', type: 'Permanent', sector: 'Logistics',     salary: '€50,000–€60,000',   desc: "CPC holder with fleet management experience. Responsible for a fleet of 18 HGVs across the Midlands route." },
   { title: 'Physiotherapist',          location: 'Galway',  type: 'Contract',  sector: 'Healthcare',    salary: '€28–€34/hr',        desc: 'Community-based outpatient caseload. CORU registration required. 6-month rolling contract with renewal.' },
-  { title: 'Staff Nurse', location: 'Belfast', type: 'Permanent', sector: 'Healthcare', salary: '£30,000–£38,000', desc: 'Illustrative nursing role in Northern Ireland. NMC registration required; exact duties and roster to be confirmed.' },
-  { title: 'Warehouse Team Leader', location: 'Manchester', type: 'Permanent', sector: 'Logistics', salary: '£28,000–£34,000', desc: 'Illustrative warehouse leadership role in England, supporting safe operations and daily team coordination.' },
-  { title: 'Hotel Receptionist', location: 'Cardiff', type: 'Contract', sector: 'Hospitality', salary: '£13–£15/hr', desc: 'Illustrative front-of-house role in Wales, welcoming guests and coordinating reservations.' },
-  { title: 'Care Assistant', location: 'Edinburgh', type: 'Permanent', sector: 'Healthcare', salary: '£25,000–£29,000', desc: 'Illustrative care role in Scotland. Experience, registration and safeguarding checks to be confirmed.' },
+  { title: 'Staff Nurse', location: 'Belfast', type: 'Permanent', sector: 'Healthcare', salary: '£30,000–£38,000', desc: 'Nursing role in Northern Ireland. NMC registration required; exact duties and roster to be confirmed.' },
+  { title: 'Warehouse Team Leader', location: 'Manchester', type: 'Permanent', sector: 'Logistics', salary: '£28,000–£34,000', desc: 'Warehouse leadership role in England, supporting safe operations and daily team coordination.' },
+  { title: 'Hotel Receptionist', location: 'Cardiff', type: 'Contract', sector: 'Hospitality', salary: '£13–£15/hr', desc: 'Front-of-house role in Wales, welcoming guests and coordinating reservations.' },
+  { title: 'Care Assistant', location: 'Edinburgh', type: 'Permanent', sector: 'Healthcare', salary: '£25,000–£29,000', desc: 'Care role in Scotland. Experience, registration and safeguarding checks to be confirmed.' },
 ];
 
 const LOCATIONS = ['All Locations', 'Dublin', 'Cork', 'Galway', 'Limerick', 'Kilkenny', 'Athlone', 'Belfast', 'Manchester', 'Cardiff', 'Edinburgh'];
@@ -340,7 +342,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             style={{ color: TD }}
             whileHover={{ x: 2 }}
             onMouseEnter={e => (e.currentTarget.style.color = P)} onMouseLeave={e => (e.currentTarget.style.color = TD)}>
-            View roles <ArrowRight className="w-4 h-4" />
+            View roles <img src={RECRUITMENT_VISUALS.home.rolesArrow[0]} alt="" className="recruit-reference-icon" />
           </motion.button>
         </Reveal>
         <motion.div
@@ -404,14 +406,14 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   );
 
   const Newsletter = () => (
-    <section className="py-14 px-6 text-center text-white" style={{ backgroundColor: P }}>
+    <section className="recruit-newsletter py-14 px-6 text-center text-white" style={{ backgroundColor: P }}>
       <div className="max-w-xl mx-auto">
         <Eyebrow light>Stay in the loop</Eyebrow>
         <h2 className="font-['DM_Sans',sans-serif] text-[32px] font-normal leading-snug mb-2">Hiring insights, market trends &amp; salary reports</h2>
         <p className="text-[14px] mb-7 text-white/70">Delivered monthly. No spam, ever.</p>
         <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
           <div className="flex items-center gap-2.5 flex-1 px-4 py-3 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }}>
-            <Mail className="w-4 h-4 text-white/50 shrink-0" />
+            <img src={RECRUITMENT_VISUALS.home.newsletter[0]} alt="" className="recruit-reference-icon" />
             <input placeholder="Enter your email" className="bg-transparent text-white text-[14px] placeholder-white/50 outline-none w-full" />
           </div>
           <button onClick={() => onBookDemo('Newsletter')} className="px-5 py-3 rounded-lg font-medium text-[14px]" style={{ backgroundColor: 'white', color: P }}>Subscribe</button>
@@ -427,8 +429,8 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         return (
           <div key={f.q} className="border border-black/5 rounded-xl overflow-hidden"
             style={{ borderColor: open ? 'rgba(129,1,97,0.2)' : 'rgba(0,0,0,0.05)' }}>
-            <motion.button onClick={() => setOpenFaq(open ? null : i)}
-              className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
+            <motion.button aria-expanded={open} aria-controls={`recruit-answer-${i}`} onClick={() => setOpenFaq(open ? null : i)}
+              className="recruit-faq-toggle w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
               style={{ backgroundColor: open ? P : 'white' }}
               whileTap={{ scale: 0.99 }}
             >
@@ -439,13 +441,14 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 animate={{ rotate: open ? 45 : 0 }}
                 transition={{ duration: 0.22 }}
               >
-                <Plus className="w-3.5 h-3.5" style={{ color: open ? 'white' : TT }} />
+                <img src={RECRUITMENT_VISUALS.contact.faq[i]} alt="" className="recruit-reference-icon" />
               </motion.div>
             </motion.button>
             <AnimatePresence initial={false}>
               {open && (
                 <motion.div
                   key="faq-content"
+                  id={`recruit-answer-${i}`}
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
@@ -465,8 +468,8 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   // ── PAGES ────────────────────────────────────────────────────────────────────
 
   const HomePage = () => (
-    <Fade>
-      <ModernServiceHero kind="recruitment" image={imgSarah} onPrimary={() => goTo('jobseekers')} onSecondary={openContact} />
+    <Fade className="recruit-surface recruit-home">
+      <ModernServiceHero kind="recruitment" image={imgSarah} primaryIcon={RECRUITMENT_VISUALS.home.heroArrow[0]} badgeIcon={RECRUITMENT_VISUALS.home.heroCheck[0]} onPrimary={() => goTo('jobseekers')} onSecondary={openContact} />
 
       <section className="border-b border-black/5 bg-white px-6 py-10"><div className="mx-auto grid max-w-[1184px] gap-6 md:grid-cols-2 md:gap-20"><p className="text-2xl font-medium leading-snug text-[#24332d]">Not just a recruitment agency.<br />A partner for your next chapter.</p><p className="text-sm leading-7 text-[#68716c]">From your first conversation to your next opportunity, we take the time to understand what matters. Specialist support for logistics, healthcare, hospitality and education across Ireland and the UK.</p></div></section>
 
@@ -486,13 +489,13 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 { icon: Target,  label: 'Local & Remote Roles',  desc: 'Flexible hiring models whether you need on-site staff in Dublin or remote specialists working from anywhere.' },
                 { icon: Check,   label: 'Right-Fit Matching',    desc: 'Our sourcing process goes beyond CVs. We evaluate culture fit, technical skills, and long-term potential.' },
                 { icon: Clock,   label: 'Faster Time-to-Hire',   desc: 'Streamlined workflows and a pre-vetted talent pool mean you fill roles in days, not months.' },
-              ].map(({ icon: Icon, label, desc }) => (
+              ].map(({ icon: Icon, label, desc }, index) => (
                 <motion.div key={label} variants={fadeUp}
                   className="bg-white p-8 flex flex-col gap-6 group cursor-default"
                   whileHover={{ backgroundColor: 'rgba(129,1,97,0.02)' }}
                 >
                   <motion.div whileHover={{ scale: 1.1, rotate: 3 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-                    <Icon className="w-5 h-5" style={{ color: TT }} strokeWidth={1.25} />
+                    <img src={RECRUITMENT_VISUALS.home.features[index]} alt="" className="recruit-reference-icon" />
                   </motion.div>
                   <div>
                     <p className="text-[16px] font-medium mb-2" style={{ color: P }}>{label}</p>
@@ -553,7 +556,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             <motion.button onClick={() => goTo('blog')} className="hidden sm:flex items-center gap-2 text-[14px]"
               style={{ color: TD }} whileHover={{ x: 2 }}
               onMouseEnter={e => (e.currentTarget.style.color = P)} onMouseLeave={e => (e.currentTarget.style.color = TD)}>
-              All articles <ArrowRight className="w-4 h-4" />
+              All articles <img src={RECRUITMENT_VISUALS.home.blogArrow[0]} alt="" className="recruit-reference-icon" />
             </motion.button>
           </Reveal>
           <motion.div
@@ -600,12 +603,12 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
     const sel = activeRole ?? sorted[selectedIdx] ?? sorted[0];
 
     return (
-    <Fade>
+    <Fade className="recruit-surface recruit-jobseekers">
       {/* Hero banner */}
       <section className="bg-[#faf5f8] px-6 py-14 sm:py-16"><div className="mx-auto max-w-[1184px]"><Eyebrow>Opportunities across Ireland &amp; the UK</Eyebrow><H1>A role that fits.<br />A future that’s yours.</H1><p className="mt-5 max-w-lg text-sm leading-7 text-[#68716c]">Explore opportunities across four specialist sectors, with a consultant by your side.</p></div></section>
 
       {/* Filter bar */}
-      <p className="bg-[#fbf5f9] px-6 py-3 text-center text-xs text-[#810161]">Preview vacancies: these sample listings demonstrate recruitment across Ireland and the UK. Availability and full terms require confirmation.</p>
+      <p className="bg-[#fbf5f9] px-6 py-3 text-center text-xs text-[#810161]">Unconfirmed listings · Availability, pay and full terms require employer confirmation.</p>
       <div className="bg-white border-b border-black/5">
         <div className="max-w-[1286px] mx-auto px-6 lg:px-10 py-5 flex flex-wrap items-end justify-between gap-4">
           <div className="flex flex-wrap gap-5 items-end">
@@ -725,31 +728,31 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 {sorted.map((r, i) => {
                   const active = sel === r;
                   return (
-                    <motion.button key={r.title + r.location} onClick={() => { setSelectedIdx(i); readRole(r, true); }}
+                    <motion.button key={r.title + r.location} aria-pressed={active} onClick={() => { setSelectedIdx(i); readRole(r, true); }}
                       className="w-full text-left border-b border-black/5 last:border-0"
-                      style={{ backgroundColor: active ? 'rgba(129,1,97,0.06)' : i % 2 === 0 ? 'rgba(245,245,245,0.5)' : 'white' }}
-                      whileHover={{ backgroundColor: active ? 'rgba(129,1,97,0.06)' : 'rgba(129,1,97,0.03)' }}
+                      style={{ backgroundColor: active ? P : i % 2 === 0 ? 'rgba(245,245,245,0.5)' : 'white' }}
+                      whileHover={{ backgroundColor: active ? P : 'rgba(129,1,97,0.03)' }}
                       transition={{ duration: 0.15 }}
                     >
                       <div className="flex flex-col gap-2 px-4 py-3.5">
                         <div>
-                          <p className="text-[11px] leading-snug" style={{ color: active ? TD : '#555' }}>{r.sector}</p>
-                          <p className="font-semibold text-[17px] leading-snug" style={{ color: active ? P : P }}>{r.title}</p>
+                          <p className="text-[11px] leading-snug" style={{ color: active ? 'white' : '#555' }}>{r.sector}</p>
+                          <p className="font-semibold text-[17px] leading-snug" style={{ color: active ? 'white' : P }}>{r.title}</p>
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
-                            <MapPin className="w-3.5 h-3.5 shrink-0" style={{ color: active ? TD : '#757575' }} />
-                            <span className="text-[13px]" style={{ color: active ? TD : '#333' }}>{r.location}</span>
+                            <img src={active ? RECRUITMENT_VISUALS.jobs.active[0] : RECRUITMENT_VISUALS.jobs.inactive[0]} alt="" className="recruit-reference-icon" />
+                            <span className="text-[13px]" style={{ color: active ? 'white' : '#333' }}>{r.location}</span>
                           </div>
-                          <p className="text-[13px] font-medium" style={{ color: active ? P : P }}>{r.salary}</p>
+                          <p className="text-[13px] font-medium" style={{ color: active ? 'white' : P }}>{r.salary}</p>
                         </div>
                         <div className="flex items-center gap-3">
                           <span className="text-[11px] px-2 py-0.5 rounded-full border"
                             style={{ backgroundColor: active ? 'white' : BGL, borderColor: active ? BD : BDL, color: active ? TD : TT }}>
                             {r.type}
                           </span>
-                          <Briefcase className="w-3.5 h-3.5" style={{ color: active ? TD : '#757575' }} />
-                          <span className="text-[13px]" style={{ color: active ? TD : '#333' }}>{r.sector}</span>
+                          <img src={active ? RECRUITMENT_VISUALS.jobs.active[1] : RECRUITMENT_VISUALS.jobs.inactive[1]} alt="" className="recruit-reference-icon" />
+                          <span className="text-[13px]" style={{ color: active ? 'white' : '#333' }}>{r.sector}</span>
                         </div>
                       </div>
                     </motion.button>
@@ -758,7 +761,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               </div>
             )}
 
-            <p className="mt-4 text-center text-xs text-slate-500">Showing all matching preview roles</p>
+            <p className="mt-4 text-center text-xs text-slate-500">Showing all matching roles</p>
           </div>
 
           {/* Complete role content stays alongside the search results. */}
@@ -785,12 +788,12 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
   // ── FOR EMPLOYERS ─────────────────────────────────────────────────────────────
   const EmployersPage = () => (
-    <Fade>
+    <Fade className="recruit-surface recruit-employers">
       <section className="bg-[#fbf5f9] px-6 py-16 lg:py-20">
         <div className="mx-auto max-w-[1184px]">
           <div className="flex flex-wrap items-start justify-between gap-8">
             <div className="max-w-xl"><Eyebrow>For employers · Ireland &amp; UK</Eyebrow><H1>Great talent.<br />A simpler way to hire.</H1><p className="mt-5 text-base leading-7 text-slate-600">Tell us who you need. We’ll help you find the right people, without the long forms or the guesswork.</p></div>
-            <button onClick={openContact} className="inline-flex items-center gap-3 rounded-lg bg-[#810161] px-7 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#65014b]">Submit a talent request <ArrowRight size={17} /></button>
+            <button onClick={openContact} className="inline-flex items-center gap-3 rounded-lg bg-[#810161] px-7 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#65014b]">Submit a talent request <img src={RECRUITMENT_VISUALS.employers.cta[0]} alt="" className="recruit-reference-icon" /></button>
           </div>
           <p className="mb-5 mt-12 text-xs font-medium uppercase tracking-[0.14em] text-slate-500">What would help your team?</p>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{[
@@ -798,7 +801,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             { title: 'Contract / Temp Staffing', label: 'Contract recruitment', icon: Clock, text: 'Flexible expertise for projects, peaks and planned cover.' },
             { title: 'Executive Search', label: 'Executive search', icon: Target, text: 'A discreet, focused search for your next leader.' },
             { title: 'Talent Solutions', label: 'Talent solutions', icon: Briefcase, text: 'An embedded hiring partner, workforce planning or volume hiring.' },
-          ].map(service => <button key={service.title} onClick={() => { openContact(); setContactForm(form => ({ ...form, role: service.title })); }} className="group rounded-xl border border-black/5 bg-white p-6 text-left transition-transform hover:-translate-y-1"><service.icon size={24} strokeWidth={1.4} className="mb-5 text-[#810161]" /><h2 className="text-base font-semibold text-slate-800">{service.label}</h2><p className="mb-6 mt-3 text-sm leading-6 text-slate-500">{service.text}</p><span className="flex items-center gap-2 text-xs font-semibold text-[#810161]">Request talent <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" /></span></button>)}</div>
+          ].map((service, index) => <button key={service.title} onClick={() => { openContact(); setContactForm(form => ({ ...form, role: service.title })); }} className="group rounded-xl border border-black/5 bg-white p-6 text-left transition-transform hover:-translate-y-1"><img src={RECRUITMENT_VISUALS.employers.cards[index]} alt="" className="recruit-reference-icon mb-5" /><h2 className="text-base font-semibold text-slate-800">{service.label}</h2><p className="mb-6 mt-3 text-sm leading-6 text-slate-500">{service.text}</p><span className="flex items-center gap-2 text-xs font-semibold text-[#810161]">Request talent <img src={RECRUITMENT_VISUALS.employers.arrows[index]} alt="" className="recruit-reference-icon" /></span></button>)}</div>
           <p className="mt-8 text-center text-sm text-slate-500">Not sure what you need? <button onClick={openContact} className="font-semibold text-[#810161]">Start a conversation</button></p>
         </div>
       </section>
@@ -808,7 +811,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
   // ── BLOG ──────────────────────────────────────────────────────────────────────
   const BlogPage = () => (
-    <Fade>
+    <Fade className="recruit-surface recruit-blog">
       <section className="py-16 bg-white border-b border-black/5">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
           <Reveal><Eyebrow>Insights &amp; resources</Eyebrow></Reveal>
@@ -844,7 +847,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               <p className="text-[15px] leading-relaxed mb-6" style={{ color: TM }}>{(visibleArticles[0] || ARTICLES[0]).excerpt}</p>
               <motion.button onClick={() => readArticle(visibleArticles[0])} className="self-start flex items-center gap-2 text-[14px] font-medium" style={{ color: P }}
                 whileHover={{ x: 3 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-                Read article <ArrowRight className="w-4 h-4" />
+                Read article <img src={RECRUITMENT_VISUALS.blog.featuredArrow[0]} alt="" className="recruit-reference-icon" />
               </motion.button>
             </div>
           </motion.div>
@@ -871,7 +874,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-56px' }}
             variants={staggerGrid(0.1)}
           >
-            {visibleArticles.map(a => (
+            {visibleArticles.map((a, index) => (
               <motion.div key={a.title} variants={fadeUp}
                 className="bg-white rounded-xl overflow-hidden border border-black/5 flex flex-col group cursor-pointer"
                 whileHover={{ y: -4, borderColor: 'rgba(0,0,0,0.05)' }}
@@ -890,7 +893,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                   <p className="text-[13px] leading-relaxed" style={{ color: TM }}>{a.excerpt.slice(0, 90)}…</p>
                   <motion.button onClick={() => readArticle(a)} className="self-start flex items-center gap-1.5 text-[13px] font-medium mt-1" style={{ color: P }}
                     whileHover={{ x: 2 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-                    Read more <ChevronRight className="w-4 h-4" />
+                    Read more <img src={RECRUITMENT_VISUALS.blog.readArrows[index % RECRUITMENT_VISUALS.blog.readArrows.length]} alt="" className="recruit-reference-icon" />
                   </motion.button>
                 </div>
               </motion.div>
@@ -906,7 +909,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
   // ── CONTACT ───────────────────────────────────────────────────────────────────
   const ContactPage = () => (
-    <Fade>
+    <Fade className="recruit-surface recruit-contact">
       <section className="py-16 bg-white border-b border-black/5">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
           <Reveal><Eyebrow>Get in touch</Eyebrow></Reveal>
@@ -934,14 +937,14 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 { icon: Phone,    placeholder: 'Phone number',                 key: 'phone',   type: 'tel' },
                 { icon: Building2, placeholder: 'Company name (optional)',     key: 'company', type: 'text' },
                 { icon: Briefcase, placeholder: 'What do you need help with?', key: 'role',   type: 'text' },
-              ].map(({ icon: Icon, placeholder, key, type }) => (
+              ].map(({ icon: Icon, placeholder, key, type }, index) => (
                 <motion.div key={key} variants={fadeUp}
                   className="flex items-center gap-3 px-4 py-3 rounded-lg border border-black/5"
                   style={{ backgroundColor: BGL }}
                   whileFocus={{ borderColor: 'rgba(0,0,0,0.05)' }}
                 >
-                  <Icon className="w-4 h-4 shrink-0" style={{ color: TT }} />
-                  <input type={type} placeholder={placeholder}
+                  <img src={RECRUITMENT_VISUALS.contact.fields[index]} alt="" className="recruit-reference-icon" />
+                  <input type={type} aria-label={placeholder} placeholder={placeholder}
                     value={contactForm[key as keyof typeof contactForm]}
                     onChange={e => setContactForm(f => ({ ...f, [key]: e.target.value }))}
                     className="bg-transparent text-[14px] outline-none w-full" style={{ color: TD }} />
@@ -960,7 +963,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               >
-                Send Message <Send className="w-4 h-4" />
+                Send Message <img src={RECRUITMENT_VISUALS.contact.send[0]} alt="" className="recruit-reference-icon" />
               </motion.button>
             </div>
           </motion.div>
@@ -977,7 +980,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 {[
                   { city: 'Dublin', addr: '12 Fitzwilliam Square, Dublin 2', phone: '+353 1 234 5678', email: 'dublin@mployus.ie' },
                   { city: 'Cork',   addr: '14 Grand Parade, Cork City, T12 XA10', phone: '+353 21 234 5678', email: 'cork@mployus.ie' },
-                ].map(o => (
+                ].map((o, index) => (
                   <motion.div key={o.city}
                     className="p-5 rounded-xl border border-black/5"
                     whileHover={{ borderColor: 'rgba(0,0,0,0.05)', x: 2 }}
@@ -985,9 +988,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                   >
                     <p className="text-[15px] font-medium mb-3" style={{ color: P }}>{o.city}</p>
                     <div className="space-y-2 text-[14px]" style={{ color: TM }}>
-                      <div className="flex items-center gap-2"><MapPin className="w-4 h-4 shrink-0" style={{ color: TT }} /> {o.addr}</div>
-                      <div className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0" style={{ color: TT }} /> {o.phone}</div>
-                      <div className="flex items-center gap-2"><Mail className="w-4 h-4 shrink-0" style={{ color: TT }} /> {o.email}</div>
+                      <div className="flex items-center gap-2"><img src={RECRUITMENT_VISUALS.contact.offices[index * 3 + 0]} alt="" className="recruit-reference-icon" /> {o.addr}</div>
+                      <div className="flex items-center gap-2"><img src={RECRUITMENT_VISUALS.contact.offices[index * 3 + 1]} alt="" className="recruit-reference-icon" /> {o.phone}</div>
+                      <div className="flex items-center gap-2"><img src={RECRUITMENT_VISUALS.contact.offices[index * 3 + 2]} alt="" className="recruit-reference-icon" /> {o.email}</div>
                     </div>
                   </motion.div>
                 ))}
@@ -1032,10 +1035,10 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   };
 
   return (
-    <div className="min-h-screen bg-white font-['DM_Sans',sans-serif]" style={{ color: TD }}>
+    <div data-recruit-page={page} className="recruit-reference min-h-screen bg-white font-['DM_Sans',sans-serif]" style={{ color: TD }}>
 
       {/* ══ NAVBAR ══ */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
+      <header className="recruit-navigation fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12 h-[68px] flex items-center justify-between">
           <motion.button onClick={() => goTo('home')} className="shrink-0"
             whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
@@ -1071,7 +1074,6 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               onMouseEnter={e => (e.currentTarget.style.color = P)} onMouseLeave={e => (e.currentTarget.style.color = TN)}>
               Login
             </motion.button>
-            <button onClick={() => openAuth('register')} className="rounded-full border border-black/5 px-4 py-2.5 text-sm whitespace-nowrap" style={{ color: P }}>Get started</button>
             <motion.button onClick={openContact}
               className="h-[41px] px-5 rounded-full text-white text-[14px] whitespace-nowrap"
               style={{ backgroundColor: P }}

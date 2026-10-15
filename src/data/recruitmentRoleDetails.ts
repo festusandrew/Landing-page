@@ -26,7 +26,7 @@ const PROFILES: Record<string, Profile> = {
       "Follow agreed safety procedures and report stock or operational issues.",
     ],
     qualifications: [
-      "Full training is included in the sample role brief.",
+      "Full training is included in the role brief.",
       "Attention to detail and reliable attendance are useful for this type of role.",
       "Confirm the physical duties, working pattern and any required equipment training with the employer.",
     ],
@@ -38,7 +38,7 @@ const PROFILES: Record<string, Profile> = {
       "Work with the wider care team and follow local clinical and safeguarding procedures.",
     ],
     qualifications: [
-      "NMBI registration is specified in the sample brief.",
+      "NMBI registration is specified in the role brief.",
       "Confirm the required register division, experience and clinical competencies for the placement.",
       "Right-to-work, suitability and applicable vetting checks need review before appointment.",
     ],
@@ -50,7 +50,7 @@ const PROFILES: Record<string, Profile> = {
       "Keep front-of-house information accurate and liaise with hotel colleagues.",
     ],
     qualifications: [
-      "Previous hospitality experience is specified for the Galway sample role; confirm requirements for other locations.",
+      "Previous hospitality experience is specified for the Galway role; confirm requirements for other locations.",
       "Clear communication and an organised approach are relevant to front-of-house work.",
       "Confirm the booking systems, working hours and duties in the employer-approved brief.",
     ],
@@ -62,7 +62,7 @@ const PROFILES: Record<string, Profile> = {
       "Respect confidentiality and follow the school’s safeguarding procedures.",
     ],
     qualifications: [
-      "Garda vetting is specified in the sample brief.",
+      "Garda vetting is specified in the role brief.",
       "Confirm the applicable qualification requirements and the school’s recruitment procedures.",
       "Experience and suitability for the particular support needs must be assessed by the school.",
     ],
@@ -74,7 +74,7 @@ const PROFILES: Record<string, Profile> = {
       "Liaise with colleagues to identify and resolve coordination issues.",
     ],
     qualifications: [
-      "Strong Excel and ERP experience are specified in the sample brief.",
+      "Strong Excel and ERP experience are specified in the role brief.",
       "A logistics degree is listed as preferred, not a confirmed universal requirement.",
       "Confirm the required experience, systems and reporting responsibilities.",
     ],
@@ -98,7 +98,7 @@ const PROFILES: Record<string, Profile> = {
       "Follow food-safety procedures and coordinate kitchen stock and workflow.",
     ],
     qualifications: [
-      "Proven menu-development skills and Irish-market knowledge are specified in the sample brief.",
+      "Proven menu-development skills and Irish-market knowledge are specified in the role brief.",
       "Confirm the expected kitchen leadership experience and food-safety training.",
       "Working hours, team size and responsibilities must be agreed with the employer.",
     ],
@@ -110,7 +110,7 @@ const PROFILES: Record<string, Profile> = {
       "Work with school colleagues and follow safeguarding and school policies.",
     ],
     qualifications: [
-      "Teaching Council registration is specified in the sample brief.",
+      "Teaching Council registration is specified in the role brief.",
       "Confirm the subject-specific qualifications and recognised teaching requirements.",
       "Suitability, right-to-work and applicable vetting checks require review before appointment.",
     ],
@@ -122,7 +122,7 @@ const PROFILES: Record<string, Profile> = {
       "Maintain operational records and review delivery and fleet requirements.",
     ],
     qualifications: [
-      "A CPC qualification and fleet-management experience are specified in the sample brief.",
+      "A CPC qualification and fleet-management experience are specified in the role brief.",
       "Confirm the relevant licence, transport-compliance knowledge and management responsibilities.",
       "The fleet size and operating arrangements need confirmation with the employer.",
     ],
@@ -134,7 +134,7 @@ const PROFILES: Record<string, Profile> = {
       "Communicate with service users and the wider clinical team.",
     ],
     qualifications: [
-      "CORU registration is specified in the sample brief.",
+      "CORU registration is specified in the role brief.",
       "Confirm the required clinical competencies, experience and supervision arrangements.",
       "Right-to-work, suitability and applicable safeguarding checks need review.",
     ],
@@ -146,7 +146,7 @@ const PROFILES: Record<string, Profile> = {
       "Follow the service’s clinical governance and safeguarding procedures.",
     ],
     qualifications: [
-      "NMC registration is specified for the Belfast sample role.",
+      "NMC registration is specified for the Belfast role.",
       "Confirm current registration status, relevant competencies and any restrictions.",
       "The employer must confirm experience, roster and applicable AccessNI requirements.",
     ],
@@ -158,7 +158,7 @@ const PROFILES: Record<string, Profile> = {
       "Monitor work progress and escalate operational issues appropriately.",
     ],
     qualifications: [
-      "This sample role describes warehouse leadership and operational coordination.",
+      "This role describes warehouse leadership and operational coordination.",
       "Confirm required supervisory experience and equipment or safety training.",
       "Shift patterns, responsibilities and the full person specification remain subject to employer confirmation.",
     ],
@@ -187,11 +187,11 @@ export function getRoleDetails(role: RecruitmentRole) {
   const qualifications = [...profile.qualifications]
   if (role.title === "Care Assistant" && region === "Ireland")
     qualifications.unshift(
-      "QQI Level 5 Care Skills is specified in this sample role brief.",
+      "QQI Level 5 Care Skills is specified in this role brief.",
     )
   if (role.title === "Hotel Receptionist" && role.location !== "Galway")
     qualifications[0] =
-      "This sample role covers front-of-house work and reservations; confirm the required hospitality experience."
+      "This role covers front-of-house work and reservations; confirm the required hospitality experience."
   const duration =
     role.type === "Permanent"
       ? "Permanent position"
@@ -210,7 +210,7 @@ export function getRoleDetails(role: RecruitmentRole) {
     qualifications,
     overview: [
       role.desc,
-      `This ${role.type.toLowerCase()} ${role.sector.toLowerCase()} opportunity is based in ${role.location}, ${region}. The sample brief provides a starting point; the employer’s identity, exact workplace, reporting line and full person specification must be confirmed before you proceed.`,
+      `This ${role.type.toLowerCase()} ${role.sector.toLowerCase()} opportunity is based in ${role.location}, ${region}. The role brief provides a starting point; the employer’s identity, exact workplace, reporting line and full person specification must be confirmed before you proceed.`,
     ],
     applicationDetails: [
       ["Contract term", duration],
@@ -227,7 +227,7 @@ export function getRoleDetails(role: RecruitmentRole) {
       ],
       [
         "Pay & benefits",
-        `${role.salary} is shown in the sample brief. Confirm pay frequency, overtime, benefits and leave before accepting.`,
+        `${role.salary} is shown in the role brief. Confirm pay frequency, overtime, benefits and leave before accepting.`,
       ],
       [
         "Right to work & sponsorship",
@@ -247,7 +247,7 @@ export function getRoleDetails(role: RecruitmentRole) {
       ],
       [
         "Application process",
-        "Application preview, consultant review and employer interview. The production submission service is not connected.",
+        "Application draft, consultant review and employer interview. Online applications are not connected.",
       ],
       [
         "Accessibility & adjustments",

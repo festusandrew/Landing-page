@@ -48,8 +48,10 @@
 .recruit-auth-password input { padding-right: 42px !important; }
 .recruit-auth-password > button { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 24px; height: 28px; color: var(--auth-muted); cursor: pointer; }
 .recruit-reference-eye { position: relative; display: block; width: 16px; height: 16px; }
-.recruit-reference-eye img:first-child { position: absolute; left: .666px; top: 2.667px; }
-.recruit-reference-eye img:last-child { position: absolute; left: 5.333px; top: 5.333px; }
+.recruit-reference-picture { display: inline-block; flex-shrink: 0; align-self: center; line-height: 0; }
+.recruit-reference-picture img { max-width: none; }
+.recruit-reference-eye .recruit-eye-outline { position: absolute; left: .666px; top: 2.667px; }
+.recruit-reference-eye .recruit-eye-pupil { position: absolute; left: 5.333px; top: 5.333px; }
 .recruit-auth-form label.recruit-auth-checkbox { display: flex; align-items: flex-start; gap: 8px; font-family: 'Inter:Regular', sans-serif; font-weight: 400; font-size: 13px; line-height: 19.5px; color: var(--auth-secondary); }
 .recruit-auth-checkbox input { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; accent-color: var(--auth-brand); }
 .recruit-auth-form label.recruit-auth-terms { gap: 10px; font-size: 12px; color: #6a7282; }
@@ -98,3 +100,62 @@
 }
 @media (max-width: 380px) { .recruit-auth-name-grid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .recruit-auth { animation: none; } }
+@media (min-width: 1440px) {
+  .recruit-auth { grid-template-columns: minmax(0,1fr) 567.887px; font-size: 18.93px; }
+  .recruit-auth-form-panel { padding: 64.901px 43.268px; }
+  .recruit-auth-form-wrap { max-width: 540.845px; }
+  .recruit-auth[data-register=true] .recruit-auth-form-wrap { max-width: 567.887px; }
+  .recruit-auth-logo,
+  .recruit-auth-logo img { width: 130.986px; height: 37.859px; }
+  .recruit-auth-title { margin-top: 62.197px; font-size: 37.859px; line-height: 47.324px; }
+  .recruit-auth-description { margin-top: 10.817px; font-size: 18.93px; line-height: 28.394px; }
+  .recruit-auth-form { margin-top: 43.268px; gap: 27.042px; }
+  .recruit-auth[data-register=true] .recruit-auth-form { gap: 21.634px; }
+  .recruit-auth-form label,
+  .recruit-auth-role legend { font-size: 17.577px; line-height: 26.366px; }
+  .recruit-auth-form label > :is(input:not([type=checkbox]),select,.recruit-auth-password) { margin-top: 8.113px; }
+  .recruit-auth-form :is(input:not([type=checkbox]),select) { height: 58.141px; padding: 13.521px 18.93px; border-radius: 10.817px; font-size: 18.93px; }
+  .recruit-auth-name-grid,
+  .recruit-auth-role > div { gap: 16.225px; }
+  .recruit-auth-role > div { margin-top: 10.817px; }
+  .recruit-auth-role button { height: 63.549px; gap: 16.225px; padding: 16.225px 21.634px; font-size: 18.93px; line-height: 28.394px; border-radius: 10.817px; }
+  .recruit-auth-label-row { margin-bottom: 8.113px; }
+  .recruit-auth-label-row button { font-size: 16.225px; line-height: 24.338px; }
+  .recruit-auth-password input { padding-right: 56.789px !important; }
+  .recruit-auth-password > button { right: 10.817px; width: 32.451px; height: 37.859px; }
+  .recruit-reference-eye { width: 21.634px; height: 21.634px; }
+  .recruit-reference-eye .recruit-eye-outline { left: .901px; top: 3.606px; }
+  .recruit-reference-eye .recruit-eye-pupil { left: 7.211px; top: 7.211px; }
+  .recruit-auth-form label.recruit-auth-checkbox { gap: 10.817px; font-size: 17.577px; line-height: 26.366px; }
+  .recruit-auth-checkbox input { width: 21.634px; height: 21.634px; margin-top: 2.704px; }
+  .recruit-auth-form label.recruit-auth-terms { gap: 13.521px; font-size: 16.225px; }
+  .recruit-auth-terms a { font-size: 21.634px; line-height: 32.451px; }
+  .recruit-auth-terms small { font-size: 16.225px; line-height: 26.366px; }
+  .recruit-auth-primary { min-height: 60.845px; padding: 16.225px 21.634px; border-radius: 10.817px; gap: 10.817px; font-size: 18.93px; line-height: 28.394px; }
+  .recruit-auth-divider { margin: 32.451px 0; gap: 16.225px; font-size: 16.225px; line-height: 24.338px; }
+  .recruit-auth-social { gap: 16.225px; }
+  .recruit-auth-social button { min-height: 58.141px; padding: 13.521px 18.93px; border-radius: 10.817px; gap: 13.521px; font-size: 18.93px; line-height: 28.394px; }
+  .recruit-auth-switch { margin-top: 43.268px; font-size: 17.577px; line-height: 26.366px; }
+  .recruit-auth-switch button { font-size: 21.634px; line-height: 32.451px; }
+  .recruit-auth[data-register=true] .recruit-auth-switch button { font-size: 17.577px; line-height: 26.366px; }
+  .recruit-auth-benefits { padding: 86.535px 43.268px; }
+  .recruit-auth-benefits-wrap { max-width: 405.634px; }
+  .recruit-auth-feature-icon { width: 64.901px; height: 64.901px; border-radius: 16.225px; }
+  .recruit-auth-benefits h2 { margin-top: 32.451px; font-size: 27.042px; line-height: 33.803px; }
+  .recruit-auth-benefits-wrap > p { margin-top: 16.225px; font-size: 18.93px; line-height: 30.761px; }
+  .recruit-auth-benefits ul { margin-top: 43.268px; gap: 21.634px; }
+  .recruit-auth-benefits li { gap: 13.521px; font-size: 17.577px; line-height: 26.366px; }
+  .recruit-auth-benefits li > span { width: 21.634px; height: 21.634px; margin-top: 5.408px; }
+  .recruit-auth-benefits blockquote { margin-top: 54.085px; padding-top: 33.803px; }
+  .recruit-auth-benefits blockquote p { font-size: 17.577px; line-height: 28.563px; }
+  .recruit-auth-benefits cite { margin-top: 16.225px; font-size: 16.225px; line-height: 24.338px; }
+  .recruit-auth-stats { margin-top: 54.085px; padding-top: 33.803px; gap: 21.634px; }
+  .recruit-auth-stats strong { font-size: 27.042px; line-height: 40.563px; }
+  .recruit-auth-stats span { font-size: 14.873px; line-height: 22.31px; }
+  .recruit-auth-reference-note { margin-top: 24.338px; font-size: 12.169px; line-height: 21.634px; }
+  .recruit-auth-prepared { margin-top: 43.268px; gap: 27.042px; }
+  .recruit-auth-prepared h2 { font-size: 27.042px; line-height: 33.803px; }
+  .recruit-auth-prepared p { font-size: 17.577px; line-height: 29.746px; }
+  .recruit-auth-text-button { margin-top: 27.042px; font-size: 17.577px; }
+  .recruit-auth-close { right: 29.746px; top: 27.042px; width: 43.268px; height: 43.268px; }
+}

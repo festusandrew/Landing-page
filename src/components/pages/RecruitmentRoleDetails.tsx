@@ -1,3 +1,4 @@
+import { RECRUITMENT_VISUALS } from "../../data/recruitmentVisuals"
 import { useEffect, useRef, useState } from "react"
 import {
   ArrowLeft,
@@ -86,29 +87,45 @@ export function RecruitmentRoleDetails({
         aria-labelledby="recruit-role-heading"
       >
         <div className="recruit-role-meta">
-          <span>Preview vacancy · Posting date not supplied</span>
+          <span>Recruitment · Posting date to be confirmed</span>
           <span>
-            <FileText size={13} />
+            <img
+              src={RECRUITMENT_VISUALS.jobs.file[0]}
+              alt=""
+              className="recruit-reference-icon"
+            />
             {reference}
           </span>
         </div>
         <div className="recruit-role-header">
           <div>
-            <span className="recruit-role-status">Preview role</span>
+            <span className="recruit-role-status">Unconfirmed vacancy</span>
             <Heading id="recruit-role-heading" ref={heading} tabIndex={-1}>
               {role.title}
             </Heading>
             <div className="recruit-role-tags">
               <span>
-                <MapPin size={14} />
+                <img
+                  src={RECRUITMENT_VISUALS.jobs.tags[0]}
+                  alt=""
+                  className="recruit-reference-icon"
+                />
                 {role.location}
               </span>
               <span>
-                <Briefcase size={14} />
+                <img
+                  src={RECRUITMENT_VISUALS.jobs.tags[1]}
+                  alt=""
+                  className="recruit-reference-icon"
+                />
                 {role.type}
               </span>
               <span>
-                <Wallet size={14} />
+                <img
+                  src={RECRUITMENT_VISUALS.jobs.tags[2]}
+                  alt=""
+                  className="recruit-reference-icon"
+                />
                 {role.salary}
               </span>
             </div>
@@ -119,23 +136,29 @@ export function RecruitmentRoleDetails({
               onClick={() => onApply(role)}
             >
               Apply for this role
-              <ArrowRight size={16} />
+              <img
+                src={RECRUITMENT_VISUALS.jobs.apply[0]}
+                alt=""
+                className="recruit-reference-icon"
+              />
             </button>
             <button
               className="recruit-role-share"
               onClick={share}
               aria-label="Share this role"
             >
-              <Share2 size={17} />
+              <img
+                src={RECRUITMENT_VISUALS.jobs.share[0]}
+                alt=""
+                className="recruit-reference-icon"
+              />
             </button>
           </div>
         </div>
         <div className="recruit-role-disclosure">
           <p>
-            Sample vacancy, not a verified live job. Duties and criteria below
-            illustrate the content structure and need an employer-approved
-            brief. Availability, pay and full terms must be confirmed before
-            appointment.
+            Availability, duties, pay and full terms require employer
+            confirmation before you proceed.
           </p>
         </div>
         {shareStatus && (
@@ -194,8 +217,7 @@ export function RecruitmentRoleDetails({
             Key responsibilities
           </SectionHeading>
           <p className="recruit-role-section-note">
-            Illustrative duties for this sample role; confirm the exact scope
-            with the employer.
+            Confirm the exact responsibilities and scope with the employer.
           </p>
           <ul>
             {details.responsibilities.map((item) => (
@@ -241,11 +263,14 @@ export function RecruitmentRoleDetails({
             onClick={() => onApply(role)}
           >
             Apply for this role
-            <ArrowRight size={16} />
+            <img
+              src={RECRUITMENT_VISUALS.jobs.bottomApply[0]}
+              alt=""
+              className="recruit-reference-icon"
+            />
           </button>
         </div>
       </article>
-
     </div>
   )
 }
