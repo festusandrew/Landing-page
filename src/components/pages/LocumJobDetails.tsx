@@ -1,3 +1,4 @@
+import { LOCUM_VISUALS } from "../../data/locumVisuals"
 import { useEffect, useId, useRef, useState } from "react"
 import {
   ArrowLeft,
@@ -63,17 +64,29 @@ export function LocumJobDetails({
       </h2>
       <div className="rounded-xl border border-black/5 bg-white p-5">
         <p className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#368B62]">
-          <MapPin size={15} />
+          <img
+            src={LOCUM_VISUALS.shift.location[0]}
+            alt=""
+            className="locum-reference-icon"
+          />
           {area}
         </p>
         <div className="grid gap-5 text-sm sm:grid-cols-2">
           <div className="space-y-3">
             <p className="flex items-start gap-2 text-slate-700">
-              <Clock size={15} className="mt-1 shrink-0 text-[#368B62]" />
+              <img
+                src={LOCUM_VISUALS.shift.clock[0]}
+                alt=""
+                className="locum-reference-icon"
+              />
               <span>{shift.time}</span>
             </p>
             <p className="flex items-center gap-2 text-slate-700">
-              <CalendarDays size={15} className="shrink-0 text-[#368B62]" />
+              <img
+                src={LOCUM_VISUALS.shift.calendar[0]}
+                alt=""
+                className="locum-reference-icon"
+              />
               {date.short}
             </p>
             <div className="flex items-center gap-2 text-[#368B62]">
@@ -124,11 +137,19 @@ export function LocumJobDetails({
           </div>
           <div className="space-y-3">
             <p className="flex items-center gap-2 text-slate-700">
-              <CircleHelp size={15} className="shrink-0 text-[#368B62]" />
+              <img
+                src={LOCUM_VISUALS.shift.availability[0]}
+                alt=""
+                className="locum-reference-icon"
+              />
               {shift.availability || "Availability to be confirmed"}
             </p>
             <p className="flex items-center gap-2 text-slate-700">
-              <Monitor size={15} className="shrink-0 text-[#368B62]" />
+              <img
+                src={LOCUM_VISUALS.shift.system[0]}
+                alt=""
+                className="locum-reference-icon"
+              />
               {shift.dispensingSystem || "Dispensing system not supplied"}
             </p>
             <p className="pl-6 text-xs text-slate-500">
@@ -146,7 +167,11 @@ export function LocumJobDetails({
           onClick={onBack}
           className="inline-flex items-center justify-center gap-2 rounded-lg border border-black/5 bg-white px-5 py-3 text-sm font-medium text-[#24332d]"
         >
-          <ArrowLeft size={15} />
+          <img
+            src={LOCUM_VISUALS.shift.back[0]}
+            alt=""
+            className="locum-reference-icon"
+          />
           Back to results
         </button>
         <button
@@ -154,7 +179,11 @@ export function LocumJobDetails({
           className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#368B62] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c]"
         >
           Apply
-          <ArrowRight size={15} />
+          <img
+            src={LOCUM_VISUALS.shift.apply[0]}
+            alt=""
+            className="locum-reference-icon"
+          />
         </button>
       </div>
       <section
@@ -176,7 +205,11 @@ export function LocumJobDetails({
               className="inline-flex items-center gap-2 text-xs font-medium text-[#368B62]"
             >
               Open larger map
-              <ExternalLink size={12} />
+              <img
+                src={LOCUM_VISUALS.shift.external[0]}
+                alt=""
+                className="locum-reference-icon"
+              />
             </a>
           )}
         </div>

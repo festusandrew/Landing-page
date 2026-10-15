@@ -1,3 +1,4 @@
+import { LOCUM_VISUALS } from "../../data/locumVisuals";
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useNavigate } from 'react-router';
@@ -33,6 +34,9 @@ import { getPublicShiftDate, type PublicLocumShift } from '../../data/locumShift
 import { LocumEmployerLanding } from './LocumEmployerLanding';
 import { LocumInsights } from './LocumInsights';
 import { LocumDialog } from '../LocumDialog';
+import locumHeroOverlay from '../../imports/locum-reference/38d30.png';
+import locumPhones from '../../imports/locum-reference/2aa6b.png';
+import './locum-reference.css';
 
 interface LocumProvisionPageProps {
   onBackToHome: () => void;
@@ -319,6 +323,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const goto = (p: LocumPage) => {
     setMobileNavOpen(false);
     setPage(p);
+    if (p === 'faq') setOpenFaq(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -541,12 +546,12 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   );
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-white text-slate-900" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div data-locum-page={page} className="locum-reference min-h-screen overflow-x-clip bg-white text-slate-900" style={{ fontFamily: "'DM Sans', sans-serif" }}>
 
       {/* ══════════════════════════════════════
           NAVBAR
       ══════════════════════════════════════ */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-lg border-b border-black/5' : 'bg-white border-b border-black/5'}`}>
+      <header className={`locum-navigation locum-surface fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-lg border-b border-black/5' : 'bg-white border-b border-black/5'}`}>
         <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
           <div className="flex items-center justify-between h-[70px]">
 
@@ -627,41 +632,31 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           HOME PAGE
       ══════════════════════════════════════ */}
       {page === 'home' && (
-        <div className="bg-white [&_h2]:font-medium [&_h2]:leading-[1.12] [&_h2]:text-[#24332d] [&_h2]:tracking-[-0.025em]">
+        <div className="locum-home locum-surface bg-white [&_h2]:font-medium [&_h2]:leading-[1.12] [&_h2]:text-[#24332d] [&_h2]:tracking-[-0.025em]">
 
         <section className="mx-auto mt-[86px] max-w-[1280px] px-4 sm:px-6" aria-label="Locum opportunities in Ireland and the UK">
           <div className="relative overflow-hidden rounded-[28px] bg-[#edf2ef]">
             <div className="absolute inset-y-0 right-0 hidden w-[54%] lg:block">
               <img src={imgLocumProfessional} alt="Healthcare professional in teal scrubs" className="h-full w-full object-cover object-[center_22%]" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#edf2ef] via-[#edf2ef]/10 to-transparent" />
+              <img src={locumHeroOverlay} alt="" className="absolute inset-0 h-full w-full object-cover" />
             </div>
             <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative z-10 px-7 py-12 sm:px-12 sm:py-16 lg:w-[61%] lg:px-14 lg:py-20">
               <p className="mb-7 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#53685b]"><span className="h-1.5 w-1.5 rounded-full bg-[#368B62]" />Healthcare, on your terms · Ireland & UK</p>
               <h1 className="text-[36px] font-medium leading-[1.04] tracking-[-0.025em] text-[#24332d] sm:text-[62px] lg:text-[68px]">Great care.<br />More freedom.<br /><span className="text-[#368B62]">Your next shift.</span></h1>
               <p className="mt-6 max-w-[430px] text-[15px] leading-7 text-[#64716a]">A more human way to work in healthcare. Find flexible shifts, connect with trusted facilities and make room for the life you want to live.</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <button onClick={() => goto('find-shifts')} className="group inline-flex items-center gap-4 rounded-full bg-[#368B62] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c]">Find your next shift<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></button>
+                <button onClick={() => goto('find-shifts')} className="group inline-flex items-center gap-4 rounded-full bg-[#368B62] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c]">Find your next shift<img src={LOCUM_VISUALS.home.heroArrow[0]} alt="" className="locum-reference-icon" /></button>
                 <button onClick={() => openAuth('signup')} className="rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-[#24332d] transition-colors hover:bg-[#dcebe1]">Join as a locum</button>
               </div>
-              <div className="mt-9 flex max-w-[450px] flex-wrap gap-x-5 gap-y-3">{['Flexible opportunities', 'Country-aware registration', 'People-first support'].map(label => <span key={label} className="flex items-center gap-1.5 text-[10px] text-[#64716a]"><Check className="h-3.5 w-3.5 text-[#368B62]" />{label}</span>)}</div>
+              <div className="mt-9 flex max-w-[450px] flex-wrap gap-x-5 gap-y-3">{['Flexible opportunities', 'Country-aware registration', 'People-first support'].map((label, index) => <span key={label} className="flex items-center gap-1.5 text-[10px] text-[#64716a]"><img src={LOCUM_VISUALS.home.heroChecks[index]} alt="" className="locum-reference-icon" />{label}</span>)}</div>
             </motion.div>
             <div className="relative h-[340px] overflow-hidden lg:hidden"><img src={imgLocumProfessional} alt="Healthcare professional in teal scrubs" className="h-full w-full object-cover object-[center_25%]" /></div>
-            <div className="absolute bottom-6 right-6 z-10 flex items-center gap-4 rounded-2xl bg-white/95 px-5 py-4 lg:bottom-8 lg:right-8"><div><p className="mb-1 text-[9px] uppercase tracking-[0.14em] text-[#7a827c]">A schedule that fits</p><p className="text-sm font-medium text-[#24332d]">Your expertise. Your choice.</p></div><span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#dceee4]"><Calendar className="h-4 w-4 text-[#368B62]" /></span></div>
+
           </div>
         </section>
         <section aria-label="Find locum opportunities" className="relative z-20 mx-auto max-w-[1280px] px-6 pb-4 pt-8"><div className="mx-auto max-w-[1184px]"><p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#67716b]">A little closer to your next opportunity</p><SearchBar /></div></section>
 
         <Reveal className="mx-auto max-w-[1000px] px-6 pb-12 pt-20 text-center"><p className="text-[32px] font-medium uppercase leading-[1.15] tracking-[-0.02em] text-[#a5b9ad] sm:text-[48px]">Care is personal.<br />Your working life should be, too.</p><p className="mx-auto mt-7 max-w-[630px] text-sm leading-7 text-[#68716c]">Find the opportunities that fit your expertise, your schedule and your ambitions. We connect healthcare professionals and facilities, with thoughtful support along the way.</p></Reveal>
-        <section aria-label="Getting started with MployUs Locums" className="mx-auto max-w-[1280px] px-6 pb-12">
-          <div className="mb-7 flex flex-col justify-between gap-3 sm:flex-row sm:items-end"><div><SectionLabel>A simple place to start</SectionLabel><h2 className="mt-4 text-3xl">Flexible work. A clear next step.</h2></div><p className="max-w-sm text-sm leading-6 text-slate-500">For healthcare professionals and facilities across Ireland, Northern Ireland, England, Wales and Scotland.</p></div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {[
-              { number: '01', icon: ShieldCheck, title: 'Introduce yourself', description: 'Choose your country and profession, create your profile and prepare your registration and compliance documents.', label: 'Create your profile', action: () => openAuth('signup') },
-              { number: '02', icon: MapPin, title: 'Find your fit', description: 'Explore opportunities by region, location and specialisation. Shift pay requires a signed-in account.', label: 'Explore locum shifts', action: () => goto('find-shifts') },
-              { number: '03', icon: Building2, title: 'Keep care moving', description: 'Need cover? Tell us your facility’s staffing requirements and use the guided flow to request a healthcare professional.', label: 'Request locum cover', action: () => goto('post-shift') },
-            ].map(item => <Reveal key={item.number} className="rounded-3xl bg-[#f4f8f5] p-7"><div className="mb-7 flex items-center justify-between"><item.icon className="h-6 w-6 text-[#368B62]" /><span className="text-sm text-[#9ab1a3]">{item.number}</span></div><h3 className="text-lg font-medium text-[#24332d]">{item.title}</h3><p className="mt-3 text-sm leading-6 text-slate-500">{item.description}</p><button onClick={item.action} className="mt-5 inline-flex items-center gap-2 text-xs font-semibold text-[#368B62] hover:gap-3 transition-all">{item.label}<ArrowRight className="h-3.5 w-3.5" /></button></Reveal>)}
-          </div>
-        </section>
         {/* ── STATS RIBBON ── */}
         <section className="mx-auto max-w-[1280px] px-6">
           <div ref={statsRef} className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
@@ -677,7 +672,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <div className="text-[42px] font-medium leading-none tracking-[-0.03em] text-[#24332d] sm:text-[54px]">{stat.value}</div>
-                  <Icon className="mb-3 mt-auto h-6 w-6 text-[#53685b]" />
+                  <img src={LOCUM_VISUALS.home.stats[i]} alt="" className="locum-reference-icon mb-3 mt-auto" />
                   <p className="text-xs font-medium text-[#53685b]">{stat.label}</p>
                 </motion.div>
               );
@@ -753,7 +748,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   { icon: Wallet, label: 'Keep 100% of your rate' },
                   { icon: ShieldCheck, label: 'Compliance handled' },
                   { icon: Bell, label: 'Real-time notifications' },
-                ].map(item => {
+                ].map((item, index) => {
                   const Icon = item.icon;
                   return (
                     <motion.div
@@ -763,7 +758,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                     >
                       <div className="w-7 h-7 rounded-lg bg-green-50 flex items-center justify-center shrink-0">
-                        <Icon className="w-3.5 h-3.5 text-[#368B62]" />
+                        <img src={LOCUM_VISUALS.home.benefits[index]} alt="" className="locum-reference-icon" />
                       </div>
                       {item.label}
                     </motion.div>
@@ -822,7 +817,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#20372b]/80 via-transparent to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-5">
-                      <div className="text-2xl mb-1">{item.emoji}</div>
+                      
                       <p className="inline-flex rounded-full bg-white px-4 py-2.5 text-[#24332d] font-medium text-[13px] leading-tight">{item.label}</p>
                     </div>
                   </div>
@@ -871,7 +866,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         whileHover={{ scale: 1.1, backgroundColor: '#dcfce7' }}
                         transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                       >
-                        <Icon className="w-5 h-5 text-[#368B62]" />
+                        <img src={LOCUM_VISUALS.home.features[i]} alt="" className="locum-reference-icon" />
                       </motion.div>
                       <div>
                         <h4 className="font-bold text-slate-900 text-[15px]">{f.title}</h4>
@@ -937,7 +932,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── MOBILE APP ── */}
-        <Reveal className="py-8 px-6 lg:px-12 max-w-[1280px] mx-auto">
+        <Reveal className="locum-app-section py-8 px-6 lg:px-12 max-w-[1280px] mx-auto">
           <div className="relative rounded-3xl overflow-hidden bg-[#e6f0e9]">
             {/* Decorative blobs */}
 
@@ -945,7 +940,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               {/* Text */}
               <div className="p-10 lg:p-14 flex flex-col justify-center space-y-6">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-black/5 text-[#53685b] text-[11px] font-semibold uppercase tracking-widest w-fit">
-                  <Smartphone className="w-3 h-3" /> Mobile App
+                  <img src={LOCUM_VISUALS.home.app[0]} alt="" className="locum-reference-icon" /> Mobile App
                 </div>
                 <h2 className="text-4xl font-bold text-[#24332d] leading-tight">
                   Your shifts,<br />in your pocket.
@@ -958,11 +953,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     { icon: Bell, label: 'Real-time shift alerts near you' },
                     { icon: CheckCircle2, label: 'One-tap apply & in-app timesheets' },
                     { icon: Wallet, label: 'Weekly payment tracking' },
-                  ].map(f => {
+                  ].map((f, index) => {
                     const Icon = f.icon;
                     return (
                       <li key={f.label} className="flex items-center gap-2.5 text-sm text-[#53685b]">
-                        <Icon className="w-4 h-4 text-[#368B62] shrink-0" /> {f.label}
+                        <img src={LOCUM_VISUALS.home.app[index + 1]} alt="" className="locum-reference-icon" /> {f.label}
                       </li>
                     );
                   })}
@@ -971,7 +966,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   {[
                     { icon: Apple, top: 'Download on the', bottom: 'App Store', key: 'iOS App' },
                     { icon: Play, top: 'Get it on', bottom: 'Google Play', key: 'Android App' },
-                  ].map(btn => {
+                  ].map((btn, index) => {
                     const Icon = btn.icon;
                     return (
                       <button
@@ -979,7 +974,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         onClick={() => onBookDemo(btn.key)}
                         className="flex items-center gap-3 px-5 py-3 bg-white hover:bg-[#d5e6db] border border-black/5 rounded-xl transition-all group"
                       >
-                        <Icon className="w-5 h-5 text-[#24332d] fill-current" />
+                        <img src={LOCUM_VISUALS.home.app[index + 4]} alt="" className="locum-reference-icon" />
                         <span className="text-left">
                           <span className="block text-[9px] text-[#64716a]">{btn.top}</span>
                           <span className="block text-sm font-bold text-[#24332d]">{btn.bottom}</span>
@@ -990,37 +985,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 </div>
               </div>
 
-              {/* Phone image */}
-              <div className="relative flex items-end justify-center overflow-hidden">
-                <motion.img
-                  src={imgIPhone17}
-                  alt="MployUs Locums mobile app"
-                  className="relative z-10 h-[380px] w-auto object-contain"
-                  style={{ rotate: -8, y: 20 }}
-                  initial={{ opacity: 0, y: 60 }}
-                  whileInView={{ opacity: 1, y: 20 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-                  whileHover={{ rotate: -4, y: 10 }}
-                />
-                {/* Notification bubble */}
-                <motion.div
-                  className="absolute top-12 right-10 bg-white rounded-2xl border border-black/5 px-4 py-3 z-20 animate-[float_2.4s_ease-in-out_1s_infinite]"
-                  initial={{ opacity: 0, scale: 0.7, x: 20 }}
-                  whileInView={{ opacity: 1, scale: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.6, type: 'spring', stiffness: 350, damping: 22 }}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-green-50 flex items-center justify-center">
-                      <Bell className="w-4 h-4 text-[#368B62]" />
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-bold text-slate-900">New shift nearby</div>
-                      <div className="text-[10px] text-slate-500 mt-0.5">{loc.currency}55/hr · {loc.defaultCity}</div>
-                    </div>
-                  </div>
-                </motion.div>
+              <div className="locum-phone-composition">
+                <img src={locumPhones} alt="MployUs Locums mobile app on two phones" />
               </div>
             </div>
           </div>
@@ -1034,7 +1000,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             <p className="text-slate-500 text-base max-w-md mx-auto">Hear what our community has to say about working with MployUs Locums.</p>
           </div>
 
-          <VerticalMarqueeDemo reviews={TESTIMONIALS.map(testimonial => ({
+          <VerticalMarqueeDemo reviews={[...TESTIMONIALS, TESTIMONIALS[1], TESTIMONIALS[2]].map(testimonial => ({
             name: testimonial.name,
             username: testimonial.role,
             body: testimonial.quote,
@@ -1132,7 +1098,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── CTA STRIP ── */}
-        <section className="mx-auto max-w-[1280px] px-6 pb-14 lg:px-12" aria-label="Locum policies"><div className="flex flex-col justify-between gap-6 rounded-3xl border border-black/5 p-7 md:flex-row md:items-center"><div><h2 className="text-2xl">Clear terms. Informed choices.</h2><p className="mt-2 text-sm text-slate-500">Understand the service, how your information is handled and your privacy choices.</p></div><nav aria-label="Locum legal documents" className="flex flex-wrap gap-x-5 gap-y-3 text-xs font-medium text-[#368B62]"><Link to="/policies/terms">Terms of service ↗</Link><Link to="/policies/privacy">Privacy policy ↗</Link><Link to="/policies/cookies">Cookie policy ↗</Link><Link to="/policies/data-protection">Data protection ↗</Link><Link to="/policies/accessibility">Accessibility ↗</Link></nav></div></section>
+
         <section className="mx-6 mb-12 max-w-[1184px] rounded-[28px] bg-[#e6f0e9] py-14 overflow-hidden xl:mx-auto">
           <motion.div
             className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8"
@@ -1177,7 +1143,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       ══════════════════════════════════════ */}
       {page === 'find-shifts' && (
         <>
-        <div className="pt-[70px] min-h-screen bg-white">
+        <div className="locum-shifts locum-surface pt-[70px] min-h-screen bg-white">
 
           {/* ── Hero banner with background image ── */}
           <section className="bg-[#f5f7f1] px-6 py-14 sm:py-16"><div className="mx-auto max-w-[1184px]"><p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#67716b]">Your expertise. Your schedule.</p><h1 className="text-[42px] font-medium leading-[1.08] tracking-[-0.02em] text-[#24332d] sm:text-[56px]">Find your next shift.<br /><span className="text-[#368B62]">Make it work for you.</span></h1><p className="mt-5 max-w-lg text-sm leading-7 text-[#68716c]">Explore flexible locum opportunities and find the right fit for your profession, location and availability.</p></div></section>
@@ -1981,7 +1947,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           const a = articles[blogPost];
           const related = countryArticles.filter(article => article !== a && (blogCategory === 'All' || article.tag === a.tag)).slice(0, 3);
           return (
-            <motion.div className="pt-[70px] min-h-screen bg-white"
+            <motion.div className="locum-article locum-surface pt-[70px] min-h-screen bg-white"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}>
 
@@ -2024,7 +1990,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     </div>
                   )}
                   {a.body.map((section, si) => (
-                    <motion.div key={si} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: si * 0.06 }}>
+                    <motion.div id={`locum-article-section-${si}`} className="scroll-mt-32" key={si} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: si * 0.06 }}>
                       <h2 className="text-xl font-bold text-slate-900 mb-3">{section.h}</h2>
                       <p className="text-[15px] text-slate-600 leading-[1.8]">{section.p}</p>
                     </motion.div>
@@ -2075,7 +2041,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">In this article</p>
                       <nav className="space-y-2">
                         {a.body.map((s, si) => (
-                          <p key={si} className="text-xs text-slate-600 font-medium leading-snug hover:text-[#368B62] transition-colors cursor-pointer py-1 border-l-2 border-transparent hover:border-black/5 pl-3">{s.h}</p>
+                          <button type="button" key={si} onClick={() => document.getElementById(`locum-article-section-${si}`)?.scrollIntoView({ behavior: "smooth", block: "start" })} className="block text-left text-xs text-slate-600 font-medium leading-snug hover:text-[#368B62] transition-colors py-1 border-l-2 border-transparent hover:border-black/5 pl-3">{s.h}</button>
                         ))}
                       </nav>
                     </div>
@@ -2126,21 +2092,21 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           FAQ PAGE
       ══════════════════════════════════════ */}
       {page === 'faq' && (
-        <div className="pt-[70px] min-h-screen bg-slate-50">
+        <div className="locum-faq locum-surface pt-[70px] min-h-screen bg-slate-50">
 
           {/* Hero */}
           <section className="bg-slate-900 px-6 pt-16 pb-20 relative overflow-hidden">
             <div className="absolute inset-0 opacity-[0.04]" />
             <div className="max-w-[1280px] mx-auto lg:px-6 relative">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/80 text-xs font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
-                <Search className="w-3.5 h-3.5 text-green-400" /> Help Centre
+                <img src={LOCUM_VISUALS.faq.help[0]} alt="" className="locum-reference-icon" /> Help Centre
               </div>
               <h1 className="text-5xl font-bold text-white tracking-[-0.02em] leading-[1.05] mb-3">Frequently asked<br />questions</h1>
               <p className="text-white/60 text-base max-w-lg leading-relaxed mb-8">Everything you need to know about working with MployUs Locums — for locums and employers alike.</p>
               {/* Tab switcher in hero */}
               <div className="flex items-center gap-2">
                 {(['Locum', 'Employers'] as const).map(tab => (
-                  <button key={tab} onClick={() => { setFaqTab(tab); setOpenFaq(null); }}
+                  <button key={tab} onClick={() => { setFaqTab(tab); setOpenFaq(0); }}
                     className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${faqTab === tab ? 'bg-white text-slate-900' : 'bg-white/10 text-white/70 border border-black/5 hover:bg-white/20'}`}>
                     {tab === 'Locum' ? 'For Locums' : 'For Employers'}
                   </button>
@@ -2154,25 +2120,25 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
             {/* FAQ accordion */}
             <div className="lg:col-span-2 space-y-3">
-              {faqs[faqTab].map((f, i) => {
+              {faqs[faqTab].slice(0, faqTab === 'Locum' ? 4 : 5).map((f, i) => {
                 const isOpen = openFaq === i;
                 return (
                   <motion.div key={f.q}
                     initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.05 }}
                     className={`rounded-2xl border overflow-hidden transition-all duration-200 ${isOpen ? 'border-black/5' : 'bg-white border-black/5 hover:border-black/5'}`}>
-                    <button onClick={() => setOpenFaq(isOpen ? null : i)}
+                    <button aria-expanded={isOpen} aria-controls={`locum-faq-answer-${i}`} onClick={() => setOpenFaq(isOpen ? null : i)}
                       className={`w-full flex items-center justify-between gap-4 px-6 py-5 text-left transition-colors ${isOpen ? 'bg-[#368B62]' : 'bg-white'}`}>
                       <span className={`text-sm font-semibold leading-snug ${isOpen ? 'text-white' : 'text-slate-900'}`}>{f.q}</span>
                       <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors ${isOpen ? 'bg-white/20' : 'bg-slate-50'}`}>
                         {isOpen
-                          ? <Minus className="w-4 h-4 text-white" />
-                          : <Plus className="w-4 h-4 text-slate-500" />}
+                          ? <img src={LOCUM_VISUALS.faq.minus[0]} alt="" className="locum-reference-icon" />
+                          : <img src={LOCUM_VISUALS.faq.plus[0]} alt="" className="locum-reference-icon" />}
                       </div>
                     </button>
                     {isOpen && (
                       <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
-                        className="bg-white px-6 pb-6 pt-4 text-[15px] text-slate-600 leading-relaxed border-t border-black/5">
+                        id={`locum-faq-answer-${i}`} className="bg-white px-6 pb-6 pt-4 text-[15px] text-slate-600 leading-relaxed border-t border-black/5">
                         {f.a}
                       </motion.div>
                     )}
@@ -2184,13 +2150,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.3 }}
                 className="mt-4 bg-white border border-black/5 rounded-2xl p-6 flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center shrink-0">
-                  <Mail className="w-5 h-5 text-[#368B62]" />
+                  <img src={LOCUM_VISUALS.faq.mail[0]} alt="" className="locum-reference-icon" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-bold text-slate-900 mb-0.5">Still have questions?</p>
                   <p className="text-xs text-slate-500 leading-relaxed mb-3">Our team typically responds within 2 hours on business days.</p>
                   <button onClick={() => onBookDemo('FAQ contact')} className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#368B62] hover:bg-[#276647] text-white text-xs font-bold rounded-lg transition-colors">
-                    Contact support <ArrowRight className="w-3.5 h-3.5" />
+                    Contact support <img src={LOCUM_VISUALS.faq.contactArrow[0]} alt="" className="locum-reference-icon" />
                   </button>
                 </div>
               </motion.div>
@@ -2207,12 +2173,12 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     { label: 'Employer dashboard', icon: PlusCircle, action: () => goto('post-shift') },
                     { label: 'Insights & guides', icon: BookOpen, action: () => goto('blog') },
                     { label: 'FAQ', icon: CheckCircle2, action: () => goto('faq') },
-                  ].map(({ label, icon: Icon, action }) => (
+                  ].map(({ label, icon: Icon, action }, index) => (
                     <button key={label} onClick={action}
                       className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 hover:bg-green-50 hover:text-[#368B62] text-slate-700 text-sm font-semibold transition-all group">
-                      <Icon className="w-4 h-4 text-slate-400 group-hover:text-[#368B62] transition-colors" />
+                      <img src={LOCUM_VISUALS.faq.quickIcons[index]} alt="" className="locum-reference-icon" />
                       {label}
-                      <ArrowRight className="w-3.5 h-3.5 ml-auto text-slate-300 group-hover:text-[#368B62] transition-colors" />
+                      <img src={LOCUM_VISUALS.faq.quickArrows[index]} alt="" className="locum-reference-icon ml-auto" />
                     </button>
                   ))}
                 </div>
