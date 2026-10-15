@@ -1,4 +1,4 @@
-import { ArrowLeft } from "lucide-react"
+import backArrow from "../imports/product-reference/18b79.svg"
 
 interface ProductPageNavigationProps {
   product: string
@@ -17,14 +17,14 @@ export function ProductPageNavigation({
   onBackToHome,
 }: ProductPageNavigationProps) {
   return (
-    <div className="border-b border-black/5 bg-white">
+    <div className="product-section-navigation border-b border-black/5 bg-[#f5f6f8]">
       <div className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-4 px-6 py-5 text-[11px] lg:px-8">
         <button
           type="button"
           onClick={onBackToHome}
           className="inline-flex shrink-0 items-center gap-2 text-[#4b5750] transition-colors hover:text-[#52658e]"
         >
-          <ArrowLeft size={14} /> Back to homepage
+          <img src={backArrow} alt="" className="shrink-0" /> Back to homepage
         </button>
         <nav
           aria-label={`${product} page sections`}

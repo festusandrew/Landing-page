@@ -134,7 +134,11 @@ export function MainNavigation({
                 "z-50 grid max-h-[calc(100dvh-160px)] grid-cols-1 gap-4 overflow-y-auto rounded-2xl border border-black/5 bg-white p-[17px] animate-fade-in motion-reduce:animate-none sm:grid-cols-[7fr_5fr] " +
                 (mobile
                   ? "mt-2"
-                  : "absolute left-0 top-full mt-2 w-full sm:left-1/2 sm:w-[min(600px,calc(100vw-48px))] sm:-translate-x-1/2")
+                  : `absolute left-0 top-full mt-2 w-full sm:left-1/2 ${
+                      name === "Products"
+                        ? "sm:w-[min(560px,calc(100vw-48px))]"
+                        : "sm:w-[min(600px,calc(100vw-48px))]"
+                    } sm:-translate-x-1/2`)
               }
             >
               <div className="min-w-0">
@@ -183,11 +187,11 @@ export function MainNavigation({
                   ))}
                 </div>
               </div>
-              <aside className="flex min-w-0 flex-col justify-between rounded-[14px] border border-black/5 bg-[#edf5ef] p-[15px]">
+              <aside className="flex min-w-0 flex-col justify-between rounded-[14px] border border-[#e6ebf2] bg-[#f6f7fa] p-[15px]">
                 <div>
                   <p
                     className={
-                      "font-mono text-[9px] font-bold uppercase leading-3 text-[#368B62] " +
+                      "font-mono text-[9px] font-bold uppercase leading-3 text-[#0e162a] " +
                       (name === "Products" ? "px-[9px] pb-[14px] pt-1" : "")
                     }
                   >
@@ -217,7 +221,7 @@ export function MainNavigation({
                     closeMenu()
                     onNavigate("locum-provision")
                   }}
-                  className="mt-3 flex w-full items-center justify-center gap-1 rounded-[10px] bg-[#368B62] px-2 py-2 font-['Plus_Jakarta_Sans:Bold',sans-serif] text-[11px] font-bold leading-[16.5px] text-white transition-colors hover:bg-[#286d4c]"
+                  className="mt-3 flex w-full items-center justify-center gap-1 rounded-[10px] bg-[#0e162a] px-2 py-2 font-['Plus_Jakarta_Sans:Bold',sans-serif] text-[11px] font-bold leading-[16.5px] text-white transition-colors hover:bg-[#1c2942]"
                 >
                   {name === "Products"
                     ? "See Locum Portal"

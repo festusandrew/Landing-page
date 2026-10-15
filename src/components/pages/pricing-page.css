@@ -5,11 +5,6 @@
   font-family: 'Inter:Regular', Inter, sans-serif;
 }
 .pricing-reference img { max-width: none; flex-shrink: 0; }
-.pricing-reference-icon img,
-.pricing-reference-features li img,
-.pricing-reference-enterprise li img {
-  filter: brightness(0) saturate(100%) invert(7%) sepia(24%) saturate(1748%) hue-rotate(183deg) brightness(94%) contrast(96%);
-}
 .pricing-reference button { cursor: pointer; }
 .pricing-reference button:focus-visible { outline: 2px solid var(--pricing-accent); outline-offset: 4px; }
 .pricing-reference-back { max-width: 1730.704px; margin: auto; padding: 32.451px 43.268px; display: flex; justify-content: space-between; gap: 20px; }
@@ -85,4 +80,29 @@
   .pricing-reference-switch button { padding: 12px 16px; font-size: 15px; line-height: 22px; }
   .pricing-reference-card { padding: 28px; }
   .pricing-reference-enterprise ul { grid-template-columns: 1fr; }
+}
+@media (min-width: 1440px) {
+  .pricing-reference-section { padding-inline: 54.085px; }
+  .pricing-reference-inner { max-width: 1728px; }
+  .pricing-reference-heading h1 { font-size: 73.014px; line-height: 87.887px; letter-spacing: -1.9776px; }
+  .pricing-reference-kicker { font-size: 27.191px; line-height: 40.788px; letter-spacing: 4.3506px; }
+  .pricing-reference-intro { font-size: 27.042px; line-height: 51.38px; }
+  .pricing-reference-switch { padding: 9.887px; border-radius: 19.776px; }
+  .pricing-reference-switch button { padding: 19.776px 39.552px; border-radius: 14.833px; font-size: 29.663px; line-height: 39.552px; }
+  .pricing-reference-billing { padding: 14.626px 21.938px; font-size: 24.719px; line-height: 37.08px; }
+  .pricing-reference-platform { font-size: 21.634px; line-height: 37.859px; }
+  .pricing-reference-grid { margin-top: 88.989px; gap: 36.507px; }
+  .pricing-reference-card { padding: 48.676px; border-radius: 29.663px; }
+  .pricing-reference-card h3 { font-size: 32.451px; line-height: 51.38px; }
+  .pricing-reference-icon { padding: 19.776px; min-height: 79.107px; border-radius: 19.776px; }
+  .pricing-reference-staff { margin-top: 19.776px; min-height: 79.104px; font-size: 21.634px; line-height: 29.746px; }
+  .pricing-reference-price { margin-top: 43.877px; }
+  .pricing-reference-price strong { font-size: 58.141px; line-height: 87.887px; letter-spacing: -2.4719px; }
+  .pricing-reference-price span { font-size: 21.634px; line-height: 29.746px; }
+  .pricing-reference-total { min-height: 76.785px; font-size: 18.254px; line-height: 27.042px; }
+  .pricing-reference-cta { margin-top: 29.252px; gap: 19.776px; border-radius: 19.776px; font-size: 21.634px; line-height: 29.746px; padding: 18.93px 21.634px; }
+  .pricing-reference-features { margin-top: 59.327px; padding-top: 49.439px; }
+  .pricing-reference-capacity { min-height: 74.161px; font-size: 18.254px; line-height: 27.042px; letter-spacing: 1.2361px; }
+  .pricing-reference-features ul { margin-top: 39.552px; gap: 34.607px; }
+  .pricing-reference-features li img { margin-top: 9.887px; }
 }

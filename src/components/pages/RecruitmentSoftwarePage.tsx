@@ -13,7 +13,11 @@ import {
 } from "lucide-react"
 import { Footer } from "../Footer"
 import { ProductPageNavigation } from "../ProductPageNavigation"
-import recruitmentDashboard from "../../imports/Screenshot_2026-07-24_140138.png"
+import recruitmentDashboard from "../../imports/product-reference/a7a54.png"
+import "./product-reference.css"
+import { PRODUCT_VISUALS } from "../../data/productVisuals"
+
+const referenceAssets = PRODUCT_VISUALS.hire
 
 interface RecruitmentSoftwarePageProps {
   onBackToHome: () => void
@@ -102,7 +106,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
       setMobileOpen(false)
     }
     const primaryButton =
-      "group inline-flex items-center justify-center gap-3 rounded-full bg-[#52658e] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#405273]"
+      "group inline-flex items-center justify-center gap-3 rounded-full bg-[#0e1629] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#1c2942]"
     const secondaryButton =
       "inline-flex items-center justify-center gap-3 rounded-full border border-black/5 bg-white px-6 py-3.5 text-sm font-semibold text-[#24332d] transition-colors hover:bg-[#edf0f4]"
     const reveal = {
@@ -112,7 +116,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
       transition: { duration: 0.5 },
     }
     return (
-      <div className="min-h-screen overflow-x-clip bg-white font-['DM_Sans',sans-serif] text-[#24332d] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
+      <div className="product-reference product-reference-hire min-h-screen overflow-x-clip bg-white font-['DM_Sans',sans-serif] text-[#24332d] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
         {showHeader ? (
           <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-sm">
             <div className="mx-auto flex h-[70px] max-w-[1312px] items-center justify-between gap-6 px-6 lg:px-16">
@@ -127,7 +131,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                 className="flex items-baseline gap-2 text-[23px] font-semibold tracking-[-0.02em]"
               >
                 mployus
-                <span className="text-xs font-medium tracking-normal text-[#52658e]">
+                <span className="text-xs font-medium tracking-normal text-[#0e1629]">
                   hire.
                 </span>
               </button>
@@ -137,25 +141,25 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
               >
                 <button
                   onClick={() => scrollTo("recruitment-overview")}
-                  className="hover:text-[#52658e]"
+                  className="hover:text-[#0e1629]"
                 >
                   Overview
                 </button>
                 <button
                   onClick={() => scrollTo("recruitment-features")}
-                  className="hover:text-[#52658e]"
+                  className="hover:text-[#0e1629]"
                 >
                   Features
                 </button>
                 <button
                   onClick={() => scrollTo("recruitment-preview")}
-                  className="hover:text-[#52658e]"
+                  className="hover:text-[#0e1629]"
                 >
                   See it in action
                 </button>
                 <button
                   onClick={() => scrollTo("recruitment-onboarding")}
-                  className="hover:text-[#52658e]"
+                  className="hover:text-[#0e1629]"
                 >
                   Getting started
                 </button>
@@ -169,7 +173,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                 </button>
                 <button
                   onClick={bookDemo}
-                  className="rounded-full bg-[#52658e] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#405273]"
+                  className="rounded-full bg-[#0e1629] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1c2942]"
                 >
                   Book a demo
                 </button>
@@ -245,7 +249,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
           <div className="mx-auto grid max-w-[1184px] items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
             <motion.div {...reveal}>
               <div className="mb-7 flex items-center gap-3">
-                <span className="h-2 w-2 rounded-full bg-[#52658e]" />
+                <span className="h-2 w-2 rounded-full bg-[#0e1629]" />
                 <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#67716b]">
                   Connected hiring · Ireland &amp; UK
                 </p>
@@ -255,7 +259,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                 <br />
                 Less busywork.
                 <br />
-                <span className="text-[#52658e]">More human.</span>
+                <span className="text-[#0e1629]">More human.</span>
               </h1>
               <p className="mb-8 mt-6 max-w-[440px] text-[15px] leading-7 text-[#68716c]">
                 A more human way to recruit. Bring vacancies, candidates and
@@ -265,9 +269,10 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
               <div className="flex flex-wrap gap-3">
                 <button onClick={bookDemo} className={primaryButton}>
                   Book a dashboard demo
-                  <ArrowRight
-                    size={16}
-                    className="transition-transform group-hover:translate-x-1"
+                  <img
+                    src={referenceAssets.arrow}
+                    alt=""
+                    className="product-reference-feature-icon"
                   />
                 </button>
                 <button onClick={onStartTrial} className={secondaryButton}>
@@ -279,62 +284,26 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                   "Candidate-first workflows",
                   "Connected workflows",
                   "Hiring insights",
-                ].map((label) => (
+                ].map((label, index) => (
                   <span
                     key={label}
                     className="flex items-center gap-2 text-[11px] text-[#68716c]"
                   >
-                    <Check size={13} className="text-[#52658e]" />
+                    <img
+                      src={referenceAssets.checks[index]}
+                      alt=""
+                      className="product-reference-feature-icon"
+                    />
                     {label}
                   </span>
                 ))}
               </div>
             </motion.div>
-            <motion.div {...reveal} className="relative min-w-0 pb-7">
-              <div className="rounded-[24px] bg-[#e6ebf2] px-4 pb-16 pt-9 sm:px-6 sm:pt-12">
-                <div className="overflow-hidden rounded-xl border border-black/5 bg-white">
-                  <div className="flex items-center justify-between gap-2 border-b border-black/5 px-4 py-3">
-                    <span className="flex gap-1.5" aria-hidden="true">
-                      {[0, 1, 2].map((dot) => (
-                        <span
-                          key={dot}
-                          className="h-1.5 w-1.5 rounded-full bg-[#c5cfdb]"
-                        />
-                      ))}
-                    </span>
-                    <span className="text-[10px] text-[#67716b]">
-                      Your hiring workspace · Preview
-                    </span>
-                    <Users size={14} className="text-[#52658e]" />
-                  </div>
-                  <img
-                    src={recruitmentDashboard}
-                    alt="Recruitment dashboard preview showing applications, vacancies and hiring activity"
-                    className="block h-auto w-full"
-                  />
-                </div>
-              </div>
-              <motion.div
-                animate={reducedMotion ? {} : { y: [0, -5, 0] }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute bottom-0 left-4 right-4 flex items-center gap-4 rounded-2xl border border-black/5 bg-white p-5 sm:left-8 sm:right-8"
-              >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edf0f6] text-[#52658e]">
-                  <ClipboardList size={19} />
-                </span>
-                <div>
-                  <p className="mb-1 text-[9px] uppercase tracking-[0.14em] text-[#7a827c]">
-                    One clearer picture
-                  </p>
-                  <p className="text-sm font-semibold">
-                    Your roles. Your people. Connected.
-                  </p>
-                </div>
-              </motion.div>
+            <motion.div {...reveal} className="product-reference-dashboard">
+              <img
+                src={recruitmentDashboard}
+                alt="Recruitment dashboard preview showing applications, vacancies and hiring activity"
+              />
             </motion.div>
           </div>
         </section>
@@ -342,7 +311,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
         <div className="font-['Inter:Regular',Inter,sans-serif] text-[#0f172a]">
           <section className="px-6 pb-4 pt-20 text-center">
             <div className="mx-auto max-w-[820px]">
-              <p className="text-[14.873px] font-semibold uppercase leading-[22.31px] tracking-[2.3797px] text-[#52658e]">
+              <p className="text-[14.873px] font-semibold uppercase leading-[22.31px] tracking-[2.3797px] text-[#0e1629]">
                 One workspace. Every step of hiring.
               </p>
               <h2 className="mt-5 font-['Inter:Semi_Bold',Inter,sans-serif] text-[36px] font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px] md:leading-[64.901px]">
@@ -363,7 +332,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
           >
             <div className="mx-auto grid max-w-[1184px] items-center gap-12 rounded-2xl border border-black/5 bg-[#f8fafc] p-6 md:p-10 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
               <motion.div {...reveal}>
-                <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52658e]">
+                <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0e1629]">
                   The everyday, made simpler
                 </p>
                 <h2 className="text-[38px] font-medium leading-[1.12] sm:text-[46px]">
@@ -378,21 +347,25 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                 </p>
                 <button
                   onClick={bookDemo}
-                  className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[#52658e]"
+                  className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[#0e1629]"
                 >
                   Explore your hiring dashboard
                   <ArrowRight size={16} />
                 </button>
               </motion.div>
               <div className="grid gap-4 sm:grid-cols-2">
-                {features.map((feature) => (
+                {features.map((feature, index) => (
                   <motion.article
                     key={feature.title}
                     {...reveal}
                     className="rounded-xl bg-white p-6 transition-colors hover:bg-[#edf0f6]"
                   >
-                    <span className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl bg-[#edf0f6] text-[#52658e]">
-                      <feature.icon size={21} strokeWidth={1.5} />
+                    <span className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl bg-[#edf0f6] text-[#0e1629]">
+                      <img
+                        src={referenceAssets.features[index]}
+                        alt=""
+                        className="product-reference-feature-icon"
+                      />
                     </span>
                     <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.1em] text-[#67716b]">
                       {feature.label}
@@ -414,7 +387,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
             <div className="mx-auto grid max-w-[1184px] items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
               <div className="flex flex-col gap-6 lg:order-2">
                 <div>
-                  <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52658e]">
+                  <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0e1629]">
                     A closer look
                   </p>
                   <h2 className="text-[38px] font-medium leading-[1.12] sm:text-[46px]">
@@ -466,7 +439,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                       }}
                       className={`rounded-full px-5 py-2.5 text-sm font-medium transition-colors ${
                         activeTab === tab
-                          ? "bg-[#52658e] text-white"
+                          ? "bg-[#0e1629] text-white"
                           : "bg-white text-[#68716c] hover:bg-[#edf0f6]"
                       }`}
                     >
@@ -487,7 +460,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                 >
                   <div className="rounded-xl border border-black/5 bg-white p-6">
                     <div className="flex items-center gap-4">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#edf0f6] text-sm font-semibold text-[#52658e]">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#edf0f6] text-sm font-semibold text-[#0e1629]">
                         {candidates[activeTab].name
                           .split(" ")
                           .map((part) => part[0])
@@ -509,7 +482,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                       <p className="text-[10px] uppercase tracking-[0.1em] text-[#64748b]">
                         Suggested next step
                       </p>
-                      <p className="mt-2 flex items-center gap-2 text-sm text-[#52658e]">
+                      <p className="mt-2 flex items-center gap-2 text-sm text-[#0e1629]">
                         <Check size={15} />
                         {candidates[activeTab].next}
                       </p>
@@ -518,7 +491,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                 </motion.div>
                 <button
                   onClick={bookDemo}
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#52658e]"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#0e1629]"
                 >
                   See this workflow in a demo
                   <ArrowRight size={15} />
@@ -527,7 +500,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
             </div>
           </section>
 
-          <section className="bg-[#52658e] px-6 py-16 text-white lg:py-24">
+          <section className="bg-[#0e1629] px-6 py-16 text-white lg:py-24">
             <div className="mx-auto max-w-[1184px]">
               <div className="grid items-end gap-6 md:grid-cols-[1.3fr_1fr]">
                 <div>
@@ -563,13 +536,17 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                     title: "A candidate-first picture",
                     text: "Bring skills, experience and conversations into view, without losing the person behind the CV.",
                   },
-                ].map((item) => (
+                ].map((item, index) => (
                   <motion.article
                     key={item.title}
                     {...reveal}
                     className="rounded-xl bg-white/10 p-7 transition-colors hover:bg-white/15"
                   >
-                    <item.icon size={23} strokeWidth={1.5} />
+                    <img
+                      src={referenceAssets.confidence[index]}
+                      alt=""
+                      className="product-reference-feature-icon"
+                    />
                     <h3 className="mt-6 text-lg font-semibold">{item.title}</h3>
                     <p className="mt-3 text-sm leading-7 text-white/80">
                       {item.text}
@@ -585,7 +562,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
             className="scroll-mt-24 px-6 py-16 lg:py-24"
           >
             <div className="mx-auto max-w-[1184px]">
-              <p className="mb-5 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[#52658e]">
+              <p className="mb-5 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[#0e1629]">
                 A thoughtful way to get started
               </p>
               <h2 className="text-center font-['Inter:Semi_Bold',Inter,sans-serif] text-[38px] font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px]">
@@ -634,7 +611,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
           <section className="bg-[#f8fafc] px-6 py-16 lg:py-20">
             <div className="mx-auto grid max-w-[1184px] gap-12 md:grid-cols-[0.8fr_1.2fr]">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#52658e]">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#0e1629]">
                   A little more clarity
                 </p>
                 <h2 className="mt-5 font-['Inter:Semi_Bold',Inter,sans-serif] text-[38px] font-semibold leading-[1.2] md:text-[54.085px]">
@@ -665,17 +642,17 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                     answer:
                       "No. The workspace supports your hiring process. Your team remains responsible for reviewing candidates and making fair, informed recruitment decisions.",
                   },
-                ].map((item) => (
+                ].map((item, index) => (
                   <details
                     key={item.question}
                     className="group border-b border-black/5 py-5"
                   >
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold [&::-webkit-details-marker]:hidden">
                       {item.question}
-                      <span className="text-xl font-normal text-[#52658e] group-open:hidden">
+                      <span className="text-xl font-normal text-[#0e1629] group-open:hidden">
                         +
                       </span>
-                      <span className="hidden text-xl font-normal text-[#52658e] group-open:block">
+                      <span className="hidden text-xl font-normal text-[#0e1629] group-open:block">
                         −
                       </span>
                     </summary>
@@ -698,7 +675,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                 className="pointer-events-none absolute -bottom-36 -right-24 h-80 w-80 rounded-full border-[36px] border-white/30"
               />
               <div>
-                <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#52658e]">
+                <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#0e1629]">
                   For the people behind every hire
                 </p>
                 <h2 className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[38px] font-semibold leading-[1.2] text-[#0f172a] sm:text-[54.085px]">
@@ -713,7 +690,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={bookDemo}
-                  className="inline-flex items-center gap-3 rounded-lg bg-[#52658e] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#435479]"
+                  className="inline-flex items-center gap-3 rounded-lg bg-[#0e1629] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#1c2942]"
                 >
                   Book a demo
                   <ArrowRight size={16} />

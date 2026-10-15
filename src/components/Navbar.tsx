@@ -56,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         aria-label="Main navigation"
         className={
           embedded
-            ? "mx-auto grid max-w-[1280px] grid-cols-1 items-center justify-items-center gap-4 px-6 py-4 sm:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-8"
+            ? "reference-main-navbar mx-auto grid max-w-[1280px] grid-cols-1 items-center justify-items-center gap-4 px-6 py-4 sm:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-8"
             : "mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-4 px-6 py-4 lg:px-8"
         }
       >
@@ -86,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div
           className={
             embedded
-              ? "flex flex-wrap items-center justify-center gap-3 sm:flex-col xl:flex-column"
+              ? "flex flex-wrap items-center justify-center gap-3 sm:flex-col xl:flex-row"
               : "ml-auto flex flex-wrap items-center gap-3"
           }
         >

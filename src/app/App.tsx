@@ -48,6 +48,8 @@ import { VideoModal } from "../components/modals/VideoModal"
 import { ModuleDetailModal } from "../components/modals/ModuleDetailModal"
 import { CaseStudyModal } from "../components/modals/CaseStudyModal"
 
+import { HOME_VISUALS } from "../data/homeVisuals"
+
 import { PRODUCT_MODULES } from "../data/mockData"
 import { UserRole, ProductModule } from "../types"
 
@@ -129,7 +131,7 @@ function LandingPage({
       id: "recruitment-service",
       label: "Find your people",
       alt: "Healthcare professional smiling in a bright interior",
-      tint: "bg-[#810161]",
+      tint: "bg-[#0e162a]",
     },
     {
       image: locumPhoto,
@@ -237,9 +239,9 @@ function LandingPage({
                 />
               </span>
             </div>
-            <p className="flex flex-wrap items-center justify-center gap-3 font-['DM_Sans',sans-serif] text-[18px] font-normal leading-[37.859px] text-[#475569] sm:text-[22.986px]">
+            <p className="flex flex-wrap items-center justify-center gap-3 font-['Inter:Regular',Inter,sans-serif] text-[18px] font-normal leading-[37.859px] text-[#475569] sm:text-[22.986px]">
               Trusted by{" "}
-              <strong className="text-[36px] font-semibold leading-[54.085px] tracking-[-0.8113px] text-[#0f172a]">
+              <strong className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[36px] font-semibold leading-[54.085px] tracking-[-0.8113px] text-[#0f172a]">
                 2K+
               </strong>{" "}
               teams
@@ -276,7 +278,7 @@ function LandingPage({
         aria-label="Our healthcare services"
         className="grid gap-[3px] sm:grid-cols-3"
       >
-        {photos.map((photo) => (
+        {photos.map((photo, index) => (
           <button
             key={photo.id}
             onClick={() => onNavigate(photo.id)}
@@ -298,9 +300,10 @@ function LandingPage({
               </h2>
               <div className="mt-6 flex items-center justify-between text-xs">
                 <span>{photo.label}</span>
-                <ArrowUpRight
-                  size={20}
-                  className="transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+                <img
+                  src={HOME_VISUALS.photoArrows[index]}
+                  alt=""
+                  className="shrink-0 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
                 />
               </div>
             </div>
@@ -367,7 +370,7 @@ function LandingPage({
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            {solutions.map((solution) => (
+            {solutions.map((solution, solutionIndex) => (
               <article
                 key={solution.id}
                 className="group flex flex-col rounded-lg border border-black/5 bg-white p-7 transition-colors hover:bg-[#fdfefc]"
@@ -375,21 +378,30 @@ function LandingPage({
                 <div
                   className={`mb-5 flex h-10 w-10 items-center justify-center rounded-lg ${solution.background} ${solution.color}`}
                 >
-                  <solution.icon size={21} strokeWidth={1.5} />
+                  <img
+                    src={HOME_VISUALS.solutions[solutionIndex].icon}
+                    alt=""
+                    className="shrink-0"
+                  />
                 </div>
                 <h3 className="text-[17px] font-semibold">{solution.name}</h3>
                 <p className="mb-5 mt-3 text-[12px] leading-6 text-[#68736e]">
                   {solution.description}
                 </p>
                 <ul className="mb-7 space-y-3">
-                  {solution.features.map((feature) => (
+                  {solution.features.map((feature, featureIndex) => (
                     <li
                       key={feature}
                       className="flex items-start gap-2 text-[11px] leading-5 text-[#68736e]"
                     >
-                      <Check
-                        size={13}
-                        className={`mt-1 shrink-0 ${solution.color}`}
+                      <img
+                        src={
+                          HOME_VISUALS.solutions[solutionIndex].checks[
+                            featureIndex
+                          ]
+                        }
+                        alt=""
+                        className="mt-1 shrink-0"
                       />
                       {feature}
                     </li>
@@ -400,9 +412,10 @@ function LandingPage({
                   className="mt-auto flex items-center gap-2 text-xs font-semibold"
                 >
                   Explore {solution.name.toLowerCase()}{" "}
-                  <ArrowRight
-                    size={14}
-                    className="transition-transform group-hover:translate-x-1"
+                  <img
+                    src={HOME_VISUALS.solutions[solutionIndex].arrow}
+                    alt=""
+                    className="shrink-0 transition-transform group-hover:translate-x-1"
                   />
                 </button>
               </article>
