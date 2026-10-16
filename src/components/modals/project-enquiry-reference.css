@@ -1,0 +1,64 @@
+.recruit-dialog.project-enquiry {
+  --recruit-brand: #0e162a;
+  --recruit-tint: #f6f7fa;
+}
+.recruit-dialog-overlay.project-enquiry { background: rgb(14 22 42 / 42%); }
+.project-enquiry .project-enquiry-select { display: block; position: relative; margin-top: 8px; }
+.project-enquiry .project-enquiry-select select { appearance: none; margin-top: 0; padding-right: 40px; }
+.recruit-dialog.project-enquiry .project-enquiry-select > select { margin-top: 0; }
+.project-enquiry .project-enquiry-select > img { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+.project-enquiry .project-enquiry-form { display: grid; gap: 20px; }
+.project-enquiry .project-enquiry-form > * { margin-block: 0; }
+.project-enquiry .project-enquiry-ready { display: grid; gap: 24px; }
+.project-enquiry .project-enquiry-ready > * { margin-block: 0; }
+.project-enquiry .project-enquiry-summary dd { overflow-wrap: anywhere; }
+.project-enquiry .recruit-dialog-footer { min-height: 74.5px; }
+.project-enquiry .studio-reference-icon { max-width: none; flex-shrink: 0; align-self: center; }
+.project-enquiry .studio-reference-icon.self-start { align-self: flex-start; }
+.project-enquiry .recruit-dialog-body .text-white { color: white; }
+
+@media (min-width: 900px) {
+  .recruit-dialog.project-enquiry { max-width: 811.268px; border-radius: 21.634px; font-size: 18.93px; }
+  .project-enquiry .recruit-dialog-close { width: 43.268px; height: 43.268px; top: 21.634px; margin: 21.634px 21.634px -64.901px auto; }
+  .project-enquiry .recruit-dialog-header { padding: 64.901px 81.127px 0; }
+  .project-enquiry .recruit-dialog-title { font-size: 37.859px; line-height: 47.324px; }
+  .project-enquiry .recruit-dialog-description { margin-top: 10.817px; font-size: 18.93px; line-height: 28.394px; }
+  .project-enquiry .recruit-dialog-progress { margin-top: 32.451px; }
+  .project-enquiry .recruit-dialog-progress p { font-size: 14.873px; line-height: 24.338px; }
+  .project-enquiry .recruit-dialog-progress > div { gap: 8.113px; margin-top: 10.817px; }
+  .project-enquiry .recruit-dialog-progress > div > span { height: 2.704px; }
+  .project-enquiry .recruit-dialog-body { padding: 43.268px 81.127px 0; }
+  .project-enquiry .recruit-dialog-footer { min-height: 100.718px; padding: 32.451px 32.451px 43.268px; }
+  .project-enquiry .project-enquiry-form { gap: 27.042px; }
+  .project-enquiry .project-enquiry-ready { gap: 32.451px; }
+  .project-enquiry .recruit-dialog-body label { font-size: 17.577px; line-height: 26.366px; }
+  .project-enquiry .recruit-dialog-body :is(input:not([type=checkbox]):not([type=file]),select,textarea) { font-size: 18.93px; min-height: 58.141px; border-radius: 10.817px; }
+  .project-enquiry .recruit-dialog-body :is(input:not([type=checkbox]):not([type=file]),select) { height: 58.141px; padding: 13.521px 18.93px; }
+  .project-enquiry .project-enquiry-select { margin-top: 10.817px; }
+  .project-enquiry .project-enquiry-select select { padding-right: 48px; }
+  .project-enquiry .project-enquiry-select > img { right: 10.817px; }
+  .project-enquiry .recruit-dialog-body .gap-4 { gap: 21.634px; }
+  .project-enquiry .recruit-dialog-body .gap-3 { gap: 16.225px; }
+  .project-enquiry .recruit-dialog-body .mt-2 { margin-top: 10.817px; }
+  .project-enquiry .recruit-dialog-body .mt-1 { margin-top: 5.408px; }
+  .project-enquiry .recruit-dialog-body .mb-2 { margin-bottom: 10.817px; }
+  .project-enquiry .recruit-dialog-body .p-4 { padding: 21.634px; }
+  .project-enquiry .recruit-dialog-body .rounded-lg { border-radius: 13.521px; }
+  .project-enquiry .recruit-dialog-body .text-xs { font-size: 16.225px; line-height: 21.634px; }
+  .project-enquiry .recruit-dialog-body label .text-xs { line-height: 26.366px; }
+  .project-enquiry .recruit-dialog-body .text-sm { font-size: 18.93px; line-height: 27.042px; }
+  .project-enquiry .recruit-dialog-body .text-xl { font-size: 27.042px; line-height: 37.859px; }
+  .project-enquiry .recruit-dialog-body .leading-7 { line-height: 37.859px; }
+  .project-enquiry .recruit-dialog-body .leading-6 { line-height: 32.451px; }
+  .project-enquiry .recruit-dialog-body textarea { min-height: 139.915px; padding: 16.225px 21.634px; }
+  .project-enquiry .recruit-dialog-body button.text-white { min-height: 60.845px; padding: 16.225px 27.042px; border-radius: 10.817px; font-size: 18.93px; line-height: 28.394px; }
+  .project-enquiry .project-enquiry-form > div:last-child { padding-top: 10.817px; }
+  .project-enquiry .project-enquiry-form > div:last-child > button:not(.text-white),
+  .project-enquiry .project-enquiry-ready > div:last-child > button:not(.text-white) { padding: 16.225px 21.634px; border-radius: 13.521px; font-size: 18.93px; line-height: 28.394px; }
+  .project-enquiry .project-enquiry-ready > div:first-child > span { width: 64.901px; height: 64.901px; }
+}
+@media (max-width: 560px) {
+  .project-enquiry .recruit-dialog-header { padding-inline: 24px; }
+  .project-enquiry .recruit-dialog-body { padding-inline: 24px; }
+  .project-enquiry .project-enquiry-ready > div:last-child { flex-wrap: wrap; }
+}

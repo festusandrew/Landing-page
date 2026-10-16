@@ -12,10 +12,14 @@ export function StudioProjectCarousel({
   id,
   label,
   children,
+  previousIcon,
+  nextIcon,
 }: {
   id: string
   label: string
   children: ReactNode
+  previousIcon?: string
+  nextIcon?: string
 }) {
   const track = useRef<HTMLDivElement>(null)
   const count = Children.count(children)
@@ -98,7 +102,15 @@ export function StudioProjectCarousel({
             disabled={!position.previous}
             onClick={() => scroll(-1)}
           >
-            <ChevronLeft size={20} />
+            {previousIcon ? (
+              <img
+                src={previousIcon}
+                alt=""
+                className="studio-reference-icon"
+              />
+            ) : (
+              <ChevronLeft size={20} />
+            )}
           </button>
           <button
             type="button"
@@ -107,7 +119,11 @@ export function StudioProjectCarousel({
             disabled={!position.next}
             onClick={() => scroll(1)}
           >
-            <ChevronRight size={20} />
+            {nextIcon ? (
+              <img src={nextIcon} alt="" className="studio-reference-icon" />
+            ) : (
+              <ChevronRight size={20} />
+            )}
           </button>
         </div>
       </div>
