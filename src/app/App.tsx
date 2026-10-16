@@ -1,13 +1,6 @@
-import React, { useState } from "react"
-import {
-  createBrowserRouter,
-  Link,
-  RouterProvider,
-  useLocation,
-  useNavigate,
-} from "react-router"
+import React, { lazy, Suspense, useState } from "react"
+import { createBrowserRouter, Link, RouterProvider, useLocation, useNavigate } from "react-router"
 import { MotionConfig } from "motion/react"
-import { PolicyPage } from "../components/PlatformExperiences"
 import {
   ArrowUpRight,
   ArrowRight,
@@ -26,7 +19,7 @@ import {
 } from "lucide-react"
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
-import { PricingPage } from "../components/pages/PricingPage"
+import { Skeleton } from "./components/ui/skeleton"
 import recruitmentPhoto from "../imports/homepage-reference/6104b.png"
 import locumPhoto from "../imports/homepage-reference/09cba.png"
 import carePhoto from "../imports/homepage-reference/ca8d0.png"
@@ -34,24 +27,86 @@ import trustedTeamOne from "../imports/homepage-reference/87c6c.png"
 import trustedTeamTwo from "../imports/homepage-reference/87c20.png"
 import trustedTeamThree from "../imports/homepage-reference/a08fb.png"
 
-import { LocumProvisionPage } from "../components/pages/LocumProvisionPage"
-import { RecruitmentSoftwarePage } from "../components/pages/RecruitmentSoftwarePage"
-import { CareManagementPage } from "../components/pages/CareManagementPage"
-import { RecruitmentServicePage } from "../components/pages/RecruitmentServicePage"
-import { ProductDesignPage } from "../components/pages/ProductDesignPage"
-import { WebDevelopmentPage } from "../components/pages/WebDevelopmentPage"
-
-import { BookDemoModal } from "../components/modals/BookDemoModal"
-import { LocumContactDialog } from "../components/modals/LocumContactDialog"
-import { FreeTrialModal } from "../components/modals/FreeTrialModal"
-import { VideoModal } from "../components/modals/VideoModal"
-import { ModuleDetailModal } from "../components/modals/ModuleDetailModal"
-import { CaseStudyModal } from "../components/modals/CaseStudyModal"
-
 import { HOME_VISUALS } from "../data/homeVisuals"
 
 import { PRODUCT_MODULES } from "../data/mockData"
 import { UserRole, ProductModule } from "../types"
+
+const PolicyPage = lazy(() =>
+  import("../components/PlatformExperiences").then((module) => ({ default: module.PolicyPage })),
+)
+const BookDemoModal = lazy(() =>
+  import("../components/modals/BookDemoModal").then((module) => ({
+    default: module.BookDemoModal,
+  })),
+)
+const LocumContactDialog = lazy(() =>
+  import("../components/modals/LocumContactDialog").then((module) => ({
+    default: module.LocumContactDialog,
+  })),
+)
+const FreeTrialModal = lazy(() =>
+  import("../components/modals/FreeTrialModal").then((module) => ({
+    default: module.FreeTrialModal,
+  })),
+)
+const VideoModal = lazy(() =>
+  import("../components/modals/VideoModal").then((module) => ({ default: module.VideoModal })),
+)
+const ModuleDetailModal = lazy(() =>
+  import("../components/modals/ModuleDetailModal").then((module) => ({
+    default: module.ModuleDetailModal,
+  })),
+)
+const CaseStudyModal = lazy(() =>
+  import("../components/modals/CaseStudyModal").then((module) => ({
+    default: module.CaseStudyModal,
+  })),
+)
+
+function PageLoading() {
+  return (
+    <Skeleton
+      role="status"
+      aria-label="Loading page"
+      className="mx-auto my-12 h-48 w-full max-w-5xl"
+    />
+  )
+}
+
+const PricingPage = lazy(() =>
+  import("../components/pages/PricingPage").then((module) => ({ default: module.PricingPage })),
+)
+const LocumProvisionPage = lazy(() =>
+  import("../components/pages/LocumProvisionPage").then((module) => ({
+    default: module.LocumProvisionPage,
+  })),
+)
+const RecruitmentSoftwarePage = lazy(() =>
+  import("../components/pages/RecruitmentSoftwarePage").then((module) => ({
+    default: module.RecruitmentSoftwarePage,
+  })),
+)
+const CareManagementPage = lazy(() =>
+  import("../components/pages/CareManagementPage").then((module) => ({
+    default: module.CareManagementPage,
+  })),
+)
+const RecruitmentServicePage = lazy(() =>
+  import("../components/pages/RecruitmentServicePage").then((module) => ({
+    default: module.RecruitmentServicePage,
+  })),
+)
+const ProductDesignPage = lazy(() =>
+  import("../components/pages/ProductDesignPage").then((module) => ({
+    default: module.ProductDesignPage,
+  })),
+)
+const WebDevelopmentPage = lazy(() =>
+  import("../components/pages/WebDevelopmentPage").then((module) => ({
+    default: module.WebDevelopmentPage,
+  })),
+)
 
 const solutions = [
   {
@@ -62,10 +117,7 @@ const solutions = [
     background: "bg-[#f8eef5]",
     description:
       "The right people. The right fit. A specialist recruitment partner who understands healthcare.",
-    features: [
-      "Permanent and international recruitment",
-      "A personal, end-to-end hiring service",
-    ],
+    features: ["Permanent and international recruitment", "A personal, end-to-end hiring service"],
   },
   {
     id: "locum-provision",
@@ -75,10 +127,7 @@ const solutions = [
     background: "bg-[#edf5ef]",
     description:
       "Keep care moving with qualified professionals, exactly when and where you need them.",
-    features: [
-      "Flexible, short- and long-term cover",
-      "Professionals across Ireland and the UK",
-    ],
+    features: ["Flexible, short- and long-term cover", "Professionals across Ireland and the UK"],
   },
   {
     id: "care-management",
@@ -101,10 +150,7 @@ const solutions = [
     background: "bg-[#eef1f7]",
     description:
       "From first application to the first day, make every stage of hiring feel effortless.",
-    features: [
-      "One organised candidate pipeline",
-      "Job posting and applicant tracking",
-    ],
+    features: ["One organised candidate pipeline", "Job posting and applicant tracking"],
   },
 ]
 
@@ -195,10 +241,7 @@ function LandingPage({
               </select>
             </label>
           </div>
-          <button
-            onClick={onBookDemo}
-            className="transition-colors hover:text-[#368B62]"
-          >
+          <button onClick={onBookDemo} className="transition-colors hover:text-[#368B62]">
             Talk to our team <ArrowUpRight size={11} className="ml-1 inline" />
           </button>
         </div>
@@ -264,20 +307,14 @@ function LandingPage({
             <button onClick={onBookDemo} className={primaryButton}>
               Book a demo <ArrowUpRight size={16} />
             </button>
-            <button
-              onClick={() => scrollTo("solutions")}
-              className={secondaryButton}
-            >
+            <button onClick={() => scrollTo("solutions")} className={secondaryButton}>
               Explore our solutions
             </button>
           </div>
         </div>
       </section>
 
-      <section
-        aria-label="Our healthcare services"
-        className="grid gap-[3px] sm:grid-cols-3"
-      >
+      <section aria-label="Our healthcare services" className="grid gap-[3px] sm:grid-cols-3">
         {photos.map((photo, index) => (
           <button
             key={photo.id}
@@ -311,10 +348,7 @@ function LandingPage({
         ))}
       </section>
 
-      <section
-        id="about"
-        className="mx-auto max-w-[1568.451px] px-6 py-16 md:py-20"
-      >
+      <section id="about" className="mx-auto max-w-[1568.451px] px-6 py-16 md:py-20">
         <div className="grid gap-8 md:grid-cols-2 md:gap-20">
           <div>
             <p className="mb-4 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">
@@ -328,13 +362,12 @@ function LandingPage({
           </div>
           <div className="pt-2 text-sm leading-7 text-[#68736e]">
             <p>
-              Great care starts with great people. But finding them, supporting
-              them and managing the everyday shouldn’t stand in the way.
+              Great care starts with great people. But finding them, supporting them and managing
+              the everyday shouldn’t stand in the way.
             </p>
             <p className="mt-4">
-              MployUs brings your people and processes together. One connected
-              partner for the way healthcare works today — and where it goes
-              tomorrow.
+              MployUs brings your people and processes together. One connected partner for the way
+              healthcare works today — and where it goes tomorrow.
             </p>
             <button
               onClick={onBookDemo}
@@ -358,9 +391,8 @@ function LandingPage({
               Better, together.
             </h2>
             <p className="mt-6 max-w-sm text-sm leading-7 text-[#68736e]">
-              Find your next team member. Cover your next shift. Simplify your
-              care operations. Choose what you need, and we’ll help you move
-              forward.
+              Find your next team member. Cover your next shift. Simplify your care operations.
+              Choose what you need, and we’ll help you move forward.
             </p>
             <button onClick={onBookDemo} className={`${primaryButton} mt-7`}>
               Find your solution <ArrowUpRight size={15} />
@@ -395,11 +427,7 @@ function LandingPage({
                       className="flex items-start gap-2 text-[11px] leading-5 text-[#68736e]"
                     >
                       <img
-                        src={
-                          HOME_VISUALS.solutions[solutionIndex].checks[
-                            featureIndex
-                          ]
-                        }
+                        src={HOME_VISUALS.solutions[solutionIndex].checks[featureIndex]}
                         alt=""
                         className="mt-1 shrink-0"
                       />
@@ -517,9 +545,8 @@ function LandingPage({
             for you, too.
           </h2>
           <p className="mt-5 text-sm leading-7 text-[#68736e]">
-            Looking for your next permanent role or the flexibility of locum
-            work? We’ll help you find opportunities that fit your skills, your
-            ambitions and your life.
+            Looking for your next permanent role or the flexibility of locum work? We’ll help you
+            find opportunities that fit your skills, your ambitions and your life.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <button
@@ -528,20 +555,14 @@ function LandingPage({
             >
               Explore opportunities <ArrowUpRight size={15} />
             </button>
-            <button
-              onClick={() => onNavigate("locum-provision")}
-              className={secondaryButton}
-            >
+            <button onClick={() => onNavigate("locum-provision")} className={secondaryButton}>
               Become a locum
             </button>
           </div>
         </div>
       </section>
 
-      <section
-        id="questions"
-        className="border-t border-black/5 bg-[#fafaf8] py-16 md:py-20"
-      >
+      <section id="questions" className="border-t border-black/5 bg-[#fafaf8] py-16 md:py-20">
         <div className="mx-auto grid max-w-[1568.451px] gap-10 px-6 md:grid-cols-[1fr_1.4fr] md:gap-20">
           <div>
             <p className="mb-5 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">
@@ -576,10 +597,7 @@ function LandingPage({
                   )}
                 </button>
                 {openFaq === index && (
-                  <p
-                    id={`faq-${index}`}
-                    className="pb-5 pr-8 text-[13px] leading-7 text-[#68736e]"
-                  >
+                  <p id={`faq-${index}`} className="pb-5 pr-8 text-[13px] leading-7 text-[#68736e]">
                     {answer}
                   </p>
                 )}
@@ -616,11 +634,7 @@ function LandingPage({
           </div>
         </div>
       </section>
-      <Footer
-        onNavigate={onNavigate}
-        onBookDemo={onBookDemo}
-        onStartTrial={onStartTrial}
-      />
+      <Footer onNavigate={onNavigate} onBookDemo={onBookDemo} onStartTrial={onStartTrial} />
     </div>
   )
 }
@@ -629,7 +643,7 @@ function PlatformApp() {
   const navigate = useNavigate()
   const location = useLocation()
   const [activeRole, setActiveRole] = useState<UserRole>("all")
-  const requestedView = location.pathname.slice(1)
+  const requestedView = location.pathname.replace(/^\/+|\/+$/g, "")
   const activeView = [
     "locum-provision",
     "recruitment-service",
@@ -645,9 +659,7 @@ function PlatformApp() {
   const [bookDemoOpen, setBookDemoOpen] = useState(false)
   const [freeTrialOpen, setFreeTrialOpen] = useState(false)
   const [videoModalOpen, setVideoModalOpen] = useState(false)
-  const [selectedModule, setSelectedModule] = useState<ProductModule | null>(
-    null,
-  )
+  const [selectedModule, setSelectedModule] = useState<ProductModule | null>(null)
   const [caseStudyOpen, setCaseStudyOpen] = useState(false)
   const [initialDemoModule, setInitialDemoModule] = useState("All Modules")
 
@@ -684,8 +696,7 @@ function PlatformApp() {
   const isStandaloneLocum = activeView === "locum-provision"
   const isStandaloneRecruitment = activeView === "recruitment-service"
   const hasServiceNavigation = isStandaloneLocum || isStandaloneRecruitment
-  const isProductPage =
-    activeView === "care-management" || activeView === "recruitment-software"
+  const isProductPage = activeView === "care-management" || activeView === "recruitment-software"
   const ownsFooter = hasServiceNavigation || isProductPage
 
   return (
@@ -710,9 +721,7 @@ function PlatformApp() {
             activeRole={activeRole}
             onRoleChange={setActiveRole}
             onBookDemo={(mod) =>
-              handleBookDemoWithModule(
-                mod || (isProductPage ? activeView : undefined),
-              )
+              handleBookDemoWithModule(mod || (isProductPage ? activeView : undefined))
             }
             onStartTrial={() => setFreeTrialOpen(true)}
             onNavigate={handleNavigate}
@@ -722,79 +731,69 @@ function PlatformApp() {
       )}
 
       <main>
-        {activeView === "pricing" && (
-          <PricingPage
-            onBackToHome={() => handleNavigate("home")}
-            onBookDemo={() => handleBookDemoWithModule()}
-            onStartTrial={() => setFreeTrialOpen(true)}
-          />
-        )}
-        {activeView === "home" && (
-          <>
-            <LandingPage
-              onNavigate={handleNavigate}
+        <Suspense fallback={<PageLoading />}>
+          {activeView === "pricing" && (
+            <PricingPage
+              onBackToHome={() => handleNavigate("home")}
               onBookDemo={() => handleBookDemoWithModule()}
               onStartTrial={() => setFreeTrialOpen(true)}
             />
-          </>
-        )}
+          )}
+          {activeView === "home" && (
+            <>
+              <LandingPage
+                onNavigate={handleNavigate}
+                onBookDemo={() => handleBookDemoWithModule()}
+                onStartTrial={() => setFreeTrialOpen(true)}
+              />
+            </>
+          )}
 
-        {activeView === "locum-provision" && (
-          <LocumProvisionPage
-            onBackToHome={() => handleNavigate("home")}
-            onBookDemo={(mod) =>
-              handleBookDemoWithModule(mod || "Locum Provision")
-            }
-            onStartTrial={() => setFreeTrialOpen(true)}
-          />
-        )}
-        {activeView === "recruitment-software" && (
-          <RecruitmentSoftwarePage
-            showHeader={false}
-            onNavigate={handleNavigate}
-            onBackToHome={() => handleNavigate("home")}
-            onBookDemo={(mod) =>
-              handleBookDemoWithModule(mod || "Recruitment Software")
-            }
-            onStartTrial={() => setFreeTrialOpen(true)}
-          />
-        )}
-        {activeView === "care-management" && (
-          <CareManagementPage
-            showHeader={false}
-            onNavigate={handleNavigate}
-            onBackToHome={() => handleNavigate("home")}
-            onBookDemo={(mod) =>
-              handleBookDemoWithModule(mod || "Care Management Software")
-            }
-            onStartTrial={() => setFreeTrialOpen(true)}
-          />
-        )}
-        {activeView === "recruitment-service" && (
-          <RecruitmentServicePage
-            onBackToHome={() => handleNavigate("home")}
-            onBookDemo={(mod) =>
-              handleBookDemoWithModule(mod || "Recruitment Service")
-            }
-            onStartTrial={() => setFreeTrialOpen(true)}
-          />
-        )}
-        {activeView === "product-design" && (
-          <ProductDesignPage
-            onBackToHome={() => handleNavigate("home")}
-            onBookDemo={(mod) =>
-              handleBookDemoWithModule(mod || "Product Design Service")
-            }
-          />
-        )}
-        {activeView === "web-development" && (
-          <WebDevelopmentPage
-            onBackToHome={() => handleNavigate("home")}
-            onBookDemo={(mod) =>
-              handleBookDemoWithModule(mod || "Web Development Service")
-            }
-          />
-        )}
+          {activeView === "locum-provision" && (
+            <LocumProvisionPage
+              onBackToHome={() => handleNavigate("home")}
+              onBookDemo={(mod) => handleBookDemoWithModule(mod || "Locum Provision")}
+              onStartTrial={() => setFreeTrialOpen(true)}
+            />
+          )}
+          {activeView === "recruitment-software" && (
+            <RecruitmentSoftwarePage
+              showHeader={false}
+              onNavigate={handleNavigate}
+              onBackToHome={() => handleNavigate("home")}
+              onBookDemo={(mod) => handleBookDemoWithModule(mod || "Recruitment Software")}
+              onStartTrial={() => setFreeTrialOpen(true)}
+            />
+          )}
+          {activeView === "care-management" && (
+            <CareManagementPage
+              showHeader={false}
+              onNavigate={handleNavigate}
+              onBackToHome={() => handleNavigate("home")}
+              onBookDemo={(mod) => handleBookDemoWithModule(mod || "Care Management Software")}
+              onStartTrial={() => setFreeTrialOpen(true)}
+            />
+          )}
+          {activeView === "recruitment-service" && (
+            <RecruitmentServicePage
+              onBackToHome={() => handleNavigate("home")}
+              onBookDemo={(mod) => handleBookDemoWithModule(mod || "Recruitment Service")}
+              onStartTrial={() => setFreeTrialOpen(true)}
+            />
+          )}
+          {activeView === "product-design" && (
+            <ProductDesignPage
+              onBackToHome={() => handleNavigate("home")}
+              onBookDemo={(mod) => handleBookDemoWithModule(mod || "Product Design Service")}
+            />
+          )}
+          {activeView === "web-development" && (
+            <WebDevelopmentPage
+              onBackToHome={() => handleNavigate("home")}
+              onBookDemo={(mod) => handleBookDemoWithModule(mod || "Web Development Service")}
+            />
+          )}
+        </Suspense>
       </main>
 
       {!ownsFooter && activeView !== "home" && (
@@ -805,39 +804,47 @@ function PlatformApp() {
         />
       )}
 
-      {isStandaloneLocum ? (
-        <LocumContactDialog
-          isOpen={bookDemoOpen}
-          onClose={() => setBookDemoOpen(false)}
-          context={initialDemoModule}
-        />
-      ) : (
-        <BookDemoModal
-          isOpen={bookDemoOpen}
-          onClose={() => setBookDemoOpen(false)}
-          initialModule={initialDemoModule}
-        />
-      )}
-      <FreeTrialModal
-        isOpen={freeTrialOpen}
-        onClose={() => setFreeTrialOpen(false)}
-      />
-      <VideoModal
-        isOpen={videoModalOpen}
-        onClose={() => setVideoModalOpen(false)}
-        onBookDemo={() => handleBookDemoWithModule()}
-      />
-      <ModuleDetailModal
-        module={selectedModule}
-        isOpen={!!selectedModule}
-        onClose={() => setSelectedModule(null)}
-        onBookDemo={(modTitle) => handleBookDemoWithModule(modTitle)}
-      />
-      <CaseStudyModal
-        isOpen={caseStudyOpen}
-        onClose={() => setCaseStudyOpen(false)}
-        onBookDemo={() => handleBookDemoWithModule("Meadowview Case Study")}
-      />
+      <Suspense fallback={null}>
+        {bookDemoOpen &&
+          (isStandaloneLocum ? (
+            <LocumContactDialog
+              isOpen={bookDemoOpen}
+              onClose={() => setBookDemoOpen(false)}
+              context={initialDemoModule}
+            />
+          ) : (
+            <BookDemoModal
+              isOpen={bookDemoOpen}
+              onClose={() => setBookDemoOpen(false)}
+              initialModule={initialDemoModule}
+            />
+          ))}
+        {freeTrialOpen && (
+          <FreeTrialModal isOpen={freeTrialOpen} onClose={() => setFreeTrialOpen(false)} />
+        )}
+        {videoModalOpen && (
+          <VideoModal
+            isOpen={videoModalOpen}
+            onClose={() => setVideoModalOpen(false)}
+            onBookDemo={() => handleBookDemoWithModule()}
+          />
+        )}
+        {selectedModule && (
+          <ModuleDetailModal
+            module={selectedModule}
+            isOpen={!!selectedModule}
+            onClose={() => setSelectedModule(null)}
+            onBookDemo={(modTitle) => handleBookDemoWithModule(modTitle)}
+          />
+        )}
+        {caseStudyOpen && (
+          <CaseStudyModal
+            isOpen={caseStudyOpen}
+            onClose={() => setCaseStudyOpen(false)}
+            onBookDemo={() => handleBookDemoWithModule("Meadowview Case Study")}
+          />
+        )}
+      </Suspense>
     </div>
   )
 }
@@ -850,7 +857,9 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
-      <RouterProvider router={router} />
+      <Suspense fallback={<PageLoading />}>
+        <RouterProvider router={router} />
+      </Suspense>
     </MotionConfig>
   )
 }

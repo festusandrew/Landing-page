@@ -1,84 +1,88 @@
-import React, { useState } from 'react';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { ProblemStatement } from './components/ProblemStatement';
-import { SolutionOverview } from './components/SolutionOverview';
-import { ProductModules } from './components/ProductModules';
-import { HowItWorks } from './components/HowItWorks';
-import { Benefits } from './components/Benefits';
-import { SocialProof } from './components/SocialProof';
-import { FeaturesGrid } from './components/FeaturesGrid';
-import { Pricing } from './components/Pricing';
-import { FAQ } from './components/FAQ';
-import { FinalCTA } from './components/FinalCTA';
-import { Footer } from './components/Footer';
+import React, { useState } from "react"
+import { Navbar } from "./components/Navbar"
+import { Hero } from "./components/Hero"
+import { ProblemStatement } from "./components/ProblemStatement"
+import { SolutionOverview } from "./components/SolutionOverview"
+import { ProductModules } from "./components/ProductModules"
+import { HowItWorks } from "./components/HowItWorks"
+import { Benefits } from "./components/Benefits"
+import { SocialProof } from "./components/SocialProof"
+import { FeaturesGrid } from "./components/FeaturesGrid"
+import { Pricing } from "./components/Pricing"
+import { FAQ } from "./components/FAQ"
+import { FinalCTA } from "./components/FinalCTA"
+import { Footer } from "./components/Footer"
 
 // Pages
-import { LocumProvisionPage } from './components/pages/LocumProvisionPage';
-import { RecruitmentSoftwarePage } from './components/pages/RecruitmentSoftwarePage';
-import { CareManagementPage } from './components/pages/CareManagementPage';
-import { RecruitmentServicePage } from './components/pages/RecruitmentServicePage';
-import { ProductDesignPage } from './components/pages/ProductDesignPage';
-import { WebDevelopmentPage } from './components/pages/WebDevelopmentPage';
+import { LocumProvisionPage } from "./components/pages/LocumProvisionPage"
+import { RecruitmentSoftwarePage } from "./components/pages/RecruitmentSoftwarePage"
+import { CareManagementPage } from "./components/pages/CareManagementPage"
+import { RecruitmentServicePage } from "./components/pages/RecruitmentServicePage"
+import { ProductDesignPage } from "./components/pages/ProductDesignPage"
+import { WebDevelopmentPage } from "./components/pages/WebDevelopmentPage"
 
 // Modals
-import { BookDemoModal } from './components/modals/BookDemoModal';
-import { FreeTrialModal } from './components/modals/FreeTrialModal';
-import { VideoModal } from './components/modals/VideoModal';
-import { ModuleDetailModal } from './components/modals/ModuleDetailModal';
-import { CaseStudyModal } from './components/modals/CaseStudyModal';
+import { BookDemoModal } from "./components/modals/BookDemoModal"
+import { FreeTrialModal } from "./components/modals/FreeTrialModal"
+import { VideoModal } from "./components/modals/VideoModal"
+import { ModuleDetailModal } from "./components/modals/ModuleDetailModal"
+import { CaseStudyModal } from "./components/modals/CaseStudyModal"
 
-import { PRODUCT_MODULES } from './data/mockData';
-import { UserRole, ProductModule } from './types';
+import { PRODUCT_MODULES } from "./data/mockData"
+import { UserRole, ProductModule } from "./types"
 
-export default function App() {
-  const [activeRole, setActiveRole] = useState<UserRole>('all');
+export { default } from "./app/App"
+
+/** @deprecated Retained for reference; the default export is the routed application. */
+export function LegacyApp() {
+  const [activeRole, setActiveRole] = useState<UserRole>("all")
   const [activeView, setActiveView] = useState<string>(() =>
-    new URLSearchParams(window.location.search).has('recruitment-article') ? 'recruitment-service' : 'home'
-  );
-  
+    new URLSearchParams(window.location.search).has("recruitment-article")
+      ? "recruitment-service"
+      : "home",
+  )
+
   // Modal states
-  const [bookDemoOpen, setBookDemoOpen] = useState(false);
-  const [freeTrialOpen, setFreeTrialOpen] = useState(false);
-  const [videoModalOpen, setVideoModalOpen] = useState(false);
-  const [selectedModule, setSelectedModule] = useState<ProductModule | null>(null);
-  const [caseStudyOpen, setCaseStudyOpen] = useState(false);
-  const [initialDemoModule, setInitialDemoModule] = useState('All Modules');
+  const [bookDemoOpen, setBookDemoOpen] = useState(false)
+  const [freeTrialOpen, setFreeTrialOpen] = useState(false)
+  const [videoModalOpen, setVideoModalOpen] = useState(false)
+  const [selectedModule, setSelectedModule] = useState<ProductModule | null>(null)
+  const [caseStudyOpen, setCaseStudyOpen] = useState(false)
+  const [initialDemoModule, setInitialDemoModule] = useState("All Modules")
 
   const handleNavigate = (viewId: string) => {
-    setActiveView(viewId);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    setActiveView(viewId)
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
 
   const handleOpenModule = (modId: string) => {
-    if (modId === 'recruitment' || modId === 'recruitment-software') {
-      handleNavigate('recruitment-software');
-    } else if (modId === 'care-management') {
-      handleNavigate('care-management');
-    } else if (modId === 'locums-staffing' || modId === 'locum-provision') {
-      handleNavigate('locum-provision');
-    } else if (modId === 'recruitment-service') {
-      handleNavigate('recruitment-service');
-    } else if (modId === 'product-design') {
-      handleNavigate('product-design');
-    } else if (modId === 'web-development') {
-      handleNavigate('web-development');
+    if (modId === "recruitment" || modId === "recruitment-software") {
+      handleNavigate("recruitment-software")
+    } else if (modId === "care-management") {
+      handleNavigate("care-management")
+    } else if (modId === "locums-staffing" || modId === "locum-provision") {
+      handleNavigate("locum-provision")
+    } else if (modId === "recruitment-service") {
+      handleNavigate("recruitment-service")
+    } else if (modId === "product-design") {
+      handleNavigate("product-design")
+    } else if (modId === "web-development") {
+      handleNavigate("web-development")
     } else {
-      const found = PRODUCT_MODULES.find(m => m.id === modId);
+      const found = PRODUCT_MODULES.find((m) => m.id === modId)
       if (found) {
-        setSelectedModule(found);
+        setSelectedModule(found)
       }
     }
-  };
+  }
 
   const handleBookDemoWithModule = (moduleTitle?: string) => {
-    setInitialDemoModule(moduleTitle || 'All Modules');
-    setBookDemoOpen(true);
-  };
+    setInitialDemoModule(moduleTitle || "All Modules")
+    setBookDemoOpen(true)
+  }
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] selection:bg-slate-900 selection:text-white">
-      
       {/* Header */}
       <Navbar
         activeRole={activeRole}
@@ -91,7 +95,7 @@ export default function App() {
 
       {/* Main View Router */}
       <main>
-        {activeView === 'home' && (
+        {activeView === "home" && (
           <>
             <Hero
               activeRole={activeRole}
@@ -109,10 +113,7 @@ export default function App() {
               onBookDemo={() => handleBookDemoWithModule()}
             />
 
-            <ProductModules
-              onOpenModule={handleOpenModule}
-              onBookDemo={handleBookDemoWithModule}
-            />
+            <ProductModules onOpenModule={handleOpenModule} onBookDemo={handleBookDemoWithModule} />
 
             <HowItWorks
               onBookDemo={() => handleBookDemoWithModule()}
@@ -143,49 +144,51 @@ export default function App() {
         )}
 
         {/* Dedicated Landing Pages */}
-        {activeView === 'locum-provision' && (
+        {activeView === "locum-provision" && (
           <LocumProvisionPage
-            onBackToHome={() => handleNavigate('home')}
-            onBookDemo={(mod) => handleBookDemoWithModule(mod || 'Locum Provision')}
+            onBackToHome={() => handleNavigate("home")}
+            onBookDemo={(mod) => handleBookDemoWithModule(mod || "Locum Provision")}
             onStartTrial={() => setFreeTrialOpen(true)}
           />
         )}
 
-        {activeView === 'recruitment-software' && (
+        {activeView === "recruitment-software" && (
           <RecruitmentSoftwarePage
-            onBackToHome={() => handleNavigate('home')}
-            onBookDemo={(mod) => handleBookDemoWithModule(mod || 'Recruitment Software')}
+            onNavigate={handleNavigate}
+            onBackToHome={() => handleNavigate("home")}
+            onBookDemo={(mod) => handleBookDemoWithModule(mod || "Recruitment Software")}
             onStartTrial={() => setFreeTrialOpen(true)}
           />
         )}
 
-        {activeView === 'care-management' && (
+        {activeView === "care-management" && (
           <CareManagementPage
-            onBackToHome={() => handleNavigate('home')}
-            onBookDemo={(mod) => handleBookDemoWithModule(mod || 'Care Management Software')}
+            onNavigate={handleNavigate}
+            onBackToHome={() => handleNavigate("home")}
+            onBookDemo={(mod) => handleBookDemoWithModule(mod || "Care Management Software")}
             onStartTrial={() => setFreeTrialOpen(true)}
           />
         )}
 
-        {activeView === 'recruitment-service' && (
+        {activeView === "recruitment-service" && (
           <RecruitmentServicePage
-            onBackToHome={() => handleNavigate('home')}
-            onBookDemo={(mod) => handleBookDemoWithModule(mod || 'Recruitment Service')}
+            onBackToHome={() => handleNavigate("home")}
+            onBookDemo={(mod) => handleBookDemoWithModule(mod || "Recruitment Service")}
             onStartTrial={() => setFreeTrialOpen(true)}
           />
         )}
 
-        {activeView === 'product-design' && (
+        {activeView === "product-design" && (
           <ProductDesignPage
-            onBackToHome={() => handleNavigate('home')}
-            onBookDemo={(mod) => handleBookDemoWithModule(mod || 'Product Design Service')}
+            onBackToHome={() => handleNavigate("home")}
+            onBookDemo={(mod) => handleBookDemoWithModule(mod || "Product Design Service")}
           />
         )}
 
-        {activeView === 'web-development' && (
+        {activeView === "web-development" && (
           <WebDevelopmentPage
-            onBackToHome={() => handleNavigate('home')}
-            onBookDemo={(mod) => handleBookDemoWithModule(mod || 'Web Development Service')}
+            onBackToHome={() => handleNavigate("home")}
+            onBookDemo={(mod) => handleBookDemoWithModule(mod || "Web Development Service")}
           />
         )}
       </main>
@@ -204,10 +207,7 @@ export default function App() {
         initialModule={initialDemoModule}
       />
 
-      <FreeTrialModal
-        isOpen={freeTrialOpen}
-        onClose={() => setFreeTrialOpen(false)}
-      />
+      <FreeTrialModal isOpen={freeTrialOpen} onClose={() => setFreeTrialOpen(false)} />
 
       <VideoModal
         isOpen={videoModalOpen}
@@ -225,9 +225,8 @@ export default function App() {
       <CaseStudyModal
         isOpen={caseStudyOpen}
         onClose={() => setCaseStudyOpen(false)}
-        onBookDemo={() => handleBookDemoWithModule('Meadowview Case Study')}
+        onBookDemo={() => handleBookDemoWithModule("Meadowview Case Study")}
       />
-
     </div>
-  );
+  )
 }

@@ -1,11 +1,19 @@
-import React from 'react';
-import { UserPlus, HeartPulse, Users, Building2, CheckCircle2, ArrowRight } from 'lucide-react';
-import { PRODUCT_MODULES } from '../data/mockData';
-import { ProductModule } from '../types';
+import React from "react"
+import {
+  UserPlus,
+  HeartPulse,
+  Users,
+  Building2,
+  CheckCircle2,
+  ArrowRight,
+  BarChart3,
+} from "lucide-react"
+import { PRODUCT_MODULES } from "../data/mockData"
+import { ProductModule } from "../types"
 
 interface ProductModulesProps {
-  onOpenModule: (modId: string) => void;
-  onBookDemo: (moduleTitle?: string) => void;
+  onOpenModule: (modId: string) => void
+  onBookDemo: (moduleTitle?: string) => void
 }
 
 export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, onBookDemo }) => {
@@ -13,17 +21,19 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
     UserPlus,
     HeartPulse,
     Users,
-    Building2
-  };
+    Building2,
+  }
 
   return (
-    <section id="products" className="py-20 bg-slate-50 text-slate-900 relative border-t border-black/10">
+    <section
+      id="products"
+      className="py-20 bg-slate-50 text-slate-900 relative border-t border-black/10"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200 text-slate-800 text-xs font-semibold uppercase tracking-wider mb-3">
-             Modular & Integrated
+            Modular & Integrated
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900">
             Four Connected Modules. Built for Healthcare.
@@ -36,7 +46,7 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
         {/* 2x2 Grid of Product Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {PRODUCT_MODULES.map((mod: ProductModule) => {
-            const Icon = iconMap[mod.iconName] || BarChart3;
+            const Icon = iconMap[mod.iconName] || BarChart3
 
             return (
               <div
@@ -56,17 +66,16 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
                   </div>
 
                   {/* Title & Tagline */}
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">
-                    {mod.title}
-                  </h3>
-                  <p className="text-sm font-semibold text-blue-700 mb-6">
-                    "{mod.tagline}"
-                  </p>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">{mod.title}</h3>
+                  <p className="text-sm font-semibold text-blue-700 mb-6">"{mod.tagline}"</p>
 
                   {/* Key Feature Bullets */}
                   <div className="space-y-3 mb-6">
                     {mod.features.map((feat, idx) => (
-                      <div key={idx} className="flex items-start gap-3 text-xs text-slate-600 leading-relaxed font-medium">
+                      <div
+                        key={idx}
+                        className="flex items-start gap-3 text-xs text-slate-600 leading-relaxed font-medium"
+                      >
                         <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                         <span>{feat}</span>
                       </div>
@@ -82,9 +91,7 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
 
                 {/* Bottom Action CTAs */}
                 <div className="pt-4 border-t border-black/10 flex items-center justify-between">
-                  <span className="text-xs font-bold text-blue-700 font-mono">
-                    ★ {mod.metrics}
-                  </span>
+                  <span className="text-xs font-bold text-blue-700 font-mono">★ {mod.metrics}</span>
 
                   <button
                     onClick={() => onOpenModule(mod.id)}
@@ -94,7 +101,7 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
                   </button>
                 </div>
               </div>
-            );
+            )
           })}
         </div>
 
@@ -104,14 +111,13 @@ export const ProductModules: React.FC<ProductModulesProps> = ({ onOpenModule, on
             Need a tailored bundle for multi-site care homes or recruitment agencies?
           </p>
           <button
-            onClick={() => onBookDemo('Custom Bundles')}
+            onClick={() => onBookDemo("Custom Bundles")}
             className="mt-2 text-xs font-bold text-slate-900 hover:underline inline-flex items-center gap-1"
           >
             Request Custom Product Bundle Consultation →
           </button>
         </div>
-
       </div>
     </section>
-  );
-};
+  )
+}

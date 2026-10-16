@@ -1,4 +1,55 @@
-**Add your own guidelines here**
+# Project guidelines
+
+This is the MployUs React 19 + Vite + Tailwind CSS v4 frontend. Read
+`README.md` for the project map, commands and integration status.
+
+## Development workflow
+
+- Use Node 22.12+ and pnpm 10.34.3.
+- Figma Make supervises the development server. Do not start a second server.
+- `src/main.tsx` loads the canonical routed app in `src/app/App.tsx`.
+  `src/App.tsx` forwards its default export and preserves a named legacy app.
+- New pages and shared modals should load on demand, following the existing
+  React `lazy`/`Suspense` boundaries.
+- Prefer existing typed UI primitives in `src/app/components/ui/`. The `@/`
+  alias refers to the repository root; preserve existing marquee/UI imports.
+- Keep changes scoped. Extract large page components incrementally rather
+  than replacing designs or deleting legacy/reference work.
+- Run `pnpm run check` for changes spanning application behaviour or tooling.
+  It runs strict TypeScript, tests and the prescribed production build.
+- Format selected changed files with `pnpm run format <paths>`. Do not bulk
+  format frozen design assets or imported reference components.
+- Fix type errors and missing dependencies instead of excluding valid source
+  or weakening strict TypeScript settings.
+
+## Visual contracts
+
+- Preserve the approved Figma layouts and the shared navbar on product pages.
+- General landing/Product Design use `#0E162A`; Locum/Web Development use
+  `#368B62`; Recruitment uses `#810161`; Care Management software uses `#1D4ED8`.
+- Avoid shadows. Use only necessary 1px borders at black 5% opacity.
+- Reuse the documented font faces, including their composite family names.
+- Keep SVG assets local and preserve their intrinsic dimensions. Do not use
+  expiring Figma asset URLs at runtime.
+- Retain hidden carousel scrollbars, chevron controls and keyboard support.
+- Preserve modal focus trapping, Escape dismissal and focus restoration.
+
+## Data and safety
+
+- The frontend is not a connected production platform. Never claim that an
+  enquiry was submitted, an account created, an email sent or a booking
+  confirmed unless the relevant service actually succeeded.
+- Do not keep passwords in browser storage, URLs or logs. Clear them when a
+  flow closes or completes.
+- Private service credentials must never be shipped in browser code or
+  `VITE_*` variables.
+- Entering a professional number is not verification or placement approval.
+- Temporary Locum shifts and permanent Recruitment roles remain separate.
+  Permanent briefs go to the Recruitment team, not the Locum shift form.
+- Keep shift pay locked while signed out and maps limited to a general area.
+- Read the registration/pay-access guidelines and retain their tests when
+  changing country-, role- or region-specific behaviour.
+
 <!--
 
 System Guidelines
