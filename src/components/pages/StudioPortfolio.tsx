@@ -1,24 +1,16 @@
 import { useRef, useState } from "react"
 import { Link } from "react-router"
 import * as Dialog from "@radix-ui/react-dialog"
-import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  Check,
-  Code2,
-  Layers,
-  Minus,
-  Plus,
-  X,
-} from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import "./studio-portfolio.css"
 import { ProjectEnquiryDialog } from "../modals/ProjectEnquiryDialog"
 import { StudioProjectCarousel } from "../StudioProjectCarousel"
 import { STUDIO_VISUALS } from "../../data/studioVisuals"
+import { WEB_STUDIO_VISUALS } from "../../data/webStudioVisuals"
+import webShiftImage from "../../imports/web-studio-reference/4daaa.png"
 import careDesignImage from "../../imports/studio-reference/dd653.png"
 import "./studio-design-reference.css"
+import "./studio-web-reference.css"
 
 type Discipline = "design" | "development"
 type Project = {
@@ -118,6 +110,7 @@ const projects: Record<Discipline, Project[]> = {
   ],
   development: [
     {
+      imageSrc: webShiftImage,
       id: "shifts",
       name: "The right shift. Less friction.",
       category: "Web apps",
@@ -150,6 +143,7 @@ const projects: Record<Discipline, Project[]> = {
         "A React website with job and insight filters, article detail views and validated front-end forms. Shared patterns make the experience consistent across employer enquiries, applications and account previews.",
     },
     {
+      imageSrc: careDesignImage,
       id: "care-platform",
       name: "Complexity, considered.",
       category: "Platforms",
@@ -242,13 +236,13 @@ const capabilities: Record<Discipline, [string, string][]> = {
 export function StudioPortfolio({
   discipline,
   onBackToHome,
-  onBookDemo,
 }: {
   discipline: Discipline
   onBackToHome: () => void
   onBookDemo: (moduleTitle?: string) => void
 }) {
   const design = discipline === "design"
+  const visuals = design ? STUDIO_VISUALS : WEB_STUDIO_VISUALS
   const work = projects[discipline]
   const [category, setCategory] = useState("All work")
   const [selected, setSelected] = useState<Project | null>(null)
@@ -268,17 +262,19 @@ export function StudioPortfolio({
   const featuredProject = category === "All work" ? visible[0] : null
   const carouselProjects = featuredProject ? visible.slice(1) : visible
   const discuss = () => {
-    if (design) {
-      returnFocus.current = (document.activeElement as HTMLElement)
-      openingEnquiry.current = true
-      setEnquiryProject({ name: "Your next project" })
-    } else onBookDemo("Web Development Service")
+    returnFocus.current = (document.activeElement as HTMLElement)
+    openingEnquiry.current = true
+    setEnquiryProject({ name: "Your next project" })
   }
   const projectImage = (project: Project) =>
     project.imageSrc || `/images/studio/${project.image}.png`
   const projectScreen = (project: Project, alt: string, lazy = false) =>
-    design && project.id === "care" ? (
-      <div className="studio-reference-crop studio-reference-care-crop">
+    project.id === "care" || project.id === "care-platform" ? (
+      <div
+        className={`studio-reference-crop studio-reference-care-crop ${
+          design ? "" : "studio-reference-web-care-crop"
+        }`}
+      >
         <img
           src={projectImage(project)}
           alt={alt}
@@ -321,19 +317,20 @@ export function StudioPortfolio({
           )}
         </div>
         <span className="studio-project-open">
-          {design ? (
+          {
             <img
               src={
-                project.id === "journal"
-                  ? STUDIO_VISUALS.page.journalArrow[0]
-                  : STUDIO_VISUALS.page.projectArrow[0]
+                design
+                  ? project.id === "journal"
+                    ? visuals.page.journalArrow[0]
+                    : visuals.page.projectArrow[0]
+                  : visuals.page.projectArrow[work.indexOf(project)] ||
+                    visuals.page.projectArrow[0]
               }
               alt=""
               className="studio-reference-icon"
             />
-          ) : (
-            <ArrowUpRight size={20} />
-          )}
+          }
         </span>
       </div>
       <div className="studio-project-info">
@@ -350,18 +347,20 @@ export function StudioPortfolio({
     </button>
   )
   return (
-    <div className="studiofolio" data-discipline={discipline}>
+    <div
+      className="studiofolio"
+      data-discipline={discipline}
+      data-studio-reference=""
+    >
       <div className="studio-subnav studio-container">
         <button onClick={onBackToHome}>
-          {design ? (
+          {
             <img
-              src={STUDIO_VISUALS.page.back[0]}
+              src={visuals.page.back[0]}
               alt=""
               className="studio-reference-icon"
             />
-          ) : (
-            <ArrowLeft size={14} />
-          )}{" "}
+          }{" "}
           Back to homepage
         </button>
         <nav
@@ -374,15 +373,13 @@ export function StudioPortfolio({
           <a href={`#${sectionId("capabilities")}`}>Capabilities</a>
         </nav>
         <span>
-          {design ? (
+          {
             <img
-              src={STUDIO_VISUALS.page.studio[0]}
+              src={visuals.page.studio[0]}
               alt=""
               className="studio-reference-icon"
             />
-          ) : (
-            <Code2 size={14} />
-          )}{" "}
+          }{" "}
           MployUs Studio
         </span>
       </div>
@@ -422,15 +419,13 @@ export function StudioPortfolio({
             </p>
             <a className="studio-text-link" href={`#${sectionId("work")}`}>
               Explore our work{" "}
-              {design ? (
+              {
                 <img
-                  src={STUDIO_VISUALS.page.explore[0]}
+                  src={visuals.page.explore[0]}
                   alt=""
                   className="studio-reference-icon"
                 />
-              ) : (
-                <ArrowDown size={16} />
-              )}
+              }
             </a>
           </div>
         </div>
@@ -481,15 +476,13 @@ export function StudioPortfolio({
               : "Built around the people using it."}
           </span>
           <span className="studio-stage-arrow">
-            {design ? (
+            {
               <img
-                src={STUDIO_VISUALS.page.heroArrow[0]}
+                src={visuals.page.heroArrow[0]}
                 alt=""
                 className="studio-reference-icon"
               />
-            ) : (
-              <ArrowUpRight size={22} />
-            )}
+            }
           </span>
         </button>
         <div className="studio-hero-meta">
@@ -537,10 +530,8 @@ export function StudioPortfolio({
               label={`${
                 design ? "Product design" : "Web development"
               } projects`}
-              previousIcon={
-                design ? STUDIO_VISUALS.page.previous[0] : undefined
-              }
-              nextIcon={design ? STUDIO_VISUALS.page.next[0] : undefined}
+              previousIcon={visuals.page.previous[0]}
+              nextIcon={visuals.page.next[0]}
             >
               {carouselProjects.map((project) => projectCard(project))}
             </StudioProjectCarousel>
@@ -624,15 +615,13 @@ export function StudioPortfolio({
               "Built for mobile, not just desktop",
             ].map((label, index) => (
               <span key={label}>
-                {design ? (
+                {
                   <img
-                    src={STUDIO_VISUALS.page.standards[index]}
+                    src={visuals.page.standards[index]}
                     alt=""
                     className="studio-reference-icon"
                   />
-                ) : (
-                  <Check size={15} />
-                )}
+                }
                 {label}
               </span>
             ))}
@@ -694,15 +683,13 @@ export function StudioPortfolio({
             {design
               ? "Explore our development work"
               : "Explore our design work"}
-            {design ? (
+            {
               <img
-                src={STUDIO_VISUALS.page.development[0]}
+                src={visuals.page.development[0]}
                 alt=""
                 className="studio-reference-icon"
               />
-            ) : (
-              <ArrowUpRight size={16} />
-            )}
+            }
           </Link>
         </div>
         <div className="studio-capability-list">
@@ -718,21 +705,17 @@ export function StudioPortfolio({
                 <span>0{index + 1}</span>
                 {title}
                 <span className="studio-capability-sign" aria-hidden="true">
-                  {design ? (
+                  {
                     <img
                       src={
                         openCapability === index
-                          ? STUDIO_VISUALS.page.minus[0]
-                          : STUDIO_VISUALS.page.plus[Math.max(0, index - 1)]
+                          ? visuals.page.minus[0]
+                          : visuals.page.plus[Math.max(0, index - 1)]
                       }
                       alt=""
                       className="studio-reference-icon"
                     />
-                  ) : openCapability === index ? (
-                    <Minus size={18} />
-                  ) : (
-                    <Plus size={18} />
-                  )}
+                  }
                 </span>
               </button>
               <div
@@ -760,15 +743,13 @@ export function StudioPortfolio({
             <div>
               <button className="studio-button" onClick={discuss}>
                 Discuss your project{" "}
-                {design ? (
+                {
                   <img
-                    src={STUDIO_VISUALS.page.discuss[0]}
+                    src={visuals.page.discuss[0]}
                     alt=""
                     className="studio-reference-icon"
                   />
-                ) : (
-                  <ArrowUpRight size={18} />
-                )}
+                }
               </button>
               <p>
                 A conversation about your brief.
@@ -799,6 +780,7 @@ export function StudioPortfolio({
             <Dialog.Content
               className="studio-dialog studiofolio"
               data-discipline={discipline}
+              data-studio-reference=""
               onCloseAutoFocus={(event) => {
                 event.preventDefault()
                 if (!openingEnquiry.current && returnFocus.current?.isConnected)
@@ -809,15 +791,13 @@ export function StudioPortfolio({
                 className="studio-dialog-close"
                 aria-label="Close project notes"
               >
-                {design ? (
+                {
                   <img
-                    src={STUDIO_VISUALS.notes.close[0]}
+                    src={visuals.notes.close[0]}
                     alt=""
                     className="studio-reference-icon"
                   />
-                ) : (
-                  <X size={20} />
-                )}
+                }
               </Dialog.Close>
               <p className="studio-eyebrow">
                 {selected.category} / IN-HOUSE PROJECT
@@ -868,15 +848,13 @@ export function StudioPortfolio({
                   onClick={() => setSelected(null)}
                 >
                   {selected.linkLabel}
-                  {design ? (
+                  {
                     <img
-                      src={STUDIO_VISUALS.notes.explore[0]}
+                      src={visuals.notes.explore[0]}
                       alt=""
                       className="studio-reference-icon"
                     />
-                  ) : (
-                    <ArrowUpRight size={16} />
-                  )}
+                  }
                 </Link>
                 <button
                   className="studio-text-link"
@@ -887,15 +865,13 @@ export function StudioPortfolio({
                   }}
                 >
                   Discuss a similar project
-                  {design ? (
+                  {
                     <img
-                      src={STUDIO_VISUALS.notes.discuss[0]}
+                      src={visuals.notes.discuss[0]}
                       alt=""
                       className="studio-reference-icon"
                     />
-                  ) : (
-                    <ArrowRight size={16} />
-                  )}
+                  }
                 </button>
               </div>
             </Dialog.Content>

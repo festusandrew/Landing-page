@@ -1,8 +1,8 @@
 import { useState, type FormEvent } from "react"
-import { ArrowLeft, ArrowRight, Check, FileText } from "lucide-react"
 import { Input } from "../../app/components/ui/input"
 import { RecruitmentDialog } from "../RecruitmentDialog"
 import { STUDIO_VISUALS } from "../../data/studioVisuals"
+import { WEB_STUDIO_VISUALS } from "../../data/webStudioVisuals"
 import "./project-enquiry-reference.css"
 
 export function ProjectEnquiryDialog({
@@ -15,6 +15,7 @@ export function ProjectEnquiryDialog({
   onClose: () => void
 }) {
   const design = discipline === "design"
+  const visuals = design ? STUDIO_VISUALS : WEB_STUDIO_VISUALS
   const [step, setStep] = useState(0)
   const [prepared, setPrepared] = useState(false)
   const [form, setForm] = useState({
@@ -55,25 +56,25 @@ export function ProjectEnquiryDialog({
   ]
   return (
     <RecruitmentDialog
-      className={design ? "project-enquiry" : undefined}
-      footer={design ? null : undefined}
-      completeLabel={design ? "Brief ready" : undefined}
+      className={`project-enquiry${
+        design ? "" : " project-enquiry-development"
+      }`}
+      footer={null}
+      completeLabel="Brief ready"
       closeIcon={
-        design ? (
-          <img
-            src={
-              prepared
-                ? STUDIO_VISUALS.ready.close[0]
-                : step === 0
-                  ? STUDIO_VISUALS.details.close[0]
-                  : step === 1
-                    ? STUDIO_VISUALS.project.close[0]
-                    : STUDIO_VISUALS.review.close[0]
-            }
-            alt=""
-            className="studio-reference-icon"
-          />
-        ) : undefined
+        <img
+          src={
+            prepared
+              ? visuals.ready.close[0]
+              : step === 0
+                ? visuals.details.close[0]
+                : step === 1
+                  ? visuals.project.close[0]
+                  : visuals.review.close[0]
+          }
+          alt=""
+          className="studio-reference-icon"
+        />
       }
       onClose={onClose}
       eyebrow="Project enquiry"
@@ -95,15 +96,13 @@ export function ProjectEnquiryDialog({
         <div className="project-enquiry-ready space-y-6">
           <div className="flex items-center gap-3">
             <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[var(--recruit-tint)] text-[var(--recruit-brand)]">
-              {design ? (
+              {
                 <img
-                  src={STUDIO_VISUALS.ready.check[0]}
+                  src={visuals.ready.check[0]}
                   alt=""
                   className="studio-reference-icon"
                 />
-              ) : (
-                <Check size={22} />
-              )}
+              }
             </span>
             <h2 className="text-xl">Prepared, not submitted.</h2>
           </div>
@@ -227,18 +226,13 @@ export function ProjectEnquiryDialog({
           {step === 1 && (
             <>
               <div className="flex items-start gap-3 rounded-lg bg-[var(--recruit-paper)] p-4">
-                {design ? (
+                {
                   <img
-                    src={STUDIO_VISUALS.project.file[0]}
+                    src={visuals.project.file[0]}
                     alt=""
                     className="studio-reference-icon self-start mt-1"
                   />
-                ) : (
-                  <FileText
-                    size={18}
-                    className="mt-1 shrink-0 text-[var(--recruit-brand)]"
-                  />
-                )}
+                }
                 <div>
                   <p className="text-xs text-[var(--recruit-muted)]">
                     Inspired by this project
@@ -267,13 +261,13 @@ export function ProjectEnquiryDialog({
                       <option key={service}>{service}</option>
                     ))}
                   </select>
-                  {design && (
+                  {
                     <img
-                      src={STUDIO_VISUALS.project.serviceCaret[0]}
+                      src={visuals.project.serviceCaret[0]}
                       alt=""
                       className="studio-reference-icon"
                     />
-                  )}
+                  }
                 </span>
               </label>
               <label className="block">
@@ -311,13 +305,13 @@ export function ProjectEnquiryDialog({
                       <option key={timeline}>{timeline}</option>
                     ))}
                   </select>
-                  {design && (
+                  {
                     <img
-                      src={STUDIO_VISUALS.project.timelineCaret[0]}
+                      src={visuals.project.timelineCaret[0]}
                       alt=""
                       className="studio-reference-icon"
                     />
-                  )}
+                  }
                 </span>
               </label>
             </>
@@ -369,13 +363,13 @@ export function ProjectEnquiryDialog({
                         <option key={time}>{time}</option>
                       ))}
                     </select>
-                    {design && (
+                    {
                       <img
-                        src={STUDIO_VISUALS.review.timeCaret[0]}
+                        src={visuals.review.timeCaret[0]}
                         alt=""
                         className="studio-reference-icon"
                       />
-                    )}
+                    }
                   </span>
                 </label>
               </div>
@@ -392,19 +386,17 @@ export function ProjectEnquiryDialog({
                 onClick={() => setStep(step - 1)}
                 className="inline-flex items-center gap-2 rounded-lg border border-black/5 px-4 py-3 text-sm"
               >
-                {design ? (
+                {
                   <img
                     src={
                       step === 2
-                        ? STUDIO_VISUALS.review.back[0]
-                        : STUDIO_VISUALS.project.back[0]
+                        ? visuals.review.back[0]
+                        : visuals.project.back[0]
                     }
                     alt=""
                     className="studio-reference-icon"
                   />
-                ) : (
-                  <ArrowLeft size={14} />
-                )}
+                }
                 Back
               </button>
             )}
@@ -413,21 +405,19 @@ export function ProjectEnquiryDialog({
               className="flex flex-1 items-center justify-center gap-2 bg-[var(--recruit-brand)] px-5 py-3 text-white"
             >
               {step < 2 ? "Continue" : "Prepare project brief"}
-              {design ? (
+              {
                 <img
                   src={
                     step === 0
-                      ? STUDIO_VISUALS.details.continue[0]
+                      ? visuals.details.continue[0]
                       : step === 1
-                        ? STUDIO_VISUALS.project.continue[0]
-                        : STUDIO_VISUALS.review.prepare[0]
+                        ? visuals.project.continue[0]
+                        : visuals.review.prepare[0]
                   }
                   alt=""
                   className="studio-reference-icon"
                 />
-              ) : (
-                <ArrowRight size={16} />
-              )}
+              }
             </button>
           </div>
         </form>

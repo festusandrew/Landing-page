@@ -48,94 +48,95 @@
 .studio-dialog[data-discipline="design"] .studio-dialog-close { background: #edf2e9; }
 .studio-dialog[data-discipline="design"] .studio-button { background: #0e162a; }
 
+/* Both studio references share sizing; their colour palettes stay scoped. */
 @media (min-width: 1440px) {
-  .studiofolio[data-discipline="design"] .studio-container { width: min(100%, 1730.704px); padding-inline: 54.085px; }
-  .studiofolio[data-discipline="design"] .studio-subnav { padding-block: 31.099px; font-size: 14.873px; }
-  .studiofolio[data-discipline="design"] .studio-subnav nav { gap: 35.155px; }
-  .studiofolio[data-discipline="design"] .studio-hero { padding-top: 86.535px; }
-  .studiofolio[data-discipline="design"] .studio-hero-copy { gap: 94.648px; margin-top: 37.859px; margin-bottom: 56.789px; }
-  .studiofolio[data-discipline="design"] .studio-hero h1 { font-size: 110.592px; line-height: 108.38px; letter-spacing: -4.9766px; font-variation-settings: 'opsz' 14, 'opsz' 14; }
-  .studiofolio[data-discipline="design"] .studio-hero h1 em { font-size: 118.333px; line-height: 115.967px; letter-spacing: -3.55px; }
-  .studiofolio[data-discipline="design"] .studio-hero-description { max-width: 446.197px; padding-bottom: 9.465px; }
-  .studiofolio[data-discipline="design"] .studio-hero-description p { font-size: 18.93px; line-height: 35.966px; }
-  .studiofolio[data-discipline="design"] .studio-text-link { gap: 16.225px; font-size: 16.225px; }
-  .studiofolio[data-discipline="design"] .studio-hero-description .studio-text-link { margin-top: 35.155px; }
-  .studiofolio[data-discipline="design"] .studio-hero-stage { height: 649.014px; border-radius: 24.338px; }
-  .studiofolio[data-discipline="design"] .studio-stage-label { left: 43.268px; top: 35.155px; font-size: 12.169px; }
-  .studiofolio[data-discipline="design"] .studio-browser { border-radius: 13.521px; }
-  .studiofolio[data-discipline="design"] .studio-browser-bar { height: 35.155px; gap: 6.761px; padding-inline: 16.225px; }
-  .studiofolio[data-discipline="design"] .studio-browser-bar > span { width: 6.761px; height: 6.761px; }
-  .studiofolio[data-discipline="design"] .studio-browser-bar p { margin-left: 13.521px; font-size: 10.817px; }
-  .studiofolio[data-discipline="design"] .studio-hero-browser { top: 91.944px; }
-  .studiofolio[data-discipline="design"] .studio-mini-browser { top: 267.718px; }
-  .studiofolio[data-discipline="design"] .studio-stage-arrow { right: 35.155px; bottom: 32.451px; width: 56.789px; height: 56.789px; }
-  .studiofolio[data-discipline="design"] .studio-work { padding-top: 135.211px; padding-bottom: 118.986px; }
-  .studiofolio[data-discipline="design"] .studio-eyebrow { font-size: 13.521px; line-height: 21.634px; }
-  .studiofolio[data-discipline="design"] .studio-section-heading { gap: 40.563px; margin-bottom: 45.972px; }
-  .studiofolio[data-discipline="design"] :is(.studio-section-heading h2,.studio-capabilities h2) { margin-top: 21.634px; font-size: 69.12px; line-height: 74.65px; letter-spacing: -1.728px; }
-  .studiofolio[data-discipline="design"] .studio-section-heading > p { font-size: 16.225px; line-height: 30.828px; }
-  .studiofolio[data-discipline="design"] .studio-work-toolbar { gap: 21.634px; margin-bottom: 37.859px; padding-block: 22.986px; }
-  .studiofolio[data-discipline="design"] .studio-filters { gap: 10.817px; }
-  .studiofolio[data-discipline="design"] .studio-filters button { padding: 10.817px 20.282px; font-size: 14.873px; }
-  .studiofolio[data-discipline="design"] .studio-work-toolbar > span { font-size: 13.521px; }
-  .studiofolio[data-discipline="design"] .studio-project-grid { gap: 59.493px; }
-  .studiofolio[data-discipline="design"] .studio-project-stage { height: 459.718px; padding: 73.014px 45.972px 40.563px; border-radius: 16.225px; }
-  .studiofolio[data-discipline="design"] .studio-project-featured .studio-project-stage { height: 730.141px; padding: 87.887px 175.775px 27.042px; }
-  .studiofolio[data-discipline="design"] .studio-project-stage > .studio-browser { max-width: 1135.775px; transform: translateY(43.268px); }
-  .studiofolio[data-discipline="design"] .studio-project:hover .studio-project-stage > .studio-browser { transform: translateY(32.451px); }
-  .studiofolio[data-discipline="design"] .studio-project-number { left: 32.451px; top: 29.746px; font-size: 12.169px; }
-  .studiofolio[data-discipline="design"] .studio-project-open { right: 24.338px; bottom: 24.338px; width: 47.324px; height: 47.324px; }
-  .studiofolio[data-discipline="design"] .studio-project-info { padding-top: 25.69px; gap: 27.042px; }
-  .studiofolio[data-discipline="design"] .studio-project-info h3 { font-size: 29.746px; line-height: 37.183px; }
-  .studiofolio[data-discipline="design"] .studio-project-info p { margin-top: 9.465px; font-size: 16.225px; line-height: 27.583px; }
-  .studiofolio[data-discipline="design"] .studio-project-info > span { font-size: 13.521px; line-height: 25.69px; }
-  .studiofolio[data-discipline="design"] .studio-project-info small { font-size: 12.169px; }
-  .studiofolio[data-discipline="design"] .studio-carousel-toolbar { gap: 27.042px; margin-bottom: 24.338px; }
-  .studiofolio[data-discipline="design"] .studio-carousel-toolbar p { font-size: 17.577px; }
-  .studiofolio[data-discipline="design"] .studio-carousel-toolbar > div > span { font-size: 13.521px; }
-  .studiofolio[data-discipline="design"] .studio-carousel-controls > span { font-size: 14.873px; margin-right: 16.225px; }
-  .studiofolio[data-discipline="design"] .studio-carousel-controls button { width: 51.38px; height: 51.38px; }
-  .studiofolio[data-discipline="design"] .studio-carousel-track { gap: 37.859px; padding: 8.113px; }
-  .studiofolio[data-discipline="design"] .studio-carousel-slide { flex-basis: calc((100% - 37.859px) / 2); }
-  .studiofolio[data-discipline="design"] .studio-carousel-slide .studio-project-stage { height: 459.718px; }
-  .studiofolio[data-discipline="design"] .studio-approach { padding-block: 108.169px; }
-  .studiofolio[data-discipline="design"] .studio-process { gap: 67.606px; padding-top: 29.746px; }
-  .studiofolio[data-discipline="design"] .studio-process > div { padding-top: 29.746px; }
-  .studiofolio[data-discipline="design"] .studio-process > div > span { font-size: 48.676px; }
-  .studiofolio[data-discipline="design"] .studio-process h3 { margin-top: 27.042px; font-size: 25.69px; }
-  .studiofolio[data-discipline="design"] .studio-process p { margin-top: 16.225px; max-width: 419.155px; font-size: 16.225px; line-height: 30.828px; }
-  .studiofolio[data-discipline="design"] .studio-standards { margin-top: 59.493px; padding-top: 29.746px; gap: 27.042px 54.085px; }
-  .studiofolio[data-discipline="design"] .studio-standards > span { font-size: 14.873px; }
-  .studiofolio[data-discipline="design"] .studio-capabilities { padding-block: 135.211px; padding-inline: max(54.085px, calc((100vw - 1619.831px) / 2)); gap: 135.211px; }
-  .studiofolio[data-discipline="design"] .studio-capabilities > div > p:not(.studio-eyebrow) { margin-top: 29.746px; max-width: 419.155px; font-size: 17.577px; line-height: 33.397px; }
-  .studiofolio[data-discipline="design"] .studio-capability-list button { padding-block: 31.099px; gap: 27.042px; font-size: 22.986px; }
-  .studiofolio[data-discipline="design"] .studio-capability-list button > span:first-child { font-size: 13.521px; }
-  .studiofolio[data-discipline="design"] .studio-capability-list p { padding: 0 33.803px 32.451px 47.324px; font-size: 16.225px; line-height: 30.828px; }
-  .studiofolio[data-discipline="design"] .studio-contact { min-height: 482px; padding-block: 94.648px; }
-  .studiofolio[data-discipline="design"] .studio-contact h2 { font-size: 77.76px; line-height: 83.203px; letter-spacing: -1.944px; }
-  .studiofolio[data-discipline="design"] .studio-contact > div > div { gap: 47.324px; margin-top: 29.746px; }
-  .studiofolio[data-discipline="design"] .studio-contact > div > div > div { width: min(100%, 615px); }
-  .studiofolio[data-discipline="design"] .studio-button { gap: 21.634px; padding: 20.282px 32.451px; font-size: 16.225px; border-radius: 8.113px; }
-  .product-design-shell > footer { padding-block: 86.535px 64.901px; }
-  .product-design-shell > footer > div { max-width: 1730.704px; padding-inline: 43.268px; }
-  .product-design-shell > footer :is(.text-xs,.text-base) { font-family: 'Plus Jakarta Sans:Regular', sans-serif; font-size: 16.225px; line-height: 21.634px; }
-  .product-design-shell > footer h3.text-xs { font-family: 'Plus Jakarta Sans:Bold', sans-serif; }
-  .product-design-shell > footer [class~="text-[11px]"] { font-size: 14.873px; line-height: 19.831px; }
+  .studiofolio[data-studio-reference] .studio-container { width: min(100%, 1730.704px); padding-inline: 54.085px; }
+  .studiofolio[data-studio-reference] .studio-subnav { padding-block: 31.099px; font-size: 14.873px; }
+  .studiofolio[data-studio-reference] .studio-subnav nav { gap: 35.155px; }
+  .studiofolio[data-studio-reference] .studio-hero { padding-top: 86.535px; }
+  .studiofolio[data-studio-reference] .studio-hero-copy { gap: 94.648px; margin-top: 37.859px; margin-bottom: 56.789px; }
+  .studiofolio[data-studio-reference] .studio-hero h1 { font-size: 110.592px; line-height: 108.38px; letter-spacing: -4.9766px; font-variation-settings: 'opsz' 14, 'opsz' 14; }
+  .studiofolio[data-studio-reference] .studio-hero h1 em { font-size: 118.333px; line-height: 115.967px; letter-spacing: -3.55px; }
+  .studiofolio[data-studio-reference] .studio-hero-description { max-width: 446.197px; padding-bottom: 9.465px; }
+  .studiofolio[data-studio-reference] .studio-hero-description p { font-size: 18.93px; line-height: 35.966px; }
+  .studiofolio[data-studio-reference] .studio-text-link { gap: 16.225px; font-size: 16.225px; }
+  .studiofolio[data-studio-reference] .studio-hero-description .studio-text-link { margin-top: 35.155px; }
+  .studiofolio[data-studio-reference] .studio-hero-stage { height: 649.014px; border-radius: 24.338px; }
+  .studiofolio[data-studio-reference] .studio-stage-label { left: 43.268px; top: 35.155px; font-size: 12.169px; }
+  .studiofolio[data-studio-reference] .studio-browser { border-radius: 13.521px; }
+  .studiofolio[data-studio-reference] .studio-browser-bar { height: 35.155px; gap: 6.761px; padding-inline: 16.225px; }
+  .studiofolio[data-studio-reference] .studio-browser-bar > span { width: 6.761px; height: 6.761px; }
+  .studiofolio[data-studio-reference] .studio-browser-bar p { margin-left: 13.521px; font-size: 10.817px; }
+  .studiofolio[data-studio-reference] .studio-hero-browser { top: 91.944px; }
+  .studiofolio[data-studio-reference] .studio-mini-browser { top: 267.718px; }
+  .studiofolio[data-studio-reference] .studio-stage-arrow { right: 35.155px; bottom: 32.451px; width: 56.789px; height: 56.789px; }
+  .studiofolio[data-studio-reference] .studio-work { padding-top: 135.211px; padding-bottom: 118.986px; }
+  .studiofolio[data-studio-reference] .studio-eyebrow { font-size: 13.521px; line-height: 21.634px; }
+  .studiofolio[data-studio-reference] .studio-section-heading { gap: 40.563px; margin-bottom: 45.972px; }
+  .studiofolio[data-studio-reference] :is(.studio-section-heading h2,.studio-capabilities h2) { margin-top: 21.634px; font-size: 69.12px; line-height: 74.65px; letter-spacing: -1.728px; }
+  .studiofolio[data-studio-reference] .studio-section-heading > p { font-size: 16.225px; line-height: 30.828px; }
+  .studiofolio[data-studio-reference] .studio-work-toolbar { gap: 21.634px; margin-bottom: 37.859px; padding-block: 22.986px; }
+  .studiofolio[data-studio-reference] .studio-filters { gap: 10.817px; }
+  .studiofolio[data-studio-reference] .studio-filters button { padding: 10.817px 20.282px; font-size: 14.873px; }
+  .studiofolio[data-studio-reference] .studio-work-toolbar > span { font-size: 13.521px; }
+  .studiofolio[data-studio-reference] .studio-project-grid { gap: 59.493px; }
+  .studiofolio[data-studio-reference] .studio-project-stage { height: 459.718px; padding: 73.014px 45.972px 40.563px; border-radius: 16.225px; }
+  .studiofolio[data-studio-reference] .studio-project-featured .studio-project-stage { height: 730.141px; padding: 87.887px 175.775px 27.042px; }
+  .studiofolio[data-studio-reference] .studio-project-stage > .studio-browser { max-width: 1135.775px; transform: translateY(43.268px); }
+  .studiofolio[data-studio-reference] .studio-project:hover .studio-project-stage > .studio-browser { transform: translateY(32.451px); }
+  .studiofolio[data-studio-reference] .studio-project-number { left: 32.451px; top: 29.746px; font-size: 12.169px; }
+  .studiofolio[data-studio-reference] .studio-project-open { right: 24.338px; bottom: 24.338px; width: 47.324px; height: 47.324px; }
+  .studiofolio[data-studio-reference] .studio-project-info { padding-top: 25.69px; gap: 27.042px; }
+  .studiofolio[data-studio-reference] .studio-project-info h3 { font-size: 29.746px; line-height: 37.183px; }
+  .studiofolio[data-studio-reference] .studio-project-info p { margin-top: 9.465px; font-size: 16.225px; line-height: 27.583px; }
+  .studiofolio[data-studio-reference] .studio-project-info > span { font-size: 13.521px; line-height: 25.69px; }
+  .studiofolio[data-studio-reference] .studio-project-info small { font-size: 12.169px; }
+  .studiofolio[data-studio-reference] .studio-carousel-toolbar { gap: 27.042px; margin-bottom: 24.338px; }
+  .studiofolio[data-studio-reference] .studio-carousel-toolbar p { font-size: 17.577px; }
+  .studiofolio[data-studio-reference] .studio-carousel-toolbar > div > span { font-size: 13.521px; }
+  .studiofolio[data-studio-reference] .studio-carousel-controls > span { font-size: 14.873px; margin-right: 16.225px; }
+  .studiofolio[data-studio-reference] .studio-carousel-controls button { width: 51.38px; height: 51.38px; }
+  .studiofolio[data-studio-reference] .studio-carousel-track { gap: 37.859px; padding: 8.113px; }
+  .studiofolio[data-studio-reference] .studio-carousel-slide { flex-basis: calc((100% - 37.859px) / 2); }
+  .studiofolio[data-studio-reference] .studio-carousel-slide .studio-project-stage { height: 459.718px; }
+  .studiofolio[data-studio-reference] .studio-approach { padding-block: 108.169px; }
+  .studiofolio[data-studio-reference] .studio-process { gap: 67.606px; padding-top: 29.746px; }
+  .studiofolio[data-studio-reference] .studio-process > div { padding-top: 29.746px; }
+  .studiofolio[data-studio-reference] .studio-process > div > span { font-size: 48.676px; }
+  .studiofolio[data-studio-reference] .studio-process h3 { margin-top: 27.042px; font-size: 25.69px; }
+  .studiofolio[data-studio-reference] .studio-process p { margin-top: 16.225px; max-width: 419.155px; font-size: 16.225px; line-height: 30.828px; }
+  .studiofolio[data-studio-reference] .studio-standards { margin-top: 59.493px; padding-top: 29.746px; gap: 27.042px 54.085px; }
+  .studiofolio[data-studio-reference] .studio-standards > span { font-size: 14.873px; }
+  .studiofolio[data-studio-reference] .studio-capabilities { padding-block: 135.211px; padding-inline: max(54.085px, calc((100vw - 1619.831px) / 2)); gap: 135.211px; }
+  .studiofolio[data-studio-reference] .studio-capabilities > div > p:not(.studio-eyebrow) { margin-top: 29.746px; max-width: 419.155px; font-size: 17.577px; line-height: 33.397px; }
+  .studiofolio[data-studio-reference] .studio-capability-list button { padding-block: 31.099px; gap: 27.042px; font-size: 22.986px; }
+  .studiofolio[data-studio-reference] .studio-capability-list button > span:first-child { font-size: 13.521px; }
+  .studiofolio[data-studio-reference] .studio-capability-list p { padding: 0 33.803px 32.451px 47.324px; font-size: 16.225px; line-height: 30.828px; }
+  .studiofolio[data-studio-reference] .studio-contact { min-height: 482px; padding-block: 94.648px; }
+  .studiofolio[data-studio-reference] .studio-contact h2 { font-size: 77.76px; line-height: 83.203px; letter-spacing: -1.944px; }
+  .studiofolio[data-studio-reference] .studio-contact > div > div { gap: 47.324px; margin-top: 29.746px; }
+  .studiofolio[data-studio-reference] .studio-contact > div > div > div { width: min(100%, 615px); }
+  .studiofolio[data-studio-reference] .studio-button { gap: 21.634px; padding: 20.282px 32.451px; font-size: 16.225px; border-radius: 8.113px; }
+  :is(.product-design-shell,.web-development-shell) > footer { padding-block: 86.535px 64.901px; }
+  :is(.product-design-shell,.web-development-shell) > footer > div { max-width: 1730.704px; padding-inline: 43.268px; }
+  :is(.product-design-shell,.web-development-shell) > footer :is(.text-xs,.text-base) { font-family: 'Plus Jakarta Sans:Regular', sans-serif; font-size: 16.225px; line-height: 21.634px; }
+  :is(.product-design-shell,.web-development-shell) > footer h3.text-xs { font-family: 'Plus Jakarta Sans:Bold', sans-serif; }
+  :is(.product-design-shell,.web-development-shell) > footer [class~="text-[11px]"] { font-size: 14.873px; line-height: 19.831px; }
 }
 @media (min-width: 1100px) {
-  .studio-dialog.studiofolio[data-discipline="design"] { max-width: 1162.817px; padding: 48.676px; border-radius: 24.338px; }
-  .studio-dialog[data-discipline="design"] .studio-dialog-close { right: 27.042px; top: 27.042px; width: 43.268px; height: 43.268px; }
-  .studio-dialog[data-discipline="design"] .studio-eyebrow { font-size: 13.521px; line-height: 21.634px; }
-  .studio-dialog[data-discipline="design"] .studio-dialog-title { margin-top: 21.634px !important; font-size: 56.789px; line-height: 62.468px; }
-  .studio-dialog[data-discipline="design"] .studio-dialog-description { max-width: 811.268px; margin-top: 16.225px !important; font-size: 17.577px; line-height: 31.639px; }
-  .studio-dialog[data-discipline="design"] .studio-dialog-image { margin-top: 32.451px; padding: 32.451px; border-radius: 13.521px; }
-  .studio-dialog[data-discipline="design"] .studio-dialog-tags { gap: 10.817px; margin-top: 27.042px; }
-  .studio-dialog[data-discipline="design"] .studio-dialog-tags span { padding: 9.465px 14.873px; font-size: 13.521px; line-height: 20.282px; }
-  .studio-dialog[data-discipline="design"] .studio-dialog-notes { margin-top: 40.563px; gap: 32.451px; }
-  .studio-dialog[data-discipline="design"] .studio-dialog-notes h3 { font-size: 21.634px; line-height: 32.451px; }
-  .studio-dialog[data-discipline="design"] .studio-dialog-notes p { margin-top: 10.817px; font-size: 16.225px; line-height: 30.828px; }
-  .studio-dialog[data-discipline="design"] .studio-dialog-actions { margin-top: 40.563px; padding-top: 32.451px; gap: 27.042px; }
-  .studio-dialog[data-discipline="design"] :is(.studio-button,.studio-text-link) { font-size: 16.225px; }
+  .studio-dialog.studiofolio[data-studio-reference] { max-width: 1162.817px; padding: 48.676px; border-radius: 24.338px; }
+  .studio-dialog[data-studio-reference] .studio-dialog-close { right: 27.042px; top: 27.042px; width: 43.268px; height: 43.268px; }
+  .studio-dialog[data-studio-reference] .studio-eyebrow { font-size: 13.521px; line-height: 21.634px; }
+  .studio-dialog[data-studio-reference] .studio-dialog-title { margin-top: 21.634px !important; font-size: 56.789px; line-height: 62.468px; }
+  .studio-dialog[data-studio-reference] .studio-dialog-description { max-width: 811.268px; margin-top: 16.225px !important; font-size: 17.577px; line-height: 31.639px; }
+  .studio-dialog[data-studio-reference] .studio-dialog-image { margin-top: 32.451px; padding: 32.451px; border-radius: 13.521px; }
+  .studio-dialog[data-studio-reference] .studio-dialog-tags { gap: 10.817px; margin-top: 27.042px; }
+  .studio-dialog[data-studio-reference] .studio-dialog-tags span { padding: 9.465px 14.873px; font-size: 13.521px; line-height: 20.282px; }
+  .studio-dialog[data-studio-reference] .studio-dialog-notes { margin-top: 40.563px; gap: 32.451px; }
+  .studio-dialog[data-studio-reference] .studio-dialog-notes h3 { font-size: 21.634px; line-height: 32.451px; }
+  .studio-dialog[data-studio-reference] .studio-dialog-notes p { margin-top: 10.817px; font-size: 16.225px; line-height: 30.828px; }
+  .studio-dialog[data-studio-reference] .studio-dialog-actions { margin-top: 40.563px; padding-top: 32.451px; gap: 27.042px; }
+  .studio-dialog[data-studio-reference] :is(.studio-button,.studio-text-link) { font-size: 16.225px; }
 }
 @media (max-width: 600px) {
   .studiofolio[data-discipline="design"] .studio-capabilities { padding-inline: 24px; }

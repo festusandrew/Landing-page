@@ -2,7 +2,12 @@
   --recruit-brand: #0e162a;
   --recruit-tint: #f6f7fa;
 }
+.recruit-dialog.project-enquiry-development {
+  --recruit-brand: #368b62;
+  --recruit-tint: #f9fafb;
+}
 .recruit-dialog-overlay.project-enquiry { background: rgb(14 22 42 / 42%); }
+.recruit-dialog-overlay.project-enquiry-development { background: rgb(17 32 24 / 42%); }
 .project-enquiry .project-enquiry-select { display: block; position: relative; margin-top: 8px; }
 .project-enquiry .project-enquiry-select select { appearance: none; margin-top: 0; padding-right: 40px; }
 .recruit-dialog.project-enquiry .project-enquiry-select > select { margin-top: 0; }

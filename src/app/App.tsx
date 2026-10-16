@@ -691,7 +691,11 @@ function PlatformApp() {
   return (
     <div
       className={`${activeView === "pricing" ? "homepage-magenta " : ""}${
-        activeView === "product-design" ? "product-design-shell " : ""
+        activeView === "product-design"
+          ? "product-design-shell "
+          : activeView === "web-development"
+            ? "web-development-shell "
+            : ""
       }min-h-screen bg-white text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] selection:bg-slate-900 selection:text-white`}
     >
       {!hasServiceNavigation && activeView !== "home" && (
