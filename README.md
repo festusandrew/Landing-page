@@ -25,6 +25,19 @@ pnpm run build      # Production Vite build using vite.figma.config.ts
 pnpm run check      # lint + tests + build
 ```
 
+`pnpm run test` discovers `.test.ts` and `.test.tsx` files recursively under
+`src/` and `components/`, so tests can live beside pages, hooks and shared UI.
+New tests should use the existing `node:test` and `node:assert/strict` pattern.
+The current suite runs in Node; browser interaction tests need a separate
+browser-capable harness.
+
+For a focused test or watch loop:
+
+```sh
+pnpm exec tsx --test src/data/demoRequests.test.ts
+pnpm exec tsx --test --watch src/data/demoRequests.test.ts
+```
+
 GitHub Actions runs `pnpm run check` on pushes and pull requests. This is a
 quality-check workflow, not a deployment workflow.
 

@@ -11,7 +11,7 @@
     "lint": "tsc --noEmit",
     "format": "oxfmt",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/data/*.test.ts src/app/components/ui/*.test.tsx",
+    "test": "node scripts/run-tests.mjs",
     "check": "pnpm run lint && pnpm run test && pnpm run build"
   },
   "dependencies": {
