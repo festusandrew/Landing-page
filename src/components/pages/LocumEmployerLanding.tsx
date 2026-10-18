@@ -175,8 +175,7 @@ export function LocumEmployerLanding({
               </button>
             </div>
             <p className="mt-4 text-[11px] leading-5 text-slate-400">
-              Try the guided posting preview. A facility account is needed to
-              manage live bookings.
+              A facility account is needed to manage bookings.
             </p>
             <div className="mt-9 flex flex-wrap gap-x-5 gap-y-3 text-[11px] text-[#53685b]">
               {[
@@ -412,7 +411,7 @@ export function LocumEmployerLanding({
           >
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-[0.13em] text-[#67786d]">
-                Employer workspace · workflow preview
+                Employer workspace
               </span>
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white">
                 {activeStep === 0 ? (

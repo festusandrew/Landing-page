@@ -1138,7 +1138,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         {contactOpen && (
           <RecruitmentDialog onClose={() => setContactOpen(false)} eyebrow="Request talent" title={contactStep === 4 ? 'A clearer brief. A better beginning.' : 'Find your next great hire.'} description="A few details to understand your team and the people you need." headline={'Good people.\nStronger teams.'} steps={['Your hiring needs', 'Your organisation', 'Review your brief']} currentStep={contactStep - 1}>
               <div>
-                {permanentReferral && <div className="mb-5 rounded-xl bg-[#f8eef5] p-4 text-xs leading-6 text-slate-600"><p className="font-semibold text-[#810161]">Permanent recruitment is managed by MployUs.</p><p className="mt-2">Share your requirements with our recruitment team. MployUs will review the brief and arrange posting on the recruitment site, not the locum shift platform. This preview prepares an enquiry only; it does not send or publish anything.</p></div>}
+                {permanentReferral && <div className="mb-5 rounded-xl bg-[#f8eef5] p-4 text-xs leading-6 text-slate-600"><p className="font-semibold text-[#810161]">Permanent recruitment is managed by MployUs.</p><p className="mt-2">Share your requirements with our recruitment team. MployUs will review the brief and arrange posting on the recruitment site, not the locum shift platform.</p></div>}
 
 
                 {/* ── STEP 1: Hiring need ── */}
@@ -1333,9 +1333,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     </motion.div>
 
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="space-y-2">
-                      <h2 className="text-2xl font-bold text-slate-900">Your talent brief is ready.</h2>
+                      <h2 className="text-2xl font-bold text-slate-900">Thank you.</h2>
                       <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
-                        This preview prepares your request locally. No enquiry has been sent. A production submission service still needs to be connected.
+                        Here’s a summary of your talent brief.
                       </p>
                     </motion.div>
 
@@ -1605,9 +1605,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     </motion.div>
 
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="space-y-2">
-                      <h2 className="text-2xl font-bold text-slate-900">Your application preview is ready.</h2>
+                      <h2 className="text-2xl font-bold text-slate-900">Thank you for applying.</h2>
                       <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
-                        Your application for <span className="font-semibold text-slate-700">{applyRole.title}</span> in <span className="font-semibold text-slate-700">{applyRole.location}</span> is prepared locally. Nothing has been sent in this preview.
+                        Your application for <span className="font-semibold text-slate-700">{applyRole.title}</span> in <span className="font-semibold text-slate-700">{applyRole.location}</span> is complete.
                       </p>
                     </motion.div>
 
@@ -1619,7 +1619,6 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                           { icon: Mail, title: 'Your contact details', desc: applyForm.email },
                           { icon: Briefcase, title: 'Your opportunity', desc: `${applyRole.title} · ${applyRole.location}` },
                           { icon: Clock, title: 'Experience & availability', desc: `${applyForm.yearsExp || 'Not specified'} · ${applyForm.transport}` },
-                          { icon: FileText, title: 'Live submission not connected', desc: 'No application, email or interview request has been sent.' },
                         ].map((step, i) => (
                           <motion.div key={i} className="flex items-start gap-3"
                             initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }}

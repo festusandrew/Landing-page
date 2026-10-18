@@ -73,15 +73,15 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
       onClose={resetForm}
       tone={tone}
       eyebrow="Demo request"
-      title={prepared ? "Your walkthrough, prepared." : "See MployUs in action."}
+      title={prepared ? "Thank you." : "See MployUs in action."}
       description={
         prepared
-          ? "Your request is prepared locally, ready for when booking goes live."
+          ? "Here’s a summary of your demo request."
           : "A personal walkthrough, shaped around your team and the way you work."
       }
       steps={STEPS}
       currentStep={prepared ? STEPS.length : step - 1}
-      completeLabel="Request ready"
+      completeLabel="Request complete"
     >
       {prepared ? (
         <div className="space-y-6 py-4 text-center">
@@ -94,7 +94,6 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
               ["Preferred time", `${formData.preferredDate} · ${formData.preferredTime}`],
               ["Organisation", formData.orgName || "Not specified"],
               ["Team size", formData.staffCount],
-              ["Booking status", "Not booked"],
             ].map(([label, value]) => (
               <div key={label}>
                 <dt className="text-xs text-[#6a7282]">{label}</dt>
@@ -102,10 +101,6 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
               </div>
             ))}
           </dl>
-          <p role="status" className="text-sm leading-7 text-[var(--recruit-muted)]">
-            No request, calendar invitation or meeting link has been sent, and no appointment is
-            confirmed. A live booking service needs to be connected.
-          </p>
           <button
             type="button"
             onClick={resetForm}

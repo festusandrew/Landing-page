@@ -32,7 +32,7 @@ export function RecruitmentDialog({
   className = "",
   tone = "magenta",
   footer = null,
-  completeLabel = "Preview ready",
+  completeLabel = "Complete",
   closeIcon,
   children,
 }: Props) {

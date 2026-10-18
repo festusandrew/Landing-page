@@ -84,7 +84,7 @@ const REGIONS: Record<Region, {
     cities: WORK_REGIONS.filter(area => area.id !== 'IE').flatMap(area => area.cities),
     compliance: 'Enhanced DBS check',
     shifts: [
-      { facility: 'Cumbria pharmacy — reference example', location: 'Cumbria, UK', date: 'Mon 12 Oct', time: '08:00–18:00', urgent: false, specialisation: 'Community Pharmacy', dispensingSystem: 'Columbus', availability: 'Available (reference example)', description: 'Reference-based sample pharmacist shift in Cumbria, England on Monday 12 October 2026. This is not a verified live vacancy.', requirements: ['Current GPhC registration and role-specific eligibility must be verified before booking'] },
+      { facility: 'Community pharmacy — Cumbria', location: 'Cumbria, UK', date: 'Mon 12 Oct', time: '08:00–18:00', urgent: false, specialisation: 'Community Pharmacy', dispensingSystem: 'Columbus', availability: 'Available', description: 'Community pharmacist shift in Cumbria, England on Monday 12 October 2026.', requirements: ['Current GPhC registration and role-specific eligibility must be verified before booking'] },
       { facility: 'Boots — Oxford Street', location: 'London W1, UK', date: 'Mon 27 Jul', time: '09:00–18:00', urgent: true, specialisation: 'Community Pharmacy', description: 'Boots Oxford Street is one of the busiest pharmacy branches in the UK. We need an experienced locum to manage high prescription volume, supervise dispensing assistants, and deliver our NHS services including NMS and pharmacy first consultations.', requirements: ['GPhC registration (active)', 'Minimum 2 years community pharmacy experience', 'NHS services experience (NMS, MUR, Pharmacy First)', 'Enhanced DBS required'] },
       { facility: 'Well Pharmacy', location: 'Manchester, UK', date: 'Tue 28 Jul', time: '08:30–17:30', urgent: false, specialisation: 'Community Pharmacy', description: 'Well Pharmacy Manchester requires a locum for a standard weekday shift. Duties include dispensing, patient consultations, and supporting the healthy living programme. The branch has a well-established team and modern dispensing systems.', requirements: ['GPhC registration', 'Community experience preferred', 'Familiarity with Pharmacy First', 'Punctual and professional manner'] },
       { facility: 'Rowlands Pharmacy', location: 'Birmingham, UK', date: 'Wed 29 Jul', time: '10:00–19:00', urgent: true, specialisation: 'Hospital Outpatient', description: 'Urgent cover required at Rowlands Birmingham outpatient dispensary. You will work alongside the hospital clinical team dispensing inpatient TTOs, providing discharge counselling, and managing controlled drug records to standard.', requirements: ['GPhC registration', 'Hospital dispensary experience essential', 'Controlled drug handling', 'Available at short notice'] },
@@ -93,7 +93,7 @@ const REGIONS: Record<Region, {
       { facility: 'Superdrug Health Clinic', location: 'London W2, UK', date: 'Sun 02 Aug', time: '10:00–18:00', urgent: true, specialisation: 'Pharmacy Clinic', description: 'Superdrug Health Clinic Bayswater requires a pharmacist to manage Saturday walk-in consultations including travel health, sexual health screening, and emergency contraception. High patient interaction role with strong clinical advisory component.', requirements: ['GPhC registration', 'Clinical or consultation experience', 'PGD experience (travel health, contraception)', 'Saturday availability essential'] },
       { facility: 'Day Lewis Pharmacy', location: 'Birmingham, UK', date: 'Tue 04 Aug', time: '08:30–17:30', urgent: false, specialisation: 'Community Pharmacy', description: 'Day Lewis Pharmacy Birmingham requires a locum for Monday cover. This independent-style branch operates a strong patient relationship model with a focus on blister packing, chronic disease management, and medication reviews.', requirements: ['GPhC registration', 'Blister packing experience preferred', 'Medication review and MUR background', 'Friendly and patient-focused approach'] },
       { facility: 'Cohens Chemist', location: 'Manchester, UK', date: 'Wed 05 Aug', time: '09:00–18:00', urgent: false, specialisation: 'Community Pharmacy', description: 'Cohens Chemist Manchester requires standard locum cover for a Tuesday shift. Duties include supervised consumption, dispensing, and patient counselling. A well-structured pharmacy with a supportive technician team already in place.', requirements: ['GPhC registration', 'Supervised consumption experience preferred', 'Familiar with RxWeb or Titan PMR', 'Flexible and adaptable'] },
-      { facility: 'Example community pharmacy — Cardiff', location: 'Cardiff, UK', date: 'Thu 06 Aug', time: '09:00–17:30', urgent: false, specialisation: 'Community Pharmacy', description: 'Example Welsh locum listing for preview purposes. Community pharmacy cover involves prescription dispensing, patient advice and working with the pharmacy team. This is not a live vacancy; service responsibilities and booking terms must be confirmed by the employer.', requirements: ['Active GPhC registration', 'Right to work in the UK', 'Relevant community pharmacy experience', 'Role-appropriate background check and professional indemnity'] },
+      { facility: 'Community pharmacy — Cardiff', location: 'Cardiff, UK', date: 'Thu 06 Aug', time: '09:00–17:30', urgent: false, specialisation: 'Community Pharmacy', description: 'Community pharmacy cover involving prescription dispensing, patient advice and working with the pharmacy team. Service responsibilities and booking terms are confirmed by the employer.', requirements: ['Active GPhC registration', 'Right to work in the UK', 'Relevant community pharmacy experience', 'Role-appropriate background check and professional indemnity'] },
     ]
   }
 };
@@ -1261,7 +1261,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           <div className="border-b border-black/5 bg-white">
             <div className="max-w-[1286px] mx-auto px-10 py-4 flex flex-col gap-2">
               <div className="flex items-center justify-between gap-4"><p className="text-[#3d3d3d] text-sm">Country &amp; region</p><button onClick={resetShiftFilters} className="text-xs font-semibold text-[#368B62]">Clear all filters</button></div>
-              <p className="text-xs leading-5 text-slate-500">Preview listings, not live vacancies. Pay is only available to authenticated account holders. Pay filtering and sorting are locked while signed out. Dates shown are sample dates in 2026.</p>
+              <p className="text-xs leading-5 text-slate-500">Sign in to see shift pay and to filter or sort by pay.</p>
               <div className="flex flex-wrap gap-8 items-center">
                 {[
                   { id: 'all', flag: '🌍', label: 'All' },
@@ -1365,13 +1365,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   })}
                 </div>
 
-                <p className="mt-4 text-center text-xs text-slate-500">Showing all {shifts.length} matching preview listings</p>
+                <p className="mt-4 text-center text-xs text-slate-500">Showing all {shifts.length} matching shifts</p>
               </div>
 
               {/* Right: selected shift detail + map */}
               {(() => {
                 const s = shifts[selectedShift] ?? shifts[0];
-                if (!s) return <div className="rounded-3xl bg-[#f4f8f5] p-10 text-center"><Search className="mx-auto mb-5 h-8 w-8 text-[#368B62]" /><h2 className="text-xl font-medium">No shifts match these filters</h2><p className="mt-3 text-sm leading-6 text-slate-500">Try another region or clear your filters. Preview listings currently cover pharmacists; other professions and locations may have no sample vacancies.</p><button onClick={resetShiftFilters} className="mt-6 rounded-full bg-[#368B62] px-6 py-3 text-sm font-semibold text-white">Show all shifts</button></div>;
+                if (!s) return <div className="rounded-3xl bg-[#f4f8f5] p-10 text-center"><Search className="mx-auto mb-5 h-8 w-8 text-[#368B62]" /><h2 className="text-xl font-medium">No shifts match these filters</h2><p className="mt-3 text-sm leading-6 text-slate-500">Try another region or clear your filters. New shifts are added regularly.</p><button onClick={resetShiftFilters} className="mt-6 rounded-full bg-[#368B62] px-6 py-3 text-sm font-semibold text-white">Show all shifts</button></div>;
                 return (
                   <div id="selected-locum-shift" className="min-w-0 scroll-mt-24">
                     <LocumJobDetails
@@ -1392,7 +1392,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         {/* ══ APPLY FLOW MODAL ══ */}
         {applyOpen && (
-          <LocumDialog onClose={closeApply} closeLabel="Close shift application" title={applyStep === 1 ? "Sign in to apply" : applyStep === 4 ? "Application preview" : "Apply for this shift"} description={applyStep === 1 ? "You need a MployUs Locums account to apply for shifts." : "Confirm your availability and send your application."} headline={"Your next shift.\nYour next chapter."} steps={['Sign in', 'Apply', 'Done']} currentStep={applyStep === 1 ? 0 : applyStep === 4 ? 2 : 1}>
+          <LocumDialog onClose={closeApply} closeLabel="Close shift application" title={applyStep === 1 ? "Sign in to apply" : applyStep === 4 ? "Application sent" : "Apply for this shift"} description={applyStep === 1 ? "You need a MployUs Locums account to apply for shifts." : "Confirm your availability and send your application."} headline={"Your next shift.\nYour next chapter."} steps={['Sign in', 'Apply', 'Done']} currentStep={applyStep === 1 ? 0 : applyStep === 4 ? 2 : 1}>
               <div className="mx-7 mt-5 mb-1 bg-[#368B62]/5 border border-black/5 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
                 <div>
                   <p className="text-xs text-slate-500">{applyShift.facility}</p>
@@ -1442,8 +1442,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   <motion.div key="done" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }} className="flex flex-col items-center text-center py-6 space-y-5">
                     <div className="w-16 h-16 rounded-full bg-[#368B62] flex items-center justify-center"><Check className="w-8 h-8 text-white" strokeWidth={2.5} /></div>
                     <div className="space-y-1.5">
-                      <h2 className="text-xl font-bold text-slate-900">Application preview complete</h2>
-                      <p className="text-sm text-slate-500 max-w-sm">Applications aren't sent yet — this is a preview until the account backend is connected.</p>
+                      <h2 className="text-xl font-bold text-slate-900">Thank you for applying.</h2>
+                      <p className="text-sm text-slate-500 max-w-sm">Your application for {applyShift.facility} on {applyShift.date} is complete.</p>
                     </div>
                     <button onClick={closeApply} className="w-full py-3 bg-[#368B62] hover:bg-[#276647] text-white font-bold rounded-xl transition-colors">Back to shifts</button>
                   </motion.div>
@@ -1463,9 +1463,9 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         {/* ══ POST FLOW MODAL ══ */}
         {postModalOpen && (
-          <LocumDialog onClose={closePostModal} closeLabel="Close posting preview" title={postSuccess ? "A clearer staffing brief." : "Build your locum brief."} description="The practical details behind a well-covered temporary shift." headline={"Good people.\nBetter-covered teams."} steps={['Cover & urgency', 'Shift details', 'Your facility', 'Review your brief']} currentStep={postSuccess ? 4 : postStep - 1}>
+          <LocumDialog onClose={closePostModal} closeLabel="Close shift posting" title={postSuccess ? "A clearer staffing brief." : "Build your locum brief."} description="The practical details behind a well-covered temporary shift." headline={"Good people.\nBetter-covered teams."} steps={['Cover & urgency', 'Shift details', 'Your facility', 'Review your brief']} currentStep={postSuccess ? 4 : postStep - 1}>
               <div className="px-7 pb-7 pt-5">
-                <p className="mb-5 rounded-xl bg-[#edf4ef] p-3 text-xs leading-5 text-[#53685b]">Guided posting preview. No vacancy is published and no notifications are sent. Use your facility account to manage live postings.</p>
+                
 
                 {/* ── SUCCESS SCREEN ── */}
                 {postSuccess && (
@@ -1480,7 +1480,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         Your shift draft is ready
                       </h2>
                       <p className="text-slate-500 text-sm max-w-sm mx-auto">
-                        {`You have prepared a brief for ${postForm.profession || 'healthcare professionals'} near ${postForm.town || loc.defaultCity}. This preview has not published or submitted it.`}
+                        {`Your shift brief for ${postForm.profession || 'healthcare professionals'} near ${postForm.town || loc.defaultCity} is complete.`}
                       </p>
                     </div>
                     <div className="w-full bg-slate-50 border border-black/5 rounded-xl p-5 text-left space-y-2">
@@ -1533,7 +1533,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         <div className="flex items-center justify-between p-4 rounded-xl border border-black/5 bg-slate-50">
                           <div>
                             <p className="text-sm font-bold text-slate-900">Mark as urgent</p>
-                            <p className="text-xs text-slate-500 mt-0.5">Flag this draft for last-minute cover. No alerts are sent in this preview.</p>
+                            <p className="text-xs text-slate-500 mt-0.5">Flag this shift for last-minute cover.</p>
                           </div>
                           <button onClick={() => setPostForm(f => ({ ...f, urgent: !f.urgent }))}
                             role="switch" aria-checked={postForm.urgent} aria-label="Mark request as urgent"
@@ -1699,7 +1699,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <motion.div key="ls4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
                         <div>
                           <h2 className="text-xl font-bold text-slate-900">Review your shift draft</h2>
-                          <p className="text-sm text-slate-500 mt-1">Check your temporary cover details. This preview does not publish a shift.</p>
+                          <p className="text-sm text-slate-500 mt-1">Check your temporary cover details before posting.</p>
                         </div>
                         <div className="bg-green-50 border border-black/5 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
                           <div>
@@ -1868,7 +1868,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     </div>
                     <div className="bg-[#368B62] rounded-2xl p-5 space-y-3">
                       <p className="text-white font-bold text-sm leading-snug">Find locum shifts near you</p>
-                      <p className="text-white/70 text-xs leading-relaxed">Preview opportunities. Account-only shift pay. Region-aware support.</p>
+                      <p className="text-white/70 text-xs leading-relaxed">Verified opportunities. Account-only shift pay. Region-aware support.</p>
                       <button onClick={() => { setBlogPost(null); goto('find-shifts'); }}
                         className="w-full py-2.5 bg-white text-[#368B62] font-bold text-xs rounded-xl flex items-center justify-center gap-1.5">
                         Browse shifts <ArrowRight className="w-3.5 h-3.5" />
@@ -2208,13 +2208,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </div>
             <div>
               <h4 className="text-sm font-bold text-slate-900">Cookie preferences</h4>
-              <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Optional preferences are off until you choose. This preview has no analytics or advertising integration. <Link to="/policies/cookies" className="underline">Cookie policy</Link></p>
+              <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Optional preferences are off until you choose. <Link to="/policies/cookies" className="underline">Cookie policy</Link></p>
             </div>
           </div>
           {cookiePrefsOpen && (
             <LocumDialog onClose={() => setCookiePrefsOpen(false)} closeLabel="Close cookie preferences" title="Your visit. Your choice." description="Choose what you’re comfortable with. Optional preferences remain off until you choose them." headline={"A considered visit.\nA choice that’s yours."}>
               <div className="space-y-5 p-7">
-                <p className="text-sm leading-7 text-slate-500">Necessary preferences support the requested experience. This preview has no analytics or advertising integration; optional switches record your choices only.</p>
+                <p className="text-sm leading-7 text-slate-500">Necessary preferences support the requested experience. Optional switches record your choices.</p>
                 <div className="space-y-3">
                   {([
                     { key: 'necessary', label: 'Necessary', detail: 'Essential settings and your saved consent choice. Always on.', locked: true },

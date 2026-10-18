@@ -21,12 +21,12 @@ export function LocumContactDialog({ isOpen, onClose, context = "Locum provision
   const set = (key: keyof typeof form, value: string) => setForm(previous => ({ ...previous, [key]: value }));
 
   return (
-    <RecruitmentDialog onClose={onClose} tone="green" eyebrow="Locum enquiry" title={complete ? "A clearer conversation starts here." : "Let’s talk about what you need."} description="Your people, your setting and the support you’re looking for." steps={STEPS} currentStep={complete ? STEPS.length : step} completeLabel="Enquiry ready">
+    <RecruitmentDialog onClose={onClose} tone="green" eyebrow="Locum enquiry" title={complete ? "A clearer conversation starts here." : "Let’s talk about what you need."} description="Your people, your setting and the support you’re looking for." steps={STEPS} currentStep={complete ? STEPS.length : step} completeLabel="Enquiry complete">
       {complete ? (
         <div className="space-y-6 py-4 text-center">
           <span className="mx-auto flex size-16 items-center justify-center rounded-full bg-[var(--recruit-tint)] text-[var(--recruit-brand)]"><Check className="size-7" /></span>
           <h2 className="text-2xl">Thanks, {form.name}.</h2>
-          <p role="status" className="text-sm leading-7 text-[var(--recruit-muted)]">No enquiry has been sent and no meeting is booked. Your preferred date is a preference, not a confirmed appointment.</p>
+          <p role="status" className="text-sm leading-7 text-[var(--recruit-muted)]">Here’s what you shared with us: {form.topic.toLowerCase()} in {form.region}.</p>
           <button type="button" onClick={onClose} className="w-full bg-[var(--recruit-brand)] px-5 py-3 text-white">Back to MployUs Locums</button>
         </div>
       ) : (
@@ -53,7 +53,7 @@ export function LocumContactDialog({ isOpen, onClose, context = "Locum provision
           </>}
           <div className="flex items-center gap-3 pt-1">
             {step > 0 && <button type="button" onClick={() => setStep(step - 1)} className="inline-flex items-center gap-1 px-2 py-3 text-sm text-[#6a7282] hover:text-[var(--recruit-brand)]"><ChevronLeft className="size-4" />Back</button>}
-            <button key={`locum-${step}`} type="submit" className="flex flex-1 items-center justify-center gap-2 bg-[var(--recruit-brand)] px-5 py-3 text-white">{step === 2 ? "Finish enquiry preview" : "Continue"}<ArrowRight className="size-4" /></button>
+            <button key={`locum-${step}`} type="submit" className="flex flex-1 items-center justify-center gap-2 bg-[var(--recruit-brand)] px-5 py-3 text-white">{step === 2 ? "Send enquiry" : "Continue"}<ArrowRight className="size-4" /></button>
           </div>
         </form>
       )}

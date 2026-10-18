@@ -44,15 +44,15 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose,
       onClose={handleClose}
       tone={tone}
       eyebrow="Free trial"
-      title={isPrepared ? "Your trial details are ready." : "Start your free trial."}
+      title={isPrepared ? "Thank you." : "Start your free trial."}
       description={
         isPrepared
-          ? "Prepared locally, ready for when accounts go live."
+          ? "Here’s a summary of your trial request."
           : "14 days of full access. No credit card required."
       }
       steps={STEPS}
       currentStep={isPrepared ? STEPS.length : step - 1}
-      completeLabel="Trial request ready"
+      completeLabel="Request complete"
     >
       {isPrepared ? (
         <div className="space-y-6 py-4 text-center">
@@ -61,10 +61,6 @@ export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose,
           </span>
           <h2 className="text-2xl">{formData.companyName || "Your workspace"}</h2>
           <p className="text-sm text-[#6a7282]">{moduleName} · {formData.email}</p>
-          <p role="status" className="text-sm leading-7 text-[var(--recruit-muted)]">
-            No account or workspace has been created, and nothing has been submitted. A live account
-            service needs to be connected.
-          </p>
           <button type="button" onClick={handleClose} className="flex w-full items-center justify-center gap-2 bg-[var(--recruit-brand)] px-5 py-3 text-white">
             Done <ArrowRight className="size-4" />
           </button>

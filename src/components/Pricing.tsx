@@ -99,8 +99,7 @@ export const Pricing: React.FC<PricingProps> = ({
           </Heading>
           <p className="mt-[21.634px] font-['Inter:Regular',Inter,sans-serif] text-[18px] font-normal leading-8 text-[#64748b] md:text-[20.282px] md:leading-[37.859px]">
             Start with the essentials. Expand your capabilities as your business
-            grows. Prices shown in euros are sample demo pricing, subject to
-            confirmation.
+            grows. Prices are shown in euros.
           </p>
         </div>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-[16.225px] md:mt-[64.901px]">

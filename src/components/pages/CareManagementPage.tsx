@@ -275,7 +275,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
           <motion.div {...reveal} className="product-reference-dashboard">
             <img
               src={careDashboard}
-              alt="Sample care dashboard with care hours, shift coverage, wellbeing trends and alerts"
+              alt="Care dashboard with care hours, shift coverage, wellbeing trends and alerts"
             />
           </motion.div>
         </div>
@@ -368,8 +368,6 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
               </div>
               <p className="max-w-sm text-sm leading-7 text-[#68716c]">
                 Explore a few everyday workflows.
-                <br />
-                Illustrative records only — not a live clinical system.
               </p>
             </div>
             <div className="rounded-2xl border border-black/5 bg-[#f0f1ff] p-4 sm:p-7 lg:order-1">
@@ -433,12 +431,12 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                     {[
                       {
                         name: "Paracetamol 500mg",
-                        detail: "Sample resident A · Morning pass, 08:00",
+                        detail: "Room 4 · Morning pass, 08:00",
                         status: "Recorded",
                       },
                       {
                         name: "Amlodipine 5mg",
-                        detail: "Sample resident B · Scheduled for 12:00",
+                        detail: "Room 7 · Scheduled for 12:00",
                         status: "Scheduled",
                       },
                     ].map((medication) => (
@@ -478,13 +476,13 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                           Mobility &amp; dietary care plan
                         </p>
                         <p className="mt-3 text-sm leading-7 text-[#68716c]">
-                          Sample plan: two-person assistance for transfers and
+                          Two-person assistance for transfers and
                           an agreed low-sodium dietary plan. Individual needs,
                           goals and review dates are kept together.
                         </p>
                         <p className="mt-4 flex items-center gap-2 text-xs text-[#1d4ed8]">
                           <Check size={14} />
-                          Example review recorded · 20 July 2026
+                          Review recorded · 20 July 2026
                         </p>
                       </div>
                     </div>
@@ -516,7 +514,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                           </span>
                         </p>
                         <p className="mt-4 text-[11px] text-[#68716c]">
-                          Illustrative observation · Sample resident
+                          Observation · Room 4
                         </p>
                       </div>
                     ))}

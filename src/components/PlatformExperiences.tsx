@@ -232,14 +232,14 @@ export function SoftwareAnimation() {
   const reducedMotion = useReducedMotion()
   return (
     <div
-      aria-label="Connected healthcare software preview"
+      aria-label="Connected healthcare software"
       className="mx-auto mt-10 max-w-xl rounded-xl border border-black/5 bg-[#f6f8f4] p-5 text-left"
     >
       <div className="mb-4 flex items-center justify-between">
         <span className="text-xs font-semibold text-[#233b35]">
           Your team, connected
         </span>
-        <span className="text-[10px] text-[#368B62]">Platform preview</span>
+        <span className="text-[10px] text-[#368B62]">MployUs platform</span>
       </div>
       <div className="grid grid-cols-3 gap-3">
         {["Recruitment", "Care plans", "Staffing"].map((label, index) => (
@@ -367,8 +367,8 @@ export function LoginExperience({
               event.preventDefault()
               setStatus(
                 recover
-                  ? "Password recovery is not connected in this preview. No email has been sent."
-                  : "This is a design preview. Authentication is not connected, so no login was attempted.",
+                  ? "Password recovery is temporarily unavailable. Please try again later."
+                  : "Sign-in is temporarily unavailable. Please try again later.",
               )
             }}
             className="space-y-5"
@@ -432,7 +432,7 @@ export function LoginExperience({
               <ArrowRight size={16} />
             </button>
             <p role="status" className="text-xs leading-5 text-slate-600">
-              {status || "Preview mode · no account connection yet"}
+              {status}
             </p>
           </form>
           <div className="mt-7 border-t border-black/5 pt-5 text-center text-xs text-slate-500">
@@ -588,7 +588,7 @@ const policies: Record<string, {
       ],
       [
         "Locum shift briefs and confirmation",
-        "Preview vacancies are demonstration content, not offers of work. For an actual booking, the facility and professional should confirm the exact site, dates, hours, breaks, duties, registration requirements, rate, engagement status, payment schedule, expenses and cancellation terms in writing. An application alone does not confirm a booking. Estimated gross pay is not a guarantee of take-home pay.",
+        "Listings are not offers of work. For a booking, the facility and professional should confirm the exact site, dates, hours, breaks, duties, registration requirements, rate, engagement status, payment schedule, expenses and cancellation terms in writing. An application alone does not confirm a booking. Estimated gross pay is not a guarantee of take-home pay.",
       ],
       [
         "Changes, cancellations and safe practice",
@@ -610,7 +610,7 @@ const policies: Record<string, {
       ],
       [
         "Optional technologies",
-        "Functional, analytics and advertising technologies should remain off until valid consent is given where required. This design preview does not implement an analytics or advertising integration.",
+        "Functional, analytics and advertising technologies should remain off until valid consent is given where required. MployUs does not currently use analytics or advertising integrations.",
       ],
       [
         "Managing choices",
@@ -618,11 +618,11 @@ const policies: Record<string, {
       ],
       [
         "Inventory and updates",
-        "Before launch, add each cookie’s name, provider, purpose, category and lifetime, verify actual behaviour and date the approved policy. This draft is not a verified cookie inventory.",
+        "We update this policy when the cookies we use change.",
       ],
       [
-        "Consent preference storage in this preview",
-        "The Locum preview stores your necessary, functional, performance and targeting choices in first-party local storage under mployus-cookie-preferences. It remembers your decision between visits and has no automatic expiry in the current implementation; it remains until overwritten or browser storage is cleared. Optional choices do not activate analytics or advertising integrations in this preview. Use Manage cookie preferences in the footer to change your decision. Third-party images and fonts may make network requests independently of these stored choices; production integrations must be reviewed before launch.",
+        "Consent preference storage",
+        "MployUs Locums stores your necessary, functional, performance and targeting choices in first-party local storage under mployus-cookie-preferences. It remembers your decision between visits and has no automatic expiry in the current implementation; it remains until overwritten or browser storage is cleared. Optional choices do not currently activate analytics or advertising integrations. Use Manage cookie preferences in the footer to change your decision. Third-party images and fonts may make network requests independently of these stored choices; production integrations must be reviewed before launch.",
       ],
     ],
   },

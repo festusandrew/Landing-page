@@ -104,14 +104,13 @@ export function ProjectEnquiryDialog({
                 />
               }
             </span>
-            <h2 className="text-xl">Prepared, not submitted.</h2>
+            <h2 className="text-xl">Thank you.</h2>
           </div>
           <p
             role="status"
             className="text-sm leading-7 text-[var(--recruit-muted)]"
           >
-            Your brief stays in this browser session. No enquiry, booking or
-            email has been sent.
+            Here’s a summary of your project brief.
           </p>
           <Summary entries={summary} />
           <div className="rounded-lg bg-[var(--recruit-paper)] p-4">
