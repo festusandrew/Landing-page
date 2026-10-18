@@ -31,7 +31,7 @@ export function RecruitmentDialog({
   currentStep = 0,
   className = "",
   tone = "magenta",
-  footer = "Preview only · No live submissions.",
+  footer = null,
   completeLabel = "Preview ready",
   closeIcon,
   children,
