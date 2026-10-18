@@ -1,17 +1,20 @@
 import { useRef, type ReactNode } from "react"
 import * as Dialog from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
+import type { ModalTone } from "../data/modalTones"
 import "./recruitment-dialog.css"
 
 type Props = {
   onClose: () => void
   title: string
   description: string
-  headline: string
+  headline?: string
   eyebrow: string
   steps?: readonly string[]
   currentStep?: number
   className?: string
+  /** Brand colour for the page hosting the dialog; defaults to Recruitment magenta. */
+  tone?: ModalTone
   footer?: ReactNode
   completeLabel?: string
   closeIcon?: ReactNode
@@ -27,12 +30,14 @@ export function RecruitmentDialog({
   steps = [],
   currentStep = 0,
   className = "",
+  tone = "magenta",
   footer = "Preview only · No live submissions.",
   completeLabel = "Preview ready",
   closeIcon,
   children,
 }: Props) {
   const returnFocus = useRef(document.activeElement as HTMLElement | null)
+  const classes = `recruit-tone-${tone} ${className}`
   return (
     <Dialog.Root
       open
@@ -41,9 +46,9 @@ export function RecruitmentDialog({
       }}
     >
       <Dialog.Portal>
-        <Dialog.Overlay className={`recruit-dialog-overlay ${className}`} />
+        <Dialog.Overlay className={`recruit-dialog-overlay ${classes}`} />
         <Dialog.Content
-          className={`recruit-dialog ${className}`}
+          className={`recruit-dialog ${classes}`}
           onCloseAutoFocus={(event) => {
             event.preventDefault()
             if (returnFocus.current?.isConnected) returnFocus.current.focus()

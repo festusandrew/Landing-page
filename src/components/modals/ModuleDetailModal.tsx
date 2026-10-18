@@ -1,103 +1,66 @@
-import React from 'react';
-import { X, CheckCircle2, ArrowRight, Shield, Zap } from 'lucide-react';
-import { ProductModule } from '../../types';
+import React from "react"
+import { ArrowRight, CheckCircle2 } from "lucide-react"
+import type { ModalTone } from "../../data/modalTones"
+import { ProductModule } from "../../types"
+import { RecruitmentDialog } from "../RecruitmentDialog"
 
 interface ModuleDetailModalProps {
-  module: ProductModule | null;
-  isOpen: boolean;
-  onClose: () => void;
-  onBookDemo: (moduleTitle: string) => void;
+  module: ProductModule | null
+  isOpen: boolean
+  onClose: () => void
+  onBookDemo: (moduleTitle: string) => void
+  tone?: ModalTone
 }
 
 export const ModuleDetailModal: React.FC<ModuleDetailModalProps> = ({
   module,
   isOpen,
   onClose,
-  onBookDemo
+  onBookDemo,
+  tone = "navy",
 }) => {
-  if (!isOpen || !module) return null;
+  if (!isOpen || !module) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100 my-8 max-h-[90vh] flex flex-col">
-        {/* Module Header */}
-        <div className={`p-6 bg-gradient-to-r ${module.color} text-white relative flex items-center justify-between`}>
-          <div>
-            <span className="inline-block px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold mb-2 backdrop-blur-md">
-              {module.badge}
-            </span>
-            <h3 className="text-2xl font-bold">{module.title}</h3>
-            <p className="text-white/90 text-sm mt-1">{module.tagline}</p>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+    <RecruitmentDialog
+      onClose={onClose}
+      tone={tone}
+      eyebrow={`${module.title} details`}
+      title={module.title}
+      description={module.tagline}
+      footer={null}
+    >
+      <div className="space-y-6">
+        <section>
+          <h3 className="text-xs text-[#6a7282]">What it does</h3>
+          <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
+            {module.features.map((feature) => (
+              <li key={feature} className="flex items-start gap-3 rounded-lg border border-black/5 p-3.5 text-sm leading-6">
+                <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[var(--recruit-brand)]" />
+                {feature}
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section className="rounded-xl bg-[var(--recruit-tint)] p-4">
+          <h3 className="text-xs text-[var(--recruit-brand)]">Built for</h3>
+          <p className="mt-1 text-sm leading-6">{module.useCase}</p>
+        </section>
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[var(--recruit-paper)] p-4 text-sm">
+          <span className="text-[#6a7282]">Connected with every MployUs module</span>
+          <span className="font-medium text-[var(--recruit-brand)]">{module.metrics}</span>
         </div>
-
-        {/* Content Body */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1 text-slate-700">
-          {/* Key Capabilities */}
-          <div>
-            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-amber-500" /> Core Functional Capabilities
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {module.features.map((feat, idx) => (
-                <div key={idx} className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                  <span className="text-xs font-medium text-slate-800 leading-relaxed">{feat}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Target Audience & Use Case */}
-          <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200/80">
-            <h5 className="text-xs font-bold text-blue-900 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-              <Shield className="w-4 h-4 text-blue-600" /> Target Healthcare Environment
-            </h5>
-            <p className="text-xs text-blue-950 font-medium leading-relaxed">
-              {module.useCase}
-            </p>
-          </div>
-
-          {/* Integration Highlight */}
-          <div className="p-4 rounded-xl bg-slate-900 text-white flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              
-              <div>
-                <div className="text-xs font-bold text-blue-300">Seamless Ecosystem Sync</div>
-                <div className="text-xs text-slate-300">Data captured here updates all other 3 modules instantly with zero duplicate entries.</div>
-              </div>
-            </div>
-            <span className="text-xs font-bold px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full border border-blue-500/30 shrink-0">
-              {module.metrics}
-            </span>
-          </div>
-        </div>
-
-        {/* Footer CTAs */}
-        <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900"
-          >
-            Close Window
-          </button>
-          <button
-            onClick={() => {
-              onClose();
-              onBookDemo(module.title);
-            }}
-            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl transition-all shadow-md shadow-blue-600/20 flex items-center gap-1.5"
-          >
-            Book Demo for {module.title} <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => {
+            onClose()
+            onBookDemo(module.title)
+          }}
+          className="flex w-full items-center justify-center gap-2 bg-[var(--recruit-brand)] px-5 py-3 text-white"
+        >
+          Book a demo for {module.title} <ArrowRight className="size-4" />
+        </button>
       </div>
-    </div>
-  );
-};
+    </RecruitmentDialog>
+  )
+}

@@ -1,255 +1,139 @@
-import React, { useRef, useState } from "react"
-import * as Dialog from "@radix-ui/react-dialog"
-import { X, Check, Rocket, ShieldCheck, ArrowRight } from "lucide-react"
+import React, { useState } from "react"
+import { ArrowRight, Check, ChevronLeft } from "lucide-react"
+import type { ModalTone } from "../../data/modalTones"
+import { RecruitmentDialog } from "../RecruitmentDialog"
 
 interface FreeTrialModalProps {
   isOpen: boolean
   onClose: () => void
+  tone?: ModalTone
 }
 
-export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose }) => {
+const STEPS = ["Your account", "Your workspace"] as const
+const MODULES = [
+  { id: "care-management", name: "Care Management & eMAR", desc: "Digital care plans, medication safety and inspection reports" },
+  { id: "recruitment", name: "Recruitment & ATS", desc: "Multi-board job posting and hiring pipeline" },
+  { id: "locums-staffing", name: "Locums & Staffing", desc: "Shift posting and locum matching" },
+  { id: "facility-management", name: "Facility Operations", desc: "Check-ins, attendance and billing dashboard" },
+] as const
+const EMPTY = { email: "", password: "", companyName: "", primaryModule: "care-management" }
+const field = "mt-2 block w-full"
+const Required = () => <span className="text-[var(--recruit-brand)]">*</span>
+
+export const FreeTrialModal: React.FC<FreeTrialModalProps> = ({ isOpen, onClose, tone = "navy" }) => {
   const [step, setStep] = useState(1)
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    companyName: "",
-    primaryModule: "care-management",
-  })
+  const [formData, setFormData] = useState(EMPTY)
   const [isPrepared, setIsPrepared] = useState(false)
-  const returnFocus = useRef<HTMLElement | null>(null)
 
   if (!isOpen) return null
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setFormData((previous) => ({ ...previous, password: "" }))
-    setIsPrepared(true)
-  }
+  const set = (key: keyof typeof EMPTY, value: string) =>
+    setFormData((previous) => ({ ...previous, [key]: value }))
 
   const handleClose = () => {
     setStep(1)
     setIsPrepared(false)
-    setFormData({ email: "", password: "", companyName: "", primaryModule: "care-management" })
+    setFormData(EMPTY)
     onClose()
   }
 
+  const moduleName = MODULES.find((m) => m.id === formData.primaryModule)?.name
+
   return (
-    <Dialog.Root
-      open={isOpen}
-      onOpenChange={(open) => {
-        if (!open) handleClose()
-      }}
+    <RecruitmentDialog
+      onClose={handleClose}
+      tone={tone}
+      eyebrow="Free trial"
+      title={isPrepared ? "Your trial details are ready." : "Start your free trial."}
+      description={
+        isPrepared
+          ? "Prepared locally, ready for when accounts go live."
+          : "14 days of full access. No credit card required."
+      }
+      steps={STEPS}
+      currentStep={isPrepared ? STEPS.length : step - 1}
+      completeLabel="Trial request ready"
     >
-      <Dialog.Portal>
-        <Dialog.Content
-          asChild
-          onOpenAutoFocus={() => {
-            returnFocus.current = document.activeElement as HTMLElement
-          }}
-          onCloseAutoFocus={(event) => {
+      {isPrepared ? (
+        <div className="space-y-6 py-4 text-center">
+          <span className="mx-auto flex size-16 items-center justify-center rounded-full bg-[var(--recruit-tint)] text-[var(--recruit-brand)]">
+            <Check className="size-7" />
+          </span>
+          <h2 className="text-2xl">{formData.companyName || "Your workspace"}</h2>
+          <p className="text-sm text-[#6a7282]">{moduleName} · {formData.email}</p>
+          <p role="status" className="text-sm leading-7 text-[var(--recruit-muted)]">
+            No account or workspace has been created, and nothing has been submitted. A live account
+            service needs to be connected.
+          </p>
+          <button type="button" onClick={handleClose} className="flex w-full items-center justify-center gap-2 bg-[var(--recruit-brand)] px-5 py-3 text-white">
+            Done <ArrowRight className="size-4" />
+          </button>
+        </div>
+      ) : (
+        <form
+          onSubmit={(event) => {
             event.preventDefault()
-            if (returnFocus.current?.isConnected) returnFocus.current.focus()
+            if (step === 1) return setStep(2)
+            setFormData((previous) => ({ ...previous, password: "" }))
+            setIsPrepared(true)
           }}
+          className="space-y-5"
         >
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fade-in font-['Plus_Jakarta_Sans',sans-serif] text-slate-900">
-            <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh] border border-slate-100 my-8">
-              <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 p-6 text-white relative">
-                <button
-                  onClick={handleClose}
-                  aria-label="Close free trial"
-                  className="absolute top-4 right-4 p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold mb-2">
-                  <Rocket className="w-3.5 h-3.5" /> 14-Day Full Access Trial
-                </div>
-                <Dialog.Title asChild>
-                  <h3 className="text-2xl font-bold">Start Your Free MployUS Trial</h3>
-                </Dialog.Title>
-                <Dialog.Description asChild>
-                  <p className="text-slate-300 text-xs mt-1">
-                    No credit card required. Cancel anytime with 1-click.
-                  </p>
-                </Dialog.Description>
+          {step === 1 ? (
+            <>
+              <label className="block">
+                Work email <Required />
+                <input required type="email" autoComplete="email" placeholder="you@organisation.com" value={formData.email} onChange={(e) => set("email", e.target.value)} className={field} />
+              </label>
+              <label className="block">
+                Create a password <Required />
+                <input required type="password" minLength={8} autoComplete="new-password" placeholder="At least 8 characters" value={formData.password} onChange={(e) => set("password", e.target.value)} className={field} />
+              </label>
+              <label className="block">
+                Care home / agency name <Required />
+                <input required autoComplete="organization" placeholder="e.g. Oakwood Care Home" value={formData.companyName} onChange={(e) => set("companyName", e.target.value)} className={field} />
+              </label>
+            </>
+          ) : (
+            <fieldset>
+              <legend className="text-[13px] font-medium leading-[19.5px]">Which workspace would you like to start with?</legend>
+              <div role="radiogroup" className="mt-2 space-y-2">
+                {MODULES.map((m) => {
+                  const checked = formData.primaryModule === m.id
+                  return (
+                    <button
+                      key={m.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={checked}
+                      onClick={() => set("primaryModule", m.id)}
+                      className={`flex w-full items-start gap-3 rounded-lg border p-3.5 text-left transition-colors ${checked ? "border-[var(--recruit-brand)] bg-[var(--recruit-tint)]" : "border-black/5 bg-white hover:bg-[var(--recruit-paper)]"}`}
+                    >
+                      <span className={`mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full border ${checked ? "border-[var(--recruit-brand)]" : "border-black/15"}`}>
+                        {checked && <span className="size-2 rounded-full bg-[var(--recruit-brand)]" />}
+                      </span>
+                      <span>
+                        <span className={`block text-sm font-medium ${checked ? "text-[var(--recruit-brand)]" : ""}`}>{m.name}</span>
+                        <span className="block text-xs text-[#6a7282]">{m.desc}</span>
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
-
-              <div className="p-6">
-                {isPrepared ? (
-                  <div className="text-center py-6 space-y-4">
-                    <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto">
-                      <Check className="w-8 h-8 stroke-[3]" />
-                    </div>
-                    <h4 className="text-xl font-bold text-slate-900">
-                      Your trial details are ready.
-                    </h4>
-                    <p role="status" className="text-slate-600 text-sm max-w-xs mx-auto">
-                      Your request for{" "}
-                      <strong className="text-slate-900">
-                        {formData.companyName || "Your Facility"}
-                      </strong>{" "}
-                      is prepared locally. No account or workspace has been created, and nothing has
-                      been submitted.
-                    </p>
-
-                    <div className="pt-2">
-                      <button
-                        onClick={handleClose}
-                        className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2"
-                      >
-                        Done <ArrowRight className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    {step === 1 ? (
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-1">
-                            Work Email
-                          </label>
-                          <input
-                            type="email"
-                            required
-                            placeholder="manager@carehome.co.uk"
-                            value={formData.email}
-                            aria-label="Work email"
-                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-1">
-                            Create Secure Password
-                          </label>
-                          <input
-                            type="password"
-                            required
-                            minLength={8}
-                            placeholder="••••••••"
-                            value={formData.password}
-                            aria-label="Create secure password"
-                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-1">
-                            Care Home / Agency Name
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            placeholder="e.g. Oakwood Care Home"
-                            value={formData.companyName}
-                            aria-label="Organisation"
-                            onChange={(e) =>
-                              setFormData({ ...formData, companyName: e.target.value })
-                            }
-                            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none"
-                          />
-                        </div>
-
-                        <button
-                          type="button"
-                          onClick={(event) => {
-                            event.preventDefault()
-                            if (!event.currentTarget.form?.reportValidity()) return
-                            setStep(2)
-                          }}
-                          className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-1.5"
-                        >
-                          Next: Choose Primary Module <ArrowRight className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-xs font-semibold text-slate-700 mb-2">
-                            Select Primary Module
-                          </label>
-                          <div className="space-y-2">
-                            {[
-                              {
-                                id: "care-management",
-                                name: "Care Management & eMAR",
-                                desc: "Digital care plans, medication safety & CQC reports",
-                              },
-                              {
-                                id: "recruitment",
-                                name: "Recruitment & ATS",
-                                desc: "Multi-board job posting & hiring pipeline",
-                              },
-                              {
-                                id: "locums-staffing",
-                                name: "Locums & Staffing App",
-                                desc: "Shift posting & instant locum matching",
-                              },
-                              {
-                                id: "facility-management",
-                                name: "Facility Operations",
-                                desc: "Live check-ins, attendance & billing dashboard",
-                              },
-                            ].map((m) => (
-                              <label
-                                key={m.id}
-                                className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
-                                  formData.primaryModule === m.id
-                                    ? "bg-blue-50 border-blue-500 text-slate-900"
-                                    : "border-slate-200 text-slate-600 hover:bg-slate-50"
-                                }`}
-                              >
-                                <input
-                                  type="radio"
-                                  name="module"
-                                  checked={formData.primaryModule === m.id}
-                                  onChange={() => setFormData({ ...formData, primaryModule: m.id })}
-                                  className="mt-0.5 text-blue-600 focus:ring-blue-500"
-                                />
-                                <div>
-                                  <div className="text-xs font-bold">{m.name}</div>
-                                  <div className="text-[11px] text-slate-500">{m.desc}</div>
-                                </div>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2 py-1 text-xs text-slate-500">
-                          <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
-                          <span>
-                            Choose the workspace you want to explore. Your account requires
-                            activation before use.
-                          </span>
-                        </div>
-
-                        <div className="flex gap-2">
-                          <button
-                            type="button"
-                            onClick={() => setStep(1)}
-                            className="px-4 py-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-50"
-                          >
-                            Back
-                          </button>
-                          <button
-                            type="submit"
-                            className="flex-1 py-2.5 bg-gradient-to-r from-blue-600 to-blue-600 text-white font-semibold text-xs rounded-xl hover:from-blue-700 hover:to-blue-700 shadow-md shadow-blue-600/20"
-                          >
-                            Prepare trial request
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </form>
-                )}
-              </div>
-            </div>
+            </fieldset>
+          )}
+          <div className="flex items-center gap-3 pt-1">
+            {step === 2 && (
+              <button type="button" onClick={() => setStep(1)} className="inline-flex items-center gap-1 px-2 py-3 text-sm text-[#6a7282] hover:text-[var(--recruit-brand)]">
+                <ChevronLeft className="size-4" /> Back
+              </button>
+            )}
+            <button key={`trial-${step}`} type="submit" className="flex flex-1 items-center justify-center gap-2 bg-[var(--recruit-brand)] px-5 py-3 text-white">
+              {step === 1 ? "Continue" : "Prepare trial request"} <ArrowRight className="size-4" />
+            </button>
           </div>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </form>
+      )}
+    </RecruitmentDialog>
   )
 }
