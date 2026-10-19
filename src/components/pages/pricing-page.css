@@ -1,0 +1,108 @@
+.pricing-reference {
+  --pricing-accent: var(--homepage-accent, #0E162A);
+  --pricing-tint: var(--homepage-tint, #eef1f6);
+  color: #0f172a;
+  font-family: 'Inter:Regular', Inter, sans-serif;
+}
+.pricing-reference img { max-width: none; flex-shrink: 0; }
+.pricing-reference button { cursor: pointer; }
+.pricing-reference button:focus-visible { outline: 2px solid var(--pricing-accent); outline-offset: 4px; }
+.pricing-reference-back { max-width: 1730.704px; margin: auto; padding: 32.451px 43.268px; display: flex; justify-content: space-between; gap: 20px; }
+.pricing-reference-back button { display: flex; align-items: center; gap: 10.817px; font-family: 'Plus Jakarta Sans:Medium', sans-serif; font-size: 18.93px; line-height: 27.042px; color: #352331; }
+.pricing-reference-back > span { font-family: 'Plus Jakarta Sans:Regular', sans-serif; font-size: 16.225px; line-height: 21.634px; color: #766b73; }
+.pricing-reference-section { border-block: 1px solid rgb(0 0 0 / 5%); background: #f8fafc; padding: 108.169px 58.503px; }
+.pricing-reference-inner { max-width: 1611.014px; margin: auto; }
+.pricing-reference-heading { max-width: 1206.617px; margin: auto; text-align: center; }
+.pricing-reference-kicker { font-family: 'Inter:Semi Bold', sans-serif; font-weight: 600; color: var(--pricing-accent); font-size: 20.11px; line-height: 30.166px; letter-spacing: 3.2176px; text-transform: uppercase; }
+.pricing-reference-heading h1 { margin-top: 29.252px; font-family: 'Inter:Semi Bold', sans-serif; font-weight: 600; font-size: 73.129px; line-height: 87.753px; letter-spacing: -1.4626px; }
+.pricing-reference-intro { margin-top: 29.252px; color: #64748b; font-size: 27.424px; line-height: 51.19px; }
+.pricing-reference-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 21.938px; margin-top: 87.753px; }
+.pricing-reference-switch { display: flex; flex-wrap: wrap; justify-content: center; border: 1px solid rgb(0 0 0 / 5%); border-radius: 14.626px; padding: 7.312px; background: white; }
+.pricing-reference-switch button { font-family: 'Inter:Medium', sans-serif; font-weight: 500; font-size: 21.938px; line-height: 29.252px; padding: 14.626px 29.252px; border-radius: 10.97px; color: #62748e; }
+.pricing-reference-switch button[aria-pressed="true"] { background: var(--pricing-accent); color: white; }
+.pricing-reference-billing { border-radius: 999px; padding: 10.817px 16.225px; background: var(--pricing-tint); color: var(--pricing-accent); font-family: 'Inter:Medium', sans-serif; font-weight: 500; font-size: 18.282px; line-height: 27.424px; }
+.pricing-reference-platform { margin-top: 32px; text-align: center; font-size: 16px; line-height: 28px; color: #62748e; }
+.pricing-reference-grid { margin-top: 65.815px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36.564px; }
+.pricing-reference-card { position: relative; padding: 51.19px; border: 1px solid rgb(0 0 0 / 5%); border-radius: 21.938px; background: white; }
+.pricing-reference-card.is-growth { background: var(--pricing-tint); }
+.pricing-reference-badge { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); white-space: nowrap; border-radius: 999px; background: var(--pricing-accent); color: white; padding: 8px 20px; font-family: 'Inter:Semi Bold', sans-serif; font-weight: 600; font-size: 18.282px; line-height: 27.424px; }
+.pricing-reference-card-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.pricing-reference-card h3, .pricing-reference-enterprise h3 { font-family: 'Inter:Semi Bold', sans-serif; font-weight: 600; font-size: 32.908px; line-height: 51.19px; }
+.pricing-reference-icon { display: flex; justify-content: center; align-items: center; background: var(--pricing-tint); border-radius: 14.626px; padding: 14.626px; min-height: 58.506px; }
+.pricing-reference-staff { margin-top: 14.626px; min-height: 58.504px; font-size: 21.938px; line-height: 29.252px; color: #62748e; }
+.pricing-reference-price { margin-top: 32.451px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px; }
+.pricing-reference-price strong { font-family: 'Inter:Semi Bold', sans-serif; font-weight: 600; font-size: 58.503px; line-height: 87.753px; letter-spacing: -1.8282px; }
+.pricing-reference-price span { font-size: 21.938px; line-height: 29.252px; color: #62748e; }
+.pricing-reference-total { min-height: 56.789px; font-size: 18.282px; line-height: 27.424px; color: #62748e; }
+.pricing-reference-cta { width: 100%; display: flex; align-items: center; justify-content: center; gap: 14.626px; margin-top: 21.634px; padding: 18.282px 21.634px; border: 1px solid rgb(0 0 0 / 5%); border-radius: 14.626px; background: white; font-family: 'Inter:Semi Bold', sans-serif; font-weight: 600; font-size: 21.938px; line-height: 29.252px; transition: background .2s; }
+.pricing-reference-cta:hover { background: #f1f5f9; }
+.is-growth .pricing-reference-cta { background: var(--pricing-accent); color: white; }
+.is-growth .pricing-reference-cta:hover { background: var(--homepage-accent-hover, #1c2942); }
+.pricing-reference-features { margin-top: 43.877px; padding-top: 36.564px; border-top: 1px solid rgb(0 0 0 / 5%); }
+.pricing-reference-capacity { min-height: 54.848px; font-family: 'Inter:Semi Bold', sans-serif; font-weight: 600; font-size: 18.282px; line-height: 27.424px; color: #687184; letter-spacing: .9142px; text-transform: uppercase; }
+.pricing-reference-features ul { margin-top: 29.252px; display: flex; flex-direction: column; gap: 25.595px; }
+.pricing-reference-features li { display: flex; align-items: flex-start; gap: 18.282px; font-size: 25.595px; line-height: 43.877px; color: #475569; }
+.pricing-reference-features li img { margin-top: 7.312px; }
+.pricing-reference-enterprise { margin-top: 36.564px; padding: 36px 51.19px; display: grid; grid-template-columns: 1fr 1.4fr auto; align-items: center; gap: 28px; border: 1px solid rgb(0 0 0 / 5%); border-radius: 21.938px; background: white; }
+.pricing-reference-enterprise p { margin-top: 8px; color: #62748e; font-size: 18.282px; line-height: 27.424px; }
+.pricing-reference-enterprise ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; font-size: 16px; line-height: 26px; color: #475569; }
+.pricing-reference-enterprise li { display: flex; gap: 10px; align-items: center; }
+.pricing-reference-enterprise .pricing-reference-cta { margin: 0; font-size: 18px; }
+.pricing-reference-addon { margin-top: 24px; font-size: 16px; line-height: 28px; color: #62748e; text-align: center; }
+.pricing-reference-addon button { color: var(--pricing-accent); text-decoration: underline; }
+.pricing-reference-note { max-width: 908.62px; margin: 43.268px auto 0; text-align: center; font-size: 18.282px; line-height: 32.451px; color: #62748e; }
+@media (max-width: 1439px) {
+  .pricing-reference-section { padding: 80px 40px; }
+  .pricing-reference-heading { max-width: 890px; }
+  .pricing-reference-heading h1 { font-size: 54px; line-height: 65px; }
+  .pricing-reference-intro { font-size: 20px; line-height: 38px; }
+  .pricing-reference-controls { margin-top: 60px; }
+  .pricing-reference-grid { gap: 27px; }
+  .pricing-reference-card { padding: 36px; }
+  .pricing-reference-card h3 { font-size: 24px; line-height: 38px; }
+  .pricing-reference-staff, .pricing-reference-price span { font-size: 16px; line-height: 22px; }
+  .pricing-reference-price strong { font-size: 43px; line-height: 65px; }
+  .pricing-reference-total, .pricing-reference-capacity, .pricing-reference-badge { font-size: 13.5px; line-height: 20px; }
+  .pricing-reference-cta { font-size: 16px; line-height: 22px; padding: 14px 16px; }
+  .pricing-reference-features li { font-size: 18.93px; line-height: 32.451px; gap: 13.521px; }
+}
+@media (max-width: 1000px) {
+  .pricing-reference-section { padding: 64px 24px; }
+  .pricing-reference-grid { grid-template-columns: 1fr; max-width: 620px; margin-inline: auto; gap: 40px; }
+  .pricing-reference-enterprise { grid-template-columns: 1fr; padding: 32px; }
+  .pricing-reference-back { padding: 24px; }
+}
+@media (max-width: 600px) {
+  .pricing-reference-back > span { display: none; }
+  .pricing-reference-heading h1 { font-size: 36px; line-height: 44px; }
+  .pricing-reference-kicker { font-size: 14px; }
+  .pricing-reference-intro { font-size: 17px; line-height: 30px; }
+  .pricing-reference-switch button { padding: 12px 16px; font-size: 15px; line-height: 22px; }
+  .pricing-reference-card { padding: 28px; }
+  .pricing-reference-enterprise ul { grid-template-columns: 1fr; }
+}
+@media (min-width: 1440px) {
+  .pricing-reference-section { padding-inline: 54.085px; }
+  .pricing-reference-inner { max-width: 1728px; }
+  .pricing-reference-heading h1 { font-size: 73.014px; line-height: 87.887px; letter-spacing: -1.9776px; }
+  .pricing-reference-kicker { font-size: 27.191px; line-height: 40.788px; letter-spacing: 4.3506px; }
+  .pricing-reference-intro { font-size: 27.042px; line-height: 51.38px; }
+  .pricing-reference-switch { padding: 9.887px; border-radius: 19.776px; }
+  .pricing-reference-switch button { padding: 19.776px 39.552px; border-radius: 14.833px; font-size: 29.663px; line-height: 39.552px; }
+  .pricing-reference-billing { padding: 14.626px 21.938px; font-size: 24.719px; line-height: 37.08px; }
+  .pricing-reference-platform { font-size: 21.634px; line-height: 37.859px; }
+  .pricing-reference-grid { margin-top: 88.989px; gap: 36.507px; }
+  .pricing-reference-card { padding: 48.676px; border-radius: 29.663px; }
+  .pricing-reference-card h3 { font-size: 32.451px; line-height: 51.38px; }
+  .pricing-reference-icon { padding: 19.776px; min-height: 79.107px; border-radius: 19.776px; }
+  .pricing-reference-staff { margin-top: 19.776px; min-height: 79.104px; font-size: 21.634px; line-height: 29.746px; }
+  .pricing-reference-price { margin-top: 43.877px; }
+  .pricing-reference-price strong { font-size: 58.141px; line-height: 87.887px; letter-spacing: -2.4719px; }
+  .pricing-reference-price span { font-size: 21.634px; line-height: 29.746px; }
+  .pricing-reference-total { min-height: 76.785px; font-size: 18.254px; line-height: 27.042px; }
+  .pricing-reference-cta { margin-top: 29.252px; gap: 19.776px; border-radius: 19.776px; font-size: 21.634px; line-height: 29.746px; padding: 18.93px 21.634px; }
+  .pricing-reference-features { margin-top: 59.327px; padding-top: 49.439px; }
+  .pricing-reference-capacity { min-height: 74.161px; font-size: 18.254px; line-height: 27.042px; letter-spacing: 1.2361px; }
+  .pricing-reference-features ul { margin-top: 39.552px; gap: 34.607px; }
+  .pricing-reference-features li img { margin-top: 9.887px; }
+}

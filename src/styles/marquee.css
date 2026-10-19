@@ -1,0 +1,50 @@
+@keyframes mployus-marquee-vertical {
+  to { transform: translateY(calc(-100% - var(--gap))); }
+}
+
+@keyframes mployus-marquee-horizontal {
+  to { transform: translateX(calc(-100% - var(--gap))); }
+}
+
+@layer utilities {
+  .mployus-marquee-vertical {
+    animation: mployus-marquee-vertical var(--duration) linear infinite;
+  }
+
+  .mployus-marquee-horizontal {
+    animation: mployus-marquee-horizontal var(--duration) linear infinite;
+  }
+
+  .mployus-marquee-track[data-reverse] {
+    animation-direction: reverse;
+  }
+
+  .mployus-marquee[data-paused] .mployus-marquee-track,
+  .mployus-marquee[data-hover-pause]:hover .mployus-marquee-track,
+  .mployus-testimonial-marquee:hover .mployus-marquee[data-hover-pause] .mployus-marquee-track,
+  .mployus-testimonial-marquee:focus-within .mployus-marquee-track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mployus-testimonial-marquee {
+      height: auto;
+      overflow: visible;
+      padding-block: 1rem;
+    }
+
+    .mployus-testimonial-marquee .mployus-marquee {
+      height: auto;
+    }
+
+    .mployus-marquee-track {
+      animation: none;
+    }
+
+    .mployus-marquee-copy,
+    .mployus-marquee-fade,
+    .mployus-marquee-controls {
+      display: none;
+    }
+  }
+}

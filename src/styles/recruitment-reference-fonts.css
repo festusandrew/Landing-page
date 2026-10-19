@@ -1,0 +1,28 @@
+@font-face {
+  font-family: 'Arimo:Regular';
+  src: url('https://static.figma.com/font/Arimo_wght__1') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter:Regular';
+  src: url('https://static.figma.com/font/Inter_1') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter:Medium';
+  src: url('https://static.figma.com/font/Inter_1') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter:Italic';
+  src: url('https://static.figma.com/font/Inter_1') format('woff2');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}

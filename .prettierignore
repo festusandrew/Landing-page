@@ -1,0 +1,8 @@
+node_modules/
+dist/
+build/
+.figma/
+assets/
+public/
+src/imports/
+pnpm-lock.yaml

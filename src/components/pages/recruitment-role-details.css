@@ -1,0 +1,105 @@
+.recruit-role-page {
+  --role-brand: #810161;
+  --role-hover: #67014d;
+  --role-ink: #24332d;
+  --role-muted: #68716c;
+  --role-tint: #f8eef5;
+  --role-paper: #faf8fa;
+  --role-border: rgb(0 0 0 / 5%);
+  background: white;
+  color: var(--role-ink);
+  font-family: 'DM Sans', sans-serif;
+}
+.recruit-role-page :is(h1,h2,h3,p,dl) { margin: 0; }
+.recruit-role-page :is(button,a) { cursor: pointer; }
+.recruit-role-page :is(button,a,input):focus-visible { outline: 2px solid var(--role-brand); outline-offset: 4px; }
+.recruit-role-container { width: calc(100% - 48px); max-width: 1000px; margin-inline: auto; }
+.recruit-role-band { padding: 40px 0 130px; background: var(--role-tint); }
+.recruit-role-band > div { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.recruit-role-band p { font-size: 11px; color: var(--role-muted); }
+.recruit-role-back { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--role-brand); }
+.recruit-role-card { position: relative; margin-top: -96px; padding: 36px 44px; border: 1px solid var(--role-border); border-radius: 16px; background: white; }
+.recruit-role-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; color: var(--role-muted); font-size: 11px; line-height: 1.6; }
+.recruit-role-meta > span:last-child { display: flex; align-items: center; gap: 7px; }
+.recruit-role-header { display: flex; align-items: end; justify-content: space-between; gap: 24px; }
+.recruit-role-status { display: inline-flex; align-items: center; gap: 4px; padding: 5px 9px; border-radius: 999px; background: var(--role-tint); color: var(--role-brand); font-size: 10px; line-height: 1.4; }
+.recruit-role-header :is(h1,h2) { margin-top: 12px; font-size: 32px; line-height: 1.15; font-weight: 500; letter-spacing: -.025em; scroll-margin-top: 88px; }
+.recruit-role-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+.recruit-role-tags span { display: inline-flex; align-items: center; gap: 6px; padding: 6px 9px; border-radius: 5px; background: var(--role-paper); color: var(--role-muted); font-size: 11px; line-height: 1.5; }
+.recruit-role-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; padding-bottom: 2px; }
+.recruit-role-primary { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 45px; padding: 12px 20px; border-radius: 8px; background: var(--role-brand); color: white; font-size: 13px; font-weight: 500; white-space: nowrap; transition: background .2s; }
+.recruit-role-primary:hover { background: var(--role-hover); }
+.recruit-role-share { display: grid; place-items: center; width: 45px; height: 45px; border: 1px solid var(--role-border); border-radius: 8px; color: var(--role-brand); background: var(--role-paper); }
+.recruit-role-disclosure { margin-top: 28px; padding: 14px 16px; background: var(--role-paper); border-radius: 8px; }
+.recruit-role-disclosure p { font-size: 11px; line-height: 1.8; color: var(--role-muted); }
+.recruit-role-share-status { margin-top: 14px !important; color: var(--role-brand); font-size: 12px; }
+.recruit-role-link-label { display: block; margin-top: 12px; font-size: 11px; color: var(--role-muted); }
+.recruit-role-link-label input { display: block; width: 100%; padding: 10px; margin-top: 6px; border: 1px solid var(--role-border); border-radius: 6px; font-size: 12px; }
+.recruit-role-section { margin-top: 30px; }
+.recruit-role-section, .recruit-role-recommendations { scroll-margin-top: 88px; }
+.recruit-role-section :is(h2,h3) { margin-bottom: 14px; color: var(--role-ink); font-size: 17px; font-weight: 500; line-height: 1.4; }
+.recruit-role-section p { margin-top: 12px; font-size: 14px; line-height: 1.9; color: var(--role-muted); }
+.recruit-role-section .recruit-role-lead { color: var(--role-ink); font-weight: 500; }
+.recruit-role-facts { display: grid; gap: 10px; margin-top: 18px !important; }
+.recruit-role-facts > div { display: flex; flex-wrap: wrap; gap: 5px 8px; font-size: 13px; line-height: 1.8; }
+.recruit-role-facts dt { font-weight: 500; }
+.recruit-role-facts dt::after { content: ':'; }
+.recruit-role-facts dd { margin: 0; color: var(--role-muted); }
+.recruit-role-section ul { display: grid; gap: 13px; margin: 15px 0 0; padding-left: 20px; list-style: disc; }
+.recruit-role-section li { font-size: 14px; line-height: 1.9; color: var(--role-muted); padding-left: 2px; }
+.recruit-role-section strong { color: var(--role-ink); font-weight: 500; }
+.recruit-role-section .recruit-role-section-note { font-size: 11px; }
+.recruit-role-bottom-apply { display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid var(--role-border); margin-top: 36px; padding-top: 24px; }
+.recruit-role-bottom-apply p { font-size: 14px; font-weight: 500; }
+.recruit-role-bottom-apply span { display: block; margin-top: 5px; font-size: 12px; color: var(--role-muted); }
+.recruit-role-recommendations { margin-top: 64px; padding: 48px 0 56px; background: var(--role-paper); }
+.recruit-role-recommended-header { display: flex; align-items: end; justify-content: space-between; gap: 24px; }
+.recruit-role-recommended-header p { font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--role-brand); }
+.recruit-role-recommended-header :is(h2,h3) { margin-top: 10px; font-size: 26px; font-weight: 500; letter-spacing: -.02em; line-height: 1.2; }
+.recruit-role-recommended-header > button { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--role-brand); white-space: nowrap; }
+.recruit-role-recommended-note { margin-top: 14px !important; font-size: 11px; line-height: 1.8; color: var(--role-muted); }
+.recruit-role-recommended-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; margin-top: 28px; }
+.recruit-role-recommended-card { display: flex; flex-direction: column; min-width: 0; padding: 22px; border: 1px solid var(--role-border); border-radius: 10px; background: white; }
+.recruit-role-recommended-card :is(h3,h4) { font-size: 16px; font-weight: 500; line-height: 1.5; }
+.recruit-role-recommended-card .recruit-role-tags { margin-top: 12px; margin-bottom: 24px; }
+.recruit-role-recommended-card .recruit-role-tags span { font-size: 10px; padding: 4px 7px; }
+.recruit-role-recommended-card > div:last-of-type { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
+.recruit-role-recommended-card button { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 7px 10px; border: 1px solid var(--role-border); border-radius: 5px; color: var(--role-brand); font-size: 11px; }
+.recruit-role-recommended-card > p { display: flex; align-items: center; gap: 6px; margin-top: 16px; color: var(--role-muted); font-size: 10px; }
+@media (max-width: 800px) {
+  .recruit-role-header { align-items: start; flex-direction: column; }
+  .recruit-role-actions { width: 100%; }
+  .recruit-role-actions .recruit-role-primary { flex: 1; }
+  .recruit-role-recommended-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 560px) {
+  .recruit-role-container { width: calc(100% - 32px); }
+  .recruit-role-band { padding: 28px 0 106px; }
+  .recruit-role-band p { display: none; }
+  .recruit-role-card { margin-top: -80px; padding: 26px 22px; border-radius: 12px; }
+  .recruit-role-meta { font-size: 10px; margin-bottom: 22px; }
+  .recruit-role-header :is(h1,h2) { font-size: 28px; }
+  .recruit-role-bottom-apply { align-items: stretch; flex-direction: column; gap: 18px; }
+  .recruit-role-recommendations { margin-top: 44px; padding-top: 36px; }
+  .recruit-role-recommended-header { align-items: start; flex-direction: column; gap: 14px; }
+  .recruit-role-recommended-header :is(h2,h3) { font-size: 24px; }
+  .recruit-role-recommended-grid { grid-template-columns: minmax(0,1fr); gap: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .recruit-role-page * { transition: none !important; } }
+.recruit-role-embedded { min-width: 0; background: transparent; }
+.recruit-role-inline-back { display: none; }
+.recruit-role-embedded .recruit-role-container { width: 100%; max-width: none; }
+.recruit-role-embedded .recruit-role-card { margin-top: 0; padding: 28px; }
+.recruit-role-embedded .recruit-role-header { flex-direction: column; align-items: stretch; }
+.recruit-role-embedded .recruit-role-actions { width: 100%; }
+.recruit-role-embedded .recruit-role-actions .recruit-role-primary { flex: 1; }
+.recruit-role-embedded .recruit-role-recommendations { margin-top: 24px; padding: 28px 0; background: transparent; }
+.recruit-role-embedded .recruit-role-recommended-header { flex-wrap: wrap; }
+.recruit-role-embedded .recruit-role-recommended-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+@media (max-width: 1023px) {
+  .recruit-role-inline-back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px; color: var(--role-brand); font-size: 12px; }
+}
+@media (max-width: 560px) {
+  .recruit-role-embedded .recruit-role-card { padding: 24px 20px; }
+  .recruit-role-embedded .recruit-role-recommended-grid { grid-template-columns: minmax(0,1fr); }
+}
