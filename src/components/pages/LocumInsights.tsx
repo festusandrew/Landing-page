@@ -240,8 +240,9 @@ export function LocumInsights({
             </div>
           )}
           <p className="border-t border-black/5 py-6 text-[11px] leading-5 text-[#53685b]">
-            Salary figures are indicative. Confirm current requirements with the
-            relevant regulator. Guides covering both
+            Editorial preview · Sample salary figures and regulatory claims in
+            these draft articles are not independently verified. Confirm current
+            requirements with the relevant regulator. Guides covering both
             countries appear in both filters.
           </p>
         </div>

@@ -30,7 +30,6 @@ import trustedTeamThree from "../imports/homepage-reference/a08fb.png"
 import { HOME_VISUALS } from "../data/homeVisuals"
 
 import { PRODUCT_MODULES } from "../data/mockData"
-import { getModalTone } from "../data/modalTones"
 import { UserRole, ProductModule } from "../types"
 
 const PolicyPage = lazy(() =>
@@ -699,7 +698,6 @@ function PlatformApp() {
   const hasServiceNavigation = isStandaloneLocum || isStandaloneRecruitment
   const isProductPage = activeView === "care-management" || activeView === "recruitment-software"
   const ownsFooter = hasServiceNavigation || isProductPage
-  const modalTone = getModalTone(activeView)
 
   return (
     <div
@@ -814,20 +812,15 @@ function PlatformApp() {
               onClose={() => setBookDemoOpen(false)}
               context={initialDemoModule}
             />
-          ) : (
+          ) : isStandaloneRecruitment ? null : (
             <BookDemoModal
               isOpen={bookDemoOpen}
               onClose={() => setBookDemoOpen(false)}
               initialModule={initialDemoModule}
-              tone={modalTone}
             />
           ))}
         {freeTrialOpen && (
-          <FreeTrialModal
-            isOpen={freeTrialOpen}
-            onClose={() => setFreeTrialOpen(false)}
-            tone={modalTone}
-          />
+          <FreeTrialModal isOpen={freeTrialOpen} onClose={() => setFreeTrialOpen(false)} />
         )}
         {videoModalOpen && (
           <VideoModal
@@ -842,7 +835,6 @@ function PlatformApp() {
             isOpen={!!selectedModule}
             onClose={() => setSelectedModule(null)}
             onBookDemo={(modTitle) => handleBookDemoWithModule(modTitle)}
-            tone={modalTone}
           />
         )}
         {caseStudyOpen && (
@@ -850,7 +842,6 @@ function PlatformApp() {
             isOpen={caseStudyOpen}
             onClose={() => setCaseStudyOpen(false)}
             onBookDemo={() => handleBookDemoWithModule("Meadowview Case Study")}
-            tone={modalTone}
           />
         )}
       </Suspense>

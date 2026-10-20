@@ -116,7 +116,7 @@ test("The overview preserves the original brief and missing application details 
   assert(
     details.applicationDetails.some(
       ([label, value]) =>
-        label === "Application process" && value.includes("consultant review"),
+        label === "Application process" && value.includes("not connected"),
     ),
   )
 })

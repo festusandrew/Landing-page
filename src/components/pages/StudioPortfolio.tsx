@@ -105,7 +105,7 @@ const projects: Record<Discipline, Project[]> = {
       brief:
         "Help healthcare professionals understand the location, requirements and practical details of an opportunity before making their next move.",
       approach:
-        "A scannable shift finder with regional filters, detailed briefs and guided applications. The design prioritises clarity across desktop and mobile so professionals can find and apply for the right shift quickly.",
+        "A scannable shift finder with regional filters, detailed briefs and guided application previews. The design prioritises clarity across desktop and mobile without implying that the sample shifts are live bookings.",
     },
   ],
   development: [
@@ -124,7 +124,7 @@ const projects: Record<Discipline, Project[]> = {
       brief:
         "Help healthcare professionals explore opportunities by location and inspect the practical details before starting an application.",
       approach:
-        "Reusable React interfaces, Ireland and UK-nation filters, detailed shift briefs and multi-step applications. Responsive layouts keep the core actions accessible on smaller screens.",
+        "Reusable React interfaces, Ireland and UK-nation filters, detailed shift briefs and multi-step application previews. Responsive layouts keep the core actions accessible on smaller screens.",
     },
     {
       id: "recruit-site",
@@ -140,7 +140,7 @@ const projects: Record<Discipline, Project[]> = {
       brief:
         "Create a connected digital front door for recruitment, serving both people looking for work and teams looking to hire.",
       approach:
-        "A React website with job and insight filters, article detail views and validated front-end forms. Shared patterns make the experience consistent across employer enquiries, applications and accounts.",
+        "A React website with job and insight filters, article detail views and validated front-end forms. Shared patterns make the experience consistent across employer enquiries, applications and account previews.",
     },
     {
       imageSrc: careDesignImage,
@@ -161,7 +161,7 @@ const projects: Record<Discipline, Project[]> = {
       brief:
         "Present a broad care-management offering through a modular interface that can evolve as the product grows.",
       approach:
-        "Component-based layouts, focused product sections and reusable navigation patterns.",
+        "Component-based layouts, focused product sections and reusable navigation patterns. The current implementation demonstrates the front-end experience; production data and integrations require separate verification.",
     },
     {
       id: "journal-site",
@@ -181,7 +181,7 @@ const projects: Record<Discipline, Project[]> = {
       brief:
         "Connect professionals with practical, location-relevant articles through a clear, accessible browsing experience.",
       approach:
-        "Responsive article layouts, Ireland/UK and topic filters, and reusable content patterns.",
+        "Responsive article layouts, Ireland/UK and topic filters, and reusable content patterns. This in-house front-end preview demonstrates the reading experience, not a verified production publishing service.",
     },
   ],
 }
@@ -487,7 +487,7 @@ export function StudioPortfolio({
         </button>
         <div className="studio-hero-meta">
           <span>Independent thinking. Connected experiences.</span>
-          <span>In-house work · MployUs products</span>
+          <span>In-house work · Front-end previews</span>
         </div>
       </section>
 
@@ -537,6 +537,11 @@ export function StudioPortfolio({
             </StudioProjectCarousel>
           )}
         </div>
+        <p className="studio-work-note">
+          Shown as front-end previews. Live authentication, submissions and
+          integrations are not implied. Project outcomes have not been
+          independently measured.
+        </p>
       </section>
 
       <section id={sectionId("approach")} className="studio-approach">
@@ -808,7 +813,7 @@ export function StudioPortfolio({
               >
                 {projectScreen(
                   selected,
-                  `Interface for ${selected.name}`,
+                  `Actual interface preview for ${selected.name}`,
                 )}
               </div>
               <div className="studio-dialog-tags">
@@ -826,6 +831,14 @@ export function StudioPortfolio({
                     {design ? "The design thinking" : "The implementation"}
                   </h3>
                   <p>{selected.approach}</p>
+                </section>
+                <section>
+                  <h3>Where it stands</h3>
+                  <p>
+                    This is an in-house MployUs front-end preview, not a
+                    commissioned client case study. Live services, production
+                    compliance and commercial outcomes have not been verified.
+                  </p>
                 </section>
               </div>
               <div className="studio-dialog-actions">

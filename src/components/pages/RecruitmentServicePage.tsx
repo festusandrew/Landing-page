@@ -441,7 +441,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 animate={{ rotate: open ? 45 : 0 }}
                 transition={{ duration: 0.22 }}
               >
-                <img src={RECRUITMENT_VISUALS.contact.faq[i]} alt="" className="recruit-reference-icon" />
+                <img src={RECRUITMENT_VISUALS.contact.faq[i % RECRUITMENT_VISUALS.contact.faq.length]} alt="" className="recruit-reference-icon" />
               </motion.div>
             </motion.button>
             <AnimatePresence initial={false}>
@@ -469,7 +469,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
   const HomePage = () => (
     <Fade className="recruit-surface recruit-home">
-      <ModernServiceHero kind="recruitment" image={imgSarah} primaryIcon={RECRUITMENT_VISUALS.home.heroArrow[0]} badgeIcon={RECRUITMENT_VISUALS.home.heroCheck[0]} onPrimary={() => goTo('jobseekers')} onSecondary={openContact} />
+      <ModernServiceHero kind="recruitment" image={imgLouis} primaryIcon={RECRUITMENT_VISUALS.home.heroArrow[0]} badgeIcon={RECRUITMENT_VISUALS.home.heroCheck[0]} onPrimary={() => goTo('jobseekers')} onSecondary={openContact} />
 
       <section className="border-b border-black/5 bg-white px-6 py-10"><div className="mx-auto grid max-w-[1184px] gap-6 md:grid-cols-2 md:gap-20"><p className="text-2xl font-medium leading-snug text-[#24332d]">Not just a recruitment agency.<br />A partner for your next chapter.</p><p className="text-sm leading-7 text-[#68716c]">From your first conversation to your next opportunity, we take the time to understand what matters. Specialist support for logistics, healthcare, hospitality and education across Ireland and the UK.</p></div></section>
 
@@ -1138,7 +1138,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         {contactOpen && (
           <RecruitmentDialog onClose={() => setContactOpen(false)} eyebrow="Request talent" title={contactStep === 4 ? 'A clearer brief. A better beginning.' : 'Find your next great hire.'} description="A few details to understand your team and the people you need." headline={'Good people.\nStronger teams.'} steps={['Your hiring needs', 'Your organisation', 'Review your brief']} currentStep={contactStep - 1}>
               <div>
-                {permanentReferral && <div className="mb-5 rounded-xl bg-[#f8eef5] p-4 text-xs leading-6 text-slate-600"><p className="font-semibold text-[#810161]">Permanent recruitment is managed by MployUs.</p><p className="mt-2">Share your requirements with our recruitment team. MployUs will review the brief and arrange posting on the recruitment site, not the locum shift platform.</p></div>}
+                {permanentReferral && <div className="mb-5 rounded-xl bg-[#f8eef5] p-4 text-xs leading-6 text-slate-600"><p className="font-semibold text-[#810161]">Permanent recruitment is managed by MployUs.</p><p className="mt-2">Share your requirements with our recruitment team. MployUs will review the brief and arrange posting on the recruitment site, not the locum shift platform. This preview prepares an enquiry only; it does not send or publish anything.</p></div>}
 
 
                 {/* ── STEP 1: Hiring need ── */}
@@ -1333,9 +1333,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     </motion.div>
 
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="space-y-2">
-                      <h2 className="text-2xl font-bold text-slate-900">Thank you.</h2>
+                      <h2 className="text-2xl font-bold text-slate-900">Your talent brief is ready.</h2>
                       <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
-                        Here’s a summary of your talent brief.
+                        This preview prepares your request locally. No enquiry has been sent. A production submission service still needs to be connected.
                       </p>
                     </motion.div>
 
@@ -1605,9 +1605,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                     </motion.div>
 
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="space-y-2">
-                      <h2 className="text-2xl font-bold text-slate-900">Thank you for applying.</h2>
+                      <h2 className="text-2xl font-bold text-slate-900">Your application preview is ready.</h2>
                       <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
-                        Your application for <span className="font-semibold text-slate-700">{applyRole.title}</span> in <span className="font-semibold text-slate-700">{applyRole.location}</span> is complete.
+                        Your application for <span className="font-semibold text-slate-700">{applyRole.title}</span> in <span className="font-semibold text-slate-700">{applyRole.location}</span> is prepared locally. Nothing has been sent in this preview.
                       </p>
                     </motion.div>
 
@@ -1619,6 +1619,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                           { icon: Mail, title: 'Your contact details', desc: applyForm.email },
                           { icon: Briefcase, title: 'Your opportunity', desc: `${applyRole.title} · ${applyRole.location}` },
                           { icon: Clock, title: 'Experience & availability', desc: `${applyForm.yearsExp || 'Not specified'} · ${applyForm.transport}` },
+                          { icon: FileText, title: 'Live submission not connected', desc: 'No application, email or interview request has been sent.' },
                         ].map((step, i) => (
                           <motion.div key={i} className="flex items-start gap-3"
                             initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }}

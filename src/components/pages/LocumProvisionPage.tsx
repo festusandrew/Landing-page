@@ -84,7 +84,7 @@ const REGIONS: Record<Region, {
     cities: WORK_REGIONS.filter(area => area.id !== 'IE').flatMap(area => area.cities),
     compliance: 'Enhanced DBS check',
     shifts: [
-      { facility: 'Community pharmacy — Cumbria', location: 'Cumbria, UK', date: 'Mon 12 Oct', time: '08:00–18:00', urgent: false, specialisation: 'Community Pharmacy', dispensingSystem: 'Columbus', availability: 'Available', description: 'Community pharmacist shift in Cumbria, England on Monday 12 October 2026.', requirements: ['Current GPhC registration and role-specific eligibility must be verified before booking'] },
+      { facility: 'Cumbria pharmacy — reference example', location: 'Cumbria, UK', date: 'Mon 12 Oct', time: '08:00–18:00', urgent: false, specialisation: 'Community Pharmacy', dispensingSystem: 'Columbus', availability: 'Available (reference example)', description: 'Reference-based sample pharmacist shift in Cumbria, England on Monday 12 October 2026. This is not a verified live vacancy.', requirements: ['Current GPhC registration and role-specific eligibility must be verified before booking'] },
       { facility: 'Boots — Oxford Street', location: 'London W1, UK', date: 'Mon 27 Jul', time: '09:00–18:00', urgent: true, specialisation: 'Community Pharmacy', description: 'Boots Oxford Street is one of the busiest pharmacy branches in the UK. We need an experienced locum to manage high prescription volume, supervise dispensing assistants, and deliver our NHS services including NMS and pharmacy first consultations.', requirements: ['GPhC registration (active)', 'Minimum 2 years community pharmacy experience', 'NHS services experience (NMS, MUR, Pharmacy First)', 'Enhanced DBS required'] },
       { facility: 'Well Pharmacy', location: 'Manchester, UK', date: 'Tue 28 Jul', time: '08:30–17:30', urgent: false, specialisation: 'Community Pharmacy', description: 'Well Pharmacy Manchester requires a locum for a standard weekday shift. Duties include dispensing, patient consultations, and supporting the healthy living programme. The branch has a well-established team and modern dispensing systems.', requirements: ['GPhC registration', 'Community experience preferred', 'Familiarity with Pharmacy First', 'Punctual and professional manner'] },
       { facility: 'Rowlands Pharmacy', location: 'Birmingham, UK', date: 'Wed 29 Jul', time: '10:00–19:00', urgent: true, specialisation: 'Hospital Outpatient', description: 'Urgent cover required at Rowlands Birmingham outpatient dispensary. You will work alongside the hospital clinical team dispensing inpatient TTOs, providing discharge counselling, and managing controlled drug records to standard.', requirements: ['GPhC registration', 'Hospital dispensary experience essential', 'Controlled drug handling', 'Available at short notice'] },
@@ -93,7 +93,7 @@ const REGIONS: Record<Region, {
       { facility: 'Superdrug Health Clinic', location: 'London W2, UK', date: 'Sun 02 Aug', time: '10:00–18:00', urgent: true, specialisation: 'Pharmacy Clinic', description: 'Superdrug Health Clinic Bayswater requires a pharmacist to manage Saturday walk-in consultations including travel health, sexual health screening, and emergency contraception. High patient interaction role with strong clinical advisory component.', requirements: ['GPhC registration', 'Clinical or consultation experience', 'PGD experience (travel health, contraception)', 'Saturday availability essential'] },
       { facility: 'Day Lewis Pharmacy', location: 'Birmingham, UK', date: 'Tue 04 Aug', time: '08:30–17:30', urgent: false, specialisation: 'Community Pharmacy', description: 'Day Lewis Pharmacy Birmingham requires a locum for Monday cover. This independent-style branch operates a strong patient relationship model with a focus on blister packing, chronic disease management, and medication reviews.', requirements: ['GPhC registration', 'Blister packing experience preferred', 'Medication review and MUR background', 'Friendly and patient-focused approach'] },
       { facility: 'Cohens Chemist', location: 'Manchester, UK', date: 'Wed 05 Aug', time: '09:00–18:00', urgent: false, specialisation: 'Community Pharmacy', description: 'Cohens Chemist Manchester requires standard locum cover for a Tuesday shift. Duties include supervised consumption, dispensing, and patient counselling. A well-structured pharmacy with a supportive technician team already in place.', requirements: ['GPhC registration', 'Supervised consumption experience preferred', 'Familiar with RxWeb or Titan PMR', 'Flexible and adaptable'] },
-      { facility: 'Community pharmacy — Cardiff', location: 'Cardiff, UK', date: 'Thu 06 Aug', time: '09:00–17:30', urgent: false, specialisation: 'Community Pharmacy', description: 'Community pharmacy cover involving prescription dispensing, patient advice and working with the pharmacy team. Service responsibilities and booking terms are confirmed by the employer.', requirements: ['Active GPhC registration', 'Right to work in the UK', 'Relevant community pharmacy experience', 'Role-appropriate background check and professional indemnity'] },
+      { facility: 'Example community pharmacy — Cardiff', location: 'Cardiff, UK', date: 'Thu 06 Aug', time: '09:00–17:30', urgent: false, specialisation: 'Community Pharmacy', description: 'Example Welsh locum listing for preview purposes. Community pharmacy cover involves prescription dispensing, patient advice and working with the pharmacy team. This is not a live vacancy; service responsibilities and booking terms must be confirmed by the employer.', requirements: ['Active GPhC registration', 'Right to work in the UK', 'Relevant community pharmacy experience', 'Role-appropriate background check and professional indemnity'] },
     ]
   }
 };
@@ -242,18 +242,29 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   // Apply flow
   const [applyOpen, setApplyOpen] = useState(false);
   const [applyStep, setApplyStep] = useState<1 | 2 | 3 | 4>(1);
+  const [applyMode, setApplyMode] = useState<'form' | 'signin'>('form');
+  const [applyLoginEmail, setApplyLoginEmail] = useState('');
+  const [applyLoginPassword, setApplyLoginPassword] = useState('');
+  const [applyLoginStatus, setApplyLoginStatus] = useState('');
   const [applyForm, setApplyForm] = useState({
     firstName: '', lastName: '', email: '', phone: '',
     regBody: '', regNumber: '', yearsExp: '',
     transport: '', travelTime: '',
     coverNote: '', questions: '',
-    termsAccepted: false, availabilityConfirmed: false,
+    termsAccepted: true, availabilityConfirmed: true,
   });
 
-  // Auth is a frontend preview; visitors are always prompted to sign in until a backend session exists.
-  const isSignedIn = false as boolean;
-  const openApply = () => { setApplyStep(isSignedIn ? 2 : 1); setApplyOpen(true); };
-  const closeApply = () => { setApplyOpen(false); setApplyStep(1); };
+  const openApply = () => {
+    setApplyMode('form');
+    setApplyLoginStatus('');
+    setApplyStep(2);
+    setApplyOpen(true);
+  };
+  const closeApply = () => {
+    setApplyOpen(false);
+    setApplyStep(1);
+    setApplyMode('form');
+  };
 
   const [scrolled, setScrolled] = useState(false);
   const [statsInView, setStatsInView] = useState(false);
@@ -1261,7 +1272,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           <div className="border-b border-black/5 bg-white">
             <div className="max-w-[1286px] mx-auto px-10 py-4 flex flex-col gap-2">
               <div className="flex items-center justify-between gap-4"><p className="text-[#3d3d3d] text-sm">Country &amp; region</p><button onClick={resetShiftFilters} className="text-xs font-semibold text-[#368B62]">Clear all filters</button></div>
-              <p className="text-xs leading-5 text-slate-500">Sign in to see shift pay and to filter or sort by pay.</p>
+              <p className="text-xs leading-5 text-slate-500">Preview listings, not live vacancies. Pay is only available to authenticated account holders. Pay filtering and sorting are locked while signed out. Dates shown are sample dates in 2026.</p>
               <div className="flex flex-wrap gap-8 items-center">
                 {[
                   { id: 'all', flag: '🌍', label: 'All' },
@@ -1365,13 +1376,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   })}
                 </div>
 
-                <p className="mt-4 text-center text-xs text-slate-500">Showing all {shifts.length} matching shifts</p>
+                <p className="mt-4 text-center text-xs text-slate-500">Showing all {shifts.length} matching preview listings</p>
               </div>
 
               {/* Right: selected shift detail + map */}
               {(() => {
                 const s = shifts[selectedShift] ?? shifts[0];
-                if (!s) return <div className="rounded-3xl bg-[#f4f8f5] p-10 text-center"><Search className="mx-auto mb-5 h-8 w-8 text-[#368B62]" /><h2 className="text-xl font-medium">No shifts match these filters</h2><p className="mt-3 text-sm leading-6 text-slate-500">Try another region or clear your filters. New shifts are added regularly.</p><button onClick={resetShiftFilters} className="mt-6 rounded-full bg-[#368B62] px-6 py-3 text-sm font-semibold text-white">Show all shifts</button></div>;
+                if (!s) return <div className="rounded-3xl bg-[#f4f8f5] p-10 text-center"><Search className="mx-auto mb-5 h-8 w-8 text-[#368B62]" /><h2 className="text-xl font-medium">No shifts match these filters</h2><p className="mt-3 text-sm leading-6 text-slate-500">Try another region or clear your filters. Preview listings currently cover pharmacists; other professions and locations may have no sample vacancies.</p><button onClick={resetShiftFilters} className="mt-6 rounded-full bg-[#368B62] px-6 py-3 text-sm font-semibold text-white">Show all shifts</button></div>;
                 return (
                   <div id="selected-locum-shift" className="min-w-0 scroll-mt-24">
                     <LocumJobDetails
@@ -1392,63 +1403,385 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         {/* ══ APPLY FLOW MODAL ══ */}
         {applyOpen && (
-          <LocumDialog onClose={closeApply} closeLabel="Close shift application" title={applyStep === 1 ? "Sign in to apply" : applyStep === 4 ? "Application sent" : "Apply for this shift"} description={applyStep === 1 ? "You need a MployUs Locums account to apply for shifts." : "Confirm your availability and send your application."} headline={"Your next shift.\nYour next chapter."} steps={['Sign in', 'Apply', 'Done']} currentStep={applyStep === 1 ? 0 : applyStep === 4 ? 2 : 1}>
+          <LocumDialog
+            onClose={closeApply}
+            closeLabel="Close shift application"
+            title={
+              applyStep === 4
+                ? "Application submitted!"
+                : applyMode === "signin"
+                  ? "Sign in to apply"
+                  : "Quick shift application"
+            }
+            description={
+              applyStep === 4
+                ? "Your booking request has been submitted for review."
+                : applyMode === "signin"
+                  ? "Sign in with your MployUs credentials to auto-fill your verified profile."
+                  : "Minimal details required — confirm availability and submit in seconds."
+            }
+            headline={"Your next shift.\nSimple & fast."}
+            steps={["Shift application", "Confirmation"]}
+            currentStep={applyStep === 4 ? 1 : 0}
+          >
+            {/* Shift summary strip */}
+            {applyStep < 4 && (
               <div className="mx-7 mt-5 mb-1 bg-[#368B62]/5 border border-black/5 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
                 <div>
                   <p className="text-xs text-slate-500">{applyShift.facility}</p>
-                  <p className="font-bold text-[#368B62] text-sm">{searchProfession || 'Locum Pharmacist'} · {applyShift.date}</p>
+                  <p className="font-bold text-[#368B62] text-sm">
+                    {searchProfession || "Locum Pharmacist"} · {applyShift.date}
+                  </p>
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-xs text-slate-500">{applyShift.time}</p>
-                  <p className="text-xs text-slate-500 inline-flex items-center gap-1"><MapPin className="w-3 h-3" aria-hidden="true" />{applyShift.location}</p>
+                  <p className="font-bold text-[#368B62] text-sm">
+                    <span className="inline-flex items-center">
+                      <Lock size={12} aria-hidden="true" />
+                      <span className="sr-only">Pay locked until sign-in</span>
+                    </span>
+                  </p>
                 </div>
               </div>
+            )}
 
-              <div className="px-7 pb-7 pt-4">
-                {applyStep === 1 && (
-                  <motion.div key="gate" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#368B62]/10 flex items-center justify-center shrink-0"><Lock className="w-4 h-4 text-[#368B62]" aria-hidden="true" /></div>
-                      <div>
-                        <h2 className="text-xl font-bold text-slate-900">Sign in to apply</h2>
-                        <p className="text-sm text-slate-500 mt-1">Your verified profile and documents are shared with the facility, so you only answer a couple of quick questions per shift.</p>
+            <div className="px-7 pb-7 pt-4">
+              {/* ── MODE: INLINE SIGN IN ── */}
+              {applyStep < 4 && applyMode === "signin" && (
+                <motion.div
+                  key="signin-mode"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="space-y-4"
+                >
+                  <div className="rounded-xl border border-black/5 bg-[#f5f8f6] p-4 text-xs text-slate-600">
+                    <p className="font-semibold text-[#24332d]">Sign in with your MployUs Locums account</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      Applying for <span className="font-medium text-slate-700">{applyShift.facility}</span> on{" "}
+                      <span className="font-medium text-slate-700">{applyShift.date}</span>.
+                    </p>
+                  </div>
+
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setApplyLoginStatus(
+                        "Design preview: Authentication is simulated. To apply without credentials, use the quick application below."
+                      );
+                    }}
+                    className="space-y-3.5"
+                  >
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Email address</label>
+                      <input
+                        type="email"
+                        required
+                        value={applyLoginEmail}
+                        onChange={(e) => setApplyLoginEmail(e.target.value)}
+                        placeholder="you@example.com"
+                        className="w-full rounded-xl border border-black/5 bg-[#f5f8f6] px-3.5 py-2.5 text-xs text-[#24332d] outline-none focus:border-[#368B62]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Password</label>
+                      <input
+                        type="password"
+                        required
+                        value={applyLoginPassword}
+                        onChange={(e) => setApplyLoginPassword(e.target.value)}
+                        placeholder="••••••••"
+                        className="w-full rounded-xl border border-black/5 bg-[#f5f8f6] px-3.5 py-2.5 text-xs text-[#24332d] outline-none focus:border-[#368B62]"
+                      />
+                    </div>
+
+                    {applyLoginStatus && (
+                      <p className="text-[11px] text-amber-700 bg-amber-50 p-2.5 rounded-lg border border-amber-200">
+                        {applyLoginStatus}
+                      </p>
+                    )}
+
+                    <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
+                      <button
+                        type="submit"
+                        className="flex-1 py-2.5 bg-[#368B62] hover:bg-[#276647] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                      >
+                        Sign in & apply
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          closeApply();
+                          openAuth("signup");
+                        }}
+                        className="py-2.5 px-4 border border-black/5 bg-white text-xs font-medium text-[#24332d] rounded-xl hover:bg-slate-50 transition-colors cursor-pointer"
+                      >
+                        Create account
+                      </button>
+                    </div>
+
+                    <div className="text-center pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setApplyMode("form")}
+                        className="text-xs text-[#368B62] font-semibold hover:underline cursor-pointer"
+                      >
+                        ← Or continue with quick application (no account needed)
+                      </button>
+                    </div>
+                  </form>
+                </motion.div>
+              )}
+
+              {/* ── MODE: STREAMLINED QUICK APPLY (1-2 QUESTIONS) ── */}
+              {applyStep < 4 && applyMode === "form" && (
+                <motion.div
+                  key="apply-form"
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="space-y-4"
+                >
+                  {/* Account / Sign-in prompt card */}
+                  <div className="rounded-xl border border-[#368B62]/20 bg-[#edf5ef] p-3.5 text-xs">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                      <div className="flex items-start sm:items-center gap-2.5">
+                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#368B62]/10 text-[#368B62]">
+                          <Lock size={13} />
+                        </span>
+                        <div>
+                          <p className="font-semibold text-[#24332d]">Have an MployUs account?</p>
+                          <p className="text-[11px] text-slate-500">
+                            Sign in to auto-fill your credentials, or create an account.
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                        <button
+                          type="button"
+                          onClick={() => setApplyMode("signin")}
+                          className="rounded-lg bg-[#368B62] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#286d4c] transition-colors cursor-pointer"
+                        >
+                          Sign in
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            closeApply();
+                            openAuth("signup");
+                          }}
+                          className="rounded-lg border border-black/10 bg-white px-3 py-1.5 text-xs font-medium text-[#24332d] hover:bg-slate-50 transition-colors cursor-pointer"
+                        >
+                          Register
+                        </button>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-2.5">
-                      <button onClick={() => { closeApply(); openAuth('signin'); }} className="w-full py-3 bg-[#368B62] hover:bg-[#276647] text-white font-bold rounded-xl transition-colors">Sign in</button>
-                      <button onClick={() => { closeApply(); openAuth('signup'); }} className="w-full py-3 border border-black/5 text-slate-700 font-semibold rounded-xl hover:bg-slate-50 transition-colors">Create a free account</button>
-                    </div>
-                  </motion.div>
-                )}
+                  </div>
 
-                {applyStep === 2 && (
-                  <motion.div key="apply" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
-                    <label className="flex items-start gap-3 cursor-pointer bg-slate-50 border border-black/5 rounded-xl p-4">
-                      <input type="checkbox" checked={applyForm.availabilityConfirmed} onChange={e => setApplyForm(f => ({...f, availabilityConfirmed: e.target.checked}))} className="w-4 h-4 mt-0.5 accent-[#368B62] shrink-0" />
-                      <span className="text-sm text-slate-700">I'm available for the full shift on {applyShift.date}, {applyShift.time}.</span>
+                  {/* Question 1: Availability */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#368B62] text-[10px] font-bold text-white">
+                        1
+                      </span>
+                      Confirm your shift availability <span className="text-rose-500">*</span>
                     </label>
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="apply-note" className="text-xs font-semibold text-slate-700">Note to the facility <span className="text-slate-400 font-normal">(optional)</span></label>
-                      <textarea id="apply-note" value={applyForm.coverNote} maxLength={300} onChange={e => setApplyForm(f => ({...f, coverNote: e.target.value}))} placeholder="Anything they should know?" rows={3} className="px-3.5 py-3 rounded-xl border border-black/5 text-sm outline-none focus:border-[#368B62] transition-colors bg-slate-50 resize-none" />
-                    </div>
-                    <div className="flex gap-3">
-                      <button onClick={closeApply} className="px-5 py-3 rounded-xl border border-black/5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">Cancel</button>
-                      <button onClick={() => setApplyStep(4)} disabled={!applyForm.availabilityConfirmed} className="flex-1 py-3 bg-[#368B62] disabled:opacity-40 hover:bg-[#276647] text-white font-bold rounded-xl transition-colors">Submit application</button>
-                    </div>
-                  </motion.div>
-                )}
+                    <label
+                      className={`flex items-start gap-3 rounded-xl border p-3 cursor-pointer transition-all ${
+                        applyForm.availabilityConfirmed
+                          ? "border-[#368B62] bg-[#368B62]/5"
+                          : "border-black/5 bg-[#f5f8f6] hover:border-black/10"
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={applyForm.availabilityConfirmed}
+                        onChange={(e) =>
+                          setApplyForm((f) => ({ ...f, availabilityConfirmed: e.target.checked }))
+                        }
+                        className="w-4 h-4 mt-0.5 accent-[#368B62] shrink-0 rounded"
+                      />
+                      <div className="text-xs leading-relaxed text-[#24332d]">
+                        <span className="font-semibold text-slate-900">I confirm I am available for this shift:</span>{" "}
+                        {applyShift.date} · {applyShift.time} ({applyShift.facility}, {applyShift.location}).
+                      </div>
+                    </label>
+                  </div>
 
-                {applyStep === 4 && (
-                  <motion.div key="done" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }} className="flex flex-col items-center text-center py-6 space-y-5">
-                    <div className="w-16 h-16 rounded-full bg-[#368B62] flex items-center justify-center"><Check className="w-8 h-8 text-white" strokeWidth={2.5} /></div>
-                    <div className="space-y-1.5">
-                      <h2 className="text-xl font-bold text-slate-900">Thank you for applying.</h2>
-                      <p className="text-sm text-slate-500 max-w-sm">Your application for {applyShift.facility} on {applyShift.date} is complete.</p>
+                  {/* Question 2: Note / Experience for facility */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#368B62] text-[10px] font-bold text-white">
+                          2
+                        </span>
+                        Note or questions for the facility <span className="text-slate-400 font-normal lowercase">(optional)</span>
+                      </label>
+                      <span className="text-[10px] text-slate-400">{applyForm.coverNote.length}/300</span>
                     </div>
-                    <button onClick={closeApply} className="w-full py-3 bg-[#368B62] hover:bg-[#276647] text-white font-bold rounded-xl transition-colors">Back to shifts</button>
+                    <textarea
+                      rows={2}
+                      maxLength={300}
+                      value={applyForm.coverNote}
+                      onChange={(e) => setApplyForm((f) => ({ ...f, coverNote: e.target.value }))}
+                      placeholder="e.g. 5+ years dispensing experience, familiar with Columbus/McLernons dispensing system, own transport..."
+                      className="w-full rounded-xl border border-black/5 bg-[#f5f8f6] px-3.5 py-2 text-xs text-[#24332d] outline-none focus:border-[#368B62] transition-colors resize-none"
+                    />
+                  </div>
+
+                  {/* Quick contact info */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                        Your Name <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={applyForm.firstName}
+                        onChange={(e) => setApplyForm((f) => ({ ...f, firstName: e.target.value }))}
+                        placeholder="Full name"
+                        className="w-full rounded-xl border border-black/5 bg-[#f5f8f6] px-3 py-2 text-xs text-[#24332d] outline-none focus:border-[#368B62]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                        Email or Phone <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={applyForm.email}
+                        onChange={(e) => setApplyForm((f) => ({ ...f, email: e.target.value }))}
+                        placeholder="you@example.com or phone"
+                        className="w-full rounded-xl border border-black/5 bg-[#f5f8f6] px-3 py-2 text-xs text-[#24332d] outline-none focus:border-[#368B62]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={closeApply}
+                      className="px-5 py-2.5 rounded-xl border border-black/5 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setApplyStep(4)}
+                      disabled={
+                        !applyForm.availabilityConfirmed ||
+                        !applyForm.firstName.trim() ||
+                        !applyForm.email.trim()
+                      }
+                      className="flex-1 py-2.5 bg-[#368B62] disabled:opacity-40 hover:bg-[#276647] text-white text-xs font-bold rounded-xl transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+                    >
+                      Submit application
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ── STEP 4: SUCCESS ── */}
+              {applyStep === 4 && (
+                <motion.div
+                  key="step4"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex flex-col items-center text-center py-6 space-y-5"
+                >
+                  <motion.div
+                    className="w-16 h-16 rounded-full bg-[#368B62] flex items-center justify-center"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18, delay: 0.1 }}
+                  >
+                    <Check className="w-8 h-8 text-white" strokeWidth={2.5} />
                   </motion.div>
-                )}
-              </div>
+
+                  <div className="space-y-1.5">
+                    <h2 className="text-xl font-bold text-slate-900">Application submitted!</h2>
+                    <p className="text-slate-500 text-xs max-w-sm mx-auto leading-relaxed">
+                      Your application for{" "}
+                      <span className="font-semibold text-slate-700">
+                        {searchProfession || "Locum Pharmacist"}
+                      </span>{" "}
+                      at <span className="font-semibold text-slate-700">{applyShift.facility}</span> on{" "}
+                      <span className="font-semibold text-slate-700">{applyShift.date}</span> has been sent.
+                    </p>
+                  </div>
+
+                  <div className="w-full bg-slate-50 border border-black/5 rounded-xl p-4 text-left space-y-2.5">
+                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">What happens next?</p>
+                    <div className="space-y-2 text-xs text-slate-600">
+                      <div className="flex items-start gap-2">
+                        <span className="text-base shrink-0">📧</span>
+                        <div>
+                          <p className="font-semibold text-slate-800 text-xs">Confirmation sent</p>
+                          <p className="text-[11px] text-slate-500">
+                            Notification sent to {applyForm.email || "your provided contact"}.
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="text-base shrink-0">🔍</span>
+                        <div>
+                          <p className="font-semibold text-slate-800 text-xs">Coordinator review</p>
+                          <p className="text-[11px] text-slate-500">
+                            The facility will review your availability and get in touch within 24 hours.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Account reminder */}
+                  <div className="w-full rounded-xl border border-[#368B62]/20 bg-[#edf5ef] p-3 text-left flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
+                    <div>
+                      <p className="text-xs font-semibold text-[#24332d]">Unlock instant booking & pay rates</p>
+                      <p className="text-[11px] text-slate-500">
+                        Register for a free MployUs account to view rates and get instant shift approvals.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        closeApply();
+                        openAuth("signup");
+                      }}
+                      className="px-3 py-1.5 bg-[#368B62] text-white text-xs font-semibold rounded-lg hover:bg-[#286d4c] transition-colors shrink-0 self-start sm:self-auto cursor-pointer"
+                    >
+                      Create account
+                    </button>
+                  </div>
+
+                  <div className="flex gap-3 w-full pt-1">
+                    <button
+                      type="button"
+                      onClick={closeApply}
+                      className="flex-1 py-2.5 bg-[#368B62] hover:bg-[#276647] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                    >
+                      Back to shifts
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        closeApply();
+                        goto("find-shifts");
+                      }}
+                      className="flex-1 py-2.5 border border-black/5 text-slate-700 text-xs font-semibold rounded-xl hover:bg-slate-50 transition-colors cursor-pointer"
+                    >
+                      Browse more shifts
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </div>
           </LocumDialog>
         )}
         </>
@@ -1463,9 +1796,9 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         {/* ══ POST FLOW MODAL ══ */}
         {postModalOpen && (
-          <LocumDialog onClose={closePostModal} closeLabel="Close shift posting" title={postSuccess ? "A clearer staffing brief." : "Build your locum brief."} description="The practical details behind a well-covered temporary shift." headline={"Good people.\nBetter-covered teams."} steps={['Cover & urgency', 'Shift details', 'Your facility', 'Review your brief']} currentStep={postSuccess ? 4 : postStep - 1}>
+          <LocumDialog onClose={closePostModal} closeLabel="Close posting preview" title={postSuccess ? "A clearer staffing brief." : "Build your locum brief."} description="The practical details behind a well-covered temporary shift." headline={"Good people.\nBetter-covered teams."} steps={['Cover & urgency', 'Shift details', 'Your facility', 'Review your brief']} currentStep={postSuccess ? 4 : postStep - 1}>
               <div className="px-7 pb-7 pt-5">
-                
+                <p className="mb-5 rounded-xl bg-[#edf4ef] p-3 text-xs leading-5 text-[#53685b]">Guided posting preview. No vacancy is published and no notifications are sent. Use your facility account to manage live postings.</p>
 
                 {/* ── SUCCESS SCREEN ── */}
                 {postSuccess && (
@@ -1480,7 +1813,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         Your shift draft is ready
                       </h2>
                       <p className="text-slate-500 text-sm max-w-sm mx-auto">
-                        {`Your shift brief for ${postForm.profession || 'healthcare professionals'} near ${postForm.town || loc.defaultCity} is complete.`}
+                        {`You have prepared a brief for ${postForm.profession || 'healthcare professionals'} near ${postForm.town || loc.defaultCity}. This preview has not published or submitted it.`}
                       </p>
                     </div>
                     <div className="w-full bg-slate-50 border border-black/5 rounded-xl p-5 text-left space-y-2">
@@ -1533,7 +1866,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                         <div className="flex items-center justify-between p-4 rounded-xl border border-black/5 bg-slate-50">
                           <div>
                             <p className="text-sm font-bold text-slate-900">Mark as urgent</p>
-                            <p className="text-xs text-slate-500 mt-0.5">Flag this shift for last-minute cover.</p>
+                            <p className="text-xs text-slate-500 mt-0.5">Flag this draft for last-minute cover. No alerts are sent in this preview.</p>
                           </div>
                           <button onClick={() => setPostForm(f => ({ ...f, urgent: !f.urgent }))}
                             role="switch" aria-checked={postForm.urgent} aria-label="Mark request as urgent"
@@ -1699,7 +2032,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       <motion.div key="ls4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="space-y-5">
                         <div>
                           <h2 className="text-xl font-bold text-slate-900">Review your shift draft</h2>
-                          <p className="text-sm text-slate-500 mt-1">Check your temporary cover details before posting.</p>
+                          <p className="text-sm text-slate-500 mt-1">Check your temporary cover details. This preview does not publish a shift.</p>
                         </div>
                         <div className="bg-green-50 border border-black/5 rounded-xl px-4 py-3 flex items-center justify-between gap-4">
                           <div>
@@ -1868,7 +2201,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     </div>
                     <div className="bg-[#368B62] rounded-2xl p-5 space-y-3">
                       <p className="text-white font-bold text-sm leading-snug">Find locum shifts near you</p>
-                      <p className="text-white/70 text-xs leading-relaxed">Verified opportunities. Account-only shift pay. Region-aware support.</p>
+                      <p className="text-white/70 text-xs leading-relaxed">Preview opportunities. Account-only shift pay. Region-aware support.</p>
                       <button onClick={() => { setBlogPost(null); goto('find-shifts'); }}
                         className="w-full py-2.5 bg-white text-[#368B62] font-bold text-xs rounded-xl flex items-center justify-center gap-1.5">
                         Browse shifts <ArrowRight className="w-3.5 h-3.5" />
@@ -2208,13 +2541,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </div>
             <div>
               <h4 className="text-sm font-bold text-slate-900">Cookie preferences</h4>
-              <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Optional preferences are off until you choose. <Link to="/policies/cookies" className="underline">Cookie policy</Link></p>
+              <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Optional preferences are off until you choose. This preview has no analytics or advertising integration. <Link to="/policies/cookies" className="underline">Cookie policy</Link></p>
             </div>
           </div>
           {cookiePrefsOpen && (
             <LocumDialog onClose={() => setCookiePrefsOpen(false)} closeLabel="Close cookie preferences" title="Your visit. Your choice." description="Choose what you’re comfortable with. Optional preferences remain off until you choose them." headline={"A considered visit.\nA choice that’s yours."}>
               <div className="space-y-5 p-7">
-                <p className="text-sm leading-7 text-slate-500">Necessary preferences support the requested experience. Optional switches record your choices.</p>
+                <p className="text-sm leading-7 text-slate-500">Necessary preferences support the requested experience. This preview has no analytics or advertising integration; optional switches record your choices only.</p>
                 <div className="space-y-3">
                   {([
                     { key: 'necessary', label: 'Necessary', detail: 'Essential settings and your saved consent choice. Always on.', locked: true },

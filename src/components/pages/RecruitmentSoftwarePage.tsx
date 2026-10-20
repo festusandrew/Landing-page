@@ -302,7 +302,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
             <motion.div {...reveal} className="product-reference-dashboard">
               <img
                 src={recruitmentDashboard}
-                alt="Recruitment dashboard showing applications, vacancies and hiring activity"
+                alt="Recruitment dashboard preview showing applications, vacancies and hiring activity"
               />
             </motion.div>
           </div>
@@ -398,6 +398,8 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> =
                 </div>
                 <p className="max-w-sm text-sm leading-7 text-[#68716c]">
                   Explore a few everyday workflows.
+                  <br />
+                  Sample candidates only — not live applications.
                 </p>
               </div>
               <div className="rounded-2xl border border-black/5 bg-[#f0f1ff] p-4 sm:p-7 lg:order-1">

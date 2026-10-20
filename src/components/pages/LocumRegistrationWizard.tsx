@@ -256,7 +256,7 @@ export function LocumRegistrationWizard({
       closeLabel="Close locum registration"
       title={
         done
-          ? "Thank you for registering."
+          ? "Your registration preview is ready."
           : [
               "Your role. Your registration.",
               "A few personal details.",
@@ -267,7 +267,7 @@ export function LocumRegistrationWizard({
       }
       description={
         done
-          ? "Your registration and eligibility will be checked before your first booking."
+          ? "No account has been created. Your registration and eligibility remain unverified."
           : step === 0
             ? "Choose where you’ll work and what you do. Your registration requirements update automatically."
             : `${meta.name} · ${profession.name}`
@@ -280,11 +280,13 @@ export function LocumRegistrationWizard({
         <div className="space-y-5 px-7 py-9">
           <CheckCircle2 className="mx-auto size-14 text-[#368B62]" />
           <h3 className="text-center text-2xl font-medium">
-            Registration complete
+            Registration preview complete
           </h3>
           <p className="text-center text-sm leading-7 text-slate-500">
             Thanks {form.fullName?.split(" ")[0] || "there"}. Your{" "}
-            {profession.name} details for {meta.name} are complete.
+            {profession.name} details for {meta.name} have been prepared
+            locally. Nothing has been submitted or checked against a live
+            register.
           </p>
           <div className="space-y-3 rounded-xl bg-[#edf4ef] p-5">
             <p className="text-sm font-semibold">Verification still required</p>
@@ -296,8 +298,8 @@ export function LocumRegistrationWizard({
               Before any placement, an authorised reviewer must confirm current
               registration/training status, identity, scope, restrictions, right
               to work and the applicable safeguarding and qualification checks.
-              Registration alone does not grant a verified badge or permission
-              to practise.
+              This preview does not grant a verified badge or permission to
+              practise.
             </p>
           </div>
           <button onClick={onClose} className={`w-full ${primaryBtn}`}>
@@ -458,7 +460,8 @@ export function LocumRegistrationWizard({
                           id="locum-registration-help"
                           className="mt-2 text-xs leading-6 text-slate-500"
                         >
-                          Issuing / reviewing body: {field.body}.
+                          Issuing / reviewing body: {field.body}. This field is
+                          collected, not verified.
                         </p>
                         <a
                           href={field.url}
@@ -592,7 +595,7 @@ export function LocumRegistrationWizard({
                   </select>
                 </label>
                 <label className={labelCls}>
-                  {meta.payrollId} (optional)
+                  {meta.payrollId} (optional in this preview)
                   <Field icon={IdCard}>
                     <input
                       value={form.nationalId || ""}
@@ -866,8 +869,8 @@ export function LocumRegistrationWizard({
                     >
                       Privacy Policy
                     </Link>
-                    . I understand registration does not by itself authorise
-                    practice.
+                    . I understand this preview performs no live verification
+                    and does not authorise practice.
                   </span>
                 </label>
               </div>
@@ -893,7 +896,7 @@ export function LocumRegistrationWizard({
               className={`flex-1 ${primaryBtn}`}
             >
               {step === STEPS.length - 1
-                ? "Complete registration"
+                ? "Prepare registration preview"
                 : "Continue"}
               <ChevronRight size={16} />
             </button>

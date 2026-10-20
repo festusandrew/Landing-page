@@ -57,6 +57,8 @@ export const Footer: React.FC<FooterProps> = ({
     "font-['Plus_Jakarta_Sans:Bold',sans-serif] text-xs font-bold uppercase leading-4 tracking-[0.6px] text-[#0f172b]"
   const smallLinkClass =
     "inline-flex max-w-full items-center gap-1 text-left font-['Plus_Jakarta_Sans:Regular',sans-serif] text-xs font-normal leading-4 text-[#45556c] transition-colors hover:text-[#368B62] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-black/5"
+  const productLinkClass =
+    "inline-flex max-w-full text-left font-['Plus_Jakarta_Sans:Medium',sans-serif] text-base font-medium leading-6 text-[#45556c] transition-colors hover:text-[#368B62]"
   const renderLink = (link: FooterLink, className = smallLinkClass) =>
     link.href ? (
       <Link to={link.href} className={className}>
@@ -114,7 +116,7 @@ export const Footer: React.FC<FooterProps> = ({
                     onClick: () => onNavigate("care-management"),
                   },
                 ].map((link) => (
-                  <li key={link.label}>{renderLink(link)}</li>
+                  <li key={link.label}>{renderLink(link, productLinkClass)}</li>
                 ))}
               </ul>
             </nav>
@@ -139,7 +141,7 @@ export const Footer: React.FC<FooterProps> = ({
                     onClick: () => onNavigate("web-development"),
                   },
                 ].map((link) => (
-                  <li key={link.label}>{renderLink(link)}</li>
+                  <li key={link.label}>{renderLink(link, productLinkClass)}</li>
                 ))}
               </ul>
             </nav>

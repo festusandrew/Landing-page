@@ -1,10 +1,15 @@
 {
-  "description": "Streamline job recruitment by connecting employers with candidates through an intuitive platform that simplifies the hiring process.",
+  "title": "MployUs | Healthcare Recruitment, Locum Staffing & Care Management",
+  "description": "Connecting healthcare employers with verified professionals across Ireland and the UK. Streamlined locum provision, permanent recruitment, and modern care management software.",
+  "language": "en",
   "robots": {
-    "index": false
+    "index": true
+  },
+  "icons": {
+    "icon": "/favicon.svg"
   },
   "accessibility": {
-    "addBypassLinks": false,
+    "addBypassLinks": true,
     "ignoreReducedMotion": false
   }
 }

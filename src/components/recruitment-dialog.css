@@ -8,13 +8,6 @@
   --recruit-border: rgb(0 0 0 / 5%);
 }
 .recruit-dialog-overlay { position: fixed; inset: 0; z-index: 120; background: rgb(30 26 28 / 42%); backdrop-filter: blur(5px); animation: recruit-fade .2s ease-out; }
-/* Page tones: same reference layout, each page's brand colour. */
-:is(.recruit-dialog-overlay,.recruit-dialog).recruit-tone-navy { --recruit-brand: #0E162A; --recruit-tint: #eef1f6; }
-:is(.recruit-dialog-overlay,.recruit-dialog).recruit-tone-green { --recruit-brand: #368B62; --recruit-tint: #edf5ef; }
-:is(.recruit-dialog-overlay,.recruit-dialog).recruit-tone-blue { --recruit-brand: #1D4ED8; --recruit-tint: #eef3fe; }
-.recruit-dialog-overlay.recruit-tone-navy { background: rgb(14 22 42 / 42%); }
-.recruit-dialog-overlay.recruit-tone-green { background: rgb(17 32 24 / 42%); }
-.recruit-dialog-overlay.recruit-tone-blue { background: rgb(15 23 60 / 42%); }
 .recruit-dialog {
   position: fixed;
   left: 50%;

@@ -54,7 +54,7 @@ export function LocumJobDetails({
   return (
     <section className="min-w-0 space-y-4" aria-label="Selected locum shift">
       <div className="flex items-center justify-between gap-3 text-[10px] text-slate-500">
-        <span>Shift · {reference}</span>
+        <span>Sample shift · {reference}</span>
         <span>{region}</span>
       </div>
       <h2 className="text-2xl font-medium leading-tight text-[#24332d]">
@@ -233,14 +233,15 @@ export function LocumJobDetails({
           </div>
         )}
         <p className="border-t border-black/5 px-5 py-3 text-[10px] leading-5 text-slate-500">
-          General area only. Confirm the exact
+          General area only, not a verified workplace address. Confirm the exact
           location and arrival instructions with the facility. Map ©
           OpenStreetMap contributors.
         </p>
       </section>
       <p className="text-[10px] leading-5 text-slate-500">
-        Confirm current availability, pay, duties, registration and booking
-        terms before accepting a shift.
+        Preview listing, not a verified live vacancy. Confirm current
+        availability, pay, duties, registration and booking terms before
+        accepting a shift.
       </p>
     </section>
   )
