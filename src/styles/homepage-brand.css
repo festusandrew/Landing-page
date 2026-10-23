@@ -71,12 +71,21 @@
   background-color: var(--homepage-selection);
 }
 .homepage-magenta .homepage-hero-glow {
-  background-image: radial-gradient(
-    ellipse at 50% 85%,
-    rgb(14 22 42 / 16%) 0%,
-    rgb(14 22 42 / 7%) 40%,
-    rgb(255 255 255 / 0%) 72%
-  );
+  background-image:
+    radial-gradient(
+      ellipse 56% 78% at 50% 105%,
+      color-mix(in srgb, var(--homepage-accent) 34%, transparent) 0%,
+      color-mix(in srgb, var(--homepage-accent) 20%, transparent) 36%,
+      color-mix(in srgb, var(--homepage-accent) 8%, transparent) 62%,
+      transparent 82%
+    ),
+    radial-gradient(
+      ellipse 78% 70% at 50% 105%,
+      color-mix(in srgb, var(--homepage-soft) 85%, transparent) 0%,
+      color-mix(in srgb, var(--homepage-tint) 65%, transparent) 50%,
+      transparent 100%
+    );
+  transform-origin: 50% 100%;
 }
 .homepage-magenta .homepage-service-overlay {
   background-image: linear-gradient(to top, rgb(14 22 42 / 95%), rgb(14 22 42 / 20%), transparent);
@@ -91,7 +100,7 @@
   --homepage-muted: #68736e;
 }
 #overview.homepage-magenta #homepage-hero-heading {
-  color: #352331;
+  color: var(--homepage-accent);
 }
 #overview.homepage-magenta .homepage-service-overlay {
   background-image: linear-gradient(
@@ -134,12 +143,25 @@
 .homepage-hero-description {
   margin-block-start: calc(var(--spacing) * 4);
 }
+.homepage-magenta .homepage-hero-description {
+  color: var(--homepage-ink);
+}
 .homepage-hero-actions {
   margin-block-start: calc(var(--spacing) * 8);
 }
 .homepage-hero-actions button {
   min-block-size: calc(var(--spacing) * 11);
   padding: calc(var(--spacing) * 3) calc(var(--spacing) * 5);
+}
+/* Keep focused content visible even if its scroll entrance has not completed. */
+#overview [data-home-reveal]:focus-within {
+  opacity: 1 !important;
+}
+@media print {
+  #overview [data-home-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 @media (max-width: 40rem) {
   .homepage-hero {
@@ -190,7 +212,7 @@
 }
 @media (min-width: 1440px) {
   #overview #homepage-hero-heading + p {
-    color: #766b73;
+    color: var(--homepage-ink);
   }
   #overview section[aria-label="Our healthcare services"] > button {
     min-height: 540.845px;

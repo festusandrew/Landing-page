@@ -1,6 +1,14 @@
 import React, { lazy, Suspense, useState } from "react"
 import { createBrowserRouter, Link, RouterProvider, useLocation, useNavigate } from "react-router"
-import { MotionConfig } from "motion/react"
+import {
+  AnimatePresence,
+  domAnimation,
+  LazyMotion,
+  m as motion,
+  MotionConfig,
+  useReducedMotion,
+  type Variants,
+} from "motion/react"
 import {
   ArrowUpRight,
   ArrowRight,
@@ -154,6 +162,20 @@ const solutions = [
   },
 ]
 
+const homepageEase = [0.22, 1, 0.36, 1] as const
+const homepageHeroSequence: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.08 } },
+}
+const homepageHeroItem: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: homepageEase },
+  },
+}
+
 function LandingPage({
   onNavigate,
   onBookDemo,
@@ -163,7 +185,23 @@ function LandingPage({
   onBookDemo: () => void
   onStartTrial: () => void
 }) {
+  const reducedMotion = useReducedMotion() !== false
   const [openFaq, setOpenFaq] = useState<number | null>(0)
+  const reveal = (delay = 0) => ({
+    "data-home-reveal": "",
+    initial: reducedMotion ? (false as const) : { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "0px 0px -48px 0px" as const },
+    transition: {
+      duration: reducedMotion ? 0 : 0.6,
+      delay: reducedMotion ? 0 : delay,
+      ease: homepageEase,
+    },
+  })
+  const buttonMotion = {
+    whileHover: reducedMotion ? undefined : { y: -3, transition: { duration: 0.18 } },
+    whileTap: reducedMotion ? undefined : { scale: 0.98, transition: { duration: 0.1 } },
+  }
   const primaryButton =
     "inline-flex items-center justify-center gap-3 rounded-lg bg-[#368B62] px-6 py-3.5 text-control font-semibold text-white transition-colors hover:bg-[#286d4c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]"
   const secondaryButton =
@@ -216,387 +254,449 @@ function LandingPage({
     ],
   ]
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+    document.getElementById(id)?.scrollIntoView({
+      behavior: reducedMotion ? "auto" : "smooth",
+    })
   }
   return (
-    <div
-      id="overview"
-      className="homepage-magenta bg-white font-sans text-[#233b35] selection:bg-[#dfeee4] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none"
-    >
-      <div className="homepage-intro bg-white">
-        <div className="homepage-header relative bg-white">
-          <Navbar
-            embedded
-            onNavigate={onNavigate}
-            onBookDemo={onBookDemo}
-            onStartTrial={onStartTrial}
-          />
+    <LazyMotion features={domAnimation} strict>
+      <div
+        id="overview"
+        className="homepage-magenta bg-white font-sans text-[#233b35] selection:bg-[#dfeee4] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none"
+      >
+        <div className="homepage-intro bg-white">
+          <div className="homepage-header relative bg-white">
+            <Navbar
+              embedded
+              onNavigate={onNavigate}
+              onBookDemo={onBookDemo}
+              onStartTrial={onStartTrial}
+            />
+          </div>
+
+          <section
+            aria-labelledby="homepage-hero-heading"
+            className="homepage-hero relative isolate overflow-hidden px-6 text-center"
+          >
+            <motion.div
+              aria-hidden="true"
+              className="homepage-hero-glow pointer-events-none absolute inset-0 -z-10"
+              initial={reducedMotion ? false : { opacity: 0.55, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: reducedMotion ? 0 : 1.2, ease: homepageEase }}
+            />
+            <motion.div
+              className="mx-auto w-full max-w-[1500px]"
+              variants={reducedMotion ? undefined : homepageHeroSequence}
+              initial={reducedMotion ? false : "hidden"}
+              animate={reducedMotion ? undefined : "visible"}
+            >
+              <motion.div
+                variants={homepageHeroItem}
+                className="homepage-hero-trust flex flex-wrap items-center justify-center gap-4"
+              >
+                <div className="flex -space-x-[13px]" aria-hidden="true">
+                  <img
+                    src={trustedTeamOne}
+                    alt=""
+                    className="h-[43.327px] w-[43.327px] -scale-x-100 rounded-full object-cover"
+                  />
+                  <img
+                    src={trustedTeamTwo}
+                    alt=""
+                    className="h-[43.327px] w-[43.327px] rounded-full object-cover"
+                  />
+                  <span className="relative h-[43.327px] w-[43.327px] overflow-hidden rounded-full">
+                    <img
+                      src={trustedTeamThree}
+                      alt=""
+                      className="absolute -top-[8.08%] left-[-0.56%] h-[150%] w-full object-cover"
+                    />
+                  </span>
+                </div>
+                <p className="flex flex-wrap items-center justify-center gap-3 font-sans text-lead font-normal text-[#475569]">
+                  Trusted by{" "}
+                  <strong className="font-sans text-stat font-semibold tracking-tight text-[#0f172a]">
+                    2K+
+                  </strong>{" "}
+                  teams
+                </p>
+              </motion.div>
+              <motion.h1
+                variants={homepageHeroItem}
+                id="homepage-hero-heading"
+                className="font-display text-hero font-normal"
+              >
+                Better people. Better care.
+                <br />
+                All connected<span className="text-[#368B62]">.</span>
+              </motion.h1>
+              <motion.p
+                variants={homepageHeroItem}
+                className="homepage-hero-description mx-auto max-w-3xl font-sans text-lead font-normal text-[#68736e]"
+              >
+                Recruitment, locum staffing and care management — brought together. <br />
+                So you can focus on what matters most: people.
+              </motion.p>
+              <motion.div
+                variants={homepageHeroItem}
+                data-home-reveal=""
+                className="homepage-hero-actions flex flex-wrap justify-center gap-3"
+              >
+                <motion.button {...buttonMotion} onClick={onBookDemo} className={primaryButton}>
+                  Book a demo <ArrowUpRight size={16} />
+                </motion.button>
+                <motion.button
+                  {...buttonMotion}
+                  onClick={() => scrollTo("solutions")}
+                  className={secondaryButton}
+                >
+                  Explore our solutions
+                </motion.button>
+              </motion.div>
+            </motion.div>
+          </section>
         </div>
 
-        <section
-          aria-labelledby="homepage-hero-heading"
-          className="homepage-hero relative isolate overflow-hidden px-6 text-center"
-        >
-          <div
-            aria-hidden="true"
-            className="homepage-hero-glow pointer-events-none absolute inset-0 -z-10"
-          />
-          <div className="mx-auto w-full max-w-[1500px]">
-            <div className="homepage-hero-trust flex flex-wrap items-center justify-center gap-4">
-              <div className="flex -space-x-[13px]" aria-hidden="true">
-                <img
-                  src={trustedTeamOne}
-                  alt=""
-                  className="h-[43.327px] w-[43.327px] -scale-x-100 rounded-full object-cover"
-                />
-                <img
-                  src={trustedTeamTwo}
-                  alt=""
-                  className="h-[43.327px] w-[43.327px] rounded-full object-cover"
-                />
-                <span className="relative h-[43.327px] w-[43.327px] overflow-hidden rounded-full">
+        <section aria-label="Our healthcare services" className="grid gap-[3px] sm:grid-cols-3">
+          {photos.map((photo, index) => (
+            <motion.button
+              {...reveal(index * 0.1)}
+              {...buttonMotion}
+              key={photo.id}
+              onClick={() => onNavigate(photo.id)}
+              className="group relative min-h-[350px] overflow-hidden text-left md:min-h-[400px]"
+            >
+              <img
+                src={photo.image}
+                alt={photo.alt}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transform-none"
+              />
+              <div className="homepage-service-overlay absolute inset-0" />
+              <div className="absolute bottom-0 left-0 right-0 p-7 text-white lg:p-10">
+                <span className={`mb-5 inline-block h-1 w-8 ${photo.tint}`} />
+                <p className="mb-3 text-eyebrow font-medium text-white/80">{photo.category}</p>
+                <h2 className="whitespace-pre-line font-display text-card-display font-normal">
+                  {photo.title}
+                </h2>
+                <div className="mt-6 flex items-center justify-between text-caption">
+                  <span>{photo.label}</span>
                   <img
-                    src={trustedTeamThree}
+                    src={HOME_VISUALS.photoArrows[index]}
                     alt=""
-                    className="absolute -top-[8.08%] left-[-0.56%] h-[150%] w-full object-cover"
+                    className="shrink-0 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
                   />
-                </span>
+                </div>
               </div>
-              <p className="flex flex-wrap items-center justify-center gap-3 font-sans text-lead font-normal text-[#475569]">
-                Trusted by{" "}
-                <strong className="font-sans text-stat font-semibold tracking-tight text-[#0f172a]">
-                  2K+
-                </strong>{" "}
-                teams
-              </p>
+            </motion.button>
+          ))}
+        </section>
+
+        <section id="about" className="mx-auto max-w-[1568.451px] px-6 py-16 md:py-20">
+          <motion.div {...reveal()} className="grid gap-8 md:grid-cols-2 md:gap-20">
+            <div>
+              <p className="mb-4 text-eyebrow font-semibold text-[#368B62]">MEET MPLOYUS</p>
+              <h2 className="font-display text-section font-normal">
+                Healthcare works better
+                <br />
+                when we work together.
+              </h2>
             </div>
-            <h1 id="homepage-hero-heading" className="font-display text-hero font-normal">
-              Better people. Better care.
-              <br />
-              All connected<span className="text-[#368B62]">.</span>
-            </h1>
-            <p className="homepage-hero-description mx-auto max-w-3xl font-sans text-lead font-normal text-[#68736e]">
-              Recruitment, locum staffing and care management — brought together. <br />
-              So you can focus on what matters most: people.
-            </p>
-            <div className="homepage-hero-actions flex flex-wrap justify-center gap-3">
-              <button onClick={onBookDemo} className={primaryButton}>
-                Book a demo <ArrowUpRight size={16} />
+            <div className="pt-2 text-body text-[#68736e]">
+              <p>
+                Great care starts with great people. But finding them, supporting them and managing
+                the everyday shouldn’t stand in the way.
+              </p>
+              <p className="mt-4">
+                MployUs brings your people and processes together. One connected partner for the way
+                healthcare works today — and where it goes tomorrow.
+              </p>
+              <button
+                onClick={onBookDemo}
+                className="mt-5 flex items-center gap-2 font-semibold text-[#233b35] hover:text-[#368B62]"
+              >
+                Let’s talk about your team <ArrowRight size={15} />
               </button>
-              <button onClick={() => scrollTo("solutions")} className={secondaryButton}>
-                Explore our solutions
+            </div>
+          </motion.div>
+        </section>
+
+        <section id="solutions" className="bg-[#f6f7f3] py-16 md:py-24">
+          <div className="mx-auto grid max-w-[1568.451px] gap-12 px-6 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
+            <motion.div {...reveal()} className="lg:pt-3">
+              <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">
+                ONE PARTNER. MORE POSSIBILITIES.
+              </p>
+              <h2 className="font-display text-section font-normal">
+                Everything you need.
+                <br />
+                Better, together.
+              </h2>
+              <p className="mt-6 max-w-sm text-body text-[#68736e]">
+                Find your next team member. Cover your next shift. Simplify your care operations.
+                Choose what you need, and we’ll help you move forward.
+              </p>
+              <button onClick={onBookDemo} className={`${primaryButton} mt-7`}>
+                Find your solution <ArrowUpRight size={15} />
               </button>
+              <p className="mt-5 text-caption text-[#7b837e]">
+                A real conversation. A solution that fits.
+              </p>
+            </motion.div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {solutions.map((solution, solutionIndex) => (
+                <motion.article
+                  {...reveal(solutionIndex * 0.06)}
+                  whileHover={reducedMotion ? undefined : { y: -4, transition: { duration: 0.2 } }}
+                  key={solution.id}
+                  className="group flex flex-col rounded-lg border border-black/5 bg-white p-7 transition-colors hover:bg-[#fdfefc]"
+                >
+                  <div
+                    className={`mb-5 flex h-10 w-10 items-center justify-center rounded-lg ${solution.background} ${solution.color}`}
+                  >
+                    <img
+                      src={HOME_VISUALS.solutions[solutionIndex].icon}
+                      alt=""
+                      className="shrink-0"
+                    />
+                  </div>
+                  <h3 className="text-title font-semibold font-sans">{solution.name}</h3>
+                  <p className="mb-5 mt-3 text-body text-[#68736e]">{solution.description}</p>
+                  <ul className="mb-7 space-y-3">
+                    {solution.features.map((feature, featureIndex) => (
+                      <li
+                        key={feature}
+                        className="flex items-start gap-2 text-control text-[#68736e]"
+                      >
+                        <img
+                          src={HOME_VISUALS.solutions[solutionIndex].checks[featureIndex]}
+                          alt=""
+                          className="mt-1 shrink-0"
+                        />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    onClick={() => onNavigate(solution.id)}
+                    className="mt-auto flex items-center gap-2 text-control font-semibold"
+                  >
+                    Explore {solution.name.toLowerCase()}{" "}
+                    <img
+                      src={HOME_VISUALS.solutions[solutionIndex].arrow}
+                      alt=""
+                      className="shrink-0 transition-transform group-hover:translate-x-1"
+                    />
+                  </button>
+                </motion.article>
+              ))}
             </div>
           </div>
         </section>
-      </div>
 
-      <section aria-label="Our healthcare services" className="grid gap-[3px] sm:grid-cols-3">
-        {photos.map((photo, index) => (
-          <button
-            key={photo.id}
-            onClick={() => onNavigate(photo.id)}
-            className="group relative min-h-[350px] overflow-hidden text-left md:min-h-[400px]"
-          >
-            <img
-              src={photo.image}
-              alt={photo.alt}
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transform-none"
-            />
-            <div className="homepage-service-overlay absolute inset-0" />
-            <div className="absolute bottom-0 left-0 right-0 p-7 text-white lg:p-10">
-              <span className={`mb-5 inline-block h-1 w-8 ${photo.tint}`} />
-              <p className="mb-3 text-eyebrow font-medium text-white/80">{photo.category}</p>
-              <h2 className="whitespace-pre-line font-display text-card-display font-normal">
-                {photo.title}
-              </h2>
-              <div className="mt-6 flex items-center justify-between text-caption">
-                <span>{photo.label}</span>
-                <img
-                  src={HOME_VISUALS.photoArrows[index]}
-                  alt=""
-                  className="shrink-0 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
-                />
+        <section
+          id="how-it-works"
+          aria-labelledby="how-it-works-heading"
+          className="scroll-mt-6 bg-[#e9f0e7] py-16 md:py-[108.169px]"
+        >
+          <div className="mx-auto max-w-[1568.451px] px-6 md:px-[32.451px]">
+            <motion.div {...reveal()} className="flex flex-wrap items-end justify-between gap-8">
+              <div>
+                <p className="font-sans text-eyebrow font-semibold text-[#368B62]">
+                  A LITTLE LESS COMPLEXITY
+                </p>
+                <h2
+                  id="how-it-works-heading"
+                  className="mt-[21.634px] font-display text-section font-normal"
+                >
+                  More connected.
+                  <br />
+                  More time for care.
+                </h2>
               </div>
-            </div>
-          </button>
-        ))}
-      </section>
-
-      <section id="about" className="mx-auto max-w-[1568.451px] px-6 py-16 md:py-20">
-        <div className="grid gap-8 md:grid-cols-2 md:gap-20">
-          <div>
-            <p className="mb-4 text-eyebrow font-semibold text-[#368B62]">MEET MPLOYUS</p>
-            <h2 className="font-display text-section font-normal">
-              Healthcare works better
-              <br />
-              when we work together.
-            </h2>
-          </div>
-          <div className="pt-2 text-body text-[#68736e]">
-            <p>
-              Great care starts with great people. But finding them, supporting them and managing
-              the everyday shouldn’t stand in the way.
-            </p>
-            <p className="mt-4">
-              MployUs brings your people and processes together. One connected partner for the way
-              healthcare works today — and where it goes tomorrow.
-            </p>
-            <button
-              onClick={onBookDemo}
-              className="mt-5 flex items-center gap-2 font-semibold text-[#233b35] hover:text-[#368B62]"
-            >
-              Let’s talk about your team <ArrowRight size={15} />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section id="solutions" className="bg-[#f6f7f3] py-16 md:py-24">
-        <div className="mx-auto grid max-w-[1568.451px] gap-12 px-6 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
-          <div className="lg:pt-3">
-            <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">
-              ONE PARTNER. MORE POSSIBILITIES.
-            </p>
-            <h2 className="font-display text-section font-normal">
-              Everything you need.
-              <br />
-              Better, together.
-            </h2>
-            <p className="mt-6 max-w-sm text-body text-[#68736e]">
-              Find your next team member. Cover your next shift. Simplify your care operations.
-              Choose what you need, and we’ll help you move forward.
-            </p>
-            <button onClick={onBookDemo} className={`${primaryButton} mt-7`}>
-              Find your solution <ArrowUpRight size={15} />
-            </button>
-            <p className="mt-5 text-caption text-[#7b837e]">
-              A real conversation. A solution that fits.
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {solutions.map((solution, solutionIndex) => (
-              <article
-                key={solution.id}
-                className="group flex flex-col rounded-lg border border-black/5 bg-white p-7 transition-colors hover:bg-[#fdfefc]"
-              >
-                <div
-                  className={`mb-5 flex h-10 w-10 items-center justify-center rounded-lg ${solution.background} ${solution.color}`}
-                >
-                  <img
-                    src={HOME_VISUALS.solutions[solutionIndex].icon}
-                    alt=""
-                    className="shrink-0"
-                  />
-                </div>
-                <h3 className="text-title font-semibold font-sans">{solution.name}</h3>
-                <p className="mb-5 mt-3 text-body text-[#68736e]">{solution.description}</p>
-                <ul className="mb-7 space-y-3">
-                  {solution.features.map((feature, featureIndex) => (
-                    <li
-                      key={feature}
-                      className="flex items-start gap-2 text-control text-[#68736e]"
-                    >
-                      <img
-                        src={HOME_VISUALS.solutions[solutionIndex].checks[featureIndex]}
-                        alt=""
-                        className="mt-1 shrink-0"
-                      />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={() => onNavigate(solution.id)}
-                  className="mt-auto flex items-center gap-2 text-control font-semibold"
-                >
-                  Explore {solution.name.toLowerCase()}{" "}
-                  <img
-                    src={HOME_VISUALS.solutions[solutionIndex].arrow}
-                    alt=""
-                    className="shrink-0 transition-transform group-hover:translate-x-1"
-                  />
-                </button>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="how-it-works"
-        aria-labelledby="how-it-works-heading"
-        className="scroll-mt-6 bg-[#e9f0e7] py-16 md:py-[108.169px]"
-      >
-        <div className="mx-auto max-w-[1568.451px] px-6 md:px-[32.451px]">
-          <div className="flex flex-wrap items-end justify-between gap-8">
-            <div>
-              <p className="font-sans text-eyebrow font-semibold text-[#368B62]">
-                A LITTLE LESS COMPLEXITY
-              </p>
-              <h2
-                id="how-it-works-heading"
-                className="mt-[21.634px] font-display text-section font-normal"
-              >
-                More connected.
+              <p className="max-w-[519.211px] font-sans text-lead font-normal text-[#68736e]">
+                Healthcare is human. Your systems should be too.
                 <br />
-                More time for care.
+                We make the complicated feel a little simpler.
+              </p>
+            </motion.div>
+            <div className="mt-8 grid gap-[20.282px] md:grid-cols-3">
+              {[
+                {
+                  number: "01",
+                  title: "Start with your people",
+                  body: "Tell us about your team, your challenges and what better looks like for you.",
+                },
+                {
+                  number: "02",
+                  title: "Find your perfect fit",
+                  body: "We connect you with the right service, software or healthcare professional.",
+                },
+                {
+                  number: "03",
+                  title: "Move forward, together",
+                  body: "Get practical support from people who understand your world.",
+                },
+              ].map((step, index) => (
+                <motion.article
+                  {...reveal(index * 0.08)}
+                  key={step.number}
+                  className="min-w-0 border-t border-black/5 pt-8 lg:pt-[51.19px]"
+                >
+                  <p
+                    aria-hidden="true"
+                    className="font-sans text-step font-semibold text-[#368B62]/10"
+                  >
+                    {step.number}
+                  </p>
+                  <h3 className="font-sans text-title font-semibold text-[#0f172a]">
+                    {step.title}
+                  </h3>
+                  <p className="mt-[21.938px] font-sans text-body font-normal text-[#62748e]">
+                    {step.body}
+                  </p>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto grid max-w-[1568.451px] items-center gap-10 px-6 py-20 md:grid-cols-2 md:gap-20">
+          <motion.div {...reveal()} className="relative overflow-hidden rounded-lg">
+            <img
+              src={photos[0].image}
+              alt="A healthcare professional ready to support your team"
+              loading="lazy"
+              className="h-[380px] w-full object-cover object-top"
+            />
+            <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-[#fffffff2] p-5">
+              <p className="text-eyebrow font-semibold text-[#368B62]">
+                FOR THE PEOPLE BEHIND THE CARE
+              </p>
+              <p className="mt-2 font-display text-lead">Your next chapter starts here.</p>
+            </div>
+          </motion.div>
+          <motion.div {...reveal(0.1)}>
+            <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">
+              HEALTHCARE PROFESSIONALS
+            </p>
+            <h2 className="font-display text-section font-normal">
+              A career that cares
+              <br />
+              for you, too.
+            </h2>
+            <p className="mt-5 text-body text-[#68736e]">
+              Looking for your next permanent role or the flexibility of locum work? We’ll help you
+              find opportunities that fit your skills, your ambitions and your life.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <motion.button
+                {...buttonMotion}
+                onClick={() => onNavigate("recruitment-service")}
+                className="inline-flex items-center gap-3 rounded-lg bg-[#368B62] px-6 py-3.5 text-control font-semibold text-white transition-colors hover:bg-[#286d4c]"
+              >
+                Explore opportunities <ArrowUpRight size={15} />
+              </motion.button>
+              <motion.button
+                {...buttonMotion}
+                onClick={() => onNavigate("locum-provision")}
+                className={secondaryButton}
+              >
+                Become a locum
+              </motion.button>
+            </div>
+          </motion.div>
+        </section>
+
+        <section id="questions" className="border-t border-black/5 bg-[#fafaf8] py-16 md:py-20">
+          <motion.div
+            {...reveal()}
+            className="mx-auto grid max-w-[1568.451px] gap-10 px-6 md:grid-cols-[1fr_1.4fr] md:gap-20"
+          >
+            <div>
+              <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">GOOD TO KNOW</p>
+              <h2 className="font-display text-section font-normal">
+                A few questions.
+                <br />
+                Clear answers.
+              </h2>
+              <button
+                onClick={onBookDemo}
+                className="mt-7 flex items-center gap-2 text-control font-semibold"
+              >
+                Talk to our team <ArrowRight size={15} />
+              </button>
+            </div>
+            <div>
+              {faqs.map(([question, answer], index) => (
+                <div key={question} className="border-b border-black/5">
+                  <button
+                    aria-expanded={openFaq === index}
+                    aria-controls={`faq-${index}`}
+                    onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                    className="flex w-full items-center justify-between gap-5 py-5 text-left text-control font-medium"
+                  >
+                    {question}
+                    {openFaq === index ? (
+                      <Minus size={16} className="shrink-0 text-[#368B62]" />
+                    ) : (
+                      <Plus size={16} className="shrink-0" />
+                    )}
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {openFaq === index && (
+                      <motion.div
+                        key={question}
+                        id={`faq-${index}`}
+                        initial={reducedMotion ? false : { height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: reducedMotion ? 0 : 0.24, ease: homepageEase }}
+                        className="overflow-hidden"
+                      >
+                        <p className="pb-5 pr-8 text-body text-[#68736e]">{answer}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </section>
+
+        <section className="bg-[#173e30] py-16 md:py-20">
+          <motion.div
+            {...reveal()}
+            className="mx-auto flex max-w-[1568.451px] min-w-0 flex-wrap items-center justify-between gap-8 px-6"
+          >
+            <div>
+              <p className="mb-4 text-eyebrow font-medium text-[#b1ccbb]">
+                LET’S MAKE BETTER HAPPEN
+              </p>
+              <h2 className="font-display text-section text-white font-normal">
+                Better healthcare starts
+                <br />
+                with a conversation.
               </h2>
             </div>
-            <p className="max-w-[519.211px] font-sans text-lead font-normal text-[#68736e]">
-              Healthcare is human. Your systems should be too.
-              <br />
-              We make the complicated feel a little simpler.
-            </p>
-          </div>
-          <div className="mt-8 grid gap-[20.282px] md:grid-cols-3">
-            {[
-              {
-                number: "01",
-                title: "Start with your people",
-                body: "Tell us about your team, your challenges and what better looks like for you.",
-              },
-              {
-                number: "02",
-                title: "Find your perfect fit",
-                body: "We connect you with the right service, software or healthcare professional.",
-              },
-              {
-                number: "03",
-                title: "Move forward, together",
-                body: "Get practical support from people who understand your world.",
-              },
-            ].map((step) => (
-              <article
-                key={step.number}
-                className="min-w-0 border-t border-black/5 pt-8 lg:pt-[51.19px]"
-              >
-                <p
-                  aria-hidden="true"
-                  className="font-sans text-step font-semibold text-[#368B62]/10"
-                >
-                  {step.number}
-                </p>
-                <h3 className="font-sans text-title font-semibold text-[#0f172a]">{step.title}</h3>
-                <p className="mt-[21.938px] font-sans text-body font-normal text-[#62748e]">
-                  {step.body}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto grid max-w-[1568.451px] items-center gap-10 px-6 py-20 md:grid-cols-2 md:gap-20">
-        <div className="relative overflow-hidden rounded-lg">
-          <img
-            src={photos[0].image}
-            alt="A healthcare professional ready to support your team"
-            loading="lazy"
-            className="h-[380px] w-full object-cover object-top"
-          />
-          <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-[#fffffff2] p-5">
-            <p className="text-eyebrow font-semibold text-[#368B62]">
-              FOR THE PEOPLE BEHIND THE CARE
-            </p>
-            <p className="mt-2 font-display text-lead">Your next chapter starts here.</p>
-          </div>
-        </div>
-        <div>
-          <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">HEALTHCARE PROFESSIONALS</p>
-          <h2 className="font-display text-section font-normal">
-            A career that cares
-            <br />
-            for you, too.
-          </h2>
-          <p className="mt-5 text-body text-[#68736e]">
-            Looking for your next permanent role or the flexibility of locum work? We’ll help you
-            find opportunities that fit your skills, your ambitions and your life.
-          </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <button
-              onClick={() => onNavigate("recruitment-service")}
-              className="inline-flex items-center gap-3 rounded-lg bg-[#368B62] px-6 py-3.5 text-control font-semibold text-white transition-colors hover:bg-[#286d4c]"
-            >
-              Explore opportunities <ArrowUpRight size={15} />
-            </button>
-            <button onClick={() => onNavigate("locum-provision")} className={secondaryButton}>
-              Become a locum
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section id="questions" className="border-t border-black/5 bg-[#fafaf8] py-16 md:py-20">
-        <div className="mx-auto grid max-w-[1568.451px] gap-10 px-6 md:grid-cols-[1fr_1.4fr] md:gap-20">
-          <div>
-            <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">GOOD TO KNOW</p>
-            <h2 className="font-display text-section font-normal">
-              A few questions.
-              <br />
-              Clear answers.
-            </h2>
-            <button
-              onClick={onBookDemo}
-              className="mt-7 flex items-center gap-2 text-control font-semibold"
-            >
-              Talk to our team <ArrowRight size={15} />
-            </button>
-          </div>
-          <div>
-            {faqs.map(([question, answer], index) => (
-              <div key={question} className="border-b border-black/5">
-                <button
-                  aria-expanded={openFaq === index}
-                  aria-controls={`faq-${index}`}
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="flex w-full items-center justify-between gap-5 py-5 text-left text-control font-medium"
-                >
-                  {question}
-                  {openFaq === index ? (
-                    <Minus size={16} className="shrink-0 text-[#368B62]" />
-                  ) : (
-                    <Plus size={16} className="shrink-0" />
-                  )}
-                </button>
-                {openFaq === index && (
-                  <p id={`faq-${index}`} className="pb-5 pr-8 text-body text-[#68736e]">
-                    {answer}
-                  </p>
-                )}
+            <div>
+              <div className="flex flex-wrap gap-3">
+                <motion.button {...buttonMotion} onClick={onBookDemo} className={primaryButton}>
+                  Book a demo <ArrowUpRight size={15} />
+                </motion.button>
+                <motion.button {...buttonMotion} onClick={onStartTrial} className={secondaryButton}>
+                  Get started
+                </motion.button>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#173e30] py-16 md:py-20">
-        <div className="mx-auto flex max-w-[1568.451px] min-w-0 flex-wrap items-center justify-between gap-8 px-6">
-          <div>
-            <p className="mb-4 text-eyebrow font-medium text-[#b1ccbb]">LET’S MAKE BETTER HAPPEN</p>
-            <h2 className="font-display text-section text-white font-normal">
-              Better healthcare starts
-              <br />
-              with a conversation.
-            </h2>
-          </div>
-          <div>
-            <div className="flex flex-wrap gap-3">
-              <button onClick={onBookDemo} className={primaryButton}>
-                Book a demo <ArrowUpRight size={15} />
-              </button>
-              <button onClick={onStartTrial} className={secondaryButton}>
-                Get started
-              </button>
+              <p className="mt-4 text-caption text-[#b1ccbb]">
+                Your people. Your purpose. Our partnership.
+              </p>
             </div>
-            <p className="mt-4 text-caption text-[#b1ccbb]">
-              Your people. Your purpose. Our partnership.
-            </p>
-          </div>
-        </div>
-      </section>
-      <Footer onNavigate={onNavigate} onBookDemo={onBookDemo} onStartTrial={onStartTrial} />
-    </div>
+          </motion.div>
+        </section>
+        <Footer onNavigate={onNavigate} onBookDemo={onBookDemo} onStartTrial={onStartTrial} />
+      </div>
+    </LazyMotion>
   )
 }
 
