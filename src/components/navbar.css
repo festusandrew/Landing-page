@@ -1,0 +1,8 @@
+html {
+  scroll-padding-block-start: var(--main-navigation-height, 0px);
+}
+
+.main-navigation-slot {
+  position: relative;
+  min-block-size: var(--main-navigation-height, 0px);
+}
