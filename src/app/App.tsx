@@ -11,7 +11,6 @@ import {
   BriefcaseBusiness,
   CalendarDays,
   ShieldCheck,
-  Globe2,
   Menu,
   X,
   Plus,
@@ -164,7 +163,6 @@ function LandingPage({
   onBookDemo: () => void
   onStartTrial: () => void
 }) {
-  const [country, setCountry] = useState("Ireland")
   const [openFaq, setOpenFaq] = useState<number | null>(0)
   const primaryButton =
     "inline-flex items-center justify-center gap-3 rounded-lg bg-[#368B62] px-6 py-3.5 text-control font-semibold text-white transition-colors hover:bg-[#286d4c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]"
@@ -227,26 +225,6 @@ function LandingPage({
     >
       <div className="homepage-intro bg-white">
         <div className="homepage-header relative bg-white">
-          <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-3 text-caption text-[#5d6862] lg:px-10">
-            <div className="flex items-center gap-5">
-              <Globe2 size={12} />
-              <label className="flex items-center gap-2 text-caption">
-                Your region{" "}
-                <select
-                  aria-label="Country"
-                  value={country}
-                  onChange={(event) => setCountry(event.target.value)}
-                  className="cursor-pointer bg-transparent text-control font-medium text-[#233b35]"
-                >
-                  <option>Ireland</option>
-                  <option>United Kingdom</option>
-                </select>
-              </label>
-            </div>
-            <button onClick={onBookDemo} className="transition-colors hover:text-[#368B62]">
-              Talk to our team <ArrowUpRight size={11} className="ml-1 inline" />
-            </button>
-          </div>
           <Navbar
             embedded
             onNavigate={onNavigate}
