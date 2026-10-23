@@ -167,9 +167,9 @@ function LandingPage({
   const [country, setCountry] = useState("Ireland")
   const [openFaq, setOpenFaq] = useState<number | null>(0)
   const primaryButton =
-    "inline-flex items-center justify-center gap-3 rounded-lg bg-[#368B62] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]"
+    "inline-flex items-center justify-center gap-3 rounded-lg bg-[#368B62] px-6 py-3.5 text-control font-semibold text-white transition-colors hover:bg-[#286d4c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]"
   const secondaryButton =
-    "inline-flex items-center justify-center gap-3 rounded-lg border border-black/5 bg-white px-6 py-3.5 text-sm font-semibold text-[#233b35] transition-colors hover:bg-[#edf5ef] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]"
+    "inline-flex items-center justify-center gap-3 rounded-lg border border-black/5 bg-white px-6 py-3.5 text-control font-semibold text-[#233b35] transition-colors hover:bg-[#edf5ef] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#368B62]"
   const photos = [
     {
       image: recruitmentPhoto,
@@ -223,19 +223,19 @@ function LandingPage({
   return (
     <div
       id="overview"
-      className="homepage-magenta bg-white font-['DM_Sans',sans-serif] text-[#233b35] selection:bg-[#dfeee4] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none"
+      className="homepage-magenta bg-white font-sans text-[#233b35] selection:bg-[#dfeee4] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none"
     >
       <div className="relative bg-white">
-        <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-3 text-[11px] text-[#5d6862] lg:px-10">
+        <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-3 text-caption text-[#5d6862] lg:px-10">
           <div className="flex items-center gap-5">
             <Globe2 size={12} />
-            <label className="flex items-center gap-2 text-[11px]">
+            <label className="flex items-center gap-2 text-caption">
               Your region{" "}
               <select
                 aria-label="Country"
                 value={country}
                 onChange={(event) => setCountry(event.target.value)}
-                className="cursor-pointer bg-transparent text-[11px] font-medium text-[#233b35]"
+                className="cursor-pointer bg-transparent text-control font-medium text-[#233b35]"
               >
                 <option>Ireland</option>
                 <option>United Kingdom</option>
@@ -283,23 +283,20 @@ function LandingPage({
                 />
               </span>
             </div>
-            <p className="flex flex-wrap items-center justify-center gap-3 font-['Inter:Regular',Inter,sans-serif] text-[18px] font-normal leading-[37.859px] text-[#475569] sm:text-[22.986px]">
+            <p className="flex flex-wrap items-center justify-center gap-3 font-sans text-lead font-normal text-[#475569]">
               Trusted by{" "}
-              <strong className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[36px] font-semibold leading-[54.085px] tracking-[-0.8113px] text-[#0f172a]">
+              <strong className="font-sans text-stat font-semibold tracking-tight text-[#0f172a]">
                 2K+
               </strong>{" "}
               teams
             </p>
           </div>
-          <h1
-            id="homepage-hero-heading"
-            className="font-['Libre_Caslon_Display:Regular',serif] text-[48px] font-normal leading-[1.07] tracking-[-2.1634px] sm:text-[76px] min-[1440px]:text-[102.761px] min-[1440px]:leading-[109.954px]"
-          >
+          <h1 id="homepage-hero-heading" className="font-display text-hero font-normal">
             Better people. Better care.
             <br />
             All connected<span className="text-[#368B62]">.</span>
           </h1>
-          <p className="mx-auto mt-[17px] max-w-[770.704px] font-['DM_Sans:Regular',sans-serif] text-[17px] font-normal leading-8 text-[#68736e] [font-variation-settings:'opsz'_14] md:text-[20.282px] md:leading-[37.859px]">
+          <p className="mx-auto mt-[17px] max-w-[770.704px] font-sans text-lead font-normal text-[#68736e]">
             Recruitment, locum staffing and care management — brought together.
             <br />
             So you can focus on what matters most: people.
@@ -330,13 +327,11 @@ function LandingPage({
             <div className="homepage-service-overlay absolute inset-0" />
             <div className="absolute bottom-0 left-0 right-0 p-7 text-white lg:p-10">
               <span className={`mb-5 inline-block h-1 w-8 ${photo.tint}`} />
-              <p className="mb-3 text-[9px] font-medium tracking-[0.16em] text-white/80">
-                {photo.category}
-              </p>
-              <h2 className="whitespace-pre-line font-['Libre_Caslon_Display',serif] text-[32px] leading-[1.1] lg:text-[37px]">
+              <p className="mb-3 text-eyebrow font-medium text-white/80">{photo.category}</p>
+              <h2 className="whitespace-pre-line font-display text-card-display font-normal">
                 {photo.title}
               </h2>
-              <div className="mt-6 flex items-center justify-between text-xs">
+              <div className="mt-6 flex items-center justify-between text-caption">
                 <span>{photo.label}</span>
                 <img
                   src={HOME_VISUALS.photoArrows[index]}
@@ -352,16 +347,14 @@ function LandingPage({
       <section id="about" className="mx-auto max-w-[1568.451px] px-6 py-16 md:py-20">
         <div className="grid gap-8 md:grid-cols-2 md:gap-20">
           <div>
-            <p className="mb-4 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">
-              MEET MPLOYUS
-            </p>
-            <h2 className="font-['Libre_Caslon_Display',serif] text-4xl md:text-[46px]">
+            <p className="mb-4 text-eyebrow font-semibold text-[#368B62]">MEET MPLOYUS</p>
+            <h2 className="font-display text-section font-normal">
               Healthcare works better
               <br />
               when we work together.
             </h2>
           </div>
-          <div className="pt-2 text-sm leading-7 text-[#68736e]">
+          <div className="pt-2 text-body text-[#68736e]">
             <p>
               Great care starts with great people. But finding them, supporting them and managing
               the everyday shouldn’t stand in the way.
@@ -383,22 +376,22 @@ function LandingPage({
       <section id="solutions" className="bg-[#f6f7f3] py-16 md:py-24">
         <div className="mx-auto grid max-w-[1568.451px] gap-12 px-6 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
           <div className="lg:pt-3">
-            <p className="mb-5 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">
+            <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">
               ONE PARTNER. MORE POSSIBILITIES.
             </p>
-            <h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.06] md:text-[52px]">
+            <h2 className="font-display text-section font-normal">
               Everything you need.
               <br />
               Better, together.
             </h2>
-            <p className="mt-6 max-w-sm text-sm leading-7 text-[#68736e]">
+            <p className="mt-6 max-w-sm text-body text-[#68736e]">
               Find your next team member. Cover your next shift. Simplify your care operations.
               Choose what you need, and we’ll help you move forward.
             </p>
             <button onClick={onBookDemo} className={`${primaryButton} mt-7`}>
               Find your solution <ArrowUpRight size={15} />
             </button>
-            <p className="mt-5 text-[11px] text-[#7b837e]">
+            <p className="mt-5 text-caption text-[#7b837e]">
               A real conversation. A solution that fits.
             </p>
           </div>
@@ -417,15 +410,13 @@ function LandingPage({
                     className="shrink-0"
                   />
                 </div>
-                <h3 className="text-[17px] font-semibold">{solution.name}</h3>
-                <p className="mb-5 mt-3 text-[12px] leading-6 text-[#68736e]">
-                  {solution.description}
-                </p>
+                <h3 className="text-title font-semibold font-sans">{solution.name}</h3>
+                <p className="mb-5 mt-3 text-body text-[#68736e]">{solution.description}</p>
                 <ul className="mb-7 space-y-3">
                   {solution.features.map((feature, featureIndex) => (
                     <li
                       key={feature}
-                      className="flex items-start gap-2 text-[11px] leading-5 text-[#68736e]"
+                      className="flex items-start gap-2 text-control text-[#68736e]"
                     >
                       <img
                         src={HOME_VISUALS.solutions[solutionIndex].checks[featureIndex]}
@@ -438,7 +429,7 @@ function LandingPage({
                 </ul>
                 <button
                   onClick={() => onNavigate(solution.id)}
-                  className="mt-auto flex items-center gap-2 text-xs font-semibold"
+                  className="mt-auto flex items-center gap-2 text-control font-semibold"
                 >
                   Explore {solution.name.toLowerCase()}{" "}
                   <img
@@ -461,19 +452,19 @@ function LandingPage({
         <div className="mx-auto max-w-[1568.451px] px-6 md:px-[32.451px]">
           <div className="flex flex-wrap items-end justify-between gap-8">
             <div>
-              <p className="font-['DM_Sans:SemiBold',sans-serif] text-[13.521px] font-semibold leading-[20.282px] tracking-[1.893px] text-[#368B62] [font-variation-settings:'opsz'_14]">
+              <p className="font-sans text-eyebrow font-semibold text-[#368B62]">
                 A LITTLE LESS COMPLEXITY
               </p>
               <h2
                 id="how-it-works-heading"
-                className="mt-[21.634px] font-['Libre_Caslon_Display:Regular',serif] text-[44px] font-normal leading-[1.08] md:text-[67.606px] md:leading-[73.014px]"
+                className="mt-[21.634px] font-display text-section font-normal"
               >
                 More connected.
                 <br />
                 More time for care.
               </h2>
             </div>
-            <p className="max-w-[519.211px] font-['DM_Sans:Regular',sans-serif] text-[18.93px] font-normal leading-[37.859px] text-[#68736e] [font-variation-settings:'opsz'_14]">
+            <p className="max-w-[519.211px] font-sans text-lead font-normal text-[#68736e]">
               Healthcare is human. Your systems should be too.
               <br />
               We make the complicated feel a little simpler.
@@ -503,14 +494,12 @@ function LandingPage({
               >
                 <p
                   aria-hidden="true"
-                  className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[96px] font-semibold leading-[109px] text-[#368B62]/10 lg:text-[129.803px] lg:leading-[147.38px]"
+                  className="font-sans text-step font-semibold text-[#368B62]/10"
                 >
                   {step.number}
                 </p>
-                <h3 className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[24.338px] font-semibold leading-[37.859px] text-[#0f172a] lg:text-[32.908px] lg:leading-[51.19px]">
-                  {step.title}
-                </h3>
-                <p className="mt-[21.938px] font-['Inter:Regular',Inter,sans-serif] text-[18.93px] font-normal leading-[37.859px] text-[#62748e] lg:text-[25.595px] lg:leading-[51.19px]">
+                <h3 className="font-sans text-title font-semibold text-[#0f172a]">{step.title}</h3>
+                <p className="mt-[21.938px] font-sans text-body font-normal text-[#62748e]">
                   {step.body}
                 </p>
               </article>
@@ -528,31 +517,27 @@ function LandingPage({
             className="h-[380px] w-full object-cover object-top"
           />
           <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-[#fffffff2] p-5">
-            <p className="text-[10px] font-semibold tracking-[0.12em] text-[#368B62]">
+            <p className="text-eyebrow font-semibold text-[#368B62]">
               FOR THE PEOPLE BEHIND THE CARE
             </p>
-            <p className="mt-2 font-['Libre_Caslon_Display',serif] text-2xl">
-              Your next chapter starts here.
-            </p>
+            <p className="mt-2 font-display text-lead">Your next chapter starts here.</p>
           </div>
         </div>
         <div>
-          <p className="mb-5 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">
-            HEALTHCARE PROFESSIONALS
-          </p>
-          <h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.08] md:text-[50px]">
+          <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">HEALTHCARE PROFESSIONALS</p>
+          <h2 className="font-display text-section font-normal">
             A career that cares
             <br />
             for you, too.
           </h2>
-          <p className="mt-5 text-sm leading-7 text-[#68736e]">
+          <p className="mt-5 text-body text-[#68736e]">
             Looking for your next permanent role or the flexibility of locum work? We’ll help you
             find opportunities that fit your skills, your ambitions and your life.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <button
               onClick={() => onNavigate("recruitment-service")}
-              className="inline-flex items-center gap-3 rounded-lg bg-[#368B62] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c]"
+              className="inline-flex items-center gap-3 rounded-lg bg-[#368B62] px-6 py-3.5 text-control font-semibold text-white transition-colors hover:bg-[#286d4c]"
             >
               Explore opportunities <ArrowUpRight size={15} />
             </button>
@@ -566,17 +551,15 @@ function LandingPage({
       <section id="questions" className="border-t border-black/5 bg-[#fafaf8] py-16 md:py-20">
         <div className="mx-auto grid max-w-[1568.451px] gap-10 px-6 md:grid-cols-[1fr_1.4fr] md:gap-20">
           <div>
-            <p className="mb-5 text-[10px] font-semibold tracking-[0.14em] text-[#368B62]">
-              GOOD TO KNOW
-            </p>
-            <h2 className="font-['Libre_Caslon_Display',serif] text-[44px] leading-[1.08]">
+            <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">GOOD TO KNOW</p>
+            <h2 className="font-display text-section font-normal">
               A few questions.
               <br />
               Clear answers.
             </h2>
             <button
               onClick={onBookDemo}
-              className="mt-7 flex items-center gap-2 text-sm font-semibold"
+              className="mt-7 flex items-center gap-2 text-control font-semibold"
             >
               Talk to our team <ArrowRight size={15} />
             </button>
@@ -588,7 +571,7 @@ function LandingPage({
                   aria-expanded={openFaq === index}
                   aria-controls={`faq-${index}`}
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="flex w-full items-center justify-between gap-5 py-5 text-left text-sm font-medium"
+                  className="flex w-full items-center justify-between gap-5 py-5 text-left text-control font-medium"
                 >
                   {question}
                   {openFaq === index ? (
@@ -598,7 +581,7 @@ function LandingPage({
                   )}
                 </button>
                 {openFaq === index && (
-                  <p id={`faq-${index}`} className="pb-5 pr-8 text-[13px] leading-7 text-[#68736e]">
+                  <p id={`faq-${index}`} className="pb-5 pr-8 text-body text-[#68736e]">
                     {answer}
                   </p>
                 )}
@@ -611,10 +594,8 @@ function LandingPage({
       <section className="bg-[#173e30] py-16 md:py-20">
         <div className="mx-auto flex max-w-[1568.451px] min-w-0 flex-wrap items-center justify-between gap-8 px-6">
           <div>
-            <p className="mb-4 text-[10px] font-medium tracking-[0.14em] text-[#b1ccbb]">
-              LET’S MAKE BETTER HAPPEN
-            </p>
-            <h2 className="font-['Libre_Caslon_Display',serif] text-[38px] leading-[1.1] text-white sm:text-[44px] md:text-[52px]">
+            <p className="mb-4 text-eyebrow font-medium text-[#b1ccbb]">LET’S MAKE BETTER HAPPEN</p>
+            <h2 className="font-display text-section text-white font-normal">
               Better healthcare starts
               <br />
               with a conversation.
@@ -629,7 +610,7 @@ function LandingPage({
                 Get started
               </button>
             </div>
-            <p className="mt-4 text-xs text-[#b1ccbb]">
+            <p className="mt-4 text-caption text-[#b1ccbb]">
               Your people. Your purpose. Our partnership.
             </p>
           </div>
@@ -709,7 +690,7 @@ function PlatformApp() {
           : activeView === "web-development"
             ? "web-development-shell "
             : ""
-      }min-h-screen bg-white text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] selection:bg-slate-900 selection:text-white`}
+      }marketing-typography min-h-screen bg-white text-slate-900 font-sans selection:bg-slate-900 selection:text-white`}
     >
       {!hasServiceNavigation && activeView !== "home" && (
         <div className="homepage-magenta">

@@ -58,7 +58,7 @@ const features = [
   },
 ]
 const tabs = ["eMAR", "Care Plans", "Vitals & Logs"] as const
-type CareTab = typeof tabs[number]
+type CareTab = (typeof tabs)[number]
 
 export const CareManagementPage: React.FC<CareManagementPageProps> = ({
   onBackToHome,
@@ -73,23 +73,21 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
   const reducedMotion = useReducedMotion()
   const bookDemo = () => onBookDemo("care-management")
   const scrollTo = (id: string) => {
-    document
-      .getElementById(id)
-      ?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" })
+    document.getElementById(id)?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" })
     setMobileOpen(false)
   }
   const primaryButton =
-    "group inline-flex items-center justify-center gap-3 rounded-full bg-[#1d4ed8] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#1e40af]"
+    "group inline-flex items-center justify-center gap-3 rounded-full bg-[#1d4ed8] px-6 py-3.5 text-control font-semibold text-white transition-colors hover:bg-[#1e40af]"
   const secondaryButton =
-    "inline-flex items-center justify-center gap-3 rounded-full border border-black/5 bg-white px-6 py-3.5 text-sm font-semibold text-[#24332d] transition-colors hover:bg-[#edf0f4]"
+    "inline-flex items-center justify-center gap-3 rounded-full border border-black/5 bg-white px-6 py-3.5 text-control font-semibold text-[#24332d] transition-colors hover:bg-[#edf0f4]"
   const reveal = {
-    initial: reducedMotion ? false as const : { opacity: 0, y: 20 },
+    initial: reducedMotion ? (false as const) : { opacity: 0, y: 20 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true },
     transition: { duration: 0.5 },
   }
   return (
-    <div className="product-reference product-reference-care min-h-screen overflow-x-clip bg-white font-['DM_Sans',sans-serif] text-[#24332d] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
+    <div className="product-reference product-reference-care min-h-screen overflow-x-clip bg-white font-sans text-[#24332d] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
       {showHeader ? (
         <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-sm">
           <div className="mx-auto flex h-[70px] max-w-[1312px] items-center justify-between gap-6 px-6 lg:px-16">
@@ -101,52 +99,38 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                 })
               }
               aria-label="MployUs care management home"
-              className="flex items-baseline gap-2 text-[23px] font-semibold tracking-[-0.02em]"
+              className="flex items-baseline gap-2 text-brand font-semibold tracking-tight"
             >
               mployus
-              <span className="text-xs font-medium tracking-normal text-[#1d4ed8]">
-                care.
-              </span>
+              <span className="text-caption font-medium tracking-normal text-[#1d4ed8]">care.</span>
             </button>
             <nav
               aria-label="Care management navigation"
-              className="hidden items-center gap-7 text-[13px] text-[#4b5750] lg:flex"
+              className="hidden items-center gap-7 text-control text-[#4b5750] lg:flex"
             >
-              <button
-                onClick={() => scrollTo("care-overview")}
-                className="hover:text-[#1d4ed8]"
-              >
+              <button onClick={() => scrollTo("care-overview")} className="hover:text-[#1d4ed8]">
                 Overview
               </button>
-              <button
-                onClick={() => scrollTo("care-features")}
-                className="hover:text-[#1d4ed8]"
-              >
+              <button onClick={() => scrollTo("care-features")} className="hover:text-[#1d4ed8]">
                 Features
               </button>
-              <button
-                onClick={() => scrollTo("care-preview")}
-                className="hover:text-[#1d4ed8]"
-              >
+              <button onClick={() => scrollTo("care-preview")} className="hover:text-[#1d4ed8]">
                 See it in action
               </button>
-              <button
-                onClick={() => scrollTo("care-onboarding")}
-                className="hover:text-[#1d4ed8]"
-              >
+              <button onClick={() => scrollTo("care-onboarding")} className="hover:text-[#1d4ed8]">
                 Getting started
               </button>
             </nav>
             <div className="hidden items-center gap-5 lg:flex">
               <button
                 onClick={onBackToHome}
-                className="text-xs text-[#67716b] hover:text-[#24332d]"
+                className="text-control text-[#67716b] hover:text-[#24332d]"
               >
                 MployUs.com ↗
               </button>
               <button
                 onClick={bookDemo}
-                className="rounded-full bg-[#1d4ed8] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1e40af]"
+                className="rounded-full bg-[#1d4ed8] px-5 py-2.5 text-control font-semibold text-white transition-colors hover:bg-[#1e40af]"
               >
                 Book a demo
               </button>
@@ -174,7 +158,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                 <button
                   key={id}
                   onClick={() => scrollTo(id)}
-                  className="block w-full py-1 text-left text-sm"
+                  className="block w-full py-1 text-left text-control"
                 >
                   {label}
                 </button>
@@ -188,10 +172,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
               >
                 Book a demo
               </button>
-              <button
-                onClick={onBackToHome}
-                className="ml-4 text-xs text-[#67716b]"
-              >
+              <button onClick={onBackToHome} className="ml-4 text-control text-[#67716b]">
                 Back to MployUs
               </button>
             </nav>
@@ -223,21 +204,20 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
           <motion.div {...reveal}>
             <div className="mb-7 flex items-center gap-3">
               <span className="h-2 w-2 rounded-full bg-[#1d4ed8]" />
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#67716b]">
+              <p className="text-eyebrow font-semibold uppercase text-[#67716b]">
                 Connected care · Ireland &amp; UK
               </p>
             </div>
-            <h1 className="text-[46px] font-medium leading-[1.06] tracking-[-0.025em] sm:text-[62px] lg:text-[72px]">
+            <h1 className="text-hero font-normal font-display">
               Better records.
               <br />
               Connected care.
               <br />
               <span className="text-[#1d4ed8]">Time for care.</span>
             </h1>
-            <p className="mb-8 mt-6 max-w-[440px] text-[15px] leading-7 text-[#68716c]">
-              A more human way to manage care. Bring medication, care plans and
-              everyday observations together — so your team can focus on the
-              people behind the records.
+            <p className="mb-8 mt-6 max-w-[440px] text-body text-[#68716c]">
+              A more human way to manage care. Bring medication, care plans and everyday
+              observations together — so your team can focus on the people behind the records.
             </p>
             <div className="flex flex-wrap gap-3">
               <button onClick={bookDemo} className={primaryButton}>
@@ -253,23 +233,18 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
               </button>
             </div>
             <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-black/5 pt-6">
-              {[
-                "Person-centred records",
-                "Connected workflows",
-                "Audit support",
-              ].map((label, index) => (
-                <span
-                  key={label}
-                  className="flex items-center gap-2 text-[11px] text-[#68716c]"
-                >
-                  <img
-                    src={referenceAssets.checks[index]}
-                    alt=""
-                    className="product-reference-feature-icon"
-                  />
-                  {label}
-                </span>
-              ))}
+              {["Person-centred records", "Connected workflows", "Audit support"].map(
+                (label, index) => (
+                  <span key={label} className="flex items-center gap-2 text-caption text-[#68716c]">
+                    <img
+                      src={referenceAssets.checks[index]}
+                      alt=""
+                      className="product-reference-feature-icon"
+                    />
+                    {label}
+                  </span>
+                ),
+              )}
             </div>
           </motion.div>
           <motion.div {...reveal} className="product-reference-dashboard">
@@ -281,46 +256,42 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
         </div>
       </section>
 
-      <div className="font-['Inter:Regular',Inter,sans-serif] text-[#0f172a]">
+      <div className="font-sans text-[#0f172a]">
         <section className="px-6 pb-4 pt-20 text-center">
           <div className="mx-auto max-w-[820px]">
-            <p className="text-[14.873px] font-semibold uppercase leading-[22.31px] tracking-[2.3797px] text-[#1d4ed8]">
+            <p className="text-eyebrow font-semibold uppercase text-[#1d4ed8]">
               One workspace. Every part of care.
             </p>
-            <h2 className="mt-5 font-['Inter:Semi_Bold',Inter,sans-serif] text-[36px] font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px] md:leading-[64.901px]">
+            <h2 className="mt-5 font-display text-section font-normal">
               Care isn’t in silos.
               <br />
               Your records shouldn’t be either.
             </h2>
-            <p className="mx-auto mt-5 max-w-[720px] text-[17px] leading-8 text-[#64748b] md:text-[20.282px] md:leading-[37.859px]">
-              Replace disconnected folders with a shared workspace. Medication,
-              care plans and daily observations — a clearer picture, together.
+            <p className="mx-auto mt-5 max-w-[720px] text-lead text-[#64748b]">
+              Replace disconnected folders with a shared workspace. Medication, care plans and daily
+              observations — a clearer picture, together.
             </p>
           </div>
         </section>
 
-        <section
-          id="care-features"
-          className="scroll-mt-24 px-6 py-12 lg:py-16"
-        >
+        <section id="care-features" className="scroll-mt-24 px-6 py-12 lg:py-16">
           <div className="mx-auto grid max-w-[1184px] items-center gap-12 rounded-2xl border border-black/5 bg-[#f8fafc] p-6 md:p-10 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
             <motion.div {...reveal}>
-              <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#1d4ed8]">
+              <p className="mb-5 text-eyebrow font-semibold uppercase text-[#1d4ed8]">
                 The everyday, made simpler
               </p>
-              <h2 className="text-[38px] font-medium leading-[1.12] sm:text-[46px]">
+              <h2 className="text-section font-normal font-display">
                 People first.
                 <br />
                 Paperwork last.
               </h2>
-              <p className="mt-6 text-sm leading-7 text-[#68716c]">
-                Medication, care plans, daily logs and compliance in one
-                connected workspace. Thoughtful tools for the people doing the
-                caring.
+              <p className="mt-6 text-body text-[#68716c]">
+                Medication, care plans, daily logs and compliance in one connected workspace.
+                Thoughtful tools for the people doing the caring.
               </p>
               <button
                 onClick={bookDemo}
-                className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[#1d4ed8]"
+                className="mt-7 inline-flex items-center gap-2 text-control font-semibold text-[#1d4ed8]"
               >
                 Explore your care dashboard
                 <ArrowRight size={16} />
@@ -340,13 +311,11 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                       className="product-reference-feature-icon"
                     />
                   </span>
-                  <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.1em] text-[#67716b]">
+                  <p className="mb-3 text-eyebrow font-medium uppercase text-[#67716b]">
                     {feature.label}
                   </p>
-                  <h3 className="text-lg font-semibold">{feature.title}</h3>
-                  <p className="mt-3 text-[13px] leading-6 text-[#68716c]">
-                    {feature.description}
-                  </p>
+                  <h3 className="text-title font-semibold font-sans">{feature.title}</h3>
+                  <p className="mt-3 text-body text-[#68716c]">{feature.description}</p>
                 </motion.article>
               ))}
             </div>
@@ -357,18 +326,16 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
           <div className="mx-auto grid max-w-[1184px] items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
             <div className="flex flex-col gap-6 lg:order-2">
               <div>
-                <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#1d4ed8]">
+                <p className="mb-5 text-eyebrow font-semibold uppercase text-[#1d4ed8]">
                   A closer look
                 </p>
-                <h2 className="text-[38px] font-medium leading-[1.12] sm:text-[46px]">
+                <h2 className="text-section font-normal font-display">
                   Every person’s journey.
                   <br />
                   No loose ends.
                 </h2>
               </div>
-              <p className="max-w-sm text-sm leading-7 text-[#68716c]">
-                Explore a few everyday workflows.
-              </p>
+              <p className="max-w-sm text-body text-[#68716c]">Explore a few everyday workflows.</p>
             </div>
             <div className="rounded-2xl border border-black/5 bg-[#f0f1ff] p-4 sm:p-7 lg:order-1">
               <div
@@ -405,7 +372,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                         tabRefs.current[next]?.focus()
                       }
                     }}
-                    className={`rounded-full px-5 py-2.5 text-sm font-medium transition-colors ${
+                    className={`rounded-full px-5 py-2.5 text-control font-medium transition-colors ${
                       activeTab === tab
                         ? "bg-[#1d4ed8] text-white"
                         : "bg-white text-[#68716c] hover:bg-[#edf0f6]"
@@ -449,15 +416,11 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                             <Pill size={19} />
                           </span>
                           <div>
-                            <p className="text-sm font-semibold">
-                              {medication.name}
-                            </p>
-                            <p className="mt-1 text-xs leading-5 text-[#68716c]">
-                              {medication.detail}
-                            </p>
+                            <p className="text-body font-semibold">{medication.name}</p>
+                            <p className="mt-1 text-caption text-[#68716c]">{medication.detail}</p>
                           </div>
                         </div>
-                        <span className="rounded-full bg-[#f0f3ef] px-3 py-1.5 text-xs text-[#506952]">
+                        <span className="rounded-full bg-[#f0f3ef] px-3 py-1.5 text-caption text-[#506952]">
                           {medication.status}
                         </span>
                       </div>
@@ -467,20 +430,14 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                 {activeTab === "Care Plans" && (
                   <div className="rounded-xl border border-black/5 bg-white p-6">
                     <div className="flex items-start gap-4">
-                      <ClipboardList
-                        size={24}
-                        className="shrink-0 text-[#1d4ed8]"
-                      />
+                      <ClipboardList size={24} className="shrink-0 text-[#1d4ed8]" />
                       <div>
-                        <p className="text-sm font-semibold">
-                          Mobility &amp; dietary care plan
+                        <p className="text-body font-semibold">Mobility &amp; dietary care plan</p>
+                        <p className="mt-3 text-body text-[#68716c]">
+                          Two-person assistance for transfers and an agreed low-sodium dietary plan.
+                          Individual needs, goals and review dates are kept together.
                         </p>
-                        <p className="mt-3 text-sm leading-7 text-[#68716c]">
-                          Two-person assistance for transfers and
-                          an agreed low-sodium dietary plan. Individual needs,
-                          goals and review dates are kept together.
-                        </p>
-                        <p className="mt-4 flex items-center gap-2 text-xs text-[#1d4ed8]">
+                        <p className="mt-4 flex items-center gap-2 text-caption text-[#1d4ed8]">
                           <Check size={14} />
                           Review recorded · 20 July 2026
                         </p>
@@ -506,16 +463,12 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                         key={vital.label}
                         className="rounded-xl border border-black/5 bg-white p-6"
                       >
-                        <p className="text-xs text-[#68716c]">{vital.label}</p>
-                        <p className="mt-5 text-4xl font-medium text-[#1d4ed8]">
+                        <p className="text-caption text-[#68716c]">{vital.label}</p>
+                        <p className="mt-5 text-stat font-medium text-[#1d4ed8]">
                           {vital.value}
-                          <span className="ml-2 text-xs text-[#68716c]">
-                            {vital.unit}
-                          </span>
+                          <span className="ml-2 text-caption text-[#68716c]">{vital.unit}</span>
                         </p>
-                        <p className="mt-4 text-[11px] text-[#68716c]">
-                          Observation · Room 4
-                        </p>
+                        <p className="mt-4 text-caption text-[#68716c]">Observation · Room 4</p>
                       </div>
                     ))}
                   </div>
@@ -523,7 +476,7 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
               </motion.div>
               <button
                 onClick={bookDemo}
-                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#1d4ed8]"
+                className="mt-6 inline-flex items-center gap-2 text-control font-semibold text-[#1d4ed8]"
               >
                 See this workflow in a demo
                 <ArrowRight size={15} />
@@ -536,19 +489,18 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
           <div className="mx-auto max-w-[1184px]">
             <div className="grid items-end gap-6 md:grid-cols-[1.3fr_1fr]">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/75">
+                <p className="text-eyebrow font-semibold uppercase text-white/75">
                   Clarity isn’t an add-on
                 </p>
-                <h2 className="mt-5 font-['Inter:Semi_Bold',Inter,sans-serif] text-4xl font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px]">
+                <h2 className="mt-5 font-display text-section font-normal">
                   Give your team confidence.
                   <br />
                   Keep care connected.
                 </h2>
               </div>
-              <p className="text-sm leading-7 text-white/80">
-                Organised records and a shared history help your team understand
-                what has happened, what comes next and where attention is
-                needed.
+              <p className="text-body text-white/80">
+                Organised records and a shared history help your team understand what has happened,
+                what comes next and where attention is needed.
               </p>
             </div>
             <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -579,25 +531,20 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                     alt=""
                     className="product-reference-feature-icon"
                   />
-                  <h3 className="mt-6 text-lg font-semibold">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-white/80">
-                    {item.text}
-                  </p>
+                  <h3 className="mt-6 text-title font-semibold font-sans">{item.title}</h3>
+                  <p className="mt-3 text-body text-white/80">{item.text}</p>
                 </motion.article>
               ))}
             </div>
           </div>
         </section>
 
-        <section
-          id="care-onboarding"
-          className="scroll-mt-24 px-6 py-16 lg:py-24"
-        >
+        <section id="care-onboarding" className="scroll-mt-24 px-6 py-16 lg:py-24">
           <div className="mx-auto max-w-[1184px]">
-            <p className="mb-5 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[#1d4ed8]">
+            <p className="mb-5 text-center text-eyebrow font-semibold uppercase text-[#1d4ed8]">
               A thoughtful way to get started
             </p>
-            <h2 className="text-center font-['Inter:Semi_Bold',Inter,sans-serif] text-[38px] font-semibold leading-[1.2] tracking-[-1.0817px] md:text-[54.085px]">
+            <h2 className="text-center font-display text-section font-normal">
               Less complexity.
               <br />
               Right from the start.
@@ -625,15 +572,9 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                   {...reveal}
                   className="border-t border-black/5 px-2 py-7"
                 >
-                  <p className="text-5xl font-semibold text-[#dce2f0]">
-                    0{index + 1}
-                  </p>
-                  <h3 className="mb-3 mt-7 text-lg font-semibold">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm leading-7 text-[#68716c]">
-                    {step.description}
-                  </p>
+                  <p className="text-stat font-semibold text-[#dce2f0]">0{index + 1}</p>
+                  <h3 className="mb-3 mt-7 text-title font-semibold font-sans">{step.title}</h3>
+                  <p className="text-body text-[#68716c]">{step.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -643,10 +584,10 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
         <section className="bg-[#f8fafc] px-6 py-16 lg:py-20">
           <div className="mx-auto grid max-w-[1184px] gap-12 md:grid-cols-[0.8fr_1.2fr]">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#1d4ed8]">
+              <p className="text-eyebrow font-semibold uppercase text-[#1d4ed8]">
                 A little more clarity
               </p>
-              <h2 className="mt-5 font-['Inter:Semi_Bold',Inter,sans-serif] text-[38px] font-semibold leading-[1.2] md:text-[54.085px]">
+              <h2 className="mt-5 font-display text-section font-normal">
                 Good questions.
                 <br />
                 Straight answers.
@@ -675,22 +616,17 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                     "No. Digital records support your team’s work; clinical decisions and individual care remain the responsibility of qualified professionals.",
                 },
               ].map((item, index) => (
-                <details
-                  key={item.question}
-                  className="group border-b border-black/5 py-5"
-                >
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold [&::-webkit-details-marker]:hidden">
+                <details key={item.question} className="group border-b border-black/5 py-5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-control font-semibold [&::-webkit-details-marker]:hidden">
                     {item.question}
-                    <span className="text-xl font-normal text-[#1d4ed8] group-open:hidden">
+                    <span className="text-title font-normal text-[#1d4ed8] group-open:hidden">
                       +
                     </span>
-                    <span className="hidden text-xl font-normal text-[#1d4ed8] group-open:block">
+                    <span className="hidden text-title font-normal text-[#1d4ed8] group-open:block">
                       −
                     </span>
                   </summary>
-                  <p className="mt-4 text-sm leading-7 text-[#64748b]">
-                    {item.answer}
-                  </p>
+                  <p className="mt-4 text-body text-[#64748b]">{item.answer}</p>
                 </details>
               ))}
             </div>
@@ -707,29 +643,29 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
               className="pointer-events-none absolute -bottom-36 -right-24 h-80 w-80 rounded-full border-[36px] border-white/30"
             />
             <div>
-              <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#1d4ed8]">
+              <p className="mb-5 text-eyebrow font-medium uppercase text-[#1d4ed8]">
                 For the people behind the care
               </p>
-              <h2 className="font-['Inter:Semi_Bold',Inter,sans-serif] text-[38px] font-semibold leading-[1.2] text-[#0f172a] sm:text-[54.085px]">
+              <h2 className="font-display text-section font-normal text-[#0f172a]">
                 Your next chapter.
                 <br />
                 All in one workspace.
               </h2>
-              <p className="mt-5 text-sm text-[#64748b]">
+              <p className="mt-5 text-body text-[#64748b]">
                 Let’s find a way of working that fits your team.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={bookDemo}
-                className="inline-flex items-center gap-3 rounded-lg bg-[#1d4ed8] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#1e40af]"
+                className="inline-flex items-center gap-3 rounded-lg bg-[#1d4ed8] px-6 py-3.5 text-control font-semibold text-white transition-colors hover:bg-[#1e40af]"
               >
                 Book a demo
                 <ArrowRight size={16} />
               </button>
               <button
                 onClick={onStartTrial}
-                className="rounded-lg border border-black/5 bg-white px-6 py-3.5 text-sm font-semibold text-[#0f172a] transition-colors hover:bg-[#f8fafc]"
+                className="rounded-lg border border-black/5 bg-white px-6 py-3.5 text-control font-semibold text-[#0f172a] transition-colors hover:bg-[#f8fafc]"
               >
                 Start a free trial
               </button>

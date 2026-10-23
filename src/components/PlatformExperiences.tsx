@@ -5,13 +5,7 @@ import { Link, useNavigate, useParams } from "react-router"
 import { LocumDialog } from "./LocumDialog"
 import { RecruitmentDialog } from "./RecruitmentDialog"
 
-export function PeopleAnimation({
-  kind,
-  image,
-}: {
-  kind: "recruitment" | "locum"
-  image: string
-}) {
+export function PeopleAnimation({ kind, image }: { kind: "recruitment" | "locum"; image: string }) {
   const reducedMotion = useReducedMotion()
   const locum = kind === "locum"
   return (
@@ -42,23 +36,17 @@ export function PeopleAnimation({
       >
         <span
           className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${
-            locum
-              ? "bg-[#edf5ef] text-[#368B62]"
-              : "bg-[#f7edf4] text-[#810161]"
+            locum ? "bg-[#edf5ef] text-[#368B62]" : "bg-[#f7edf4] text-[#810161]"
           }`}
         >
           <Check size={19} />
         </span>
         <div>
-          <p className="text-xs font-semibold text-[#233b35]">
-            {locum
-              ? "Your skills. Your schedule."
-              : "A career that fits your life."}
+          <p className="text-caption font-semibold text-[#233b35]">
+            {locum ? "Your skills. Your schedule." : "A career that fits your life."}
           </p>
-          <p className="mt-1 text-[11px] text-slate-500">
-            {locum
-              ? "Care for others, on your terms"
-              : "People-first recruitment"}
+          <p className="mt-1 text-caption text-slate-500">
+            {locum ? "Care for others, on your terms" : "People-first recruitment"}
           </p>
         </div>
       </motion.div>
@@ -85,7 +73,7 @@ export function ModernServiceHero({
   const reducedMotion = useReducedMotion()
   return (
     <section
-      className={`relative overflow-hidden px-6 py-12 font-['DM_Sans',sans-serif] sm:py-16 lg:py-20 ${
+      className={`relative overflow-hidden px-6 py-12 font-sans sm:py-16 lg:py-20 ${
         locum ? "bg-[#f5f7f1]" : "bg-[#faf5f8]"
       }`}
     >
@@ -96,19 +84,13 @@ export function ModernServiceHero({
           transition={{ duration: 0.6 }}
         >
           <div className="mb-7 flex items-center gap-3">
-            <span
-              className={`h-2 w-2 rounded-full ${
-                locum ? "bg-[#368B62]" : "bg-[#810161]"
-              }`}
-            />
-            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#67716b]">
-              {locum
-                ? "Healthcare, on your terms"
-                : "People first. Possibility next."}{" "}
-              · Ireland & UK
+            <span className={`h-2 w-2 rounded-full ${locum ? "bg-[#368B62]" : "bg-[#810161]"}`} />
+            <p className="text-eyebrow font-semibold uppercase text-[#67716b]">
+              {locum ? "Healthcare, on your terms" : "People first. Possibility next."} · Ireland &
+              UK
             </p>
           </div>
-          <h1 className="text-[46px] font-medium leading-[1.06] tracking-[-0.025em] text-[#24332d] sm:text-[62px] lg:text-[72px]">
+          <h1 className="text-hero font-normal text-[#24332d] font-display">
             {locum ? (
               <>
                 Great care.
@@ -127,7 +109,7 @@ export function ModernServiceHero({
               </>
             )}
           </h1>
-          <p className="mb-8 mt-6 max-w-[440px] text-[15px] leading-7 text-[#68716c]">
+          <p className="mb-8 mt-6 max-w-[440px] text-body text-[#68716c]">
             {locum
               ? "A more human way to work in healthcare. Find flexible shifts, connect with trusted facilities and make room for the life you want to live."
               : "We bring talented people and ambitious teams together. Personal recruitment, thoughtful matches and a partner who sees the bigger picture."}
@@ -135,42 +117,31 @@ export function ModernServiceHero({
           <div className="flex flex-wrap gap-3">
             <button
               onClick={onPrimary}
-              className={`group inline-flex items-center gap-4 rounded-full px-6 py-3.5 text-sm font-semibold text-white transition-colors ${
-                locum
-                  ? "bg-[#368B62] hover:bg-[#286d4c]"
-                  : "bg-[#810161] hover:bg-[#65014c]"
+              className={`group inline-flex items-center gap-4 rounded-full px-6 py-3.5 text-control font-semibold text-white transition-colors ${
+                locum ? "bg-[#368B62] hover:bg-[#286d4c]" : "bg-[#810161] hover:bg-[#65014c]"
               }`}
             >
               {locum ? "Find your next shift" : "Find your next role"}
-              {primaryIcon ? <img src={primaryIcon} alt="" className="recruit-reference-icon" /> : <ArrowRight
-                size={16}
-                className="transition-transform group-hover:translate-x-1"
-              />}
+              {primaryIcon ? (
+                <img src={primaryIcon} alt="" className="recruit-reference-icon" />
+              ) : (
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              )}
             </button>
             <button
               onClick={onSecondary}
-              className="inline-flex items-center gap-3 rounded-full border border-black/5 bg-white px-6 py-3.5 text-sm font-semibold text-[#24332d] transition-colors hover:bg-[#f0f0eb]"
+              className="inline-flex items-center gap-3 rounded-full border border-black/5 bg-white px-6 py-3.5 text-control font-semibold text-[#24332d] transition-colors hover:bg-[#f0f0eb]"
             >
               {locum ? "Join as a locum" : "I’m looking for talent"}
             </button>
           </div>
           <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-black/5 pt-6">
             {(locum
-              ? [
-                  "Flexible opportunities",
-                  "Country-aware registration",
-                  "People-first support",
-                ]
+              ? ["Flexible opportunities", "Country-aware registration", "People-first support"]
               : ["Permanent & contract", "Executive search", "Ireland & the UK"]
             ).map((label) => (
-              <span
-                key={label}
-                className="flex items-center gap-2 text-[11px] text-[#68716c]"
-              >
-                <Check
-                  size={13}
-                  className={locum ? "text-[#368B62]" : "text-[#810161]"}
-                />
+              <span key={label} className="flex items-center gap-2 text-caption text-[#68716c]">
+                <Check size={13} className={locum ? "text-[#368B62]" : "text-[#810161]"} />
                 {label}
               </span>
             ))}
@@ -203,23 +174,23 @@ export function ModernServiceHero({
             className="absolute -bottom-1 left-4 right-4 flex items-center justify-between gap-4 rounded-2xl border border-black/5 bg-white p-5 sm:left-8 sm:right-8"
           >
             <div>
-              <p className="mb-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#7a827c]">
+              <p className="mb-1 text-eyebrow font-medium uppercase text-[#7a827c]">
                 {locum ? "A schedule that fits" : "A career that fits"}
               </p>
-              <p className="text-sm font-semibold text-[#24332d]">
-                {locum
-                  ? "Your expertise. Your choice."
-                  : "Your next chapter starts here."}
+              <p className="text-body font-semibold text-[#24332d]">
+                {locum ? "Your expertise. Your choice." : "Your next chapter starts here."}
               </p>
             </div>
             <span
               className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${
-                locum
-                  ? "bg-[#edf5ef] text-[#368B62]"
-                  : "bg-[#f8eef5] text-[#810161]"
+                locum ? "bg-[#edf5ef] text-[#368B62]" : "bg-[#f8eef5] text-[#810161]"
               }`}
             >
-              {badgeIcon ? <img src={badgeIcon} alt="" className="recruit-reference-icon" /> : <Check size={19} />}
+              {badgeIcon ? (
+                <img src={badgeIcon} alt="" className="recruit-reference-icon" />
+              ) : (
+                <Check size={19} />
+              )}
             </span>
           </motion.div>
         </motion.div>
@@ -236,10 +207,8 @@ export function SoftwareAnimation() {
       className="mx-auto mt-10 max-w-xl rounded-xl border border-black/5 bg-[#f6f8f4] p-5 text-left"
     >
       <div className="mb-4 flex items-center justify-between">
-        <span className="text-xs font-semibold text-[#233b35]">
-          Your team, connected
-        </span>
-        <span className="text-[10px] text-[#368B62]">MployUs platform</span>
+        <span className="text-caption font-semibold text-[#233b35]">Your team, connected</span>
+        <span className="text-caption text-[#368B62]">MployUs platform</span>
       </div>
       <div className="grid grid-cols-3 gap-3">
         {["Recruitment", "Care plans", "Staffing"].map((label, index) => (
@@ -253,9 +222,7 @@ export function SoftwareAnimation() {
           >
             <div className="mb-4 flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[#368B62]" />
-              <span className="text-[10px] font-medium sm:text-xs">
-                {label}
-              </span>
+              <span className="text-caption font-medium">{label}</span>
             </div>
             {[0, 1, 2].map((row) => (
               <motion.div
@@ -311,23 +278,20 @@ export function LoginExperience({
       if (event.key === "Escape") onClose()
       if (event.key !== "Tab") return
       const focusables = Array.from(
-        panel.current?.querySelectorAll<HTMLElement>(
-          'button, input, a[href], [tabindex="0"]',
-        ) || [],
+        panel.current?.querySelectorAll<HTMLElement>('button, input, a[href], [tabindex="0"]') ||
+          [],
       ).filter((element) => !element.hasAttribute("disabled"))
       const first = focusables[0]
       const last = focusables[focusables.length - 1]
       if (
         event.shiftKey &&
-        (document.activeElement === first ||
-          document.activeElement === panel.current)
+        (document.activeElement === first || document.activeElement === panel.current)
       ) {
         event.preventDefault()
         last?.focus()
       } else if (
         !event.shiftKey &&
-        (document.activeElement === last ||
-          document.activeElement === panel.current)
+        (document.activeElement === last || document.activeElement === panel.current)
       ) {
         event.preventDefault()
         first?.focus()
@@ -341,125 +305,159 @@ export function LoginExperience({
     }
   }, [open])
   const loginContent = (
-<div className={recruitmentRedesign ? "flex flex-col" : locum ? "flex flex-col px-7 py-7" : "flex flex-col justify-center px-7 py-14 md:px-10"}>
-          {!locum && !recruitmentRedesign && (<>
-          <LockKeyhole
-            size={26}
-            className={locum ? "text-[#368B62]" : "text-[#810161]"}
-          />
-          <p className="mt-7 text-[10px] font-medium uppercase tracking-[0.16em] text-slate-500">
+    <div
+      className={
+        recruitmentRedesign
+          ? "flex flex-col"
+          : locum
+            ? "flex flex-col px-7 py-7"
+            : "flex flex-col justify-center px-7 py-14 md:px-10"
+      }
+    >
+      {!locum && !recruitmentRedesign && (
+        <>
+          <LockKeyhole size={26} className={locum ? "text-[#368B62]" : "text-[#810161]"} />
+          <p className="mt-7 text-eyebrow font-medium uppercase text-slate-500">
             YOUR NEXT CHAPTER
           </p>
           <h2
             id="login-title"
-            className="mt-3 font-['Libre_Caslon_Display',serif] text-4xl text-[#233b35]"
+            className="mt-3 font-display text-section text-[#233b35] font-normal"
           >
             {recover ? "A fresh start." : "Good to see you."}
           </h2>
-          </>)}
-          <p className="mb-7 mt-3 text-sm leading-6 text-slate-500">
-            {recover
-              ? "Enter your email to request a password reset."
-              : "Sign in to keep your opportunities, applications and team in one place."}
-          </p>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault()
-              setStatus(
-                recover
-                  ? "Password recovery is temporarily unavailable. Please try again later."
-                  : "Sign-in is temporarily unavailable. Please try again later.",
-              )
-            }}
-            className="space-y-5"
-          >
-            <label className="block text-xs font-medium text-slate-700">
-              Email address
+        </>
+      )}
+      <p className="mb-7 mt-3 text-body text-slate-500">
+        {recover
+          ? "Enter your email to request a password reset."
+          : "Sign in to keep your opportunities, applications and team in one place."}
+      </p>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault()
+          setStatus(
+            recover
+              ? "Password recovery is temporarily unavailable. Please try again later."
+              : "Sign-in is temporarily unavailable. Please try again later.",
+          )
+        }}
+        className="space-y-5"
+      >
+        <label className="block text-caption font-medium text-slate-700">
+          Email address
+          <input
+            required
+            type="email"
+            name="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+            className="mt-2 block w-full rounded-lg border border-black/5 bg-[#f8f8f5] px-4 py-3.5 text-control"
+          />
+        </label>
+        {!recover && (
+          <label className="block text-caption font-medium text-slate-700">
+            Password
+            <div className="relative mt-2">
               <input
                 required
-                type="email"
-                name="email"
-                autoComplete="email"
-                placeholder="you@example.com"
-                className="mt-2 block w-full rounded-lg border border-black/5 bg-[#f8f8f5] px-4 py-3.5 text-sm"
+                minLength={8}
+                name="password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                placeholder="Your password"
+                className="w-full rounded-lg border border-black/5 bg-[#f8f8f5] py-3.5 pl-4 pr-12 text-control"
               />
-            </label>
-            {!recover && (
-              <label className="block text-xs font-medium text-slate-700">
-                Password
-                <div className="relative mt-2">
-                  <input
-                    required
-                    minLength={8}
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="current-password"
-                    placeholder="Your password"
-                    className="w-full rounded-lg border border-black/5 bg-[#f8f8f5] py-3.5 pl-4 pr-12 text-sm"
-                  />
-                  <button
-                    type="button"
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-3 p-1 text-slate-500"
-                  >
-                    {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
-                  </button>
-                </div>
-              </label>
-            )}
-            <button
-              type="button"
-              onClick={() => {
-                setRecover(!recover)
-                setStatus("")
-              }}
-              className="text-xs text-slate-600 underline underline-offset-4"
-            >
-              {recover ? "Back to login" : "Forgot your password?"}
-            </button>
-            <button
-              type="submit"
-              className={`flex w-full items-center justify-center gap-3 py-3.5 text-sm font-semibold text-white transition-colors ${
-                locum
-                  ? "rounded-full bg-[#368B62] hover:bg-[#286d4c]"
-                  : "rounded-lg bg-[#810161] hover:bg-[#67014d]"
-              }`}
-            >
-              {recover ? "Request reset link" : "Sign in"}
-              <ArrowRight size={16} />
-            </button>
-            <p role="status" className="text-xs leading-5 text-slate-600">
-              {status}
-            </p>
-          </form>
-          <div className="mt-7 border-t border-black/5 pt-5 text-center text-xs text-slate-500">
-            New to MployUs?{" "}
-            <button
-              onClick={onRegister}
-              className={`ml-1 font-semibold ${
-                locum ? "text-[#368B62]" : "text-[#810161]"
-              }`}
-            >
-              Get started
-            </button>
-          </div>
-          <p className="mt-5 text-center text-[10px] text-slate-400">
-            <Link to="/policies/privacy" onClick={onClose}>
-              Privacy
-            </Link>{" "}
-            ·{" "}
-            <Link to="/policies/terms" onClick={onClose}>
-              Terms
-            </Link>
-          </p>
-        </div>
+              <button
+                type="button"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 p-1 text-slate-500"
+              >
+                {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+              </button>
+            </div>
+          </label>
+        )}
+        <button
+          type="button"
+          onClick={() => {
+            setRecover(!recover)
+            setStatus("")
+          }}
+          className="text-control text-slate-600 underline underline-offset-4"
+        >
+          {recover ? "Back to login" : "Forgot your password?"}
+        </button>
+        <button
+          type="submit"
+          className={`flex w-full items-center justify-center gap-3 py-3.5 text-control font-semibold text-white transition-colors ${
+            locum
+              ? "rounded-full bg-[#368B62] hover:bg-[#286d4c]"
+              : "rounded-lg bg-[#810161] hover:bg-[#67014d]"
+          }`}
+        >
+          {recover ? "Request reset link" : "Sign in"}
+          <ArrowRight size={16} />
+        </button>
+        <p role="status" className="text-caption text-slate-600">
+          {status}
+        </p>
+      </form>
+      <div className="mt-7 border-t border-black/5 pt-5 text-center text-caption text-slate-500">
+        New to MployUs?{" "}
+        <button
+          onClick={onRegister}
+          className={`ml-1 font-semibold ${locum ? "text-[#368B62]" : "text-[#810161]"}`}
+        >
+          Get started
+        </button>
+      </div>
+      <p className="mt-5 text-center text-caption text-slate-400">
+        <Link to="/policies/privacy" onClick={onClose}>
+          Privacy
+        </Link>{" "}
+        ·{" "}
+        <Link to="/policies/terms" onClick={onClose}>
+          Terms
+        </Link>
+      </p>
+    </div>
   )
   if (!open) return null
-  if (recruitmentRedesign) return <RecruitmentDialog onClose={onClose} title={recover ? "Let’s get you back in." : "Good to see you again."} description={recover ? "A fresh start for your account." : "Your opportunities, applications and team, all connected."} headline={"Your ambition.\nA world of possibility."} eyebrow={recover ? "Account recovery" : "Your recruitment workspace"}>{loginContent}</RecruitmentDialog>
-  if (locum) return <LocumDialog onClose={onClose} closeLabel="Close login" title={recover ? "Let’s get you back in." : "Good to see you again."} description={recover ? "A fresh start for your account." : "Your opportunities, applications and team, all connected."} headline={"Care with purpose.\nWork with freedom."} image={image}>{loginContent}</LocumDialog>
+  if (recruitmentRedesign)
+    return (
+      <RecruitmentDialog
+        onClose={onClose}
+        title={recover ? "Let’s get you back in." : "Good to see you again."}
+        description={
+          recover
+            ? "A fresh start for your account."
+            : "Your opportunities, applications and team, all connected."
+        }
+        headline={"Your ambition.\nA world of possibility."}
+        eyebrow={recover ? "Account recovery" : "Your recruitment workspace"}
+      >
+        {loginContent}
+      </RecruitmentDialog>
+    )
+  if (locum)
+    return (
+      <LocumDialog
+        onClose={onClose}
+        closeLabel="Close login"
+        title={recover ? "Let’s get you back in." : "Good to see you again."}
+        description={
+          recover
+            ? "A fresh start for your account."
+            : "Your opportunities, applications and team, all connected."
+        }
+        headline={"Care with purpose.\nWork with freedom."}
+        image={image}
+      >
+        {loginContent}
+      </LocumDialog>
+    )
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-[#10241c]/70 p-4"
@@ -490,14 +488,14 @@ export function LoginExperience({
           }`}
         >
           <span
-            className={`text-xs font-semibold uppercase tracking-[0.15em] ${
+            className={`text-caption font-semibold uppercase tracking-widest ${
               locum ? "text-[#368B62]" : "text-[#810161]"
             }`}
           >
             MployUs {locum ? "Locums" : "Recruit"}
           </span>
           <PeopleAnimation kind={kind} image={image} />
-          <p className="font-['Libre_Caslon_Display',serif] text-4xl leading-tight text-[#233b35]">
+          <p className="font-display text-stat text-[#233b35]">
             {locum
               ? "Care with purpose. Work with freedom."
               : "Your ambition. A world of possibility."}
@@ -509,11 +507,14 @@ export function LoginExperience({
   )
 }
 
-const policies: Record<string, {
-  title: string
-  intro: string
-  sections: [string, string][]
-}> = {
+const policies: Record<
+  string,
+  {
+    title: string
+    intro: string
+    sections: [string, string][]
+  }
+> = {
   privacy: {
     title: "Privacy policy",
     intro:
@@ -616,10 +617,7 @@ const policies: Record<string, {
         "Managing choices",
         "A production consent manager should offer equally clear accept and reject options, granular preferences and a persistent way to withdraw consent. Browser settings can also block or delete cookies, though some functions may be affected.",
       ],
-      [
-        "Inventory and updates",
-        "We update this policy when the cookies we use change.",
-      ],
+      ["Inventory and updates", "We update this policy when the cookies we use change."],
       [
         "Consent preference storage",
         "MployUs Locums stores your necessary, functional, performance and targeting choices in first-party local storage under mployus-cookie-preferences. It remembers your decision between visits and has no automatic expiry in the current implementation; it remains until overwritten or browser storage is cleared. Optional choices do not currently activate analytics or advertising integrations. Use Manage cookie preferences in the footer to change your decision. Third-party images and fonts may make network requests independently of these stored choices; production integrations must be reviewed before launch.",
@@ -628,23 +626,52 @@ const policies: Record<string, {
   },
   "data-protection": {
     title: "Ireland & UK data protection",
-    intro: "A draft framework for protecting candidate, professional and facility information across the Locum service.",
+    intro:
+      "A draft framework for protecting candidate, professional and facility information across the Locum service.",
     sections: [
-      ["Applicable framework", "Processing in Ireland is subject to EU GDPR and applicable Irish legislation. UK processing is subject to UK GDPR and applicable UK legislation. The operating entity must confirm which framework applies to each activity and identify controller and processor roles."],
-      ["Purpose limitation and access", "Collect only the information needed for registration, compliance review, applications and agreed bookings. Restrict document access to authorised people and inform professionals about any disclosure to a facility."],
-      ["Sensitive and vetting information", "Professional vetting information may be subject to additional legal restrictions. Confirm the lawful basis, additional processing conditions, role eligibility, access controls and retention periods before collecting or sharing it."],
-      ["Rights and requests", "People may exercise applicable access, correction, deletion, restriction, objection and portability rights. The production service must publish a verified contact, identity-check process and response procedure; none is assumed by this draft."],
-      ["Incidents and complaints", "The operating entity must document incident response and applicable notification obligations. Complaints may be directed to the Irish Data Protection Commission or UK Information Commissioner’s Office, as appropriate."],
+      [
+        "Applicable framework",
+        "Processing in Ireland is subject to EU GDPR and applicable Irish legislation. UK processing is subject to UK GDPR and applicable UK legislation. The operating entity must confirm which framework applies to each activity and identify controller and processor roles.",
+      ],
+      [
+        "Purpose limitation and access",
+        "Collect only the information needed for registration, compliance review, applications and agreed bookings. Restrict document access to authorised people and inform professionals about any disclosure to a facility.",
+      ],
+      [
+        "Sensitive and vetting information",
+        "Professional vetting information may be subject to additional legal restrictions. Confirm the lawful basis, additional processing conditions, role eligibility, access controls and retention periods before collecting or sharing it.",
+      ],
+      [
+        "Rights and requests",
+        "People may exercise applicable access, correction, deletion, restriction, objection and portability rights. The production service must publish a verified contact, identity-check process and response procedure; none is assumed by this draft.",
+      ],
+      [
+        "Incidents and complaints",
+        "The operating entity must document incident response and applicable notification obligations. Complaints may be directed to the Irish Data Protection Commission or UK Information Commissioner’s Office, as appropriate.",
+      ],
     ],
   },
   accessibility: {
     title: "Accessibility statement",
-    intro: "Our proposed approach to making MployUs Locums usable for healthcare professionals and facilities with different access needs.",
+    intro:
+      "Our proposed approach to making MployUs Locums usable for healthcare professionals and facilities with different access needs.",
     sections: [
-      ["Our aim", "We aim for clear language, keyboard-operable navigation, readable layouts and accessible forms. This draft is not a claim of audited WCAG conformance. A formal accessibility review and verified statement are required before publication."],
-      ["Motion and controls", "The testimonial marquee provides a pause control, pauses on hover and keyboard focus, and becomes static when reduced motion is requested. Users can choose reduced motion in their device or browser settings."],
-      ["Areas for review", "Registration, modal focus management, validation messages, colour contrast, third-party content and assistive-technology behaviour should be tested as part of a full accessibility audit. Any confirmed limitations and remediation dates must be published in the final statement."],
-      ["Requesting assistance", "Use the service’s published contact options to ask for help or report an access barrier. Describe the page, the task and any assistive technology involved. The production statement must include a verified accessibility contact and response process."],
+      [
+        "Our aim",
+        "We aim for clear language, keyboard-operable navigation, readable layouts and accessible forms. This draft is not a claim of audited WCAG conformance. A formal accessibility review and verified statement are required before publication.",
+      ],
+      [
+        "Motion and controls",
+        "The testimonial marquee provides a pause control, pauses on hover and keyboard focus, and becomes static when reduced motion is requested. Users can choose reduced motion in their device or browser settings.",
+      ],
+      [
+        "Areas for review",
+        "Registration, modal focus management, validation messages, colour contrast, third-party content and assistive-technology behaviour should be tested as part of a full accessibility audit. Any confirmed limitations and remediation dates must be published in the final statement.",
+      ],
+      [
+        "Requesting assistance",
+        "Use the service’s published contact options to ask for help or report an access barrier. Describe the page, the task and any assistive technology involved. The production statement must include a verified accessibility contact and response process.",
+      ],
     ],
   },
 }
@@ -654,66 +681,54 @@ export function PolicyPage() {
   const navigate = useNavigate()
   const document = policies[policy]
   return (
-    <div className="min-h-screen bg-[#fafaf7] font-['DM_Sans',sans-serif] text-[#233b35]">
+    <div className="marketing-typography min-h-screen bg-[#fafaf7] font-sans text-[#233b35]">
       <header className="border-b border-black/5 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
-          <Link to="/" className="text-2xl font-bold">
+          <Link to="/" className="text-brand font-bold">
             mploy<span className="text-[#368B62]">us.</span>
           </Link>
           <button
-            onClick={() =>
-              window.history.length > 1 ? navigate(-1) : navigate("/")
-            }
-            className="text-sm"
+            onClick={() => (window.history.length > 1 ? navigate(-1) : navigate("/"))}
+            className="text-control"
           >
             ← Go back
           </button>
         </div>
       </header>
       <main className="mx-auto max-w-3xl px-6 py-14">
-        <p className="text-xs uppercase tracking-[0.15em] text-[#368B62]">
-          Clarity & trust
-        </p>
-        <h1 className="mt-5 font-['Libre_Caslon_Display',serif] text-5xl">
+        <p className="text-eyebrow uppercase text-[#368B62]">Clarity & trust</p>
+        <h1 className="mt-5 font-display text-hero font-normal">
           {document?.title || "Policy not found"}
         </h1>
-        <nav
-          aria-label="Policy navigation"
-          className="my-8 flex flex-wrap gap-3"
-        >
+        <nav aria-label="Policy navigation" className="my-8 flex flex-wrap gap-3">
           {Object.entries(policies).map(([key, item]) => (
             <Link
               key={key}
               to={`/policies/${key}`}
               aria-current={key === policy ? "page" : undefined}
-              className={`rounded-full px-4 py-2 text-xs ${
-                key === policy
-                  ? "bg-[#368B62] text-white"
-                  : "bg-white text-[#233b35]"
+              className={`rounded-full px-4 py-2 text-control ${
+                key === policy ? "bg-[#368B62] text-white" : "bg-white text-[#233b35]"
               }`}
             >
               {item.title}
             </Link>
           ))}
         </nav>
-        <div className="mb-8 rounded-lg border border-black/5 bg-[#f3eee3] p-5 text-sm leading-6">
-          <strong>Draft for legal review.</strong> This is proposed policy
-          content, not an approved legal document. Entity details, processing
-          practices, service terms and cookie inventory must be verified before
-          launch.
+        <div className="mb-8 rounded-lg border border-black/5 bg-[#f3eee3] p-5 text-control">
+          <strong>Draft for legal review.</strong> This is proposed policy content, not an approved
+          legal document. Entity details, processing practices, service terms and cookie inventory
+          must be verified before launch.
         </div>
         {document && (
           <>
-            <p className="mb-10 text-lg leading-8 text-slate-600">
-              {document.intro}
-            </p>
+            <p className="mb-10 text-lead text-slate-600">{document.intro}</p>
             <div className="space-y-8">
               {document.sections.map(([heading, text], index) => (
                 <section key={heading}>
-                  <h2 className="mb-3 text-xl font-semibold">
+                  <h2 className="mb-3 text-title font-semibold font-sans">
                     {index + 1}. {heading}
                   </h2>
-                  <p className="text-sm leading-7 text-slate-600">{text}</p>
+                  <p className="text-body text-slate-600">{text}</p>
                 </section>
               ))}
             </div>

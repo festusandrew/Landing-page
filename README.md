@@ -107,6 +107,22 @@ contracts, browser history and deep links when extracting smaller components.
   restoration.
 - Use existing UI primitives before adding a new component library.
 
+### Marketing typography
+
+`src/styles/typography.css` is the shared type scale for the homepage, product
+and service pages, pricing and policies. Use `font-display` (Libre Caslon
+Display) for prominent headings and `font-sans` (DM Sans) for supporting text
+and controls; the existing font loading remains in `src/styles/fonts.css`.
+
+Use semantic size utilities instead of page-specific pixel sizes:
+`text-hero` and `text-section` scale fluidly, `text-card-display` is for compact
+serif titles, `text-title` is for card headings, `text-lead` / `text-body` are
+for copy, and `text-control` / `text-caption` / `text-eyebrow` are for interface
+text. Each includes its matching line height. Page styles should retain their
+own colours and layout without enlarging these roles at desktop breakpoints.
+The separate Figma-reference authentication and enquiry-dialog styles remain
+scoped to their existing flows.
+
 Calendar and chart wrappers target the installed DayPicker 9 and Recharts 3
 APIs. Other major-version updates should include their adapters and tests,
 not just a package-version change.

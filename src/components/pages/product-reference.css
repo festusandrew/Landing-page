@@ -2,63 +2,42 @@
 .product-reference-care { --product-accent: #1d4ed8; --product-hover: #1e40af; }
 .product-reference h1,
 .product-reference h2 {
-  font-family: 'Libre Caslon Display:Regular', serif;
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-normal);
 }
-.product-reference h1 { font-size: 72px; line-height: 1.06; letter-spacing: -.025em; }
-.product-reference h2 { line-height: 1.2; }
+.product-reference h1 { font-size: var(--text-hero); line-height: var(--text-hero--line-height); letter-spacing: var(--text-hero--letter-spacing); }
+.product-reference h2 { line-height: var(--text-section--line-height); }
 .product-reference-hire #recruitment-overview button,
 .product-reference-hire #recruitment-overview > div > div:first-child > div:first-child p {
-  font-family: 'Libre Caslon Display:Regular', serif;
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-medium);
 }
 .product-reference-dashboard { position: relative; align-self: stretch; min-width: 0; }
 .product-reference-dashboard img { display: block; border-radius: 24px; width: 100%; }
 .product-reference :is(#care-overview, #recruitment-overview) > div { position: relative; }
 .product-reference :is(#care-overview, #recruitment-overview) { overflow: hidden; }
-.product-reference :is(#care-overview, #recruitment-overview) h1 { font-weight: 400; }
+.product-reference :is(#care-overview, #recruitment-overview) h1 { font-weight: var(--font-weight-normal); }
 .product-reference > div > section:first-child h2,
-.product-reference :is(#care-onboarding, #recruitment-onboarding) h2 { font-size: 54.085px; line-height: 1.2; }
-.product-reference :is(#care-features, #recruitment-features, #care-preview, #recruitment-preview) h2 { font-size: 46px; line-height: 1.12; }
-.product-reference > div > section:last-child h2 { font-size: 54.085px; }
+.product-reference :is(#care-onboarding, #recruitment-onboarding) h2 { font-size: var(--text-section); line-height: var(--text-section--line-height); }
+.product-reference :is(#care-features, #recruitment-features, #care-preview, #recruitment-preview) h2 { font-size: var(--text-section); line-height: var(--text-section--line-height); }
+.product-reference > div > section:last-child h2 { font-size: var(--text-section); line-height: var(--text-section--line-height); }
 .product-reference .product-reference-feature-icon { display: inline-block; flex-shrink: 0; max-width: none; }
 .product-reference .product-section-navigation button:hover { color: var(--product-accent); }
 @media (min-width: 1024px) {
   .product-reference-dashboard img { position: absolute; left: 0; top: 0; height: 100%; width: auto; max-width: none; }
 }
 @media (min-width: 1440px) {
-  .product-reference .product-section-navigation > div { max-width: 1730.704px; padding: 27.042px 43.268px; font-family: 'DM Sans:Medium', sans-serif; font-size: 21.634px; line-height: 32.451px; font-variation-settings: 'opsz' 14; }
-  .product-reference .product-section-navigation > div > span { font-family: 'DM Sans:Regular', sans-serif; font-size: 14.873px; line-height: 22.31px; }
+  .product-reference .product-section-navigation > div { max-width: 1730.704px; padding: 27.042px 43.268px; }
   .product-reference [class~="max-w-[1184px]"] { max-width: 1600.901px; }
   .product-reference > section { padding: 108.169px 32.451px; }
   .product-reference :is(#care-overview, #recruitment-overview) > div { gap: 75.718px; }
   .product-reference :is(#care-overview, #recruitment-overview) > div > div:first-child { min-height: 733.437px; }
-  .product-reference h1 { font-size: 97.352px; line-height: 103.193px; letter-spacing: -2.4338px; }
-  .product-reference :is(#care-overview, #recruitment-overview) h1 + p { max-width: 594.93px; font-family: 'DM Sans:Regular', sans-serif; font-size: 20.282px; line-height: 37.859px; font-variation-settings: 'opsz' 14; }
-  .product-reference :is(#care-overview, #recruitment-overview) button { font-size: 18.93px; line-height: 27.042px; padding: 18.93px 32.451px; }
+  .product-reference :is(#care-overview, #recruitment-overview) h1 + p { max-width: 594.93px; }
+  .product-reference :is(#care-overview, #recruitment-overview) button { padding: 18.93px 32.451px; }
   .product-reference > div > section { padding: 86.535px 32.451px; }
   .product-reference > div > section:first-child { padding-top: 108.169px; padding-bottom: 21.634px; }
   .product-reference > div > section:first-child > div { max-width: 1108.732px; }
-  .product-reference > div > section:first-child h2,
-  .product-reference :is(#care-onboarding, #recruitment-onboarding) h2,
-  .product-reference > div > section:nth-last-child(2) h2,
-  .product-reference > div > section:last-child h2,
-  .product-reference > div > section.text-white h2 { font-size: 73.129px; line-height: 87.753px; letter-spacing: -1.4626px; }
-  .product-reference > div > section:first-child p:last-child { max-width: 973.521px; font-size: 27.424px; line-height: 51.19px; }
-  .product-reference :is(#care-features, #recruitment-features, #care-preview, #recruitment-preview) h2 { font-size: 62.197px; line-height: 69.661px; }
+  .product-reference > div > section:first-child p:last-child { max-width: 973.521px; }
   .product-reference :is(#care-features, #recruitment-features) > div { padding: 54.085px; gap: 86.535px; }
-  .product-reference :is(#care-features, #recruitment-features) article p:last-child { font-size: 17.577px; line-height: 32.451px; }
-  .product-reference :is(#care-features, #recruitment-features) h3 { font-size: 24.338px; line-height: 37.859px; }
   .product-reference :is(#care-features, #recruitment-features) article { padding: 32.451px; }
-  .product-reference :is(#care-features, #recruitment-features) > div > div:first-child > p:last-of-type,
-  .product-reference :is(#care-preview, #recruitment-preview) > div > div:first-child > p,
-  .product-reference :is(#care-onboarding, #recruitment-onboarding) article p { font-size: 18.93px; line-height: 37.859px; }
-}
-@media (max-width: 767px) {
-  .product-reference h1 { font-size: 46px; }
-  .product-reference h2,
-  .product-reference > div > section:first-child h2,
-  .product-reference > div > section:last-child h2,
-  .product-reference :is(#care-onboarding, #recruitment-onboarding) h2,
-  .product-reference :is(#care-features, #recruitment-features, #care-preview, #recruitment-preview) h2 { font-size: 38px; }
 }

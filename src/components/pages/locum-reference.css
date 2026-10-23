@@ -1,18 +1,13 @@
 /* Locum page surfaces only: dialogs intentionally retain their existing design. */
 .locum-reference { --locum-green: #368b62; }
 .locum-reference .locum-surface {
-  font-family: 'DM Sans:Regular', sans-serif;
-  font-variation-settings: 'opsz' 14;
+  font-family: var(--font-sans);
 }
-.locum-reference .locum-surface .font-medium { font-family: 'DM Sans:Medium', sans-serif; }
-.locum-reference .locum-surface .font-semibold { font-family: 'DM Sans:SemiBold', sans-serif; }
-.locum-reference .locum-surface .font-bold { font-family: 'DM Sans:Bold', sans-serif; }
-.locum-reference .locum-surface [class*="Libre_Caslon_Display"] {
-  font-family: 'Libre Caslon Display:Regular', serif;
+.locum-reference .locum-surface .font-display {
+  font-family: var(--font-display);
   font-weight: 400;
-  font-variation-settings: normal;
 }
-.locum-reference .locum-home h2 { font-family: 'DM Sans:Medium', sans-serif; }
+.locum-reference .locum-home h2 { font-family: var(--font-display); font-weight: var(--font-weight-normal); }
 .locum-reference .locum-surface button:focus-visible,
 .locum-reference .locum-surface a:focus-visible { outline: 2px solid var(--locum-green); outline-offset: 4px; }
 .locum-reference-icon { display: inline-block; flex-shrink: 0; align-self: center; max-width: none; }
@@ -23,16 +18,16 @@
 .locum-phone-composition img { position: absolute; width: 150%; max-width: none; height: auto; left: -25%; bottom: -15%; }
 .locum-app-section > div { overflow: hidden; }
 .locum-journal > header > div { padding-top: 0; }
-.locum-journal > header h1 { font-family: 'DM Sans:Medium', sans-serif; }
+.locum-journal > header h1 { font-family: var(--font-display); }
 .locum-faq { background: #f8fafc; }
 .locum-faq > section:first-child,
 .locum-faq aside > div:nth-child(2) { background: #0f172b; }
 .locum-faq > div > div > div > button[aria-expanded="true"] + div { color: #45556c; }
-.locum-faq > section:first-child h1 { font-family: 'DM Sans:Bold', sans-serif; }
+.locum-faq > section:first-child h1 { font-family: var(--font-display); }
 .locum-faq > section:first-child + div { min-height: 850px; }
 .locum-shifts select { max-width: 100%; }
-.locum-employer > section:first-child h1 { font-family: 'DM Sans:Medium', sans-serif; }
-.locum-cover-options h3 { font-family: 'DM Sans:Medium', sans-serif; }
+.locum-employer > section:first-child h1 { font-family: var(--font-display); }
+.locum-cover-options h3 { font-family: var(--font-sans); }
 
 @media (min-width: 1440px) {
   .locum-reference .locum-surface [class~="max-w-[1440px]"] { max-width: 1947.042px; padding-inline: 86.535px; }
@@ -47,24 +42,6 @@
   .locum-reference .locum-surface .max-w-md { max-width: 605.746px; }
   .locum-reference .locum-surface .max-w-lg { max-width: 692.282px; }
   .locum-reference .locum-surface .max-w-xl { max-width: 778.817px; }
-  .locum-reference .locum-surface .text-xs { font-size: 16.225px; line-height: 21.634px; }
-  .locum-reference .locum-surface .text-sm { font-size: 18.93px; line-height: 27.042px; }
-  .locum-reference .locum-surface .text-base { font-size: 21.634px; line-height: 32.451px; }
-  .locum-reference .locum-surface .text-lg { font-size: 24.338px; line-height: 37.859px; }
-  .locum-reference .locum-surface .text-xl { font-size: 27.042px; line-height: 37.859px; }
-  .locum-reference .locum-surface .text-2xl { font-size: 32.451px; line-height: 43.268px; }
-  .locum-reference .locum-surface .text-3xl { font-size: 40.563px; line-height: 48.676px; }
-  .locum-reference .locum-surface .text-4xl { font-size: 48.676px; line-height: 54.517px; }
-  .locum-reference .locum-surface .text-5xl { font-size: 64.901px; line-height: 68.146px; }
-  .locum-reference .locum-surface [class~="text-[9px]"] { font-size: 12.169px; }
-  .locum-reference .locum-surface [class~="text-[10px]"] { font-size: 13.521px; }
-  .locum-reference .locum-surface [class~="text-[11px]"] { font-size: 14.873px; }
-  .locum-reference .locum-surface [class~="text-[13px]"] { font-size: 17.577px; }
-  .locum-reference .locum-surface [class~="text-[14px]"] { font-size: 18.93px; }
-  .locum-reference .locum-surface [class~="text-[15px]"] { font-size: 20.282px; }
-  .locum-reference .locum-surface .leading-5 { line-height: 27.042px; }
-  .locum-reference .locum-surface .leading-6 { line-height: 32.451px; }
-  .locum-reference .locum-surface .leading-7 { line-height: 37.859px; }
   .locum-reference .locum-surface .py-20 { padding-block: 108.169px; }
   .locum-reference .locum-surface .py-14 { padding-block: 75.718px; }
   .locum-reference .locum-surface .px-6 { padding-inline: 32.451px; }
@@ -81,22 +58,19 @@
   .locum-reference .locum-surface [class~="rounded-[28px]"] { border-radius: 37.859px; }
   .locum-reference .locum-surface [class~="rounded-[24px]"] { border-radius: 32.451px; }
   .locum-navigation > div > div:first-child { height: 94.648px; }
-  .locum-navigation > div > div:first-child > button:first-child > span { font-size: 31.099px; line-height: 46.648px; }
   .locum-navigation button[class*="rounded-full"] { padding: 13.521px 27.042px; }
   .locum-reference :is(.locum-employer,.locum-journal,.locum-shifts,.locum-article,.locum-faq) { padding-top: 94.648px; }
   .locum-home > section:first-child { margin-top: 116.282px; }
   .locum-home > section:first-child > div { min-height: 884.493px; }
   .locum-home > section:first-child > div > div:first-child { width: 54%; }
   .locum-home > section:first-child > div > div:nth-child(2) { padding: 108.169px 75.718px; }
-  .locum-home h1 { font-family: 'DM Sans:Medium', sans-serif; font-size: 91.944px; line-height: 95.621px; letter-spacing: -2.2986px; }
   .locum-home > section:first-child p { margin-top: 32.451px; }
   .locum-home > section:first-child p:first-child { margin-top: 0; margin-bottom: 37.859px; }
   .locum-home > section:first-child button { padding: 18.93px 32.451px; }
   .locum-home > div.text-center { padding-top: 108.169px; padding-bottom: 64.901px; }
-  .locum-home > div.text-center > p:first-child { font-family: 'DM Sans:Medium', sans-serif; font-size: 64.901px; line-height: 74.637px; color: #368b62; }
+  .locum-home > div.text-center > p:first-child { color: #368b62; }
   .locum-home > div.text-center > p:last-child { max-width: 851.831px; }
   .locum-home [class~="min-h-[220px]"] { min-height: 351.549px; padding: 43.268px; }
-  .locum-home [class~="text-[42px]"] { font-size: 73.014px; }
   .locum-home [class~="h-[430px]"] { height: 703.099px; }
   .locum-home [class~="w-[280px]"] { width: 378.592px; height: 486.761px; }
   .locum-home [class~="h-[520px]"] { height: 703.099px; }
@@ -104,46 +78,31 @@
   .locum-app-section > div > div > div:first-child { padding: 75.718px; }
   .locum-app-section .locum-phone-composition { min-height: 567.887px; }
   .locum-employer > section:first-child { padding-top: 75.718px; padding-bottom: 64.901px; }
-  .locum-employer > section:first-child h1 { font-size: 81.127px; line-height: 85.183px; letter-spacing: -2.0282px; }
   .locum-employer > section:first-child img[alt="A healthcare team walking together through a hospital corridor"] { height: 730.141px; }
   .locum-employer > section:nth-child(2) { padding-block: 75.718px; }
-  .locum-employer > section:nth-child(2) h2 { font-size: 48.676px; line-height: 60.845px; }
   .locum-employer > section:nth-child(3) { padding: 108.169px 32.451px; }
-  .locum-employer > section:nth-child(3) h2 { font-size: 48.676px; line-height: 54.517px; }
   .locum-employer > section:nth-child(3) > div > div:last-child { padding: 54.085px; }
   .locum-journal > header { padding-top: 108.169px; padding-bottom: 86.535px; padding-inline: 54.085px; }
-  .locum-journal > header h1 { font-size: 102.761px; line-height: 108.926px; letter-spacing: -2.569px; }
   .locum-journal > header > div { padding-top: 48.676px; gap: 86.535px; }
-  .locum-journal > header p { font-size: 21.634px; line-height: 37.859px; }
   .locum-journal #locum-journal-stories > div { padding-inline: 54.085px; }
   .locum-journal #locum-journal-stories > div > button { margin-block: 64.901px; }
   .locum-journal #locum-journal-stories > div > button > div:first-child { min-height: 567.887px; }
-  .locum-journal #locum-journal-stories > div > button h2 { font-size: 62.197px; line-height: 69.661px; }
   .locum-journal #locum-journal-stories > div > button > div:last-child { padding: 54.085px; }
   .locum-journal #locum-journal-stories > div > div.pb-12 button[class*="grid-cols-"] { grid-template-columns: 196.056px minmax(0, 1fr); gap: 27.042px; }
-  .locum-journal aside h2 { font-size: 64.901px; }
   .locum-article > div:nth-child(2) { padding-top: 75.718px; padding-bottom: 86.535px; }
-  .locum-article h1 { font-size: 81.127px; line-height: 89.239px; }
-  .locum-article article > div > p { font-size: 20.282px; line-height: 36.507px; }
   .locum-faq > section:first-child { min-height: 583.38px; padding: 86.535px 32.451px 108.169px; }
-  .locum-faq > section:first-child h1 { font-size: 64.901px; line-height: 68.146px; }
   .locum-faq > section:first-child + div { min-height: 1333.634px; padding-top: 75.718px; padding-bottom: 75.718px; gap: 75.718px; }
   .locum-faq > section:first-child + div > div > div > button { padding: 27.042px 32.451px; }
-  .locum-faq > section:first-child + div > div > div > button + div { padding: 21.634px 32.451px 32.451px; font-size: 20.282px; line-height: 32.958px; }
-  .locum-shifts > section:first-child h1 { font-size: 75.718px; line-height: 81.776px; }
+  .locum-faq > section:first-child + div > div > div > button + div { padding: 21.634px 32.451px 32.451px; }
   .locum-shifts > div:nth-of-type(1) > div { padding-inline: 54.085px; padding-block: 32.451px; }
   .locum-shifts select { width: 300px; }
   .locum-shifts #selected-locum-shift iframe { height: 432.676px; }
   .locum-reference > footer { padding-block: 86.535px 64.901px; }
   .locum-reference > footer > div { max-width: 1730.704px; padding-inline: 43.268px; }
-  .locum-reference > footer .text-xs { font-size: 16.225px; line-height: 21.634px; }
-  .locum-reference > footer .text-base { font-size: 21.634px; line-height: 32.451px; }
-  .locum-reference > footer [class~="text-[11px]"] { font-size: 14.873px; line-height: 19.831px; }
 }
 @media (max-width: 767px) {
   .locum-phone-composition { min-height: 320px; }
   .locum-phone-composition img { width: 115%; left: -7.5%; bottom: -15%; }
   .locum-shifts > div > div { padding-inline: 20px; }
-  .locum-faq > section:first-child h1 { font-size: 40px; }
   .locum-faq > section:first-child + div { min-height: 0; }
 }

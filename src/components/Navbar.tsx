@@ -24,10 +24,9 @@ export const Navbar: React.FC<NavbarProps> = ({
     onNavigate(view)
   }
   const section = (id: string) => {
-    const scroll = () => document.getElementById(id)?.scrollIntoView({
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth",
+    const scroll = () =>
+      document.getElementById(id)?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
       })
     if (activeView !== "home") {
       onNavigate("home")
@@ -41,14 +40,14 @@ export const Navbar: React.FC<NavbarProps> = ({
     onStartTrial()
   }
   const primaryButton =
-    "inline-flex items-center justify-center rounded-sm bg-[#368B62] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c]"
+    "inline-flex items-center justify-center rounded-sm bg-[#368B62] px-5 py-3 text-control font-semibold text-white transition-colors hover:bg-[#286d4c]"
   const secondaryButton =
-    "inline-flex items-center justify-center gap-2 rounded-sm border border-black/5 bg-white px-5 py-3 text-sm font-semibold text-[#233b35] transition-colors hover:bg-[#edf5ef]"
+    "inline-flex items-center justify-center gap-2 rounded-sm border border-black/5 bg-white px-5 py-3 text-control font-semibold text-[#233b35] transition-colors hover:bg-[#edf5ef]"
   return (
     <header
       className={
         embedded
-          ? "relative z-40 border-y border-black/5 bg-white font-['DM_Sans',sans-serif]"
+          ? "relative z-40 border-y border-black/5 bg-white font-sans"
           : "sticky top-0 z-40 border-b border-black/5 bg-white"
       }
     >
@@ -62,11 +61,9 @@ export const Navbar: React.FC<NavbarProps> = ({
       >
         <button
           type="button"
-          onClick={() =>
-            activeView === "home" ? section("overview") : navigate("home")
-          }
+          onClick={() => (activeView === "home" ? section("overview") : navigate("home"))}
           aria-label="MployUs home"
-          className="shrink-0 font-['DM_Sans',sans-serif] text-[28px] font-bold tracking-[-1px] text-[#233b35]"
+          className="shrink-0 font-sans text-brand font-bold text-[#233b35]"
         >
           mploy<span className="text-[#368B62]">us.</span>
         </button>
@@ -77,11 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               : "order-3 w-full border-t border-black/5 pt-3 xl:order-none xl:w-auto xl:flex-1 xl:border-0 xl:pt-0"
           }
         >
-          <MainNavigation
-            onNavigate={navigate}
-            onSection={section}
-            onBookDemo={demo}
-          />
+          <MainNavigation onNavigate={navigate} onSection={section} onBookDemo={demo} />
         </div>
         <div
           className={

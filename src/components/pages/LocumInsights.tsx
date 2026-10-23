@@ -41,19 +41,19 @@ export function LocumInsights({
         : "United Kingdom"
 
   return (
-    <div className="locum-journal locum-surface min-h-screen bg-[#fafbf8] pt-[70px] font-['DM_Sans'] text-[#20382c]">
+    <div className="locum-journal locum-surface min-h-screen bg-[#fafbf8] pt-[70px] font-sans text-[#20382c]">
       <header className="mx-auto max-w-[1240px] px-6 pb-12 pt-12 md:px-10 md:pb-16 md:pt-20">
         <div className="grid gap-8 pt-9 md:grid-cols-[1.5fr_1fr] md:items-end md:gap-16">
-          <h1 className="text-[48px] font-medium leading-[1.06] tracking-[-0.025em] md:text-[76px]">
+          <h1 className="text-hero font-normal font-display">
             A fresh perspective
             <br />
             on{" "}
-            <span className="font-['Libre_Caslon_Display'] text-[#368B62]">
+            <span className="font-display text-[#368B62]">
               life in locum.
             </span>
           </h1>
           <div className="max-w-sm pb-1">
-            <p className="text-base leading-7 text-[#53685b]">
+            <p className="text-body text-[#53685b]">
               The people, practical guides and local knowledge behind a more
               rewarding healthcare career. For professionals and employers
               across Ireland and the UK.
@@ -82,7 +82,7 @@ export function LocumInsights({
                   key={option.id}
                   onClick={() => onAudience(option.id)}
                   aria-pressed={audience === option.id}
-                  className={`rounded-full px-4 py-2.5 text-xs font-medium transition-colors ${
+                  className={`rounded-full px-4 py-2.5 text-control font-medium transition-colors ${
                     audience === option.id
                       ? "bg-[#368B62] text-white"
                       : "text-[#53685b] hover:bg-[#e6ede3]"
@@ -92,7 +92,7 @@ export function LocumInsights({
                 </button>
               ))}
             </div>
-            <p aria-live="polite" className="text-xs text-[#53685b]">
+            <p aria-live="polite" className="text-caption text-[#53685b]">
               {articles.length} {articles.length === 1 ? "story" : "stories"} ·{" "}
               {audience === "all"
                 ? "Ireland & UK"
@@ -116,7 +116,7 @@ export function LocumInsights({
                 key={topic}
                 aria-pressed={category === topic}
                 onClick={() => onCategory(topic)}
-                className={`text-sm transition-colors ${
+                className={`text-control transition-colors ${
                   category === topic
                     ? "font-semibold text-[#368B62] underline decoration-[#368B62] underline-offset-8"
                     : "text-[#53685b] hover:text-[#368B62]"
@@ -138,24 +138,24 @@ export function LocumInsights({
                   alt=""
                   className="absolute inset-0 size-full object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.03]"
                 />
-                <span className="absolute left-5 top-5 rounded-full bg-white px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.14em]">
+                <span className="absolute left-5 top-5 rounded-full bg-white px-4 py-2 text-caption font-semibold uppercase tracking-widest">
                   The lead story
                 </span>
               </div>
               <div className="flex flex-col justify-center p-7 md:p-10">
-                <p className="mb-5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.13em] text-[#368B62]">
+                <p className="mb-5 flex items-center gap-2 text-eyebrow font-semibold uppercase text-[#368B62]">
                   {lead.tag}
                   <span className="text-[#8c9d90]">/</span>
                   {countryLabel(lead)}
                 </p>
-                <h2 className="font-['Libre_Caslon_Display'] text-4xl leading-[1.12] md:text-[46px]">
+                <h2 className="font-display text-section font-normal">
                   {lead.title}
                 </h2>
-                <p className="mt-5 text-sm leading-7 text-[#53685b]">
+                <p className="mt-5 text-body text-[#53685b]">
                   {lead.subtitle}
                 </p>
                 <div className="mt-8 flex items-center justify-between gap-3 border-t border-black/5 pt-5">
-                  <span className="text-xs text-[#53685b]">
+                  <span className="text-caption text-[#53685b]">
                     {lead.date} · {lead.read} read
                   </span>
                   <span className="flex size-11 items-center justify-center rounded-full bg-[#368B62] text-white transition-transform motion-safe:group-hover:rotate-45">
@@ -170,8 +170,8 @@ export function LocumInsights({
             </button>
           ) : (
             <div className="py-16 text-center">
-              <h2 className="text-2xl">A new perspective is on its way.</h2>
-              <p className="mt-3 text-sm text-[#53685b]">
+              <h2 className="text-title font-sans font-semibold">A new perspective is on its way.</h2>
+              <p className="mt-3 text-body text-[#53685b]">
                 No stories match this country and topic yet.
               </p>
               <button
@@ -179,7 +179,7 @@ export function LocumInsights({
                   onAudience("all")
                   onCategory("All")
                 }}
-                className="mt-6 rounded-full bg-[#368B62] px-6 py-3 text-sm text-white"
+                className="mt-6 rounded-full bg-[#368B62] px-6 py-3 text-control text-white"
               >
                 Show all insights
               </button>
@@ -189,8 +189,8 @@ export function LocumInsights({
           {remaining.length > 0 && (
             <div className="pb-12">
               <div className="mb-7 flex items-baseline justify-between">
-                <h2 className="text-2xl font-medium">More worth reading</h2>
-                <span className="text-[10px] uppercase tracking-[0.16em] text-[#53685b]">
+                <h2 className="text-title font-semibold font-sans">More worth reading</h2>
+                <span className="text-caption uppercase tracking-widest text-[#53685b]">
                   The reading list
                 </span>
               </div>
@@ -210,16 +210,16 @@ export function LocumInsights({
                       />
                     </div>
                     <div className="flex flex-col">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#368B62]">
+                      <p className="text-eyebrow font-semibold uppercase text-[#368B62]">
                         {article.tag} · {countryLabel(article)}
                       </p>
-                      <h3 className="mt-3 text-xl font-medium leading-snug transition-colors group-hover:text-[#368B62]">
+                      <h3 className="mt-3 text-title font-semibold transition-colors group-hover:text-[#368B62] font-sans">
                         {article.title}
                       </h3>
-                      <p className="mt-2 hidden text-sm leading-6 text-[#53685b] sm:line-clamp-2">
+                      <p className="mt-2 hidden text-body text-[#53685b] sm:line-clamp-2">
                         {article.subtitle}
                       </p>
-                      <div className="mt-auto flex items-center justify-between gap-2 pt-4 text-[11px] text-[#53685b]">
+                      <div className="mt-auto flex items-center justify-between gap-2 pt-4 text-caption text-[#53685b]">
                         <span>
                           {article.date} · {article.read} read
                         </span>
@@ -239,7 +239,7 @@ export function LocumInsights({
               </div>
             </div>
           )}
-          <p className="border-t border-black/5 py-6 text-[11px] leading-5 text-[#53685b]">
+          <p className="border-t border-black/5 py-6 text-caption text-[#53685b]">
             Salary figures are indicative. Confirm current requirements with the
             relevant regulator. Guides covering both
             countries appear in both filters.
@@ -248,7 +248,7 @@ export function LocumInsights({
       </section>
       <aside className="mx-auto grid max-w-[1240px] gap-6 px-6 py-14 md:grid-cols-[1fr_auto] md:items-center md:px-10 md:py-20">
         <div>
-          <p className="mb-4 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#368B62]">
+          <p className="mb-4 flex items-center gap-2 text-eyebrow font-semibold uppercase text-[#368B62]">
             <img
               src={LOCUM_VISUALS.journal.location[0]}
               alt=""
@@ -256,17 +256,17 @@ export function LocumInsights({
             />{" "}
             Local knowledge. Real opportunities.
           </p>
-          <h2 className="font-['Libre_Caslon_Display'] text-4xl md:text-5xl">
+          <h2 className="font-display text-section font-normal">
             Your next chapter starts with a shift.
           </h2>
-          <p className="mt-3 text-sm leading-6 text-[#53685b]">
+          <p className="mt-3 text-body text-[#53685b]">
             Put your perspective into practice. Explore opportunities across
             Ireland and the UK.
           </p>
         </div>
         <button
           onClick={onFindShifts}
-          className="inline-flex w-fit items-center gap-5 rounded-full bg-[#368B62] px-7 py-4 text-sm font-medium text-white transition-colors hover:bg-[#276647]"
+          className="inline-flex w-fit items-center gap-5 rounded-full bg-[#368B62] px-7 py-4 text-control font-medium text-white transition-colors hover:bg-[#276647]"
         >
           Explore available shifts{" "}
           <img

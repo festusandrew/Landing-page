@@ -1,0 +1,55 @@
+/* Emit shared tokens for Tailwind utilities and lazy-loaded page styles alike. */
+@theme static {
+  --font-sans: "DM Sans", "DM Sans:Regular", sans-serif;
+  --font-display: "Libre Caslon Display:Regular", "Libre Caslon Display", Georgia, serif;
+
+  --text-hero: clamp(3rem, 2rem + 4vw, 5.5rem);
+  --text-hero--line-height: 1.08;
+  --text-hero--letter-spacing: -0.025em;
+  --text-section: clamp(2.25rem, 1.75rem + 2vw, 3.5rem);
+  --text-section--line-height: 1.15;
+  --text-section--letter-spacing: -0.02em;
+  --text-card-display: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  --text-card-display--line-height: 1.2;
+  --text-card-display--letter-spacing: -0.02em;
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.4;
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.75;
+  --text-body: 1rem;
+  --text-body--line-height: 1.75;
+  --text-control: 0.875rem;
+  --text-control--line-height: 1.5;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.5;
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.5;
+  --text-eyebrow--letter-spacing: 0.12em;
+  --text-stat: clamp(2.25rem, 1.75rem + 2vw, 3rem);
+  --text-stat--line-height: 1.2;
+  --text-stat--letter-spacing: -0.025em;
+  --text-step: clamp(4rem, 3rem + 4vw, 6rem);
+  --text-step--line-height: 1.1;
+  --text-brand: 1.75rem;
+  --text-brand--line-height: 1.25;
+  --text-brand--letter-spacing: -0.035em;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .marketing-typography :where(button, label) {
+    font-size: var(--text-control);
+    line-height: var(--text-control--line-height);
+  }
+}
+
+.marketing-typography {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+}

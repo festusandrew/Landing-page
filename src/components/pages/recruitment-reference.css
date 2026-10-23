@@ -1,13 +1,8 @@
 /* Page-scoped design tokens keep Recruitment distinct from Locum and software. */
 .recruit-reference { --recruit-accent: #810161; --recruit-tint: #faf5f8; }
 .recruit-reference :is(.recruit-surface, .recruit-navigation) {
-  font-family: 'DM Sans:Regular', sans-serif;
-  font-variation-settings: 'opsz' 14;
+  font-family: var(--font-sans);
 }
-.recruit-reference :is(.recruit-surface, .recruit-navigation) .font-medium,
-.recruit-reference .recruit-surface h1,
-.recruit-reference .recruit-surface h2 { font-family: 'DM Sans:Medium', sans-serif; }
-.recruit-reference :is(.recruit-surface, .recruit-navigation) .font-semibold { font-family: 'DM Sans:SemiBold', sans-serif; }
 .recruit-reference .recruit-home > section:first-child > div > div:first-child > div:first-child,
 .recruit-reference .recruit-home > section:first-child > div > div:first-child > div:last-child { display: none; }
 .recruit-reference .recruit-contact > section:first-child,
@@ -40,27 +35,6 @@
   .recruit-reference .recruit-surface .max-w-lg { max-width: 692.282px; }
   .recruit-reference .recruit-surface .max-w-md { max-width: 605.746px; }
   .recruit-reference .recruit-surface .max-w-sm { max-width: 519.211px; }
-  .recruit-reference .recruit-surface .text-xs { font-size: 16.225px; line-height: 21.634px; }
-  .recruit-reference .recruit-surface .text-sm { font-size: 18.93px; line-height: 27.042px; }
-  .recruit-reference .recruit-surface .text-base { font-size: 21.634px; line-height: 32.451px; }
-  .recruit-reference .recruit-surface .text-lg { font-size: 24.338px; line-height: 37.859px; }
-  .recruit-reference .recruit-surface .text-xl { font-size: 27.042px; line-height: 37.859px; }
-  .recruit-reference .recruit-surface .text-2xl { font-size: 32.451px; line-height: 43.268px; }
-  .recruit-reference .recruit-surface .text-3xl { font-size: 40.563px; line-height: 48.676px; }
-  .recruit-reference .recruit-surface [class~="text-[11px]"] { font-size: 14.873px; }
-  .recruit-reference .recruit-surface [class~="text-[12px]"] { font-size: 16.225px; }
-  .recruit-reference .recruit-surface [class~="text-[13px]"] { font-size: 17.577px; }
-  .recruit-reference .recruit-surface [class~="text-[14px]"] { font-size: 18.93px; }
-  .recruit-reference .recruit-surface [class~="text-[15px]"] { font-size: 20.282px; }
-  .recruit-reference .recruit-surface [class~="text-[16px]"] { font-size: 21.634px; }
-  .recruit-reference .recruit-surface [class~="text-[17px]"] { font-size: 22.986px; }
-  .recruit-reference .recruit-surface [class~="text-[18px]"] { font-size: 24.338px; }
-  .recruit-reference .recruit-surface [class~="text-[28px]"] { font-size: 37.859px; }
-  .recruit-reference .recruit-surface h1 { font-size: 75.718px; line-height: 81.776px; letter-spacing: -1.5144px; }
-  .recruit-reference .recruit-surface h2[class*="text-[30px]"] { font-size: 51.38px; line-height: 59.087px; }
-  .recruit-reference .recruit-surface .leading-6 { line-height: 32.451px; }
-  .recruit-reference .recruit-surface .leading-7 { line-height: 37.859px; }
-  .recruit-reference .recruit-surface .leading-8 { line-height: 43.268px; }
   .recruit-reference .recruit-surface .py-16 { padding-block: 86.535px; }
   .recruit-reference .recruit-surface .py-14 { padding-block: 75.718px; }
   .recruit-reference .recruit-surface .py-12 { padding-block: 64.901px; }
@@ -78,16 +52,13 @@
   .recruit-reference .recruit-surface .rounded-xl { border-radius: 18.93px; }
   .recruit-reference .recruit-surface .rounded-2xl { border-radius: 21.634px; }
   .recruit-navigation > div:first-child { height: 91.944px; padding-inline: 64.901px; }
-  .recruit-navigation > div:first-child > button:first-child > span { font-size: 31.099px; line-height: 46.648px; }
-  .recruit-navigation button[class~="text-[14px]"] { font-size: 18.93px; line-height: 28.394px; }
   .recruit-navigation nav { gap: 43.268px; }
   .recruit-navigation nav button > div { bottom: -29.746px; }
   .recruit-navigation button[class~="h-[41px]"] { height: 55.437px; padding-inline: 27.042px; }
   .recruit-home > section:first-child { min-height: 949.775px; padding: 108.169px 32.451px; }
   .recruit-home > section:first-child > div > div:first-child { min-height: 733.437px; display: flex; flex-direction: column; justify-content: center; }
-  .recruit-home > section:first-child h1 { font-size: 97.352px; line-height: 103.193px; letter-spacing: -2.4338px; }
-  .recruit-home > section:first-child h1 + p { max-width: 594.93px; margin-top: 32.451px; margin-bottom: 43.268px; font-size: 20.282px; line-height: 37.859px; }
-  .recruit-home > section:first-child button { font-size: 18.93px; line-height: 27.042px; padding: 18.93px 32.451px; }
+  .recruit-home > section:first-child h1 + p { max-width: 594.93px; margin-top: 32.451px; margin-bottom: 43.268px; }
+  .recruit-home > section:first-child button { padding: 18.93px 32.451px; }
   .recruit-home > section:first-child > div > div:last-child { max-width: 649.014px; padding-bottom: 43.268px; }
   .recruit-home > section:first-child > div > div:last-child > div:first-child { border-radius: 243.38px 243.38px 32.451px 32.451px; }
   .recruit-home > section:first-child img[alt="Professional ready for their next career opportunity"] { height: 689.577px; }
@@ -99,7 +70,6 @@
   .recruit-home [class~="h-[300px]"] { height: 405.634px; }
   .recruit-home [class~="h-[200px]"] { height: 270.423px; }
   .recruit-newsletter { padding-block: 75.718px; }
-  .recruit-reference .recruit-newsletter h2 { font-family: 'DM Sans:Regular', sans-serif; font-size: 43.268px; line-height: 59.493px; }
   .recruit-employers > section:first-child { padding-block: 108.169px; }
   .recruit-employers > section:last-child { max-width: none; min-height: 316.901px; margin-top: 54.085px; border-radius: 18.93px; padding: 0 50px; gap: 0; }
   .recruit-employers > section:last-child > div { padding: 43.268px; border-right: 1px solid rgb(0 0 0 / 5%); }
@@ -112,26 +82,16 @@
   .recruit-blog [class~="lg:w-[480px]"] { width: 649.014px; }
   .recruit-jobseekers > div[class~="max-w-[1400px]"] > div { grid-template-columns: 513.803px minmax(0, 1fr); }
   .recruit-jobseekers .recruit-role-card { padding: 37.859px; border-radius: 21.634px; }
-  .recruit-jobseekers .recruit-role-header :is(h1,h2) { font-size: 43.268px; line-height: 49.758px; }
-  .recruit-jobseekers .recruit-role-meta { font-size: 14.873px; margin-bottom: 35.155px; }
-  .recruit-jobseekers .recruit-role-status { font-size: 13.521px; padding: 6.761px 12.169px; }
-  .recruit-jobseekers .recruit-role-tags span { font-size: 14.873px; padding: 8.113px 12.169px; }
-  .recruit-jobseekers .recruit-role-primary { min-height: 60.845px; font-size: 17.577px; padding: 16.225px 27.042px; }
+  .recruit-jobseekers .recruit-role-meta { margin-bottom: 35.155px; }
+  .recruit-jobseekers .recruit-role-status { padding: 6.761px 12.169px; }
+  .recruit-jobseekers .recruit-role-tags span { padding: 8.113px 12.169px; }
+  .recruit-jobseekers .recruit-role-primary { min-height: 60.845px; padding: 16.225px 27.042px; }
   .recruit-jobseekers .recruit-role-share { width: 60.845px; height: 60.845px; }
   .recruit-jobseekers .recruit-role-section { margin-top: 40.563px; }
-  .recruit-jobseekers .recruit-role-section :is(h2,h3) { font-size: 22.986px; }
-  .recruit-jobseekers .recruit-role-section :is(p,li) { font-size: 18.93px; line-height: 35.966px; }
-  .recruit-jobseekers .recruit-role-facts > div { font-size: 17.577px; }
-  .recruit-jobseekers .recruit-role-disclosure p,
-  .recruit-jobseekers .recruit-role-section .recruit-role-section-note { font-size: 14.873px; }
   .recruitment-article > header { padding-top: 86.535px; padding-bottom: 54.085px; }
   .recruitment-article > div { grid-template-columns: 324.507px minmax(0,1fr); }
-  .recruitment-article h1 { font-size: 81.127px; line-height: 101.408px; }
   .recruit-reference > footer { padding-block: 86.535px 64.901px; }
   .recruit-reference > footer > div { max-width: 1730.704px; padding-inline: 43.268px; }
-  .recruit-reference > footer .text-xs { font-size: 16.225px; line-height: 21.634px; }
-  .recruit-reference > footer .text-base { font-size: 21.634px; line-height: 32.451px; }
-  .recruit-reference > footer [class~="text-[11px]"] { font-size: 14.873px; line-height: 19.831px; }
 }
 @media (max-width: 767px) {
   .recruit-reference .recruit-employers > section:last-child > div { padding: 8px; }

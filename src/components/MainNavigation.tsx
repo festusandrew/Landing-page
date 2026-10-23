@@ -86,7 +86,7 @@ export function MainNavigation({
     return () => document.removeEventListener("pointerdown", outside)
   }, [])
   const smallLink =
-    "text-left font-['Plus_Jakarta_Sans:SemiBold',sans-serif] text-xs font-semibold leading-4 text-[#45556c] transition-colors hover:text-[#368B62]"
+    "text-left font-sans text-control font-semibold text-[#45556c] transition-colors hover:text-[#368B62]"
   return (
     <div
       ref={rootRef}
@@ -102,8 +102,7 @@ export function MainNavigation({
         }
       }}
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget))
-          setOpenMenu(null)
+        if (!event.currentTarget.contains(event.relatedTarget)) setOpenMenu(null)
       }}
     >
       {Object.entries(menus).map(([name, links], index) => (
@@ -116,7 +115,7 @@ export function MainNavigation({
             aria-expanded={openMenu === name}
             aria-controls={`main-${mobile ? "mobile" : "desktop"}-${name}`}
             onClick={() => setOpenMenu(openMenu === name ? null : name)}
-            className="flex items-center gap-1 py-2 font-['Plus_Jakarta_Sans:SemiBold',sans-serif] text-xs font-semibold leading-4 text-[#314158] transition-colors hover:text-[#368B62]"
+            className="flex items-center gap-1 py-2 font-sans text-control font-semibold text-[#314158] transition-colors hover:text-[#368B62]"
           >
             {name}
             <img
@@ -142,7 +141,7 @@ export function MainNavigation({
               }
             >
               <div className="min-w-0">
-                <p className="px-1 font-['Plus_Jakarta_Sans:Bold',sans-serif] text-[10px] font-bold uppercase leading-[13.333px] tracking-[0.5px] text-[#90a1b9]">
+                <p className="px-1 font-sans text-eyebrow font-bold uppercase text-[#90a1b9]">
                   {name === "Products"
                     ? "Healthcare Software Solutions"
                     : "Healthcare Professional Services"}
@@ -163,23 +162,23 @@ export function MainNavigation({
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2">
-                          <span className="max-w-[155px] font-['Plus_Jakarta_Sans:Bold',sans-serif] text-xs font-bold leading-4 text-[#0f172b] group-hover:text-[#368B62]">
+                          <span className="max-w-[155px] font-sans text-caption font-bold text-[#0f172b] group-hover:text-[#368B62]">
                             {link.label}
                           </span>
                           {link.badge && (
                             <span
                               className={
-                                "shrink-0 rounded px-1.5 text-[9px] leading-3 " +
+                                "shrink-0 rounded px-1.5 text-caption " +
                                 (link.badge === "Popular"
-                                  ? "bg-[#dbeafe] font-['Plus_Jakarta_Sans:Bold',sans-serif] font-bold text-[#193cb8]"
-                                  : "bg-[#f1f5f9] font-mono font-normal text-[#45556c]")
+                                  ? "bg-[#dbeafe] font-sans font-bold text-[#193cb8]"
+                                  : "bg-[#f1f5f9] font-sans font-normal text-[#45556c]")
                               }
                             >
                               {link.badge}
                             </span>
                           )}
                         </span>
-                        <span className="mt-0.5 block font-['Plus_Jakarta_Sans:Regular',sans-serif] text-[11px] font-normal leading-[15.125px] text-[#62748e]">
+                        <span className="mt-0.5 block font-sans text-caption font-normal text-[#62748e]">
                           {link.description}
                         </span>
                       </span>
@@ -191,17 +190,15 @@ export function MainNavigation({
                 <div>
                   <p
                     className={
-                      "font-mono text-[9px] font-bold uppercase leading-3 text-[#0e162a] " +
+                      "font-sans text-eyebrow font-bold uppercase text-[#0e162a] " +
                       (name === "Products" ? "px-[9px] pb-[14px] pt-1" : "")
                     }
                   >
-                    {name === "Products"
-                      ? "Unified Platform"
-                      : "Featured Provision"}
+                    {name === "Products" ? "Unified Platform" : "Featured Provision"}
                   </p>
                   <h3
                     className={
-                      "font-['Plus_Jakarta_Sans:Bold',sans-serif] text-xs font-bold leading-[16.5px] text-[#0f172a] " +
+                      "font-sans text-caption font-bold text-[#0f172a] " +
                       (name === "Services" ? "mt-2" : "")
                     }
                   >
@@ -209,7 +206,7 @@ export function MainNavigation({
                       ? "Explore Live Interactive Dashboards"
                       : "Locum Provision & Urgent Dispatch"}
                   </h3>
-                  <p className="mt-2 font-['Plus_Jakarta_Sans:SemiBold',sans-serif] text-[10px] font-semibold leading-[16.25px] text-[#475569]">
+                  <p className="mt-2 font-sans text-caption font-semibold text-[#475569]">
                     {name === "Products"
                       ? "Test recruitment candidate pipelines and digital eMAR medication pass charts live."
                       : "Need temporary RGN nurses or care assistants today? Shift matching under 2 hours."}
@@ -221,11 +218,9 @@ export function MainNavigation({
                     closeMenu()
                     onNavigate("locum-provision")
                   }}
-                  className="mt-3 flex w-full items-center justify-center gap-1 rounded-[10px] bg-[#0e162a] px-2 py-2 font-['Plus_Jakarta_Sans:Bold',sans-serif] text-[11px] font-bold leading-[16.5px] text-white transition-colors hover:bg-[#1c2942]"
+                  className="mt-3 flex w-full items-center justify-center gap-1 rounded-[10px] bg-[#0e162a] px-2 py-2 font-sans text-control font-bold text-white transition-colors hover:bg-[#1c2942]"
                 >
-                  {name === "Products"
-                    ? "See Locum Portal"
-                    : "Open Locum Landing Page"}
+                  {name === "Products" ? "See Locum Portal" : "Open Locum Landing Page"}
                   <img
                     src={name === "Products" ? productArrow : serviceArrow}
                     alt=""
@@ -243,7 +238,7 @@ export function MainNavigation({
           closeMenu()
           onSection("overview")
         }}
-        className="text-left font-['Plus_Jakarta_Sans:Medium',sans-serif] text-xs font-medium leading-4 text-[#45556c] hover:text-[#368B62]"
+        className="text-left font-sans text-control font-semibold text-[#45556c] hover:text-[#368B62]"
       >
         Overview
       </button>
