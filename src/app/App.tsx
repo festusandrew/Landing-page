@@ -225,92 +225,93 @@ function LandingPage({
       id="overview"
       className="homepage-magenta bg-white font-sans text-[#233b35] selection:bg-[#dfeee4] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none"
     >
-      <div className="relative bg-white">
-        <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-3 text-caption text-[#5d6862] lg:px-10">
-          <div className="flex items-center gap-5">
-            <Globe2 size={12} />
-            <label className="flex items-center gap-2 text-caption">
-              Your region{" "}
-              <select
-                aria-label="Country"
-                value={country}
-                onChange={(event) => setCountry(event.target.value)}
-                className="cursor-pointer bg-transparent text-control font-medium text-[#233b35]"
-              >
-                <option>Ireland</option>
-                <option>United Kingdom</option>
-              </select>
-            </label>
-          </div>
-          <button onClick={onBookDemo} className="transition-colors hover:text-[#368B62]">
-            Talk to our team <ArrowUpRight size={11} className="ml-1 inline" />
-          </button>
-        </div>
-        <Navbar
-          embedded
-          onNavigate={onNavigate}
-          onBookDemo={onBookDemo}
-          onStartTrial={onStartTrial}
-        />
-      </div>
-
-      <section
-        aria-labelledby="homepage-hero-heading"
-        className="relative isolate overflow-hidden px-6 pb-24 pt-16 text-center md:pb-36 md:pt-[81px]"
-      >
-        <div
-          aria-hidden="true"
-          className="homepage-hero-glow pointer-events-none absolute inset-0 -z-10"
-        />
-        <div className="mx-auto max-w-[1500px]">
-          <div className="mb-[17px] flex flex-wrap items-center justify-center gap-x-[27px] gap-y-3">
-            <div className="flex -space-x-[13px]" aria-hidden="true">
-              <img
-                src={trustedTeamOne}
-                alt=""
-                className="h-[43.327px] w-[43.327px] -scale-x-100 rounded-full object-cover"
-              />
-              <img
-                src={trustedTeamTwo}
-                alt=""
-                className="h-[43.327px] w-[43.327px] rounded-full object-cover"
-              />
-              <span className="relative h-[43.327px] w-[43.327px] overflow-hidden rounded-full">
-                <img
-                  src={trustedTeamThree}
-                  alt=""
-                  className="absolute -top-[8.08%] left-[-0.56%] h-[150%] w-full object-cover"
-                />
-              </span>
+      <div className="homepage-intro bg-white">
+        <div className="homepage-header relative bg-white">
+          <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-3 text-caption text-[#5d6862] lg:px-10">
+            <div className="flex items-center gap-5">
+              <Globe2 size={12} />
+              <label className="flex items-center gap-2 text-caption">
+                Your region{" "}
+                <select
+                  aria-label="Country"
+                  value={country}
+                  onChange={(event) => setCountry(event.target.value)}
+                  className="cursor-pointer bg-transparent text-control font-medium text-[#233b35]"
+                >
+                  <option>Ireland</option>
+                  <option>United Kingdom</option>
+                </select>
+              </label>
             </div>
-            <p className="flex flex-wrap items-center justify-center gap-3 font-sans text-lead font-normal text-[#475569]">
-              Trusted by{" "}
-              <strong className="font-sans text-stat font-semibold tracking-tight text-[#0f172a]">
-                2K+
-              </strong>{" "}
-              teams
-            </p>
-          </div>
-          <h1 id="homepage-hero-heading" className="font-display text-hero font-normal">
-            Better people. Better care.
-            <br />
-            All connected<span className="text-[#368B62]">.</span>
-          </h1>
-          <p className="mx-auto mt-[17px] max-w-[770.704px] font-sans text-lead font-normal text-[#68736e]">
-            Recruitment, locum staffing and care management — brought together.
-            <br />
-            So you can focus on what matters most: people.
-          </p>
-          <div className="mt-[43.268px] flex flex-wrap justify-center gap-[16.225px]">
-            <button onClick={onBookDemo} className={primaryButton}>
-              Book a demo <ArrowUpRight size={16} />
-            </button>
-            <button onClick={() => scrollTo("solutions")} className={secondaryButton}>
-              Explore our solutions
+            <button onClick={onBookDemo} className="transition-colors hover:text-[#368B62]">
+              Talk to our team <ArrowUpRight size={11} className="ml-1 inline" />
             </button>
           </div>
+          <Navbar
+            embedded
+            onNavigate={onNavigate}
+            onBookDemo={onBookDemo}
+            onStartTrial={onStartTrial}
+          />
         </div>
-      </section>
+
+        <section
+          aria-labelledby="homepage-hero-heading"
+          className="homepage-hero relative isolate overflow-hidden px-6 text-center"
+        >
+          <div
+            aria-hidden="true"
+            className="homepage-hero-glow pointer-events-none absolute inset-0 -z-10"
+          />
+          <div className="mx-auto w-full max-w-[1500px]">
+            <div className="homepage-hero-trust flex flex-wrap items-center justify-center gap-4">
+              <div className="flex -space-x-[13px]" aria-hidden="true">
+                <img
+                  src={trustedTeamOne}
+                  alt=""
+                  className="h-[43.327px] w-[43.327px] -scale-x-100 rounded-full object-cover"
+                />
+                <img
+                  src={trustedTeamTwo}
+                  alt=""
+                  className="h-[43.327px] w-[43.327px] rounded-full object-cover"
+                />
+                <span className="relative h-[43.327px] w-[43.327px] overflow-hidden rounded-full">
+                  <img
+                    src={trustedTeamThree}
+                    alt=""
+                    className="absolute -top-[8.08%] left-[-0.56%] h-[150%] w-full object-cover"
+                  />
+                </span>
+              </div>
+              <p className="flex flex-wrap items-center justify-center gap-3 font-sans text-lead font-normal text-[#475569]">
+                Trusted by{" "}
+                <strong className="font-sans text-stat font-semibold tracking-tight text-[#0f172a]">
+                  2K+
+                </strong>{" "}
+                teams
+              </p>
+            </div>
+            <h1 id="homepage-hero-heading" className="font-display text-hero font-normal">
+              Better people. Better care.
+              <br />
+              All connected<span className="text-[#368B62]">.</span>
+            </h1>
+            <p className="homepage-hero-description mx-auto max-w-3xl font-sans text-lead font-normal text-[#68736e]">
+              Recruitment, locum staffing and care management — brought together. <br />
+              So you can focus on what matters most: people.
+            </p>
+            <div className="homepage-hero-actions flex flex-wrap justify-center gap-3">
+              <button onClick={onBookDemo} className={primaryButton}>
+                Book a demo <ArrowUpRight size={16} />
+              </button>
+              <button onClick={() => scrollTo("solutions")} className={secondaryButton}>
+                Explore our solutions
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
 
       <section aria-label="Our healthcare services" className="grid gap-[3px] sm:grid-cols-3">
         {photos.map((photo, index) => (
