@@ -171,7 +171,7 @@ export function RecruitmentArticle({
   }
   return (
     <article className="recruitment-article recruit-surface">
-      <header className="mx-auto max-w-6xl px-6 pb-10 pt-10 md:pt-16">
+      <header className="site-container pb-10 pt-10 md:pt-16">
         <button
           onClick={onBack}
           className="inline-flex items-center gap-2 text-control text-[var(--article-muted)] transition-colors hover:text-[var(--article-brand)]"
@@ -231,7 +231,7 @@ export function RecruitmentArticle({
           </button>
         </div>
       </header>
-      <figure className="mx-auto max-w-6xl px-6">
+      <figure className="site-container">
         <img
           src={article.img}
           alt={`Editorial image accompanying ${article.title}`}
@@ -241,7 +241,7 @@ export function RecruitmentArticle({
           Perspectives on people, work and better recruitment.
         </figcaption>
       </figure>
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 lg:grid-cols-[240px_1fr] lg:gap-20">
+      <div className="site-container grid gap-10 py-14 lg:grid-cols-[240px_1fr] lg:gap-20">
         <aside>
           <nav aria-label="In this article" className="sticky top-28">
             <p className="mb-5 text-eyebrow font-semibold uppercase text-[var(--article-muted)]">
@@ -323,7 +323,7 @@ export function RecruitmentArticle({
         </div>
       </div>
       <section className="bg-[var(--article-paper)] py-14">
-        <div className="mx-auto max-w-6xl px-6">
+        <div className="site-container">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="mb-2 text-eyebrow uppercase text-[var(--article-brand)]">

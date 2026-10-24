@@ -554,7 +554,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           NAVBAR
       ══════════════════════════════════════ */}
       <header className={`locum-navigation locum-surface fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-lg border-b border-black/5' : 'bg-white border-b border-black/5'}`}>
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+        <div className="site-container">
           <div className="flex items-center justify-between h-[70px]">
 
             <button onClick={() => goto('home')} className="shrink-0">
@@ -636,7 +636,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       {page === 'home' && (
         <div className="locum-home locum-surface bg-white [&_h2]:text-[#24332d]">
 
-        <section className="mx-auto mt-[86px] max-w-[1280px] px-4 sm:px-6" aria-label="Locum opportunities in Ireland and the UK">
+        <section className="site-container mt-[86px]" aria-label="Locum opportunities in Ireland and the UK">
           <div className="relative overflow-hidden rounded-[28px] bg-[#edf2ef]">
             <div className="absolute inset-y-0 right-0 hidden w-[54%] lg:block">
               <img src={imgLocumProfessional} alt="Healthcare professional in teal scrubs" className="h-full w-full object-cover object-[center_22%]" />
@@ -656,11 +656,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
           </div>
         </section>
-        <section aria-label="Find locum opportunities" className="relative z-20 mx-auto max-w-[1280px] px-6 pb-4 pt-8"><div className="mx-auto max-w-[1184px]"><p className="mb-4 text-eyebrow font-semibold uppercase text-[#67716b]">A little closer to your next opportunity</p><SearchBar /></div></section>
+        <section aria-label="Find locum opportunities" className="site-container relative z-20 pb-4 pt-8"><div className="site-content"><p className="mb-4 text-eyebrow font-semibold uppercase text-[#67716b]">A little closer to your next opportunity</p><SearchBar /></div></section>
 
         <Reveal className="mx-auto max-w-[1000px] px-6 pb-12 pt-20 text-center"><p className="text-eyebrow font-medium uppercase text-[#a5b9ad]">Care is personal.<br />Your working life should be, too.</p><p className="mx-auto mt-7 max-w-[630px] text-body text-[#68716c]">Find the opportunities that fit your expertise, your schedule and your ambitions. We connect healthcare professionals and facilities, with thoughtful support along the way.</p></Reveal>
         {/* ── STATS RIBBON ── */}
-        <section className="mx-auto max-w-[1280px] px-6">
+        <section className="site-container">
           <div ref={statsRef} className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
             {STATS.map((stat, i) => {
               const Icon = stat.icon;
@@ -685,7 +685,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
 
         {/* ── ABOUT ── */}
-        <section className="py-20 max-w-[1280px] mx-auto px-6 lg:px-12">
+        <section className="site-container py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Stacked images with offset */}
             <Reveal variant={slideLeft} className="relative grid h-[430px] grid-cols-2 gap-4 sm:h-[520px]">
@@ -782,7 +782,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         {/* ── WHO CAN JOIN ── */}
         <section className="py-20 bg-[#f7f9f8]">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+          <div className="site-container">
             <Reveal className="text-center mb-14">
               <SectionLabel>Who can join MployUs Locums</SectionLabel>
               <h2 className="text-section font-normal text-slate-900 mt-4 mb-3 font-display">Built for certified healthcare professionals</h2>
@@ -836,7 +836,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── WHY MPLOYUS ── */}
-        <section className="py-20 max-w-[1280px] mx-auto px-6 lg:px-12">
+        <section className="site-container py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Feature list */}
             <motion.div
@@ -934,7 +934,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </section>
 
         {/* ── MOBILE APP ── */}
-        <Reveal className="locum-app-section py-8 px-6 lg:px-12 max-w-[1280px] mx-auto">
+        <Reveal className="site-container locum-app-section py-8">
           <div className="relative rounded-3xl overflow-hidden bg-[#e6f0e9]">
             {/* Decorative blobs */}
 
@@ -995,7 +995,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </Reveal>
 
         {/* ── TESTIMONIALS ── */}
-        <section className="py-20 max-w-[1280px] mx-auto px-6 lg:px-12">
+        <section className="site-container py-20">
           <div className="text-center mb-14">
             <SectionLabel>Testimonials</SectionLabel>
             <h2 className="text-section font-normal text-slate-900 mt-4 mb-3 font-display">Trusted by healthcare professionals</h2>
@@ -1011,7 +1011,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         {/* ── FAQ SECTION ── */}
         <section className="py-20 bg-white">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+          <div className="site-container">
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
               {/* Left sticky */}
               <motion.div
@@ -1101,9 +1101,9 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
         {/* ── CTA STRIP ── */}
 
-        <section className="mx-6 mb-12 max-w-[1184px] rounded-[28px] bg-[#e6f0e9] py-14 overflow-hidden xl:mx-auto">
+        <section className="site-inset mb-12 rounded-[28px] bg-[#e6f0e9] py-14 overflow-hidden">
           <motion.div
-            className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8"
+            className="site-container flex flex-col lg:flex-row items-center justify-between gap-8"
             variants={stagger(0.12)}
             initial="hidden"
             whileInView="visible"
@@ -1148,11 +1148,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <div className="locum-shifts locum-surface pt-[70px] min-h-screen bg-white">
 
           {/* ── Hero banner with background image ── */}
-          <section className="bg-[#f5f7f1] px-6 py-14 sm:py-16"><div className="mx-auto max-w-[1184px]"><p className="mb-5 text-eyebrow font-semibold uppercase text-[#67716b]">Your expertise. Your schedule.</p><h1 className="text-hero font-normal text-[#24332d] font-display">Find your next shift.<br /><span className="text-[#368B62]">Make it work for you.</span></h1><p className="mt-5 max-w-lg text-body text-[#68716c]">Explore flexible locum opportunities and find the right fit for your profession, location and availability.</p></div></section>
+          <section className="bg-[#f5f7f1] px-6 py-14 sm:py-16"><div className="site-content"><p className="mb-5 text-eyebrow font-semibold uppercase text-[#67716b]">Your expertise. Your schedule.</p><h1 className="text-hero font-normal text-[#24332d] font-display">Find your next shift.<br /><span className="text-[#368B62]">Make it work for you.</span></h1><p className="mt-5 max-w-lg text-body text-[#68716c]">Explore flexible locum opportunities and find the right fit for your profession, location and availability.</p></div></section>
 
           {/* ── Filter bar ── */}
           <div className="bg-white border-b border-black/5">
-            <div className="max-w-[1286px] mx-auto px-10 py-6 flex flex-wrap items-end justify-between gap-4">
+            <div className="site-container py-6 flex flex-wrap items-end justify-between gap-4">
               <div className="flex flex-wrap gap-6 items-end">
                 {/* Profession */}
                 <div className="flex flex-col gap-1.5">
@@ -1259,7 +1259,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
           {/* ── Country filter tabs ── */}
           <div className="border-b border-black/5 bg-white">
-            <div className="max-w-[1286px] mx-auto px-10 py-4 flex flex-col gap-2">
+            <div className="site-container py-4 flex flex-col gap-2">
               <div className="flex items-center justify-between gap-4"><p className="text-[#3d3d3d] text-body">Country &amp; region</p><button onClick={resetShiftFilters} className="text-control font-semibold text-[#368B62]">Clear all filters</button></div>
               <p className="text-caption text-slate-500">Sign in to see shift pay and to filter or sort by pay.</p>
               <div className="flex flex-wrap gap-8 items-center">
@@ -1294,7 +1294,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </div>
 
           {/* ── Main content: shift list + detail panel ── */}
-          <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-6">
+          <div className="site-container py-6">
             <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
 
               {/* Left: shift list */}
@@ -1774,7 +1774,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
               {/* Sticky breadcrumb bar */}
               <div className="sticky top-[70px] z-20 bg-white border-b border-black/5">
-                <div className="max-w-[1280px] mx-auto px-6 py-3.5 flex items-center justify-between">
+                <div className="site-container py-3.5 flex items-center justify-between">
                   <button onClick={() => setBlogPost(null)} className="flex items-center gap-2 text-control font-semibold text-slate-500 hover:text-slate-900 transition-colors">
                     <ChevronDown className="w-4 h-4 rotate-90" />
                     <span className="hidden sm:inline text-slate-400">Insights</span>
@@ -1801,7 +1801,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </div>
 
               {/* Article body + sidebar */}
-              <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-14 grid grid-cols-1 lg:grid-cols-3 gap-14">
+              <div className="site-container py-14 grid grid-cols-1 lg:grid-cols-3 gap-14">
 
                 {/* Body */}
                 <article className="lg:col-span-2 space-y-8">
@@ -1918,7 +1918,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           {/* Hero */}
           <section className="bg-slate-900 px-6 pt-16 pb-20 relative overflow-hidden">
             <div className="absolute inset-0 opacity-[0.04]" />
-            <div className="max-w-[1280px] mx-auto lg:px-6 relative">
+            <div className="site-content relative">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-black/5 text-white/80 text-caption font-semibold uppercase tracking-widest mb-5 backdrop-blur-sm">
                 <img src={LOCUM_VISUALS.faq.help[0]} alt="" className="locum-reference-icon" /> Help Centre
               </div>
@@ -1937,7 +1937,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           </section>
 
           {/* Main content */}
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-14 grid grid-cols-1 lg:grid-cols-3 gap-14">
+          <div className="site-container py-14 grid grid-cols-1 lg:grid-cols-3 gap-14">
 
             {/* FAQ accordion */}
             <div className="lg:col-span-2 space-y-3">

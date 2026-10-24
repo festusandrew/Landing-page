@@ -42,7 +42,7 @@ export function LocumInsights({
 
   return (
     <div className="locum-journal locum-surface min-h-screen bg-[#fafbf8] pt-[70px] font-sans text-[#20382c]">
-      <header className="mx-auto max-w-[1240px] px-6 pb-12 pt-12 md:px-10 md:pb-16 md:pt-20">
+      <header className="site-container pb-12 pt-12 md:pb-16 md:pt-20">
         <div className="grid gap-8 pt-9 md:grid-cols-[1.5fr_1fr] md:items-end md:gap-16">
           <h1 className="text-hero font-normal font-display">
             A fresh perspective
@@ -67,7 +67,7 @@ export function LocumInsights({
         aria-label="Browse insights"
         className="scroll-mt-24 bg-white"
       >
-        <div className="mx-auto max-w-[1240px] px-6 py-8 md:px-10">
+        <div className="site-container py-8">
           <div className="flex flex-wrap items-center justify-between gap-5">
             <div
               aria-label="Filter insights by country"
@@ -246,7 +246,7 @@ export function LocumInsights({
           </p>
         </div>
       </section>
-      <aside className="mx-auto grid max-w-[1240px] gap-6 px-6 py-14 md:grid-cols-[1fr_auto] md:items-center md:px-10 md:py-20">
+      <aside className="site-container grid gap-6 py-14 md:grid-cols-[1fr_auto] md:items-center md:py-20">
         <div>
           <p className="mb-4 flex items-center gap-2 text-eyebrow font-semibold uppercase text-[#368B62]">
             <img

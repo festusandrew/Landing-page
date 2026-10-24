@@ -14,7 +14,7 @@
 .studiofolio :is(button,a,[tabindex]):focus-visible { outline: 2px solid var(--studio-green); outline-offset: 5px; }
 .studiofolio :is(h1,h2,h3,p) { margin: 0; }
 .studiofolio em { font-family: var(--font-display); font-style: normal; font-weight: 400; color: var(--studio-green); }
-.studio-container { width: min(100%, 1280px); margin-inline: auto; padding-inline: 40px; }
+.studio-container { width: 100%; margin-inline: auto; padding-inline: var(--site-gutter); max-width: var(--site-container-width); }
 .studio-subnav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-block: 23px; border-bottom: 1px solid var(--studio-border); font-size: var(--text-control); line-height: var(--text-control--line-height); }
 .studio-subnav > button, .studio-subnav > span { display: flex; align-items: center; gap: 8px; }
 .studio-subnav > span { color: var(--studio-muted); }
@@ -143,7 +143,6 @@
   .studio-capabilities { gap: 45px; }
 }
 @media (max-width: 600px) {
-  .studio-container { padding-inline: 24px; }
   .studio-subnav { padding-block: 18px; }
   .studio-subnav nav { order: 3; width: 100%; gap: 22px; }
   .studio-hero { padding-top: 42px; }

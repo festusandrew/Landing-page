@@ -1,7 +1,7 @@
 .pricing-reference {
   --pricing-accent: var(--homepage-accent, #0e162a);
   --pricing-tint: var(--homepage-tint, #eef1f6);
-  --pricing-content-width: calc(var(--spacing) * 288);
+  --pricing-content-width: var(--site-content-width);
   --pricing-cards-width: calc(var(--spacing) * 240);
   --pricing-stacked-card-width: calc(var(--spacing) * 80);
   --pricing-card-padding: calc(var(--spacing) * 6);
@@ -23,9 +23,9 @@
   outline-offset: 4px;
 }
 .pricing-reference-back {
-  max-width: var(--pricing-content-width);
+  max-width: var(--site-container-width);
   margin: auto;
-  padding: calc(var(--spacing) * 6);
+  padding: calc(var(--spacing) * 6) var(--site-gutter);
   display: flex;
   justify-content: space-between;
   gap: var(--pricing-gap);
@@ -48,7 +48,7 @@
 .pricing-reference-section {
   border-block: 1px solid rgb(0 0 0 / 5%);
   background: #f8fafc;
-  padding: calc(var(--spacing) * 16) calc(var(--spacing) * 6);
+  padding: calc(var(--spacing) * 16) var(--site-gutter);
 }
 .pricing-reference-inner {
   max-width: var(--pricing-content-width);

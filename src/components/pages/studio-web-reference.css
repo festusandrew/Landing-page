@@ -17,7 +17,7 @@
 .studiofolio[data-discipline="development"] .studio-work-note,
 .studiofolio[data-discipline="development"] .studio-standards-note,
 .studiofolio[data-discipline="development"] .studio-back-link { display: none; }
-.studiofolio[data-discipline="development"] .studio-capabilities { width: 100%; max-width: none; padding-inline: max(40px, calc((100vw - 1200px) / 2)); }
+.studiofolio[data-discipline="development"] .studio-capabilities { width: 100%; max-width: none; padding-inline: var(--site-bleed-gutter); }
 .studiofolio[data-discipline="development"] .studio-contact { text-align: center; }
 .studiofolio[data-discipline="development"] .studio-contact .studio-eyebrow { justify-content: center; }
 .studiofolio[data-discipline="development"] .studio-contact > div > div { display: flex; flex-direction: column; align-items: center; gap: 35px; }
@@ -27,7 +27,6 @@
 .studio-reference-web-care-crop > img { top: .01%; left: -.1%; }
 
 @media (min-width: 1440px) {
-  .studiofolio[data-discipline="development"] .studio-capabilities { padding-inline: max(54.085px, calc((100vw - 1619.831px) / 2)); }
   .studiofolio[data-discipline="development"] .studio-contact > div > div { gap: 47.324px; }
   .studiofolio[data-discipline="development"] .studio-contact > div > div > div { width: min(100%, 615px); }
   .studiofolio[data-discipline="development"] .studio-stage-caption { left: 43.268px; bottom: 35.155px; padding: 9.465px 13.521px; border-radius: 5.408px; }
@@ -36,6 +35,5 @@
   .studiofolio[data-discipline="development"] .studio-contact > div > div > div > p { margin-top: 20.282px; opacity: .7; }
 }
 @media (max-width: 600px) {
-  .studiofolio[data-discipline="development"] .studio-capabilities { padding-inline: 24px; }
   .studiofolio[data-discipline="development"] .studio-contact > div > div > div { margin-top: 0; }
 }

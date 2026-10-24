@@ -123,6 +123,17 @@ own colours and layout without enlarging these roles at desktop breakpoints.
 The separate Figma-reference authentication and enquiry-dialog styles remain
 scoped to their existing flows.
 
+### Page margins
+
+`src/styles/layout.css` shares the pricing page's centered content width and
+responsive side gutters across public pages, navigation and footers.
+Use `site-container` when an element owns the outer page gutter,
+`site-content` inside an already padded section, and `site-inset` for a
+bounded image strip or surface without extra internal padding.
+Keep full-width section backgrounds outside these content frames. Narrow
+reading columns, individual cards and dialogs retain their own sizing.
+Do not reintroduce page-specific desktop container enlargements.
+
 Calendar and chart wrappers target the installed DayPicker 9 and Recharts 3
 APIs. Other major-version updates should include their adapters and tests,
 not just a package-version change.

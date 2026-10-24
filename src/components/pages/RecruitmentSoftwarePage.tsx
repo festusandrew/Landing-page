@@ -116,7 +116,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
     <div className="product-reference product-reference-hire min-h-screen overflow-x-clip bg-white font-sans text-[#24332d] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
       {showHeader ? (
         <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-sm">
-          <div className="mx-auto flex h-[70px] max-w-[1312px] items-center justify-between gap-6 px-6 lg:px-16">
+          <div className="site-container flex h-[70px] items-center justify-between gap-6">
             <button
               onClick={() =>
                 window.scrollTo({
@@ -238,7 +238,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
             : "scroll-mt-6 bg-[#f5f6f8] px-6 pb-12 pt-12 sm:pb-16 sm:pt-16 lg:pb-20 lg:pt-20"
         }
       >
-        <div className="mx-auto grid max-w-[1184px] items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
+        <div className="site-content grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
           <motion.div {...reveal}>
             <div className="mb-7 flex items-center gap-3">
               <span className="h-2 w-2 rounded-full bg-[#0e1629]" />
@@ -313,7 +313,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
         </section>
 
         <section id="recruitment-features" className="scroll-mt-24 px-6 py-12 lg:py-16">
-          <div className="mx-auto grid max-w-[1184px] items-center gap-12 rounded-2xl border border-black/5 bg-[#f8fafc] p-6 md:p-10 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
+          <div className="site-content grid items-center gap-12 rounded-2xl border border-black/5 bg-[#f8fafc] p-6 md:p-10 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
             <motion.div {...reveal}>
               <p className="mb-5 text-eyebrow font-semibold uppercase text-[#0e1629]">
                 The everyday, made simpler
@@ -361,7 +361,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
         </section>
 
         <section id="recruitment-preview" className="scroll-mt-24 px-6 py-16 lg:py-20">
-          <div className="mx-auto grid max-w-[1184px] items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+          <div className="site-content grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
             <div className="flex flex-col gap-6 lg:order-2">
               <div>
                 <p className="mb-5 text-eyebrow font-semibold uppercase text-[#0e1629]">
@@ -468,7 +468,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
         </section>
 
         <section className="bg-[#0e1629] px-6 py-16 text-white lg:py-24">
-          <div className="mx-auto max-w-[1184px]">
+          <div className="site-content">
             <div className="grid items-end gap-6 md:grid-cols-[1.3fr_1fr]">
               <div>
                 <p className="text-eyebrow font-semibold uppercase text-white/75">
@@ -522,7 +522,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
         </section>
 
         <section id="recruitment-onboarding" className="scroll-mt-24 px-6 py-16 lg:py-24">
-          <div className="mx-auto max-w-[1184px]">
+          <div className="site-content">
             <p className="mb-5 text-center text-eyebrow font-semibold uppercase text-[#0e1629]">
               A thoughtful way to get started
             </p>
@@ -564,7 +564,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
         </section>
 
         <section className="bg-[#f8fafc] px-6 py-16 lg:py-20">
-          <div className="mx-auto grid max-w-[1184px] gap-12 md:grid-cols-[0.8fr_1.2fr]">
+          <div className="site-content grid gap-12 md:grid-cols-[0.8fr_1.2fr]">
             <div>
               <p className="text-eyebrow font-semibold uppercase text-[#0e1629]">
                 A little more clarity
@@ -615,7 +615,7 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
           </div>
         </section>
         <section className="px-6 py-16 lg:py-20">
-          <div className="relative mx-auto flex max-w-[1184px] flex-col items-center gap-8 overflow-hidden rounded-2xl bg-[#edf0fa] px-6 py-16 text-center">
+          <div className="site-content relative flex flex-col items-center gap-8 overflow-hidden rounded-2xl bg-[#edf0fa] px-6 py-16 text-center">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute -left-28 -top-32 h-80 w-80 rounded-full border-[36px] border-white/30"

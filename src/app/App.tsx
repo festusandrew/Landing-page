@@ -286,7 +286,7 @@ function LandingPage({
               transition={{ duration: reducedMotion ? 0 : 1.2, ease: homepageEase }}
             />
             <motion.div
-              className="mx-auto w-full max-w-[1500px]"
+              className="site-content w-full"
               variants={reducedMotion ? undefined : homepageHeroSequence}
               initial={reducedMotion ? false : "hidden"}
               animate={reducedMotion ? undefined : "visible"}
@@ -358,7 +358,10 @@ function LandingPage({
           </section>
         </div>
 
-        <section aria-label="Our healthcare services" className="grid gap-[3px] sm:grid-cols-3">
+        <section
+          aria-label="Our healthcare services"
+          className="site-inset grid gap-[3px] sm:grid-cols-3"
+        >
           {photos.map((photo, index) => (
             <motion.button
               {...reveal(index * 0.1)}
@@ -392,7 +395,7 @@ function LandingPage({
           ))}
         </section>
 
-        <section id="about" className="mx-auto max-w-[1568.451px] px-6 py-16 md:py-20">
+        <section id="about" className="site-container py-16 md:py-20">
           <motion.div {...reveal()} className="grid gap-8 md:grid-cols-2 md:gap-20">
             <div>
               <p className="mb-4 text-eyebrow font-semibold text-[#368B62]">MEET MPLOYUS</p>
@@ -422,7 +425,7 @@ function LandingPage({
         </section>
 
         <section id="solutions" className="bg-[#f6f7f3] py-16 md:py-24">
-          <div className="mx-auto grid max-w-[1568.451px] gap-12 px-6 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
+          <div className="site-container grid gap-12 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
             <motion.div {...reveal()} className="lg:pt-3">
               <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">
                 ONE PARTNER. MORE POSSIBILITIES.
@@ -499,7 +502,7 @@ function LandingPage({
           aria-labelledby="how-it-works-heading"
           className="scroll-mt-6 bg-[#e9f0e7] py-16 md:py-[108.169px]"
         >
-          <div className="mx-auto max-w-[1568.451px] px-6 md:px-[32.451px]">
+          <div className="site-container">
             <motion.div {...reveal()} className="flex flex-wrap items-end justify-between gap-8">
               <div>
                 <p className="font-sans text-eyebrow font-semibold text-[#368B62]">
@@ -561,7 +564,7 @@ function LandingPage({
           </div>
         </section>
 
-        <section className="mx-auto grid max-w-[1568.451px] items-center gap-10 px-6 py-20 md:grid-cols-2 md:gap-20">
+        <section className="site-container grid items-center gap-10 py-20 md:grid-cols-2 md:gap-20">
           <motion.div {...reveal()} className="relative overflow-hidden rounded-lg">
             <img
               src={photos[0].image}
@@ -611,7 +614,7 @@ function LandingPage({
         <section id="questions" className="border-t border-black/5 bg-[#fafaf8] py-16 md:py-20">
           <motion.div
             {...reveal()}
-            className="mx-auto grid max-w-[1568.451px] gap-10 px-6 md:grid-cols-[1fr_1.4fr] md:gap-20"
+            className="site-container grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-20"
           >
             <div>
               <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">GOOD TO KNOW</p>
@@ -667,7 +670,7 @@ function LandingPage({
         <section className="bg-[#173e30] py-16 md:py-20">
           <motion.div
             {...reveal()}
-            className="mx-auto flex max-w-[1568.451px] min-w-0 flex-wrap items-center justify-between gap-8 px-6"
+            className="site-container flex min-w-0 flex-wrap items-center justify-between gap-8"
           >
             <div>
               <p className="mb-4 text-eyebrow font-medium text-[#b1ccbb]">

@@ -131,7 +131,7 @@ export function LocumEmployerLanding({
 
   return (
     <div className="locum-employer locum-surface bg-white pt-[70px] text-[#24332d]">
-      <section className="mx-auto max-w-[1280px] px-6 pb-12 pt-10 lg:px-12 lg:pt-14">
+      <section className="site-container pb-12 pt-10 lg:pt-14">
         <div className="mb-7 flex flex-wrap items-center justify-between gap-4">
           <p className="flex items-center gap-2 text-eyebrow font-semibold uppercase text-[#368B62]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#368B62]" />
@@ -245,7 +245,7 @@ export function LocumEmployerLanding({
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1280px] px-6 py-14 lg:px-12">
+      <section className="site-container py-14">
         <motion.div
           {...reveal}
           className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end"
@@ -359,7 +359,7 @@ export function LocumEmployerLanding({
       </section>
 
       <section className="bg-[#f7f9f8] px-6 py-20">
-        <div className="mx-auto grid max-w-[1184px] gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+        <div className="site-content grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <motion.div {...reveal}>
             <p className="text-eyebrow font-semibold uppercase text-[#368B62]">
               Less chasing. More clarity.
@@ -464,7 +464,7 @@ export function LocumEmployerLanding({
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1280px] gap-10 px-6 py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20 lg:px-12">
+      <section className="site-container grid gap-10 py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <motion.div {...reveal}>
           <span className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#edf4ef]">
             <img
@@ -537,7 +537,7 @@ export function LocumEmployerLanding({
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1280px] px-6 pb-20 lg:px-12">
+      <section className="site-container pb-20">
         <div className="grid gap-8 rounded-[28px] bg-[#f7f9f8] p-7 sm:p-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <p className="text-eyebrow font-semibold uppercase text-[#368B62]">
@@ -588,7 +588,7 @@ export function LocumEmployerLanding({
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1280px] px-6 pb-16 lg:px-12">
+      <section className="site-container pb-16">
         <motion.div
           {...reveal}
           className="flex flex-col justify-between gap-8 rounded-[28px] bg-[#243e31] p-8 text-white sm:p-12 lg:flex-row lg:items-center"

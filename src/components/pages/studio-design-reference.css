@@ -26,7 +26,7 @@
 .studiofolio[data-discipline="design"] .studio-back-link { display: none; }
 .studiofolio[data-discipline="design"] .studio-hero-stage { background: #f0f0f0; }
 .studiofolio[data-discipline="design"] .studio-approach { background: #e6ebf2; }
-.studiofolio[data-discipline="design"] .studio-capabilities { background: white; width: 100%; max-width: none; padding-inline: max(40px, calc((100vw - 1200px) / 2)); }
+.studiofolio[data-discipline="design"] .studio-capabilities { background: white; width: 100%; max-width: none; padding-inline: var(--site-bleed-gutter); }
 .studiofolio[data-discipline="design"] .studio-contact { background: #0e162a; text-align: center; }
 .studiofolio[data-discipline="design"] .studio-contact .studio-eyebrow { color: white; justify-content: center; }
 .studiofolio[data-discipline="design"] .studio-contact em { color: white; }
@@ -48,7 +48,6 @@
 
 /* Both studio references share sizing; their colour palettes stay scoped. */
 @media (min-width: 1440px) {
-  .studiofolio[data-studio-reference] .studio-container { width: min(100%, 1730.704px); padding-inline: 54.085px; }
   .studiofolio[data-studio-reference] .studio-subnav { padding-block: 31.099px; }
   .studiofolio[data-studio-reference] .studio-subnav nav { gap: 35.155px; }
   .studiofolio[data-studio-reference] .studio-hero { padding-top: 86.535px; }
@@ -92,7 +91,7 @@
   .studiofolio[data-studio-reference] .studio-process h3 { margin-top: 27.042px; }
   .studiofolio[data-studio-reference] .studio-process p { margin-top: 16.225px; max-width: 419.155px; }
   .studiofolio[data-studio-reference] .studio-standards { margin-top: 59.493px; padding-top: 29.746px; gap: 27.042px 54.085px; }
-  .studiofolio[data-studio-reference] .studio-capabilities { padding-block: 135.211px; padding-inline: max(54.085px, calc((100vw - 1619.831px) / 2)); gap: 135.211px; }
+  .studiofolio[data-studio-reference] .studio-capabilities { padding-block: 135.211px; gap: 135.211px; }
   .studiofolio[data-studio-reference] .studio-capabilities > div > p:not(.studio-eyebrow) { margin-top: 29.746px; max-width: 419.155px; }
   .studiofolio[data-studio-reference] .studio-capability-list button { padding-block: 31.099px; gap: 27.042px; }
   .studiofolio[data-studio-reference] .studio-capability-list p { padding: 0 33.803px 32.451px 47.324px; }
@@ -101,7 +100,6 @@
   .studiofolio[data-studio-reference] .studio-contact > div > div > div { width: min(100%, 615px); }
   .studiofolio[data-studio-reference] .studio-button { gap: 21.634px; padding: 20.282px 32.451px; border-radius: 8.113px; }
   :is(.product-design-shell,.web-development-shell) > footer { padding-block: 86.535px 64.901px; }
-  :is(.product-design-shell,.web-development-shell) > footer > div { max-width: 1730.704px; padding-inline: 43.268px; }
 }
 @media (min-width: 1100px) {
   .studio-dialog.studiofolio[data-studio-reference] { max-width: 1162.817px; padding: 48.676px; border-radius: 24.338px; }
@@ -116,6 +114,5 @@
   .studio-dialog[data-studio-reference] .studio-dialog-actions { margin-top: 40.563px; padding-top: 32.451px; gap: 27.042px; }
 }
 @media (max-width: 600px) {
-  .studiofolio[data-discipline="design"] .studio-capabilities { padding-inline: 24px; }
   .studiofolio[data-discipline="design"] .studio-contact > div > div > div { margin-top: 0; }
 }

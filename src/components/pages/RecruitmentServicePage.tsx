@@ -335,7 +335,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   // ── Shared blocks ────────────────────────────────────────────────────────────
   const Industries = () => (
     <section style={{ backgroundColor: BGL }} className="py-16 border-y border-black/5">
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+      <div className="site-container">
         <Reveal className="flex items-end justify-between mb-10">
           <div><Eyebrow>Industries we serve</Eyebrow><H2 className="max-w-sm">Deep expertise in sectors that matter</H2></div>
           <motion.button onClick={() => goTo('jobseekers')} className="hidden sm:flex items-center gap-2 text-control"
@@ -377,7 +377,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
   const Testimonials = () => (
     <section className="py-16 bg-white border-y border-black/5">
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+      <div className="site-container">
         <Reveal><Eyebrow>Client stories</Eyebrow><H2 className="mb-10 max-w-sm">Trusted by companies across Ireland</H2></Reveal>
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
@@ -471,11 +471,11 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
     <Fade className="recruit-surface recruit-home">
       <ModernServiceHero kind="recruitment" image={imgSarah} primaryIcon={RECRUITMENT_VISUALS.home.heroArrow[0]} badgeIcon={RECRUITMENT_VISUALS.home.heroCheck[0]} onPrimary={() => goTo('jobseekers')} onSecondary={openContact} />
 
-      <section className="border-b border-black/5 bg-white px-6 py-10"><div className="mx-auto grid max-w-[1184px] gap-6 md:grid-cols-2 md:gap-20"><p className="text-lead font-medium text-[#24332d]">Not just a recruitment agency.<br />A partner for your next chapter.</p><p className="text-body text-[#68716c]">From your first conversation to your next opportunity, we take the time to understand what matters. Specialist support for logistics, healthcare, hospitality and education across Ireland and the UK.</p></div></section>
+      <section className="border-b border-black/5 bg-white px-6 py-10"><div className="site-content grid gap-6 md:grid-cols-2 md:gap-20"><p className="text-lead font-medium text-[#24332d]">Not just a recruitment agency.<br />A partner for your next chapter.</p><p className="text-body text-[#68716c]">From your first conversation to your next opportunity, we take the time to understand what matters. Specialist support for logistics, healthcare, hospitality and education across Ireland and the UK.</p></div></section>
 
       {/* Features */}
       <section style={{ backgroundColor: BGL }} className="py-16 border-y border-black/5">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+        <div className="site-container">
           <Reveal><Eyebrow>What we offer</Eyebrow></Reveal>
           <Reveal delay={0.06}><H2 className="mb-10 max-w-md">Recruitment services built around your business</H2></Reveal>
           <motion.div
@@ -510,7 +510,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
       {/* Hiring solutions */}
       <section className="py-16 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row gap-12 lg:gap-16">
+        <div className="site-container flex flex-col lg:flex-row gap-12 lg:gap-16">
           <motion.div
             className="w-full lg:w-[420px] shrink-0 rounded-xl overflow-hidden border border-black/5"
             style={{ minHeight: '340px' }}
@@ -550,7 +550,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
       {/* Blog preview */}
       <section className="py-16 bg-white border-t border-black/5">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+        <div className="site-container">
           <Reveal className="flex items-end justify-between mb-10">
             <div><Eyebrow>From the blog</Eyebrow><H2>Latest insights &amp; trends</H2></div>
             <motion.button onClick={() => goTo('blog')} className="hidden sm:flex items-center gap-2 text-control"
@@ -605,12 +605,12 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
     return (
     <Fade className="recruit-surface recruit-jobseekers">
       {/* Hero banner */}
-      <section className="bg-[#faf5f8] px-6 py-14 sm:py-16"><div className="mx-auto max-w-[1184px]"><Eyebrow>Opportunities across Ireland &amp; the UK</Eyebrow><H1>A role that fits.<br />A future that’s yours.</H1><p className="mt-5 max-w-lg text-body text-[#68716c]">Explore opportunities across four specialist sectors, with a consultant by your side.</p></div></section>
+      <section className="bg-[#faf5f8] px-6 py-14 sm:py-16"><div className="site-content"><Eyebrow>Opportunities across Ireland &amp; the UK</Eyebrow><H1>A role that fits.<br />A future that’s yours.</H1><p className="mt-5 max-w-lg text-body text-[#68716c]">Explore opportunities across four specialist sectors, with a consultant by your side.</p></div></section>
 
       {/* Filter bar */}
       <p className="bg-[#fbf5f9] px-6 py-3 text-center text-caption text-[#810161]">Unconfirmed listings · Availability, pay and full terms require employer confirmation.</p>
       <div className="bg-white border-b border-black/5">
-        <div className="max-w-[1286px] mx-auto px-6 lg:px-10 py-5 flex flex-wrap items-end justify-between gap-4">
+        <div className="site-container py-5 flex flex-wrap items-end justify-between gap-4">
           <div className="flex flex-wrap gap-5 items-end">
             {/* Keyword */}
             <div className="flex flex-col gap-1.5">
@@ -669,7 +669,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
       {/* Region tabs */}
       <div className="border-b border-black/5 bg-white">
-        <div className="max-w-[1286px] mx-auto px-6 lg:px-10 py-4 flex flex-col gap-2">
+        <div className="site-container py-4 flex flex-col gap-2">
           <p className="text-[#3d3d3d] text-body">Filter by region</p>
           <div className="flex flex-wrap gap-8 items-center">
             {['All regions', 'Ireland', 'Northern Ireland', 'England', 'Wales', 'Scotland'].map(label => ({ id: label, label, flag: label === 'Ireland' ? '🇮🇪' : label === 'All regions' ? '🌍' : '🇬🇧' })).map(c => {
@@ -691,7 +691,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       </div>
 
       {/* Two-column: list + detail */}
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-6">
+      <div className="site-container py-6">
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
 
           {/* Left: job list */}
@@ -790,7 +790,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const EmployersPage = () => (
     <Fade className="recruit-surface recruit-employers">
       <section className="bg-[#fbf5f9] px-6 py-16 lg:py-20">
-        <div className="mx-auto max-w-[1184px]">
+        <div className="site-content">
           <div className="flex flex-wrap items-start justify-between gap-8">
             <div className="max-w-xl"><Eyebrow>For employers · Ireland &amp; UK</Eyebrow><H1>Great talent.<br />A simpler way to hire.</H1><p className="mt-5 text-body text-slate-600">Tell us who you need. We’ll help you find the right people, without the long forms or the guesswork.</p></div>
             <button onClick={openContact} className="inline-flex items-center gap-3 rounded-lg bg-[#810161] px-7 py-4 text-control font-semibold text-white transition-colors hover:bg-[#65014b]">Submit a talent request <img src={RECRUITMENT_VISUALS.employers.cta[0]} alt="" className="recruit-reference-icon" /></button>
@@ -805,7 +805,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
           <p className="mt-8 text-center text-body text-slate-500">Not sure what you need? <button onClick={openContact} className="font-semibold text-[#810161]">Start a conversation</button></p>
         </div>
       </section>
-      <section className="mx-auto grid max-w-[1184px] gap-8 px-6 py-12 md:grid-cols-3">{['Share your brief', 'Meet your consultant', 'Find your people'].map((step, index) => <div key={step}><p className="text-caption font-semibold text-[#810161]">0{index + 1}</p><h2 className="mt-3 text-title font-semibold text-slate-800 font-sans">{step}</h2><p className="mt-2 text-body text-slate-500">{['Choose your recruitment service and tell us about the role.', 'We clarify your requirements, budget and hiring timeline.', 'Review a tailored shortlist and move forward with confidence.'][index]}</p></div>)}</section>
+      <section className="site-inset grid gap-8 py-12 md:grid-cols-3">{['Share your brief', 'Meet your consultant', 'Find your people'].map((step, index) => <div key={step}><p className="text-caption font-semibold text-[#810161]">0{index + 1}</p><h2 className="mt-3 text-title font-semibold text-slate-800 font-sans">{step}</h2><p className="mt-2 text-body text-slate-500">{['Choose your recruitment service and tell us about the role.', 'We clarify your requirements, budget and hiring timeline.', 'Review a tailored shortlist and move forward with confidence.'][index]}</p></div>)}</section>
     </Fade>
   );
 
@@ -813,7 +813,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const BlogPage = () => (
     <Fade className="recruit-surface recruit-blog">
       <section className="py-16 bg-white border-b border-black/5">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+        <div className="site-container">
           <Reveal><Eyebrow>Insights &amp; resources</Eyebrow></Reveal>
           <Reveal delay={0.06}><H1 className="mb-4 max-w-xl font-display font-normal">Fresh perspectives. Ireland &amp; the UK.</H1></Reveal>
           <Reveal delay={0.12}>
@@ -824,11 +824,11 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         </div>
       </section>
 
-      <div className="mx-auto flex max-w-[1280px] flex-wrap gap-2 px-6 py-6 lg:px-12">{['All', 'Ireland', 'UK'].map(region => <button key={region} aria-pressed={blogRegion === region} onClick={() => setBlogRegion(region)} className={`rounded-full px-5 py-2.5 text-control transition-colors ${blogRegion === region ? 'bg-[#810161] text-white' : 'bg-[#f7f0f5] text-[#810161]'}`}>{region === 'All' ? 'All insights' : `Insights for ${region}`}</button>)}</div>
+      <div className="site-container flex flex-wrap gap-2 py-6">{['All', 'Ireland', 'UK'].map(region => <button key={region} aria-pressed={blogRegion === region} onClick={() => setBlogRegion(region)} className={`rounded-full px-5 py-2.5 text-control transition-colors ${blogRegion === region ? 'bg-[#810161] text-white' : 'bg-[#f7f0f5] text-[#810161]'}`}>{region === 'All' ? 'All insights' : `Insights for ${region}`}</button>)}</div>
 
       {/* Featured article */}
       {visibleArticles.length > 0 && <section className="py-12 bg-white border-b border-black/5">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+        <div className="site-container">
           <motion.div
             className="rounded-xl overflow-hidden border border-black/5 flex flex-col lg:flex-row group cursor-pointer"
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -856,7 +856,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
       {/* Grid + filters */}
       <section style={{ backgroundColor: BGL }} className="py-12">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+        <div className="site-container">
           <div className="flex flex-wrap gap-2 mb-8">
             {['All', 'Industry', 'Strategy', 'Trends'].map(c => (
               <motion.button key={c} onClick={() => setBlogCat(c)}
@@ -911,7 +911,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const ContactPage = () => (
     <Fade className="recruit-surface recruit-contact">
       <section className="py-16 bg-white border-b border-black/5">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+        <div className="site-container">
           <Reveal><Eyebrow>Get in touch</Eyebrow></Reveal>
           <Reveal delay={0.06}><H1 className="mb-4 max-w-xl font-display font-normal">{"We'd love to hear from you."}</H1></Reveal>
           <Reveal delay={0.12}>
@@ -923,7 +923,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       </section>
 
       <section className="py-16 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="site-container grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Form */}
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-56px' }}
@@ -1013,7 +1013,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       </section>
 
       <section style={{ backgroundColor: BGL }} className="py-16 border-t border-black/5">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
+        <div className="site-container">
           <Reveal><Eyebrow>Common questions</Eyebrow></Reveal>
           <Reveal delay={0.06}><H2 className="mb-8">Everything you need to know</H2></Reveal>
           <div className="max-w-3xl"><FaqBlock /></div>
@@ -1039,7 +1039,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
       {/* ══ NAVBAR ══ */}
       <header className="recruit-navigation fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-12 h-[68px] flex items-center justify-between">
+        <div className="site-container h-[68px] flex items-center justify-between">
           <motion.button onClick={() => goTo('home')} className="shrink-0"
             whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 400, damping: 20 }}>

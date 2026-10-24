@@ -89,7 +89,7 @@ export const Footer: React.FC<FooterProps> = ({
   const shareUrl = typeof window === "undefined" ? "" : encodeURIComponent(window.location.origin)
   return (
     <footer className="border-t border-black/5 bg-white pb-12 pt-16">
-      <div className="mx-auto max-w-[1280px] px-6 sm:px-8">
+      <div className="site-container">
         <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="min-w-0">
             <nav aria-label="Products footer links">

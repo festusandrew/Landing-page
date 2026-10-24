@@ -18,7 +18,7 @@ export function ProductPageNavigation({
 }: ProductPageNavigationProps) {
   return (
     <div className="product-section-navigation border-b border-black/5 bg-[#f5f6f8]">
-      <div className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-4 px-6 py-5 text-caption lg:px-8">
+      <div className="site-container flex flex-wrap items-center justify-between gap-4 py-5 text-caption">
         <button
           type="button"
           onClick={onBackToHome}

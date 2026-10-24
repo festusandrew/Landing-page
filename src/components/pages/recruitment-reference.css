@@ -12,8 +12,7 @@
 .recruit-reference .recruit-employers > section:last-child {
   border: 1px solid rgb(0 0 0 / 5%);
   border-radius: 14px;
-  margin: 40px 24px 0;
-  width: calc(100% - 48px);
+  margin-block: 40px 0;
 }
 .recruit-reference .recruit-employers > section:last-child > div { padding: 24px; }
 .recruit-reference :is(.recruit-surface,.recruit-navigation) :is(button,a,input,textarea,select):focus-visible { outline: 2px solid var(--recruit-accent); outline-offset: 4px; }
@@ -23,11 +22,6 @@
 
 @media (min-width: 1440px) {
   .recruit-reference > main { padding-top: 91.944px; }
-  .recruit-reference :is(.recruit-surface,.recruit-navigation) [class~="max-w-[1280px]"],
-  .recruit-reference .recruit-surface [class~="max-w-[1286px]"] { max-width: 1730.704px; }
-  .recruit-reference .recruit-surface [class~="max-w-[1184px]"] { max-width: 1600.901px; }
-  .recruit-reference .recruit-surface [class~="max-w-[1400px]"] { max-width: 1892.958px; }
-  .recruit-reference .recruit-surface .max-w-6xl { max-width: 1557.634px; }
   .recruit-reference .recruit-surface .max-w-4xl { max-width: 1211.493px; }
   .recruit-reference .recruit-surface .max-w-3xl { max-width: 1038.423px; }
   .recruit-reference .recruit-surface .max-w-2xl { max-width: 908.62px; }
@@ -51,11 +45,11 @@
   .recruit-reference .recruit-surface [class~="lg:gap-20"] { gap: 108.169px; }
   .recruit-reference .recruit-surface .rounded-xl { border-radius: 18.93px; }
   .recruit-reference .recruit-surface .rounded-2xl { border-radius: 21.634px; }
-  .recruit-navigation > div:first-child { height: 91.944px; padding-inline: 64.901px; }
+  .recruit-navigation > div:first-child { height: 91.944px; }
   .recruit-navigation nav { gap: 43.268px; }
   .recruit-navigation nav button > div { bottom: -29.746px; }
   .recruit-navigation button[class~="h-[41px]"] { height: 55.437px; padding-inline: 27.042px; }
-  .recruit-home > section:first-child { min-height: 949.775px; padding: 108.169px 32.451px; }
+  .recruit-home > section:first-child { min-height: 949.775px; padding-block: 108.169px; }
   .recruit-home > section:first-child > div > div:first-child { min-height: 733.437px; display: flex; flex-direction: column; justify-content: center; }
   .recruit-home > section:first-child h1 + p { max-width: 594.93px; margin-top: 32.451px; margin-bottom: 43.268px; }
   .recruit-home > section:first-child button { padding: 18.93px 32.451px; }
@@ -71,7 +65,7 @@
   .recruit-home [class~="h-[200px]"] { height: 270.423px; }
   .recruit-newsletter { padding-block: 75.718px; }
   .recruit-employers > section:first-child { padding-block: 108.169px; }
-  .recruit-employers > section:last-child { max-width: none; min-height: 316.901px; margin-top: 54.085px; border-radius: 18.93px; padding: 0 50px; gap: 0; }
+  .recruit-employers > section:last-child { min-height: 316.901px; margin-top: 54.085px; border-radius: 18.93px; padding: 0 50px; gap: 0; }
   .recruit-employers > section:last-child > div { padding: 43.268px; border-right: 1px solid rgb(0 0 0 / 5%); }
   .recruit-employers > section:last-child > div:last-child { border-right: 0; }
   .recruit-contact > section:first-child h1 { margin-inline: auto; }
@@ -80,7 +74,6 @@
   .recruit-contact > section:nth-child(3) [class~="max-w-3xl"] { margin-inline: auto; }
   .recruit-blog [class~="h-[200px]"] { height: 270.423px; }
   .recruit-blog [class~="lg:w-[480px]"] { width: 649.014px; }
-  .recruit-jobseekers > div[class~="max-w-[1400px]"] > div { grid-template-columns: 513.803px minmax(0, 1fr); }
   .recruit-jobseekers .recruit-role-card { padding: 37.859px; border-radius: 21.634px; }
   .recruit-jobseekers .recruit-role-meta { margin-bottom: 35.155px; }
   .recruit-jobseekers .recruit-role-status { padding: 6.761px 12.169px; }
@@ -91,7 +84,6 @@
   .recruitment-article > header { padding-top: 86.535px; padding-bottom: 54.085px; }
   .recruitment-article > div { grid-template-columns: 324.507px minmax(0,1fr); }
   .recruit-reference > footer { padding-block: 86.535px 64.901px; }
-  .recruit-reference > footer > div { max-width: 1730.704px; padding-inline: 43.268px; }
 }
 @media (max-width: 767px) {
   .recruit-reference .recruit-employers > section:last-child > div { padding: 8px; }

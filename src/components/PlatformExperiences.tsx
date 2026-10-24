@@ -77,7 +77,7 @@ export function ModernServiceHero({
         locum ? "bg-[#f5f7f1]" : "bg-[#faf5f8]"
       }`}
     >
-      <div className="mx-auto grid max-w-[1184px] items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
+      <div className="site-content grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
         <motion.div
           initial={reducedMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -683,7 +683,7 @@ export function PolicyPage() {
   return (
     <div className="marketing-typography min-h-screen bg-[#fafaf7] font-sans text-[#233b35]">
       <header className="border-b border-black/5 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
+        <div className="site-container flex items-center justify-between py-6">
           <Link to="/" className="text-brand font-bold">
             mploy<span className="text-[#368B62]">us.</span>
           </Link>

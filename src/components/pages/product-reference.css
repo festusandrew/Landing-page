@@ -12,7 +12,7 @@
   font-family: var(--font-sans);
   font-weight: var(--font-weight-medium);
 }
-.product-reference-dashboard { position: relative; align-self: stretch; min-width: 0; }
+.product-reference-dashboard { position: relative; align-self: stretch; min-width: 0; overflow: hidden; border-radius: calc(var(--spacing) * 6); }
 .product-reference-dashboard img { display: block; border-radius: 24px; width: 100%; }
 .product-reference :is(#care-overview, #recruitment-overview) > div { position: relative; }
 .product-reference :is(#care-overview, #recruitment-overview) { overflow: hidden; }
@@ -27,14 +27,13 @@
   .product-reference-dashboard img { position: absolute; left: 0; top: 0; height: 100%; width: auto; max-width: none; }
 }
 @media (min-width: 1440px) {
-  .product-reference .product-section-navigation > div { max-width: 1730.704px; padding: 27.042px 43.268px; }
-  .product-reference [class~="max-w-[1184px]"] { max-width: 1600.901px; }
-  .product-reference > section { padding: 108.169px 32.451px; }
+  .product-reference .product-section-navigation > div { padding-block: 27.042px; }
+  .product-reference > section { padding-block: 108.169px; }
   .product-reference :is(#care-overview, #recruitment-overview) > div { gap: 75.718px; }
   .product-reference :is(#care-overview, #recruitment-overview) > div > div:first-child { min-height: 733.437px; }
   .product-reference :is(#care-overview, #recruitment-overview) h1 + p { max-width: 594.93px; }
   .product-reference :is(#care-overview, #recruitment-overview) button { padding: 18.93px 32.451px; }
-  .product-reference > div > section { padding: 86.535px 32.451px; }
+  .product-reference > div > section { padding-block: 86.535px; }
   .product-reference > div > section:first-child { padding-top: 108.169px; padding-bottom: 21.634px; }
   .product-reference > div > section:first-child > div { max-width: 1108.732px; }
   .product-reference > div > section:first-child p:last-child { max-width: 973.521px; }

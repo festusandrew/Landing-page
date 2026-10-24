@@ -220,10 +220,6 @@
   #overview section[aria-label="Our healthcare services"] > button > div:last-child {
     padding: 54.085px;
   }
-  .homepage-magenta .reference-main-navbar {
-    max-width: 1730.704px;
-    padding-inline: 43.268px;
-  }
   .homepage-magenta .reference-main-navbar > div:last-child > button {
     padding: 16.225px 27.042px;
     border-radius: 8.113px;
@@ -240,7 +236,6 @@
   }
   #overview > section:has(img[alt="A healthcare professional ready to support your team"]) {
     padding-block: 108.169px;
-    padding-inline: 32.451px;
     gap: 108.169px;
   }
   #overview img[alt="A healthcare professional ready to support your team"] {
@@ -249,9 +244,5 @@
   :is(.homepage-magenta, .product-reference) footer {
     padding-top: 86.535px;
     padding-bottom: 64.901px;
-  }
-  :is(.homepage-magenta, .product-reference) footer > div {
-    max-width: 1730.704px;
-    padding-inline: 43.268px;
   }
 }
