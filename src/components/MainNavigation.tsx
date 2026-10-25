@@ -74,16 +74,55 @@ export function MainNavigation({
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const rootRef = useRef<HTMLDivElement>(null)
   const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({})
-  const closeMenu = () => {
+  const closeTimerRef = useRef<number | null>(null)
+  const hoverOpenedRef = useRef(false)
+  const cancelPendingClose = () => {
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current)
+      closeTimerRef.current = null
+    }
+  }
+  const dismissMenu = () => {
+    cancelPendingClose()
+    hoverOpenedRef.current = false
     setOpenMenu(null)
+  }
+  const closeMenu = () => {
+    dismissMenu()
     onAction?.()
+  }
+  const scheduleHoverClose = () => {
+    cancelPendingClose()
+    if (!hoverOpenedRef.current || rootRef.current?.contains(document.activeElement)) return
+
+    closeTimerRef.current = window.setTimeout(() => {
+      closeTimerRef.current = null
+      if (hoverOpenedRef.current && !rootRef.current?.contains(document.activeElement)) {
+        dismissMenu()
+      }
+    }, 180)
+  }
+  const toggleMenu = (name: string) => {
+    cancelPendingClose()
+    // Clicking a hover-open menu keeps it open; a second click still closes it.
+    const shouldClose = openMenu === name && !hoverOpenedRef.current
+    hoverOpenedRef.current = false
+    setOpenMenu(shouldClose ? null : name)
   }
   useEffect(() => {
     const outside = (event: PointerEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setOpenMenu(null)
+      if (!rootRef.current?.contains(event.target as Node)) dismissMenu()
+    }
+    const escapeHoverMenu = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && hoverOpenedRef.current) dismissMenu()
     }
     document.addEventListener("pointerdown", outside)
-    return () => document.removeEventListener("pointerdown", outside)
+    document.addEventListener("keydown", escapeHoverMenu)
+    return () => {
+      document.removeEventListener("pointerdown", outside)
+      document.removeEventListener("keydown", escapeHoverMenu)
+      cancelPendingClose()
+    }
   }, [])
   const smallLink =
     "text-left font-sans text-control font-semibold text-[#45556c] transition-colors hover:text-[#368B62]"
@@ -93,16 +132,20 @@ export function MainNavigation({
       className={
         mobile
           ? "relative flex flex-col gap-5 py-5"
-          : "relative flex flex-wrap items-center gap-x-6 gap-y-2 xl:justify-center"
+          : "relative -mb-2 flex flex-wrap items-center gap-x-6 gap-y-2 pb-2 xl:justify-center"
       }
+      onPointerEnter={cancelPendingClose}
+      onPointerLeave={(event) => {
+        if (!mobile && event.pointerType === "mouse") scheduleHoverClose()
+      }}
       onKeyDown={(event) => {
         if (event.key === "Escape" && openMenu) {
           triggerRefs.current[openMenu]?.focus()
-          setOpenMenu(null)
+          dismissMenu()
         }
       }}
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setOpenMenu(null)
+        if (!event.currentTarget.contains(event.relatedTarget)) dismissMenu()
       }}
     >
       {Object.entries(menus).map(([name, links], index) => (
@@ -114,7 +157,16 @@ export function MainNavigation({
             }}
             aria-expanded={openMenu === name}
             aria-controls={`main-${mobile ? "mobile" : "desktop"}-${name}`}
-            onClick={() => setOpenMenu(openMenu === name ? null : name)}
+            onPointerEnter={(event) => {
+              if (!mobile && event.pointerType === "mouse") {
+                cancelPendingClose()
+                if (openMenu !== name) {
+                  hoverOpenedRef.current = true
+                  setOpenMenu(name)
+                }
+              }
+            }}
+            onClick={() => toggleMenu(name)}
             className="flex items-center gap-1 py-2 font-sans text-control font-semibold text-[#314158] transition-colors hover:text-[#368B62]"
           >
             {name}
@@ -129,11 +181,12 @@ export function MainNavigation({
           {openMenu === name && (
             <div
               id={`main-${mobile ? "mobile" : "desktop"}-${name}`}
+              onPointerEnter={cancelPendingClose}
               className={
                 "z-50 grid max-h-[calc(100dvh-160px)] grid-cols-1 gap-4 overflow-y-auto rounded-2xl border border-black/5 bg-white p-[17px] animate-fade-in motion-reduce:animate-none sm:grid-cols-[7fr_5fr] " +
                 (mobile
                   ? "mt-2"
-                  : `absolute left-0 top-full mt-2 w-full sm:left-1/2 ${
+                  : `absolute left-0 top-full w-full sm:left-1/2 ${
                       name === "Products"
                         ? "sm:w-[min(560px,calc(100vw-48px))]"
                         : "sm:w-[min(600px,calc(100vw-48px))]"
