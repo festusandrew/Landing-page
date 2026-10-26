@@ -131,16 +131,16 @@ export function LocumEmployerLanding({
 
   return (
     <div className="locum-employer locum-surface bg-white pt-[70px] text-[#24332d]">
-      <section className="mx-auto max-w-[1280px] px-6 pb-12 pt-10 lg:px-12 lg:pt-14">
+      <section className="site-container pb-12 pt-10 lg:pt-14">
         <div className="mb-7 flex flex-wrap items-center justify-between gap-4">
-          <p className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#368B62]">
+          <p className="flex items-center gap-2 text-eyebrow font-semibold uppercase text-[#368B62]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#368B62]" />
             For the people keeping care moving
           </p>
         </div>
         <div className="grid items-center gap-10 lg:grid-cols-[1.08fr_1fr] lg:gap-14">
           <motion.div {...reveal}>
-            <h1 className="text-[43px] font-medium leading-[1.05] tracking-[-0.025em] sm:text-[58px] lg:text-[60px]">
+            <h1 className="text-hero font-normal font-display">
               Care doesn’t pause.
               <br />
               <span className="text-[#368B62]">
@@ -148,7 +148,7 @@ export function LocumEmployerLanding({
                 <br className="hidden sm:block" /> your team.
               </span>
             </h1>
-            <p className="mt-6 max-w-[430px] text-[15px] leading-7 text-slate-500">
+            <p className="mt-6 max-w-[430px] text-body text-slate-500">
               A rota gap is more than an empty slot. Find the right healthcare
               professional to support your team, protect continuity and keep
               your attention on care.
@@ -164,7 +164,7 @@ export function LocumEmployerLanding({
               </button>
               <button
                 onClick={onTalk}
-                className="inline-flex items-center gap-2 rounded-full border border-black/5 px-6 py-3.5 text-sm font-medium transition-colors hover:bg-[#edf4ef]"
+                className="inline-flex items-center gap-2 rounded-full border border-black/5 px-6 py-3.5 text-control font-medium transition-colors hover:bg-[#edf4ef]"
               >
                 Talk to our team
                 <img
@@ -174,11 +174,10 @@ export function LocumEmployerLanding({
                 />
               </button>
             </div>
-            <p className="mt-4 text-[11px] leading-5 text-slate-400">
-              Try the guided posting preview. A facility account is needed to
-              manage live bookings.
+            <p className="mt-4 text-caption text-slate-400">
+              A facility account is needed to manage bookings.
             </p>
-            <div className="mt-9 flex flex-wrap gap-x-5 gap-y-3 text-[11px] text-[#53685b]">
+            <div className="mt-9 flex flex-wrap gap-x-5 gap-y-3 text-caption text-[#53685b]">
               {[
                 "Urgent & planned cover",
                 "Temporary locum shifts",
@@ -208,10 +207,10 @@ export function LocumEmployerLanding({
             />
             <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-3 rounded-2xl bg-white/95 p-5">
               <div>
-                <p className="text-[9px] uppercase tracking-[0.14em] text-slate-500">
+                <p className="text-eyebrow uppercase text-slate-500">
                   Behind every well-covered shift
                 </p>
-                <p className="mt-1.5 text-lg font-medium">
+                <p className="mt-1.5 text-lead font-medium">
                   A team that can keep caring.
                 </p>
               </div>
@@ -225,8 +224,8 @@ export function LocumEmployerLanding({
             </div>
           </motion.div>
         </div>
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-5 border-t border-black/5 pt-6 text-xs text-slate-500">
-          <p className="text-[10px] uppercase tracking-[0.12em] text-slate-400">
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-5 border-t border-black/5 pt-6 text-caption text-slate-500">
+          <p className="text-eyebrow uppercase text-slate-400">
             Built around your care setting
           </p>
           {[
@@ -246,20 +245,20 @@ export function LocumEmployerLanding({
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1280px] px-6 py-14 lg:px-12">
+      <section className="site-container py-14">
         <motion.div
           {...reveal}
           className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end"
         >
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#368B62]">
+            <p className="text-eyebrow font-semibold uppercase text-[#368B62]">
               Temporary locum cover
             </p>
-            <h2 className="mt-4 text-3xl font-medium leading-tight sm:text-4xl">
+            <h2 className="mt-4 text-section font-normal font-display">
               Today. Next week. Long term.
             </h2>
           </div>
-          <p className="max-w-sm text-sm leading-6 text-slate-500">
+          <p className="max-w-sm text-body text-slate-500">
             One unexpected absence or your next permanent colleague. Give us the
             brief that fits.
           </p>
@@ -297,16 +296,16 @@ export function LocumEmployerLanding({
                   className="locum-reference-icon"
                 />
               </div>
-              <p className="text-[9px] font-semibold tracking-[0.13em] text-[#67786d]">
+              <p className="text-eyebrow font-semibold text-[#67786d]">
                 {item.eyebrow}
               </p>
-              <h3 className="mt-3 text-xl font-medium">{item.title}</h3>
-              <p className="mb-7 mt-3 text-sm leading-6 text-slate-500">
+              <h3 className="mt-3 text-title font-semibold font-sans">{item.title}</h3>
+              <p className="mb-7 mt-3 text-body text-slate-500">
                 {item.copy}
               </p>
               <button
                 onClick={() => onRequest(item.urgent)}
-                className="group mt-auto flex items-center justify-between gap-3 border-t border-black/5 pt-5 text-left text-xs font-semibold text-[#368B62]"
+                className="group mt-auto flex items-center justify-between gap-3 border-t border-black/5 pt-5 text-left text-control font-semibold text-[#368B62]"
               >
                 {item.action}
                 <img
@@ -329,16 +328,16 @@ export function LocumEmployerLanding({
                 className="locum-reference-icon"
               />
             </div>
-            <p className="text-[9px] font-semibold tracking-[0.13em] text-[#67786d]">
+            <p className="text-eyebrow font-semibold text-[#67786d]">
               THE RIGHT LONG-TERM FIT
             </p>
             <h3
               id="permanent-recruitment-heading"
-              className="mt-3 text-xl font-medium"
+              className="mt-3 text-title font-semibold font-sans"
             >
               Your next permanent hire
             </h3>
-            <p className="mb-7 mt-3 text-sm leading-6 text-slate-500">
+            <p className="mb-7 mt-3 text-body text-slate-500">
               Go beyond filling a shift. Share the role, contract, salary and
               responsibilities with MployUs Recruitment. Our team reviews and
               arranges permanent job postings on the recruitment site, not the
@@ -346,7 +345,7 @@ export function LocumEmployerLanding({
             </p>
             <Link
               to="/recruitment-service?recruitment-enquiry=permanent"
-              className="group mt-auto flex items-center justify-between gap-3 border-t border-black/5 pt-5 text-left text-xs font-semibold text-[#368B62]"
+              className="group mt-auto flex items-center justify-between gap-3 border-t border-black/5 pt-5 text-left text-control font-semibold text-[#368B62]"
             >
               Create a permanent brief
               <img
@@ -360,17 +359,17 @@ export function LocumEmployerLanding({
       </section>
 
       <section className="bg-[#f7f9f8] px-6 py-20">
-        <div className="mx-auto grid max-w-[1184px] gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+        <div className="site-content grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <motion.div {...reveal}>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#368B62]">
+            <p className="text-eyebrow font-semibold uppercase text-[#368B62]">
               Less chasing. More clarity.
             </p>
-            <h2 className="mt-5 text-4xl font-medium leading-[1.12]">
+            <h2 className="mt-5 text-section font-normal font-display">
               The whole booking.
               <br />
               Not another inbox.
             </h2>
-            <p className="mt-5 max-w-md text-sm leading-7 text-slate-500">
+            <p className="mt-5 max-w-md text-body text-slate-500">
               From the first brief to the completed shift, your facility needs a
               clear view of the people, paperwork and arrangements behind the
               cover.
@@ -386,7 +385,7 @@ export function LocumEmployerLanding({
                   }`}
                 >
                   <span
-                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs ${
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-caption ${
                       activeStep === index
                         ? "bg-[#368B62] text-white"
                         : "bg-[#e9efeb] text-[#82978a]"
@@ -394,7 +393,7 @@ export function LocumEmployerLanding({
                   >
                     0{index + 1}
                   </span>
-                  <span className="text-sm font-medium">{item.label}</span>
+                  <span className="text-control font-medium">{item.label}</span>
                   {activeStep === index && (
                     <img
                       src={LOCUM_VISUALS.employer.workflow[0]}
@@ -411,8 +410,8 @@ export function LocumEmployerLanding({
             className="flex flex-col rounded-[28px] bg-[#e4eee7] p-7 sm:p-10"
           >
             <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase tracking-[0.13em] text-[#67786d]">
-                Employer workspace · workflow preview
+              <span className="text-caption uppercase tracking-widest text-[#67786d]">
+                Employer workspace
               </span>
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white">
                 {activeStep === 0 ? (
@@ -427,18 +426,18 @@ export function LocumEmployerLanding({
               </span>
             </div>
             <div key={activeStep} role="status" className="my-auto py-10">
-              <p className="text-sm text-[#82978a]">0{activeStep + 1} / 04</p>
-              <h3 className="mt-4 text-3xl font-medium leading-tight">
+              <p className="text-body text-[#82978a]">0{activeStep + 1} / 04</p>
+              <h3 className="mt-4 text-title font-semibold font-sans">
                 {step.title}
               </h3>
-              <p className="mt-5 text-sm leading-7 text-[#64756b]">
+              <p className="mt-5 text-body text-[#64756b]">
                 {step.description}
               </p>
               <div className="mt-7 space-y-3">
                 {step.checklist.map((label, index) => (
                   <div
                     key={label}
-                    className="flex items-start gap-3 rounded-xl bg-white/75 p-4 text-sm"
+                    className="flex items-start gap-3 rounded-xl bg-white/75 p-4 text-control"
                   >
                     <img
                       src={LOCUM_VISUALS.employer.workflow[index + 2]}
@@ -452,7 +451,7 @@ export function LocumEmployerLanding({
             </div>
             <button
               onClick={onLogin}
-              className="flex items-center justify-between border-t border-black/5 pt-5 text-left text-xs font-semibold text-[#368B62]"
+              className="flex items-center justify-between border-t border-black/5 pt-5 text-left text-control font-semibold text-[#368B62]"
             >
               Sign in to your employer account
               <img
@@ -465,7 +464,7 @@ export function LocumEmployerLanding({
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1280px] gap-10 px-6 py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20 lg:px-12">
+      <section className="site-container grid gap-10 py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <motion.div {...reveal}>
           <span className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#edf4ef]">
             <img
@@ -474,22 +473,22 @@ export function LocumEmployerLanding({
               className="locum-reference-icon"
             />
           </span>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#368B62]">
+          <p className="text-eyebrow font-semibold uppercase text-[#368B62]">
             Local requirements. A considered approach.
           </p>
-          <h2 className="mt-5 text-3xl font-medium leading-tight sm:text-4xl">
+          <h2 className="mt-5 text-section font-normal font-display">
             Care crosses regions.
             <br />
             Compliance needs context.
           </h2>
-          <p className="mt-5 text-sm leading-7 text-slate-500">
+          <p className="mt-5 text-body text-slate-500">
             Ireland, Northern Ireland, England, Wales and Scotland each bring
             different requirements. Start with the profession, the role and the
             place—not a one-size-fits-all checklist.
           </p>
           <Link
             to="/policies/data-protection"
-            className="mt-6 inline-flex items-center gap-2 text-xs font-semibold text-[#368B62]"
+            className="mt-6 inline-flex items-center gap-2 text-control font-semibold text-[#368B62]"
           >
             Read about data protection
             <img
@@ -528,8 +527,8 @@ export function LocumEmployerLanding({
                 className="locum-reference-icon mt-1"
               />
               <div>
-                <h3 className="text-base font-medium">{item.title}</h3>
-                <p className="mt-2 text-sm leading-7 text-slate-500">
+                <h3 className="text-body font-medium">{item.title}</h3>
+                <p className="mt-2 text-body text-slate-500">
                   {item.copy}
                 </p>
               </div>
@@ -538,20 +537,20 @@ export function LocumEmployerLanding({
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1280px] px-6 pb-20 lg:px-12">
+      <section className="site-container pb-20">
         <div className="grid gap-8 rounded-[28px] bg-[#f7f9f8] p-7 sm:p-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#368B62]">
+            <p className="text-eyebrow font-semibold uppercase text-[#368B62]">
               Before your first request
             </p>
-            <h2 className="mt-5 text-3xl font-medium">A few useful answers.</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-500">
+            <h2 className="mt-5 text-section font-normal font-display">A few useful answers.</h2>
+            <p className="mt-4 text-body text-slate-500">
               Still need a hand? We can talk through your facility’s staffing
               needs.
             </p>
             <button
               onClick={onTalk}
-              className="mt-5 inline-flex items-center gap-2 text-xs font-semibold text-[#368B62]"
+              className="mt-5 inline-flex items-center gap-2 text-control font-semibold text-[#368B62]"
             >
               Talk to our team
               <ArrowRight className="h-3.5 w-3.5" />
@@ -567,7 +566,7 @@ export function LocumEmployerLanding({
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
                   aria-expanded={openFaq === index}
                   aria-controls={`employer-answer-${index}`}
-                  className="flex w-full items-center justify-between gap-5 py-5 text-left text-sm font-medium"
+                  className="flex w-full items-center justify-between gap-5 py-5 text-left text-control font-medium"
                 >
                   <span>{faq.question}</span>
                   <ChevronDown
@@ -579,7 +578,7 @@ export function LocumEmployerLanding({
                 <div
                   id={`employer-answer-${index}`}
                   hidden={openFaq !== index}
-                  className="pb-5 text-sm leading-7 text-slate-500"
+                  className="pb-5 text-control text-slate-500"
                 >
                   {faq.answer}
                 </div>
@@ -589,19 +588,19 @@ export function LocumEmployerLanding({
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1280px] px-6 pb-16 lg:px-12">
+      <section className="site-container pb-16">
         <motion.div
           {...reveal}
           className="flex flex-col justify-between gap-8 rounded-[28px] bg-[#243e31] p-8 text-white sm:p-12 lg:flex-row lg:items-center"
         >
           <div>
-            <p className="text-[10px] uppercase tracking-[0.14em] text-[#b1c7b8]">
+            <p className="text-eyebrow uppercase text-[#b1c7b8]">
               Your people. Their care.
             </p>
-            <h2 className="mt-4 text-3xl font-medium leading-tight sm:text-4xl">
+            <h2 className="mt-4 text-section font-normal font-display">
               Make room for a better-covered team.
             </h2>
-            <p className="mt-4 max-w-lg text-sm leading-7 text-[#b1c7b8]">
+            <p className="mt-4 max-w-lg text-body text-[#b1c7b8]">
               Create a facility account to start organising your staffing needs,
               or talk to us about the cover you have in mind.
             </p>
@@ -609,14 +608,14 @@ export function LocumEmployerLanding({
           <div className="flex shrink-0 flex-col items-start gap-4">
             <button
               onClick={onRegister}
-              className="group inline-flex items-center gap-4 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-[#243e31] transition-colors hover:bg-[#e4eee7]"
+              className="group inline-flex items-center gap-4 rounded-full bg-white px-6 py-3.5 text-control font-semibold text-[#243e31] transition-colors hover:bg-[#e4eee7]"
             >
               Register your facility
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </button>
             <button
               onClick={onLogin}
-              className="text-xs text-[#b1c7b8] hover:text-white"
+              className="text-control text-[#b1c7b8] hover:text-white"
             >
               Already registered? Sign in ↗
             </button>

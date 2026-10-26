@@ -42,23 +42,17 @@ export const Footer: React.FC<FooterProps> = ({
     onNavigate("home")
     window.setTimeout(
       () =>
-        document
-          .getElementById(id)
-          ?.scrollIntoView({
-            behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
-              .matches
-              ? "auto"
-              : "smooth",
-          }),
+        document.getElementById(id)?.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "auto"
+            : "smooth",
+        }),
       100,
     )
   }
-  const headingClass =
-    "font-['Plus_Jakarta_Sans:Bold',sans-serif] text-xs font-bold uppercase leading-4 tracking-[0.6px] text-[#0f172b]"
+  const headingClass = "font-sans text-eyebrow font-bold uppercase text-[#0f172b]"
   const smallLinkClass =
-    "inline-flex max-w-full items-center gap-1 text-left font-['Plus_Jakarta_Sans:Regular',sans-serif] text-xs font-normal leading-4 text-[#45556c] transition-colors hover:text-[#368B62] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-black/5"
-  const productLinkClass =
-    "inline-flex max-w-full text-left font-['Plus_Jakarta_Sans:Medium',sans-serif] text-base font-medium leading-6 text-[#45556c] transition-colors hover:text-[#368B62]"
+    "inline-flex max-w-full items-center gap-1 text-left font-sans text-control font-normal text-[#45556c] transition-colors hover:text-[#368B62] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-black/5"
   const renderLink = (link: FooterLink, className = smallLinkClass) =>
     link.href ? (
       <Link to={link.href} className={className}>
@@ -72,9 +66,7 @@ export const Footer: React.FC<FooterProps> = ({
     )
   const customPlatform = columns?.find((column) => column.title === "Platform")
   const customExplore = columns?.find((column) => column.title === "Explore")
-  const workspaceLinks = columns?.find(
-    (column) => column.title === "Your workspace",
-  )?.links || [
+  const workspaceLinks = columns?.find((column) => column.title === "Your workspace")?.links || [
     { label: "Book a platform demo", onClick: onBookDemo },
     { label: "Start a free trial", onClick: onStartTrial },
   ]
@@ -94,13 +86,10 @@ export const Footer: React.FC<FooterProps> = ({
     },
     { label: "Privacy & data protection", href: "/policies/privacy" },
   ]
-  const shareUrl =
-    typeof window === "undefined"
-      ? ""
-      : encodeURIComponent(window.location.origin)
+  const shareUrl = typeof window === "undefined" ? "" : encodeURIComponent(window.location.origin)
   return (
     <footer className="border-t border-black/5 bg-white pb-12 pt-16">
-      <div className="mx-auto max-w-[1280px] px-6 sm:px-8">
+      <div className="site-container">
         <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="min-w-0">
             <nav aria-label="Products footer links">
@@ -116,7 +105,7 @@ export const Footer: React.FC<FooterProps> = ({
                     onClick: () => onNavigate("care-management"),
                   },
                 ].map((link) => (
-                  <li key={link.label}>{renderLink(link, productLinkClass)}</li>
+                  <li key={link.label}>{renderLink(link)}</li>
                 ))}
               </ul>
             </nav>
@@ -141,7 +130,7 @@ export const Footer: React.FC<FooterProps> = ({
                     onClick: () => onNavigate("web-development"),
                   },
                 ].map((link) => (
-                  <li key={link.label}>{renderLink(link, productLinkClass)}</li>
+                  <li key={link.label}>{renderLink(link)}</li>
                 ))}
               </ul>
             </nav>
@@ -178,11 +167,7 @@ export const Footer: React.FC<FooterProps> = ({
               ))}
               {onCookiePreferences && (
                 <li>
-                  <button
-                    type="button"
-                    onClick={onCookiePreferences}
-                    className={smallLinkClass}
-                  >
+                  <button type="button" onClick={onCookiePreferences} className={smallLinkClass}>
                     Manage cookie preferences
                   </button>
                 </li>
@@ -191,7 +176,7 @@ export const Footer: React.FC<FooterProps> = ({
           </nav>
           <div className="min-w-0">
             <h3 className={headingClass}>Contact us</h3>
-            <address className="mt-3 space-y-2 font-['Plus_Jakarta_Sans:Medium',sans-serif] text-[11px] font-medium not-italic leading-[14.667px] text-[#45556c]">
+            <address className="mt-3 space-y-2 font-sans text-control font-medium not-italic text-[#45556c]">
               <a
                 href="mailto:hello@mployus.cloud"
                 className="flex items-center gap-2 hover:text-[#368B62]"
@@ -199,10 +184,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <img src={mailIcon} alt="" className="shrink-0" />
                 hello@mployus.cloud
               </a>
-              <a
-                href="tel:08009008000"
-                className="flex items-center gap-2 hover:text-[#368B62]"
-              >
+              <a href="tel:08009008000" className="flex items-center gap-2 hover:text-[#368B62]">
                 <img src={phoneIcon} alt="" className="shrink-0" />
                 0800 900 8000 (IR Toll-Free)
               </a>
@@ -216,9 +198,7 @@ export const Footer: React.FC<FooterProps> = ({
                 {
                   label: "Share MployUs on LinkedIn",
                   icon: linkedinIcon,
-                  href:
-                    "https://www.linkedin.com/sharing/share-offsite/?url=" +
-                    shareUrl,
+                  href: "https://www.linkedin.com/sharing/share-offsite/?url=" + shareUrl,
                 },
                 {
                   label: "Share MployUs on X",
@@ -228,8 +208,7 @@ export const Footer: React.FC<FooterProps> = ({
                 {
                   label: "Share MployUs on Facebook",
                   icon: facebookIcon,
-                  href:
-                    "https://www.facebook.com/sharer/sharer.php?u=" + shareUrl,
+                  href: "https://www.facebook.com/sharer/sharer.php?u=" + shareUrl,
                 },
               ].map((social) => (
                 <a
@@ -259,34 +238,27 @@ export const Footer: React.FC<FooterProps> = ({
               type="button"
               onClick={() => onNavigate("home")}
               aria-label="MployUs home"
-              className="font-['Plus_Jakarta_Sans:Bold',sans-serif] text-sm font-bold leading-5 text-[#0f172b]"
+              className="font-sans text-control font-bold text-[#0f172b]"
             >
               MployUs
               {brandSuffix && (
                 <span
                   className={
-                    brandSuffix === "recruit"
-                      ? "ml-1 text-[#810161]"
-                      : "ml-1 text-[#368B62]"
+                    brandSuffix === "recruit" ? "ml-1 text-[#810161]" : "ml-1 text-[#368B62]"
                   }
                 >
                   {brandSuffix}.
                 </span>
               )}
             </button>
-            <p className="font-['Plus_Jakarta_Sans:Regular',sans-serif] text-[11px] leading-[14.667px] text-[#62748e]">
-              • © {new Date().getFullYear()} MployUs Platform. All rights
-              reserved.
+            <p className="font-sans text-caption text-[#62748e]">
+              • © {new Date().getFullYear()} MployUs Platform. All rights reserved.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => onNavigate("home")}
-            className={smallLinkClass}
-          >
+          <button type="button" onClick={() => onNavigate("home")} className={smallLinkClass}>
             Back to homepage ↗
           </button>
-          <div className="flex items-center gap-2 font-['Plus_Jakarta_Sans:Regular',sans-serif] text-[11px] leading-[14.667px] text-[#62748e]">
+          <div className="flex items-center gap-2 font-sans text-caption text-[#62748e]">
             <img src={shieldIcon} alt="" className="shrink-0" />
             <span>{tagline || "One platform. Your people, connected."}</span>
           </div>

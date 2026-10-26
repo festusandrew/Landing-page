@@ -53,17 +53,17 @@ export function LocumJobDetails({
   }, [payInfoOpen])
   return (
     <section className="min-w-0 space-y-4" aria-label="Selected locum shift">
-      <div className="flex items-center justify-between gap-3 text-[10px] text-slate-500">
-        <span>Sample shift · {reference}</span>
+      <div className="flex items-center justify-between gap-3 text-caption text-slate-500">
+        <span>Shift · {reference}</span>
         <span>{region}</span>
       </div>
-      <h2 className="text-2xl font-medium leading-tight text-[#24332d]">
+      <h2 className="text-title font-semibold text-[#24332d] font-sans">
         Locum Pharmacist in {area}, {region}
         <br />
         <span className="text-[#368B62]">{date.long}</span>
       </h2>
       <div className="rounded-xl border border-black/5 bg-white p-5">
-        <p className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#368B62]">
+        <p className="mb-4 flex items-center gap-2 text-body font-semibold text-[#368B62]">
           <img
             src={LOCUM_VISUALS.shift.location[0]}
             alt=""
@@ -71,7 +71,7 @@ export function LocumJobDetails({
           />
           {area}
         </p>
-        <div className="grid gap-5 text-sm sm:grid-cols-2">
+        <div className="grid gap-5 text-control sm:grid-cols-2">
           <div className="space-y-3">
             <p className="flex items-start gap-2 text-slate-700">
               <img
@@ -127,7 +127,7 @@ export function LocumJobDetails({
                   <div
                     id={payInfoId}
                     role="tooltip"
-                    className="absolute left-0 top-full z-20 mt-2 w-52 rounded-lg border border-black/5 bg-white p-3 text-xs leading-6 text-[#24332d]"
+                    className="absolute left-0 top-full z-20 mt-2 w-52 rounded-lg border border-black/5 bg-white p-3 text-caption text-[#24332d]"
                   >
                     Sign in to your MployUs account to view this shift’s pay.
                   </div>
@@ -152,10 +152,10 @@ export function LocumJobDetails({
               />
               {shift.dispensingSystem || "Dispensing system not supplied"}
             </p>
-            <p className="pl-6 text-xs text-slate-500">
+            <p className="pl-6 text-caption text-slate-500">
               Start / end time
               <br />
-              <span className="mt-1 inline-block text-sm text-slate-700">
+              <span className="mt-1 inline-block text-control text-slate-700">
                 {shift.time}
               </span>
             </p>
@@ -165,7 +165,7 @@ export function LocumJobDetails({
       <div className="flex gap-3">
         <button
           onClick={onBack}
-          className="inline-flex items-center justify-center gap-2 rounded-lg border border-black/5 bg-white px-5 py-3 text-sm font-medium text-[#24332d]"
+          className="inline-flex items-center justify-center gap-2 rounded-lg border border-black/5 bg-white px-5 py-3 text-control font-medium text-[#24332d]"
         >
           <img
             src={LOCUM_VISUALS.shift.back[0]}
@@ -176,7 +176,7 @@ export function LocumJobDetails({
         </button>
         <button
           onClick={onApply}
-          className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#368B62] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#286d4c]"
+          className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#368B62] px-5 py-3 text-control font-semibold text-white transition-colors hover:bg-[#286d4c]"
         >
           Apply
           <img
@@ -193,7 +193,7 @@ export function LocumJobDetails({
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/5 px-5 py-3">
           <h3
             id="locum-shift-location"
-            className="text-sm font-semibold text-[#24332d]"
+            className="text-control font-semibold text-[#24332d]"
           >
             Shift location
           </h3>
@@ -202,7 +202,7 @@ export function LocumJobDetails({
               href={map.external}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-xs font-medium text-[#368B62]"
+              className="inline-flex items-center gap-2 text-control font-medium text-[#368B62]"
             >
               Open larger map
               <img
@@ -225,23 +225,22 @@ export function LocumJobDetails({
         ) : (
           <div className="flex h-56 flex-col items-center justify-center gap-3 bg-[#edf4ef] px-6 text-center">
             <MapPin size={28} className="text-[#368B62]" />
-            <p className="text-sm">{area}</p>
-            <p className="text-xs text-slate-500">
+            <p className="text-body">{area}</p>
+            <p className="text-caption text-slate-500">
               Map unavailable for this area. Confirm the site address before
               booking.
             </p>
           </div>
         )}
-        <p className="border-t border-black/5 px-5 py-3 text-[10px] leading-5 text-slate-500">
-          General area only, not a verified workplace address. Confirm the exact
+        <p className="border-t border-black/5 px-5 py-3 text-caption text-slate-500">
+          General area only. Confirm the exact
           location and arrival instructions with the facility. Map ©
           OpenStreetMap contributors.
         </p>
       </section>
-      <p className="text-[10px] leading-5 text-slate-500">
-        Preview listing, not a verified live vacancy. Confirm current
-        availability, pay, duties, registration and booking terms before
-        accepting a shift.
+      <p className="text-caption text-slate-500">
+        Confirm current availability, pay, duties, registration and booking
+        terms before accepting a shift.
       </p>
     </section>
   )

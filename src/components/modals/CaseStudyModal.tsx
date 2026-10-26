@@ -1,107 +1,82 @@
-import React from 'react';
-import { X, CheckCircle2, TrendingUp, Clock, ShieldCheck, ArrowRight, Award } from 'lucide-react';
+import React from "react"
+import { ArrowRight, CheckCircle2 } from "lucide-react"
+import type { ModalTone } from "../../data/modalTones"
+import { RecruitmentDialog } from "../RecruitmentDialog"
 
 interface CaseStudyModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onBookDemo: () => void;
+  isOpen: boolean
+  onClose: () => void
+  onBookDemo: () => void
+  tone?: ModalTone
 }
 
-export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ isOpen, onClose, onBookDemo }) => {
-  if (!isOpen) return null;
+const OUTCOMES = [
+  ["18 hrs/wk", "Admin reclaimed"],
+  ["99.8%", "eMAR accuracy"],
+  ["14 mins", "Average locum fill"],
+] as const
+const SOLUTION = [
+  "Unified applicant tracking with automated DBS verification reduced hiring time from 24 days to 7 days.",
+  "Replaced paper MAR charts with the MployUs eMAR app, eliminating medication record omissions.",
+  "Integrated rotas with one-tap locum broadcast, filling emergency night shifts in under 15 minutes.",
+] as const
+
+export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ isOpen, onClose, onBookDemo, tone = "navy" }) => {
+  if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100 my-8 max-h-[90vh] flex flex-col">
-        {/* Header */}
-        <div className="p-6 bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white relative">
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold mb-2">
-            <Award className="w-4 h-4" /> Customer Success Story
-          </div>
-          <h3 className="text-2xl font-bold">Meadowview Care Group Transformation</h3>
-          <p className="text-slate-300 text-xs mt-1">How a 120-bed residential group reduced admin by 18 hrs/wk and achieved CQC Outstanding.</p>
-        </div>
-
-        {/* Case Study Content */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1 text-slate-700">
-          {/* Key Outcome Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-4 rounded-xl bg-blue-50 border border-blue-200 text-center">
-              <Clock className="w-6 h-6 text-blue-600 mx-auto mb-1" />
-              <div className="text-2xl font-black text-blue-950">18 Hrs/Wk</div>
-              <div className="text-[11px] font-semibold text-blue-700">Admin Reclaimed</div>
+    <RecruitmentDialog
+      onClose={onClose}
+      tone={tone}
+      eyebrow="Case study"
+      title="Meadowview Care Group."
+      description="How a 120-bed residential group reduced admin by 18 hours a week."
+      footer={null}
+    >
+      <div className="space-y-6">
+        <dl className="grid grid-cols-3 gap-2.5">
+          {OUTCOMES.map(([value, label]) => (
+            <div key={label} className="flex flex-col-reverse rounded-lg border border-black/5 p-3.5 text-center">
+              <dt className="mt-1 text-xs text-[#6a7282]">{label}</dt>
+              <dd className="text-xl text-[var(--recruit-brand)]">{value}</dd>
             </div>
-            <div className="p-4 rounded-xl bg-blue-50 border border-blue-200 text-center">
-              <ShieldCheck className="w-6 h-6 text-blue-600 mx-auto mb-1" />
-              <div className="text-2xl font-black text-blue-950">99.8%</div>
-              <div className="text-[11px] font-semibold text-blue-700">eMAR Med Accuracy</div>
-            </div>
-            <div className="p-4 rounded-xl bg-blue-50 border border-blue-200 text-center">
-              <TrendingUp className="w-6 h-6 text-blue-600 mx-auto mb-1" />
-              <div className="text-2xl font-black text-blue-950">14 Mins</div>
-              <div className="text-[11px] font-semibold text-blue-700">Avg Locum Fill Speed</div>
-            </div>
-          </div>
-
-          {/* Background & Challenge */}
-          <div className="space-y-2">
-            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider">The Challenge</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Meadowview Care operated 3 sites across Yorkshire with disconnected systems for hiring, paper care plans, WhatsApp shift requests, and manual Excel rotas. Staff spent 2.5 hours daily on repetitive admin, leading to burnout and delayed CQC audit prep.
-            </p>
-          </div>
-
-          {/* The Solution */}
-          <div className="space-y-2">
-            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider">The MployUS Solution</h4>
-            <div className="space-y-2 text-xs">
-              <div className="flex items-start gap-2">
-                <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
-                <span>Unified applicant tracking with automated DBS verification reduced hiring time from 24 days to 7 days.</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
-                <span>Replaced paper MAR charts with MployUS eMAR mobile app, eliminating medication record omissions entirely.</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
-                <span>Integrated smart rotas with 1-tap locum broadcast, filling emergency night shifts in under 15 minutes.</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Testimonial Quote */}
-          <blockquote className="p-4 rounded-xl bg-slate-900 text-white italic text-xs leading-relaxed relative">
-            <span className="text-blue-400 font-bold font-serif text-xl">“</span>
-            MployUS completely transformed our operations. CQC inspectors called our digital care records ‘a gold standard for residential care’.
-            <span className="block not-italic font-bold text-blue-300 mt-2 text-[11px]">
-              — Eleanor Vance, Operations Director at Meadowview Care
-            </span>
-          </blockquote>
-        </div>
-
-        {/* Footer CTAs */}
-        <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-          <button onClick={onClose} className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900">
-            Close Case Study
-          </button>
-          <button
-            onClick={() => {
-              onClose();
-              onBookDemo();
-            }}
-            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl transition-all shadow-md shadow-blue-600/20 flex items-center gap-1.5"
-          >
-            Schedule a Demo Like Meadowview <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
+          ))}
+        </dl>
+        <section>
+          <h3 className="text-lg">The challenge</h3>
+          <p className="mt-2 text-sm leading-6 text-[#6a7282]">
+            Meadowview operated three sites with disconnected systems for hiring, paper care plans,
+            messaging-app shift requests and spreadsheet rotas. Staff spent 2.5 hours a day on
+            repetitive admin.
+          </p>
+        </section>
+        <section>
+          <h3 className="text-lg">The MployUs solution</h3>
+          <ul className="mt-3 space-y-2.5">
+            {SOLUTION.map((item) => (
+              <li key={item} className="flex items-start gap-3 text-sm leading-6">
+                <CheckCircle2 className="mt-1 size-4 shrink-0 text-[var(--recruit-brand)]" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+        <blockquote className="rounded-xl bg-[var(--recruit-tint)] p-4 text-sm leading-6">
+          “MployUs completely transformed our operations. Inspectors called our digital care records a
+          gold standard for residential care.”
+          <footer className="mt-2 text-xs text-[var(--recruit-brand)]">Eleanor Vance, Operations Director</footer>
+        </blockquote>
+        <button
+          type="button"
+          onClick={() => {
+            onClose()
+            onBookDemo()
+          }}
+          className="flex w-full items-center justify-center gap-2 bg-[var(--recruit-brand)] px-5 py-3 text-white"
+        >
+          Book a demo <ArrowRight className="size-4" />
+        </button>
       </div>
-    </div>
-  );
-};
+    </RecruitmentDialog>
+  )
+}

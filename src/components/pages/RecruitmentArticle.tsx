@@ -171,10 +171,10 @@ export function RecruitmentArticle({
   }
   return (
     <article className="recruitment-article recruit-surface">
-      <header className="mx-auto max-w-6xl px-6 pb-10 pt-10 md:pt-16">
+      <header className="site-container pb-10 pt-10 md:pt-16">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 text-sm text-[var(--article-muted)] transition-colors hover:text-[var(--article-brand)]"
+          className="inline-flex items-center gap-2 text-control text-[var(--article-muted)] transition-colors hover:text-[var(--article-brand)]"
         >
           <img
             src={RECRUITMENT_VISUALS.article.back[0]}
@@ -183,7 +183,7 @@ export function RecruitmentArticle({
           />{" "}
           Back to all insights
         </button>
-        <div className="mt-10 flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-widest text-[var(--article-brand)]">
+        <div className="mt-10 flex flex-wrap items-center gap-3 text-caption font-medium uppercase tracking-widest text-[var(--article-brand)]">
           <span>{article.cat}</span>
           <span className="text-[var(--article-muted)]">/</span>
           <span className="inline-flex items-center gap-1">
@@ -195,20 +195,20 @@ export function RecruitmentArticle({
             {article.region}
           </span>
         </div>
-        <h1 className="mt-5 max-w-4xl text-4xl font-medium leading-tight tracking-tight md:text-6xl">
+        <h1 className="mt-5 max-w-4xl text-hero font-normal font-display">
           {article.title}
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--article-muted)]">
+        <p className="mt-6 max-w-2xl text-lead text-[var(--article-muted)]">
           {article.excerpt}
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-between gap-5 border-t border-black/5 pt-6">
           <div className="flex items-center gap-3">
-            <span className="flex size-10 items-center justify-center rounded-full bg-[var(--article-tint)] text-sm font-semibold text-[var(--article-brand)]">
+            <span className="flex size-10 items-center justify-center rounded-full bg-[var(--article-tint)] text-control font-semibold text-[var(--article-brand)]">
               m.
             </span>
             <div>
-              <p className="text-sm font-medium">MployUs editorial team</p>
-              <p className="mt-1 text-xs text-[var(--article-muted)]">
+              <p className="text-body font-medium">MployUs editorial team</p>
+              <p className="mt-1 text-caption text-[var(--article-muted)]">
                 {article.date} <span className="mx-2">·</span> {article.read}{" "}
                 read
               </p>
@@ -216,7 +216,7 @@ export function RecruitmentArticle({
           </div>
           <button
             onClick={copyLink}
-            className="inline-flex items-center gap-2 rounded-full border border-black/5 px-4 py-2 text-xs hover:bg-[var(--article-tint)]"
+            className="inline-flex items-center gap-2 rounded-full border border-black/5 px-4 py-2 text-control hover:bg-[var(--article-tint)]"
           >
             {copyStatus === "Link copied" ? (
               <Check className="size-4" />
@@ -231,20 +231,20 @@ export function RecruitmentArticle({
           </button>
         </div>
       </header>
-      <figure className="mx-auto max-w-6xl px-6">
+      <figure className="site-container">
         <img
           src={article.img}
           alt={`Editorial image accompanying ${article.title}`}
           className="aspect-[16/9] w-full rounded-2xl object-cover md:aspect-[21/9]"
         />
-        <figcaption className="mt-3 text-xs text-[var(--article-muted)]">
+        <figcaption className="mt-3 text-caption text-[var(--article-muted)]">
           Perspectives on people, work and better recruitment.
         </figcaption>
       </figure>
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 lg:grid-cols-[240px_1fr] lg:gap-20">
+      <div className="site-container grid gap-10 py-14 lg:grid-cols-[240px_1fr] lg:gap-20">
         <aside>
           <nav aria-label="In this article" className="sticky top-28">
-            <p className="mb-5 text-xs font-semibold uppercase tracking-widest text-[var(--article-muted)]">
+            <p className="mb-5 text-eyebrow font-semibold uppercase text-[var(--article-muted)]">
               In this article
             </p>
             <ol className="space-y-4">
@@ -252,7 +252,7 @@ export function RecruitmentArticle({
                 <li key={section.heading}>
                   <a
                     href={`#recruitment-section-${index}`}
-                    className="flex gap-3 text-sm leading-relaxed transition-colors hover:text-[var(--article-brand)]"
+                    className="flex gap-3 text-control transition-colors hover:text-[var(--article-brand)]"
                   >
                     <span className="text-[var(--article-brand)]">
                       0{index + 1}
@@ -262,7 +262,7 @@ export function RecruitmentArticle({
                 </li>
               ))}
             </ol>
-            <p className="mt-8 flex items-center gap-2 border-t border-black/5 pt-5 text-xs text-[var(--article-muted)]">
+            <p className="mt-8 flex items-center gap-2 border-t border-black/5 pt-5 text-caption text-[var(--article-muted)]">
               <img
                 src={RECRUITMENT_VISUALS.article.clock[0]}
                 alt=""
@@ -273,7 +273,7 @@ export function RecruitmentArticle({
           </nav>
         </aside>
         <div className="max-w-2xl">
-          <p className="mb-10 text-xl leading-relaxed">
+          <p className="mb-10 text-lead">
             Good recruitment starts with a clear understanding of people and the
             work they do. Here are three practical ways to turn that
             understanding into a more considered hiring plan.
@@ -284,33 +284,33 @@ export function RecruitmentArticle({
               id={`recruitment-section-${index}`}
               className="mb-10 scroll-mt-28"
             >
-              <h2 className="mb-4 text-2xl font-medium leading-snug">
+              <h2 className="mb-4 text-title font-semibold font-sans">
                 {section.heading}
               </h2>
-              <p className="text-base leading-8 text-[var(--article-muted)]">
+              <p className="text-body text-[var(--article-muted)]">
                 {section.text}
               </p>
             </section>
           ))}
           <div className="rounded-2xl bg-[var(--article-tint)] p-7">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--article-brand)]">
+            <p className="mb-3 text-eyebrow font-semibold uppercase text-[var(--article-brand)]">
               The takeaway
             </p>
-            <p className="text-xl leading-relaxed">
+            <p className="text-lead">
               Hire with clarity. Support people from day one. Build a team for
               what comes next.
             </p>
           </div>
-          <p className="mt-6 text-xs leading-6 text-[var(--article-muted)]">
+          <p className="mt-6 text-caption text-[var(--article-muted)]">
             General recruitment guidance, not legal or regulatory advice.
             Confirm current requirements with the relevant official bodies
             before making employment or placement decisions.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-y border-black/5 py-6">
-            <p className="text-sm">Let’s talk about your next hire.</p>
+            <p className="text-body">Let’s talk about your next hire.</p>
             <button
               onClick={onContact}
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--article-brand)] px-5 py-3 text-sm text-white transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--article-brand)] px-5 py-3 text-control text-white transition-opacity hover:opacity-90"
             >
               Talk to our team{" "}
               <img
@@ -323,17 +323,17 @@ export function RecruitmentArticle({
         </div>
       </div>
       <section className="bg-[var(--article-paper)] py-14">
-        <div className="mx-auto max-w-6xl px-6">
+        <div className="site-container">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="mb-2 text-xs uppercase tracking-widest text-[var(--article-brand)]">
+              <p className="mb-2 text-eyebrow uppercase text-[var(--article-brand)]">
                 Keep exploring
               </p>
-              <h2 className="text-3xl font-medium">Your next perspective.</h2>
+              <h2 className="text-section font-normal font-display">Your next perspective.</h2>
             </div>
             <button
               onClick={onBack}
-              className="inline-flex items-center gap-2 text-sm"
+              className="inline-flex items-center gap-2 text-control"
             >
               All insights{" "}
               <img
@@ -358,13 +358,13 @@ export function RecruitmentArticle({
                     className="aspect-[3/2] w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-105"
                   />
                 </div>
-                <p className="mt-4 text-xs text-[var(--article-brand)]">
+                <p className="mt-4 text-caption text-[var(--article-brand)]">
                   {item.cat} · {item.region}
                 </p>
-                <h3 className="mt-2 text-lg font-medium leading-snug group-hover:text-[var(--article-brand)]">
+                <h3 className="mt-2 text-title font-semibold group-hover:text-[var(--article-brand)] font-sans">
                   {item.title}
                 </h3>
-                <span className="mt-4 inline-flex items-center gap-2 text-xs text-[var(--article-muted)]">
+                <span className="mt-4 inline-flex items-center gap-2 text-caption text-[var(--article-muted)]">
                   {item.read} read{" "}
                   <img
                     src={RECRUITMENT_VISUALS.article.related[index]}

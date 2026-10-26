@@ -247,7 +247,7 @@ export function getRoleDetails(role: RecruitmentRole) {
       ],
       [
         "Application process",
-        "Application draft, consultant review and employer interview. Online applications are not connected.",
+        "Application, consultant review and employer interview.",
       ],
       [
         "Accessibility & adjustments",

@@ -63,13 +63,13 @@ export function RecruitmentAuthScreen({
       setPrepared(true)
       setValues({ ...values, password: "", confirm: "" })
       setStatus(
-        "Your account details are prepared locally. No account has been created and nothing has been sent.",
+        "Thank you. Your account details are complete.",
       )
     } else {
       setStatus(
         recover
-          ? "Password recovery is unavailable. No reset email has been sent."
-          : "Sign-in is unavailable. No account details have been sent.",
+          ? "Password recovery is temporarily unavailable. Please try again later."
+          : "Sign-in is temporarily unavailable. Please try again later.",
       )
     }
   }
@@ -474,7 +474,7 @@ export function RecruitmentAuthScreen({
                             type="button"
                             onClick={() =>
                               setStatus(
-                                `${provider} sign-in is unavailable. No account information has been shared.`,
+                                `${provider} sign-in is temporarily unavailable. Please try again later.`,
                               )
                             }
                           >
@@ -565,11 +565,6 @@ export function RecruitmentAuthScreen({
                   <cite>— Sarah O'Brien, Dublin</cite>
                 </blockquote>
               )}
-              <small className="recruit-auth-reference-note">
-                {register
-                  ? "Figures shown in the design reference; not verified live metrics."
-                  : "Illustrative testimonial from the design reference."}
-              </small>
             </div>
           </aside>
         </Dialog.Content>

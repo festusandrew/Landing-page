@@ -1,101 +1,248 @@
 /* Homepage-only palette: shared service-page components keep their own branding. */
 .homepage-magenta {
-  --homepage-accent: #0E162A;
+  --homepage-accent: #0e162a;
   --homepage-accent-hover: #1c2942;
   --homepage-tint: #eef1f6;
   --homepage-soft: #e6ebf2;
   --homepage-selection: #d5deed;
-  --homepage-ink: #0E162A;
+  --homepage-ink: #0e162a;
   --homepage-muted: #687184;
-  --homepage-deep: #0E162A;
+  --homepage-deep: #0e162a;
   --homepage-light-text: #bcc8dc;
   color: var(--homepage-ink);
 }
 .homepage-magenta :is([class~="text-[#368B62]"], [class~="text-[#368b62]"]) {
   color: var(--homepage-accent);
 }
-.homepage-magenta [class~="bg-[#368B62]"] { background-color: var(--homepage-accent); }
-.homepage-magenta [class~="text-[#368B62]/10"] { color: rgb(14 22 42 / 10%); }
+.homepage-magenta [class~="bg-[#368B62]"] {
+  background-color: var(--homepage-accent);
+}
+.homepage-magenta [class~="text-[#368B62]/10"] {
+  color: rgb(14 22 42 / 10%);
+}
 .homepage-magenta [class~="hover:text-[#368B62]"]:hover,
-.homepage-magenta .group:hover [class~="group-hover:text-[#368B62]"] { color: var(--homepage-accent); }
-.homepage-magenta [class~="hover:bg-[#286d4c]"]:hover { background-color: var(--homepage-accent-hover); }
-.homepage-magenta [class~="focus-visible:outline-[#368B62]"]:focus-visible { outline-color: var(--homepage-accent); }
-.homepage-magenta [class~="bg-[#edf5ef]"] { background-color: var(--homepage-tint); }
-.homepage-magenta [class~="hover:bg-[#edf5ef]"]:hover { background-color: var(--homepage-tint); }
-.homepage-magenta [class~="bg-[#e9f0e7]"] { background-color: var(--homepage-soft); }
-.homepage-magenta [class~="bg-[#f6f7f3]"] { background-color: #f6f7fa; }
-.homepage-magenta [class~="hover:bg-[#fdfefc]"]:hover { background-color: #fafbff; }
-.homepage-magenta [class~="bg-[#fafaf8]"] { background-color: #f9fafc; }
-.homepage-magenta [class~="bg-[#173e30]"] { background-color: var(--homepage-deep); }
-.homepage-magenta [class~="text-[#b1ccbb]"] { color: var(--homepage-light-text); }
-.homepage-magenta [class~="text-[#233b35]"] { color: var(--homepage-ink); }
-.homepage-magenta [class~="text-[#68736e]"] { color: var(--homepage-muted); }
-.homepage-magenta [class~="text-[#5d6862]"] { color: #5f6b80; }
-.homepage-magenta [class~="text-[#7b837e]"] { color: #778297; }
+.homepage-magenta .group:hover [class~="group-hover:text-[#368B62]"] {
+  color: var(--homepage-accent);
+}
+.homepage-magenta [class~="hover:bg-[#286d4c]"]:hover {
+  background-color: var(--homepage-accent-hover);
+}
+.homepage-magenta [class~="focus-visible:outline-[#368B62]"]:focus-visible {
+  outline-color: var(--homepage-accent);
+}
+.homepage-magenta [class~="bg-[#edf5ef]"] {
+  background-color: var(--homepage-tint);
+}
+.homepage-magenta [class~="hover:bg-[#edf5ef]"]:hover {
+  background-color: var(--homepage-tint);
+}
+.homepage-magenta [class~="bg-[#e9f0e7]"] {
+  background-color: var(--homepage-soft);
+}
+.homepage-magenta [class~="bg-[#f6f7f3]"] {
+  background-color: #f6f7fa;
+}
+.homepage-magenta [class~="hover:bg-[#fdfefc]"]:hover {
+  background-color: #fafbff;
+}
+.homepage-magenta [class~="bg-[#fafaf8]"] {
+  background-color: #f9fafc;
+}
+.homepage-magenta [class~="bg-[#173e30]"] {
+  background-color: var(--homepage-deep);
+}
+.homepage-magenta [class~="text-[#b1ccbb]"] {
+  color: var(--homepage-light-text);
+}
+.homepage-magenta [class~="text-[#233b35]"] {
+  color: var(--homepage-ink);
+}
+.homepage-magenta [class~="text-[#68736e]"] {
+  color: var(--homepage-muted);
+}
+.homepage-magenta [class~="text-[#5d6862]"] {
+  color: #5f6b80;
+}
+.homepage-magenta [class~="text-[#7b837e]"] {
+  color: #778297;
+}
 .homepage-magenta::selection,
-.homepage-magenta *::selection { background-color: var(--homepage-selection); }
+.homepage-magenta *::selection {
+  background-color: var(--homepage-selection);
+}
 .homepage-magenta .homepage-hero-glow {
-  background-image: radial-gradient(ellipse at 50% 85%, rgb(14 22 42 / 16%) 0%, rgb(14 22 42 / 7%) 40%, rgb(255 255 255 / 0%) 72%);
+  background-image:
+    radial-gradient(
+      ellipse 56% 78% at 50% 105%,
+      color-mix(in srgb, var(--homepage-accent) 34%, transparent) 0%,
+      color-mix(in srgb, var(--homepage-accent) 20%, transparent) 36%,
+      color-mix(in srgb, var(--homepage-accent) 8%, transparent) 62%,
+      transparent 82%
+    ),
+    radial-gradient(
+      ellipse 78% 70% at 50% 105%,
+      color-mix(in srgb, var(--homepage-soft) 85%, transparent) 0%,
+      color-mix(in srgb, var(--homepage-tint) 65%, transparent) 50%,
+      transparent 100%
+    );
+  transform-origin: 50% 100%;
 }
 .homepage-magenta .homepage-service-overlay {
   background-image: linear-gradient(to top, rgb(14 22 42 / 95%), rgb(14 22 42 / 20%), transparent);
 }
 .homepage-magenta #pricing img[class*="hue-rotate(99deg)"] {
-  filter: brightness(0) saturate(100%) invert(7%) sepia(24%) saturate(1748%) hue-rotate(183deg) brightness(94%) contrast(96%);
+  filter: brightness(0) saturate(100%) invert(7%) sepia(24%) saturate(1748%) hue-rotate(183deg)
+    brightness(94%) contrast(96%);
 }
 /* The edited Figma frames retain green body copy, with navy for brand accents. */
 #overview.homepage-magenta {
   --homepage-ink: #233b35;
   --homepage-muted: #68736e;
 }
-#overview.homepage-magenta #homepage-hero-heading { color: #352331; }
+#overview.homepage-magenta #homepage-hero-heading {
+  color: var(--homepage-accent);
+}
 #overview.homepage-magenta .homepage-service-overlay {
-  background-image: linear-gradient(to top, rgb(14 22 42 / 95%), rgb(14 22 42 / 20%) 50%, transparent);
+  background-image: linear-gradient(
+    to top,
+    rgb(14 22 42 / 95%),
+    rgb(14 22 42 / 20%) 50%,
+    transparent
+  );
 }
 #overview.homepage-magenta > section:last-of-type [class~="bg-[#368B62]"] {
   background-color: #363e52;
 }
-#overview.homepage-magenta > section:last-of-type [class~="text-[#b1ccbb]"] { color: white; }
+#overview.homepage-magenta > section:last-of-type [class~="text-[#b1ccbb]"] {
+  color: white;
+}
+
+/* The header takes its natural height; the hero fills the remaining viewport. */
+.homepage-intro {
+  display: grid;
+  grid-template-rows: auto minmax(min-content, 1fr);
+  min-block-size: 100svh;
+}
+.homepage-hero {
+  --text-hero: clamp(2.5rem, min(2rem + 4vw, 10svh), 5.5rem);
+  --text-stat: var(--text-brand);
+  --text-lead: var(--text-body);
+  --text-lead--line-height: var(--text-body--line-height);
+  --homepage-avatar-size: clamp(calc(var(--spacing) * 8), 5svh, calc(var(--spacing) * 10));
+  display: grid;
+  align-content: center;
+  padding-block: clamp(calc(var(--spacing) * 4), 4svh, calc(var(--spacing) * 12));
+}
+.homepage-hero-trust {
+  margin-block-end: calc(var(--spacing) * 4);
+}
+.homepage-hero-trust > div > :is(img, span) {
+  inline-size: var(--homepage-avatar-size);
+  block-size: var(--homepage-avatar-size);
+}
+.homepage-hero-description {
+  margin-block-start: calc(var(--spacing) * 4);
+}
+.homepage-magenta .homepage-hero-description {
+  color: var(--homepage-ink);
+}
+.homepage-hero-actions {
+  margin-block-start: calc(var(--spacing) * 8);
+}
+.homepage-hero-actions button {
+  min-block-size: calc(var(--spacing) * 11);
+  padding: calc(var(--spacing) * 3) calc(var(--spacing) * 5);
+}
+/* Keep focused content visible even if its scroll entrance has not completed. */
+#overview [data-home-reveal]:focus-within {
+  opacity: 1 !important;
+}
+@media print {
+  #overview [data-home-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+@media (max-width: 40rem) {
+  .homepage-hero {
+    --text-hero: clamp(2rem, 6svh, 2.5rem);
+    --homepage-avatar-size: calc(var(--spacing) * 8);
+    padding-block: calc(var(--spacing) * 4);
+  }
+  .homepage-hero-trust {
+    --text-lead: var(--text-control);
+    --text-lead--line-height: var(--text-control--line-height);
+    margin-block-end: calc(var(--spacing) * 3);
+  }
+  .homepage-hero-description {
+    margin-block-start: calc(var(--spacing) * 3);
+  }
+  .homepage-hero-description br {
+    display: none;
+  }
+  .homepage-hero-actions {
+    margin-block-start: calc(var(--spacing) * 5);
+    gap: calc(var(--spacing) * 2);
+  }
+  .homepage-hero-actions button {
+    padding-inline: calc(var(--spacing) * 3);
+  }
+}
+@media (max-width: 40rem) and (max-height: 44rem) {
+  .homepage-hero {
+    --text-hero: calc(var(--text-body) * 2);
+    --text-lead: var(--text-control);
+    --text-lead--line-height: var(--text-control--line-height);
+    --text-stat: var(--text-title);
+    --homepage-avatar-size: calc(var(--spacing) * 6);
+    padding-block: calc(var(--spacing) * 1.5);
+  }
+  .homepage-hero-trust {
+    margin-block-end: calc(var(--spacing) * 2);
+  }
+  .homepage-hero-description {
+    margin-block-start: calc(var(--spacing) * 2);
+  }
+  .homepage-hero-actions {
+    margin-block-start: calc(var(--spacing) * 4);
+  }
+  .homepage-hero-actions button {
+    padding-block: calc(var(--spacing) * 2.5);
+  }
+}
 @media (min-width: 1440px) {
-  #overview section[aria-labelledby="homepage-hero-heading"] { min-height: 870.775px; padding-top: 109.52px; }
-  #overview section[aria-labelledby="homepage-hero-heading"] > div:last-child > div:first-child { gap: 36.507px; margin-bottom: 22.986px; }
-  #overview section[aria-labelledby="homepage-hero-heading"] > div:last-child > div:first-child img,
-  #overview section[aria-labelledby="homepage-hero-heading"] > div:last-child > div:first-child > div > span { width: 58.577px; height: 58.577px; }
-  #overview section[aria-labelledby="homepage-hero-heading"] > div:last-child > div:first-child > div > span img { width: 100%; height: 150%; }
-  #overview section[aria-labelledby="homepage-hero-heading"] > div:last-child > div:first-child > p { font-family: 'Inter:Regular', sans-serif; font-size: 31.08px; line-height: 51.19px; }
-  #overview section[aria-labelledby="homepage-hero-heading"] strong { font-family: 'Inter:Semi Bold', sans-serif; font-size: 48.676px; line-height: 73.129px; letter-spacing: -1.097px; }
-  #overview #homepage-hero-heading { letter-spacing: -2.9252px; }
-  #overview #homepage-hero-heading + p { max-width: 1042.079px; margin-top: 22.986px; font-size: 27.424px; line-height: 51.19px; color: #766b73; }
-  #overview section[aria-labelledby="homepage-hero-heading"] > div:last-child > div:last-child { margin-top: 58.503px; gap: 21.938px; }
-  #overview section[aria-labelledby="homepage-hero-heading"] button { padding: 18.93px 32.451px; font-size: 18.93px; line-height: 27.042px; border-radius: 13.521px; }
-  #overview section[aria-label="Our healthcare services"] > button { min-height: 540.845px; }
-  #overview section[aria-label="Our healthcare services"] > button > div:last-child { padding: 54.085px; }
-  #overview section[aria-label="Our healthcare services"] h2 { font-size: 50px; }
-  .homepage-magenta .reference-main-navbar { max-width: 1730.704px; padding-inline: 43.268px; }
-  .homepage-magenta .reference-main-navbar > button { font-size: 37.859px; line-height: 56.789px; }
-  .homepage-magenta .reference-main-navbar > div:first-of-type > div > button,
-  .homepage-magenta .reference-main-navbar > div:first-of-type > div > div > button { font-size: 16.225px; line-height: 21.634px; }
-  .homepage-magenta .reference-main-navbar > div:last-child > button { font-size: 18.93px; line-height: 27.042px; padding: 16.225px 27.042px; border-radius: 8.113px; }
-  #overview #about { padding-block: 108.169px; }
-  #overview #about h2 { font-size: 62.197px; }
-  #overview #about .text-sm { font-size: 18.93px; line-height: 37.859px; }
-  #overview #solutions h2 { font-size: 70.31px; }
-  #overview #solutions h3 { font-size: 22.986px; }
-  #overview #solutions .text-sm { font-size: 18.93px; line-height: 37.859px; }
-  #overview #solutions [class~="text-[12px]"] { font-size: 16.225px; line-height: 32.451px; }
-  #overview #solutions [class~="text-[11px]"] { font-size: 14.873px; line-height: 27.042px; }
-  #overview #solutions article { padding: 37.859px; }
-  #overview #solutions article > div:first-child { width: 54.085px; height: 54.085px; }
-  #overview > section:has(img[alt="A healthcare professional ready to support your team"]) { padding-block: 108.169px; padding-inline: 32.451px; gap: 108.169px; }
-  #overview img[alt="A healthcare professional ready to support your team"] { height: 513.803px; }
-  #overview > section:has(img[alt="A healthcare professional ready to support your team"]) h2 { font-size: 67.606px; line-height: 73.014px; }
-  #overview > section:has(img[alt="A healthcare professional ready to support your team"]) .text-sm { font-size: 18.93px; line-height: 37.859px; }
-  #overview #questions h2 { font-size: 59.493px; }
-  #overview #questions .text-sm { font-size: 17.577px; line-height: 37.859px; }
-  #overview > section:last-of-type h2 { font-size: 70.31px; line-height: 77.341px; }
-  :is(.homepage-magenta, .product-reference) footer { padding-top: 86.535px; padding-bottom: 64.901px; }
-  :is(.homepage-magenta, .product-reference) footer > div { max-width: 1730.704px; padding-inline: 43.268px; }
-  :is(.homepage-magenta, .product-reference) footer .text-xs { font-size: 16.225px; line-height: 21.634px; }
-  :is(.homepage-magenta, .product-reference) footer .text-base { font-size: 21.634px; line-height: 32.451px; }
-  :is(.homepage-magenta, .product-reference) footer [class~="text-[11px]"] { font-size: 14.873px; line-height: 19.831px; }
+  #overview #homepage-hero-heading + p {
+    color: var(--homepage-ink);
+  }
+  #overview section[aria-label="Our healthcare services"] > button {
+    min-height: 540.845px;
+  }
+  #overview section[aria-label="Our healthcare services"] > button > div:last-child {
+    padding: 54.085px;
+  }
+  .homepage-magenta .reference-main-navbar > div:last-child > button {
+    padding: 16.225px 27.042px;
+    border-radius: 8.113px;
+  }
+  #overview #about {
+    padding-block: 108.169px;
+  }
+  #overview #solutions article {
+    padding: 37.859px;
+  }
+  #overview #solutions article > div:first-child {
+    width: 54.085px;
+    height: 54.085px;
+  }
+  #overview > section:has(img[alt="A healthcare professional ready to support your team"]) {
+    padding-block: 108.169px;
+    gap: 108.169px;
+  }
+  #overview img[alt="A healthcare professional ready to support your team"] {
+    height: 513.803px;
+  }
+  :is(.homepage-magenta, .product-reference) footer {
+    padding-top: 86.535px;
+    padding-bottom: 64.901px;
+  }
 }

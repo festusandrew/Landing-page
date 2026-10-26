@@ -218,7 +218,7 @@ export const TESTIMONIALS: Testimonial[] = [
     author: 'Amira Patel',
     role: 'RGN, Locum Nurse',
     organization: 'Independent Healthcare Professional',
-    avatarUrl: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=200&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1594824813566-78853a167098?auto=format&fit=crop&w=200&q=80',
     rating: 5,
     moduleBadge: 'Locums & Staffing App'
   }
