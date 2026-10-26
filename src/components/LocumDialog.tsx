@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { CalendarDays, Check, HeartPulse, LockKeyhole, ShieldCheck, X } from "lucide-react";
+import { BrandLogo } from "./BrandLogo";
 
 type LocumDialogProps = {
   open?: boolean;
@@ -23,7 +24,7 @@ export function LocumDialog({ open = true, onClose, title, description, headline
         <Dialog.Content className="fixed left-1/2 top-1/2 z-[121] grid max-h-[92dvh] w-[calc(100%-24px)] max-w-[940px] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-[28px] bg-white font-['DM_Sans',sans-serif] text-[#24332d] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 motion-reduce:animate-none md:grid-cols-[270px_minmax(0,1fr)]">
           <aside className="hidden bg-[#e7f0e9] md:block">
             <div className="sticky top-0 flex min-h-[min(650px,92dvh)] flex-col p-8">
-              <p className="flex items-center gap-2 text-lg font-semibold">mployus<span className="text-[11px] font-normal text-[#368B62]">locums.</span></p>
+              <p className="text-lg"><BrandLogo /></p>
               <div className="mb-8 mt-11"><span className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/75"><HeartPulse className="h-5 w-5 text-[#368B62]" /></span><p className="whitespace-pre-line text-[31px] font-medium leading-[1.12] tracking-[-0.02em]">{headline}</p></div>
               {image ? <img src={image} alt="Healthcare professional in uniform" className="mb-7 h-44 w-full rounded-2xl object-cover object-[center_25%]" /> : steps.length > 0 ? (
                 <ol className="space-y-5" aria-label="Your progress">{steps.map((label, index) => <li key={label} aria-current={index === currentStep ? "step" : undefined} className={`flex items-center gap-3 text-xs ${index === currentStep ? "font-semibold text-[#24332d]" : "text-[#73877a]"}`}><span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] ${index <= currentStep ? "bg-[#368B62] text-white" : "bg-white/70"}`}>{index < currentStep ? <Check className="h-3.5 w-3.5" /> : String(index + 1).padStart(2, "0")}</span>{label}</li>)}</ol>

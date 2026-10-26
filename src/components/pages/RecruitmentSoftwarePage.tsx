@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 import { Footer } from "../Footer"
 import { ProductPageNavigation } from "../ProductPageNavigation"
+import { BrandLogo } from "../BrandLogo"
 import recruitmentDashboard from "../../imports/product-reference/a7a54.png"
 import "./product-reference.css"
 import { PRODUCT_VISUALS } from "../../data/productVisuals"
@@ -125,10 +126,9 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
                 })
               }
               aria-label="MployUs recruitment software home"
-              className="flex items-baseline gap-2 text-brand font-semibold tracking-tight"
+              className="text-brand"
             >
-              mployus
-              <span className="text-caption font-medium tracking-normal text-[#0e1629]">hire.</span>
+              <BrandLogo />
             </button>
             <nav
               aria-label="Recruitment software navigation"

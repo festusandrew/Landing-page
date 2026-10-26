@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { ModernServiceHero } from '../PlatformExperiences';
 import { RecruitmentAuthScreen, type RecruitmentAuthMode } from '../RecruitmentAuthScreen';
 import { Footer } from '../Footer';
+import { BrandLogo } from '../BrandLogo';
 import { RecruitmentDialog } from '../RecruitmentDialog';
 import { RecruitmentCVDialog } from '../RecruitmentCVDialog';
 import { RecruitmentArticle, type RecruitmentStory } from './RecruitmentArticle';
@@ -1040,10 +1041,10 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       {/* ══ NAVBAR ══ */}
       <header className="recruit-navigation fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
         <div className="site-container h-[68px] flex items-center justify-between">
-          <motion.button onClick={() => goTo('home')} className="shrink-0"
+          <motion.button onClick={() => goTo('home')} className="shrink-0 text-brand"
             whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-            <span className="flex items-baseline gap-2 text-title font-semibold tracking-tight text-[#24332d]">mployus<span className="text-caption font-medium tracking-normal text-[#810161]">recruit.</span></span>
+            <BrandLogo />
           </motion.button>
 
           <nav className="hidden lg:flex items-center gap-8">
@@ -1120,7 +1121,6 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
 
       {/* ══ FOOTER ══ */}
 <Footer
-        brandSuffix="recruit"
         description={<>Specialist recruitment across Ireland &amp; the UK.<br />Good people. Great potential.</>}
         tagline="Your next chapter. Our shared ambition."
         onNavigate={view => view === 'home' ? onBackToHome() : goTo(view as Page)}

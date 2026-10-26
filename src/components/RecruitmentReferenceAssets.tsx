@@ -1,7 +1,6 @@
 const assetPathPrefix = "/assets/recruitment-auth"
 
 export const recruitmentAssets = {
-  logo: `${assetPathPrefix}/5d589.png`,
   eyeOutline: `${assetPathPrefix}/eda46.svg`,
   eyePupil: `${assetPathPrefix}/25997.svg`,
   arrow: `${assetPathPrefix}/a7a11.svg`,

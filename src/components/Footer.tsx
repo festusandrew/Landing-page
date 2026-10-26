@@ -7,6 +7,7 @@ import linkedinIcon from "../imports/footer-directory/c3e17.svg"
 import twitterIcon from "../imports/footer-directory/df4ea.svg"
 import facebookIcon from "../imports/footer-directory/d323b.svg"
 import shieldIcon from "../imports/footer-directory/159cd.svg"
+import { BrandLogo } from "./BrandLogo"
 
 export interface FooterLink {
   label: string
@@ -22,7 +23,6 @@ interface FooterProps {
   onNavigate: (viewId: string) => void
   onBookDemo: () => void
   onStartTrial: () => void
-  brandSuffix?: "recruit" | "locums"
   description?: React.ReactNode
   tagline?: string
   columns?: FooterColumn[]
@@ -33,7 +33,6 @@ export const Footer: React.FC<FooterProps> = ({
   onNavigate,
   onBookDemo,
   onStartTrial,
-  brandSuffix,
   tagline,
   columns,
   onCookiePreferences,
@@ -238,18 +237,9 @@ export const Footer: React.FC<FooterProps> = ({
               type="button"
               onClick={() => onNavigate("home")}
               aria-label="MployUs home"
-              className="font-sans text-control font-bold text-[#0f172b]"
+              className="text-control"
             >
-              MployUs
-              {brandSuffix && (
-                <span
-                  className={
-                    brandSuffix === "recruit" ? "ml-1 text-[#810161]" : "ml-1 text-[#368B62]"
-                  }
-                >
-                  {brandSuffix}.
-                </span>
-              )}
+              <BrandLogo />
             </button>
             <p className="font-sans text-caption text-[#62748e]">
               • © {new Date().getFullYear()} MployUs Platform. All rights reserved.

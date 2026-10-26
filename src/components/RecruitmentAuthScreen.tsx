@@ -8,6 +8,7 @@ import {
   RecruitmentReferenceImage,
   recruitmentAssets as assets,
 } from "./RecruitmentReferenceAssets"
+import { BrandLogo } from "./BrandLogo"
 import "./recruitment-auth.css"
 
 export type RecruitmentAuthMode = "login" | "register"
@@ -116,7 +117,7 @@ export function RecruitmentAuthScreen({
                 className="recruit-auth-logo"
                 aria-label="Back to recruitment"
               >
-                <img src={assets.logo} alt="MployUs Ireland" />
+                <BrandLogo />
               </button>
               <Dialog.Title className="recruit-auth-title">
                 {register
