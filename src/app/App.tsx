@@ -1,14 +1,6 @@
-import React, { lazy, Suspense, useState } from "react"
+import React, { lazy, Suspense, useRef, useState } from "react"
 import { createBrowserRouter, Link, RouterProvider, useLocation, useNavigate } from "react-router"
-import {
-  AnimatePresence,
-  domAnimation,
-  LazyMotion,
-  m as motion,
-  MotionConfig,
-  useReducedMotion,
-  type Variants,
-} from "motion/react"
+import { AnimatePresence, domAnimation, LazyMotion, m as motion, MotionConfig } from "motion/react"
 import {
   ArrowUpRight,
   ArrowRight,
@@ -26,6 +18,21 @@ import {
 } from "lucide-react"
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
+import {
+  homepageEase,
+  homepageHeroItem,
+  homepageHeroSequence,
+  ParallaxLayer,
+  revealCard,
+  revealDraw,
+  revealGroup,
+  revealImage,
+  revealItem,
+  RevealLines,
+  revealPop,
+  useHeroScrollAway,
+  useHomepageReducedMotion,
+} from "../components/HomepageMotion"
 import { Skeleton } from "./components/ui/skeleton"
 import recruitmentPhoto from "../imports/homepage-reference/6104b.png"
 import locumPhoto from "../imports/homepage-reference/09cba.png"
@@ -162,20 +169,6 @@ const solutions = [
   },
 ]
 
-const homepageEase = [0.22, 1, 0.36, 1] as const
-const homepageHeroSequence: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.08 } },
-}
-const homepageHeroItem: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, ease: homepageEase },
-  },
-}
-
 function LandingPage({
   onNavigate,
   onBookDemo,
@@ -185,19 +178,10 @@ function LandingPage({
   onBookDemo: () => void
   onStartTrial: () => void
 }) {
-  const reducedMotion = useReducedMotion() !== false
+  const reducedMotion = useHomepageReducedMotion()
+  const heroRef = useRef<HTMLElement>(null)
+  const heroScroll = useHeroScrollAway(heroRef, reducedMotion)
   const [openFaq, setOpenFaq] = useState<number | null>(0)
-  const reveal = (delay = 0) => ({
-    "data-home-reveal": "",
-    initial: reducedMotion ? (false as const) : { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "0px 0px -48px 0px" as const },
-    transition: {
-      duration: reducedMotion ? 0 : 0.6,
-      delay: reducedMotion ? 0 : delay,
-      ease: homepageEase,
-    },
-  })
   const buttonMotion = {
     whileHover: reducedMotion ? undefined : { y: -3, transition: { duration: 0.18 } },
     whileTap: reducedMotion ? undefined : { scale: 0.98, transition: { duration: 0.1 } },
@@ -275,18 +259,25 @@ function LandingPage({
           </div>
 
           <section
+            ref={heroRef}
             aria-labelledby="homepage-hero-heading"
             className="homepage-hero relative isolate overflow-hidden px-6 text-center"
           >
             <motion.div
               aria-hidden="true"
-              className="homepage-hero-glow pointer-events-none absolute inset-0 -z-10"
-              initial={reducedMotion ? false : { opacity: 0.55, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: reducedMotion ? 0 : 1.2, ease: homepageEase }}
-            />
+              className="pointer-events-none absolute inset-0 -z-10 origin-bottom"
+              style={heroScroll.glow}
+            >
+              <motion.div
+                className="homepage-hero-glow absolute inset-0"
+                initial={reducedMotion ? false : { opacity: 0.55, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: reducedMotion ? 0 : 1.2, ease: homepageEase }}
+              />
+            </motion.div>
             <motion.div
               className="site-content w-full"
+              style={heroScroll.content}
               variants={reducedMotion ? undefined : homepageHeroSequence}
               initial={reducedMotion ? false : "hidden"}
               animate={reducedMotion ? undefined : "visible"}
@@ -322,15 +313,16 @@ function LandingPage({
                   teams
                 </p>
               </motion.div>
-              <motion.h1
-                variants={homepageHeroItem}
-                id="homepage-hero-heading"
-                className="font-display text-hero font-normal"
-              >
-                Better people. Better care.
-                <br />
-                All connected<span className="text-[#368B62]">.</span>
-              </motion.h1>
+              <h1 id="homepage-hero-heading" className="font-display text-hero font-normal">
+                <RevealLines
+                  lines={[
+                    "Better people. Better care.",
+                    <>
+                      All connected<span className="text-[#368B62]">.</span>
+                    </>,
+                  ]}
+                />
+              </h1>
               <motion.p
                 variants={homepageHeroItem}
                 className="homepage-hero-description mx-auto max-w-3xl font-sans text-lead font-normal text-[#68736e]"
@@ -364,19 +356,24 @@ function LandingPage({
         >
           {photos.map((photo, index) => (
             <motion.button
-              {...reveal(index * 0.1)}
+              {...revealImage(reducedMotion, index * 0.12)}
               {...buttonMotion}
               key={photo.id}
               onClick={() => onNavigate(photo.id)}
               className="group relative min-h-[350px] overflow-hidden text-left md:min-h-[400px]"
             >
-              <img
-                src={photo.image}
-                alt={photo.alt}
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transform-none"
-              />
+              <ParallaxLayer className="absolute inset-0">
+                <img
+                  src={photo.image}
+                  alt={photo.alt}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transform-none"
+                />
+              </ParallaxLayer>
               <div className="homepage-service-overlay absolute inset-0" />
-              <div className="absolute bottom-0 left-0 right-0 p-7 text-white lg:p-10">
+              <motion.div
+                {...revealItem}
+                className="absolute bottom-0 left-0 right-0 p-7 text-white lg:p-10"
+              >
                 <span className={`mb-5 inline-block h-1 w-8 ${photo.tint}`} />
                 <p className="mb-3 text-eyebrow font-medium text-white/80">{photo.category}</p>
                 <h2 className="whitespace-pre-line font-display text-card-display font-normal">
@@ -390,108 +387,121 @@ function LandingPage({
                     className="shrink-0 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
                   />
                 </div>
-              </div>
+              </motion.div>
             </motion.button>
           ))}
         </section>
 
         <section id="about" className="site-container py-16 md:py-20">
-          <motion.div {...reveal()} className="grid gap-8 md:grid-cols-2 md:gap-20">
+          <motion.div
+            {...revealGroup(reducedMotion)}
+            className="grid gap-8 md:grid-cols-2 md:gap-20"
+          >
             <div>
-              <p className="mb-4 text-eyebrow font-semibold text-[#368B62]">MEET MPLOYUS</p>
+              <motion.p {...revealItem} className="mb-4 text-eyebrow font-semibold text-[#368B62]">
+                MEET MPLOYUS
+              </motion.p>
               <h2 className="font-display text-section font-normal">
-                Healthcare works better
-                <br />
-                when we work together.
+                <RevealLines lines={["Healthcare works better", "when we work together."]} />
               </h2>
             </div>
             <div className="pt-2 text-body text-[#68736e]">
-              <p>
+              <motion.p {...revealItem}>
                 Great care starts with great people. But finding them, supporting them and managing
                 the everyday shouldn’t stand in the way.
-              </p>
-              <p className="mt-4">
+              </motion.p>
+              <motion.p {...revealItem} className="mt-4">
                 MployUs brings your people and processes together. One connected partner for the way
                 healthcare works today — and where it goes tomorrow.
-              </p>
-              <button
+              </motion.p>
+              <motion.button
+                {...revealItem}
                 onClick={onBookDemo}
                 className="mt-5 flex items-center gap-2 font-semibold text-[#233b35] hover:text-[#368B62]"
               >
                 Let’s talk about your team <ArrowRight size={15} />
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         </section>
 
         <section id="solutions" className="bg-[#f6f7f3] py-16 md:py-24">
           <div className="site-container grid gap-12 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
-            <motion.div {...reveal()} className="lg:pt-3">
-              <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">
+            <motion.div {...revealGroup(reducedMotion)} className="lg:pt-3">
+              <motion.p {...revealItem} className="mb-5 text-eyebrow font-semibold text-[#368B62]">
                 ONE PARTNER. MORE POSSIBILITIES.
-              </p>
+              </motion.p>
               <h2 className="font-display text-section font-normal">
-                Everything you need.
-                <br />
-                Better, together.
+                <RevealLines lines={["Everything you need.", "Better, together."]} />
               </h2>
-              <p className="mt-6 max-w-sm text-body text-[#68736e]">
+              <motion.p {...revealItem} className="mt-6 max-w-sm text-body text-[#68736e]">
                 Find your next team member. Cover your next shift. Simplify your care operations.
                 Choose what you need, and we’ll help you move forward.
-              </p>
-              <button onClick={onBookDemo} className={`${primaryButton} mt-7`}>
+              </motion.p>
+              <motion.button
+                {...revealItem}
+                onClick={onBookDemo}
+                className={`${primaryButton} mt-7`}
+              >
                 Find your solution <ArrowUpRight size={15} />
-              </button>
-              <p className="mt-5 text-caption text-[#7b837e]">
+              </motion.button>
+              <motion.p {...revealItem} className="mt-5 text-caption text-[#7b837e]">
                 A real conversation. A solution that fits.
-              </p>
+              </motion.p>
             </motion.div>
             <div className="grid gap-4 sm:grid-cols-2">
               {solutions.map((solution, solutionIndex) => (
-                <motion.article
-                  {...reveal(solutionIndex * 0.06)}
-                  whileHover={reducedMotion ? undefined : { y: -4, transition: { duration: 0.2 } }}
+                <motion.div
+                  {...revealCard(reducedMotion, solutionIndex * 0.08)}
                   key={solution.id}
-                  className="group flex flex-col rounded-lg border border-black/5 bg-white p-7 transition-colors hover:bg-[#fdfefc]"
+                  className="grid"
                 >
-                  <div
-                    className={`mb-5 flex h-10 w-10 items-center justify-center rounded-lg ${solution.background} ${solution.color}`}
+                  <motion.article
+                    whileHover={
+                      reducedMotion ? undefined : { y: -4, transition: { duration: 0.2 } }
+                    }
+                    className="group flex flex-col rounded-lg border border-black/5 bg-white p-7 transition-colors hover:bg-[#fdfefc]"
                   >
-                    <img
-                      src={HOME_VISUALS.solutions[solutionIndex].icon}
-                      alt=""
-                      className="shrink-0"
-                    />
-                  </div>
-                  <h3 className="text-title font-semibold font-sans">{solution.name}</h3>
-                  <p className="mb-5 mt-3 text-body text-[#68736e]">{solution.description}</p>
-                  <ul className="mb-7 space-y-3">
-                    {solution.features.map((feature, featureIndex) => (
-                      <li
-                        key={feature}
-                        className="flex items-start gap-2 text-control text-[#68736e]"
-                      >
-                        <img
-                          src={HOME_VISUALS.solutions[solutionIndex].checks[featureIndex]}
-                          alt=""
-                          className="mt-1 shrink-0"
-                        />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <button
-                    onClick={() => onNavigate(solution.id)}
-                    className="mt-auto flex items-center gap-2 text-control font-semibold"
-                  >
-                    Explore {solution.name.toLowerCase()}{" "}
-                    <img
-                      src={HOME_VISUALS.solutions[solutionIndex].arrow}
-                      alt=""
-                      className="shrink-0 transition-transform group-hover:translate-x-1"
-                    />
-                  </button>
-                </motion.article>
+                    <motion.div
+                      {...revealPop}
+                      className={`mb-5 flex h-10 w-10 items-center justify-center rounded-lg ${solution.background} ${solution.color}`}
+                    >
+                      <img
+                        src={HOME_VISUALS.solutions[solutionIndex].icon}
+                        alt=""
+                        className="shrink-0"
+                      />
+                    </motion.div>
+                    <h3 className="text-title font-semibold font-sans">{solution.name}</h3>
+                    <p className="mb-5 mt-3 text-body text-[#68736e]">{solution.description}</p>
+                    <ul className="mb-7 space-y-3">
+                      {solution.features.map((feature, featureIndex) => (
+                        <li
+                          key={feature}
+                          className="flex items-start gap-2 text-control text-[#68736e]"
+                        >
+                          <img
+                            src={HOME_VISUALS.solutions[solutionIndex].checks[featureIndex]}
+                            alt=""
+                            className="mt-1 shrink-0"
+                          />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      onClick={() => onNavigate(solution.id)}
+                      className="mt-auto flex items-center gap-2 text-control font-semibold"
+                    >
+                      Explore {solution.name.toLowerCase()}{" "}
+                      <img
+                        src={HOME_VISUALS.solutions[solutionIndex].arrow}
+                        alt=""
+                        className="shrink-0 transition-transform group-hover:translate-x-1"
+                      />
+                    </button>
+                  </motion.article>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -503,25 +513,32 @@ function LandingPage({
           className="scroll-mt-6 bg-[#e9f0e7] py-16 md:py-[108.169px]"
         >
           <div className="site-container">
-            <motion.div {...reveal()} className="flex flex-wrap items-end justify-between gap-8">
+            <motion.div
+              {...revealGroup(reducedMotion)}
+              className="flex flex-wrap items-end justify-between gap-8"
+            >
               <div>
-                <p className="font-sans text-eyebrow font-semibold text-[#368B62]">
+                <motion.p
+                  {...revealItem}
+                  className="font-sans text-eyebrow font-semibold text-[#368B62]"
+                >
                   A LITTLE LESS COMPLEXITY
-                </p>
+                </motion.p>
                 <h2
                   id="how-it-works-heading"
                   className="mt-[21.634px] font-display text-section font-normal"
                 >
-                  More connected.
-                  <br />
-                  More time for care.
+                  <RevealLines lines={["More connected.", "More time for care."]} />
                 </h2>
               </div>
-              <p className="max-w-[519.211px] font-sans text-lead font-normal text-[#68736e]">
+              <motion.p
+                {...revealItem}
+                className="max-w-[519.211px] font-sans text-lead font-normal text-[#68736e]"
+              >
                 Healthcare is human. Your systems should be too.
                 <br />
                 We make the complicated feel a little simpler.
-              </p>
+              </motion.p>
             </motion.div>
             <div className="mt-8 grid gap-[20.282px] md:grid-cols-3">
               {[
@@ -542,22 +559,34 @@ function LandingPage({
                 },
               ].map((step, index) => (
                 <motion.article
-                  {...reveal(index * 0.08)}
+                  {...revealGroup(reducedMotion, { delay: index * 0.12 })}
                   key={step.number}
-                  className="min-w-0 border-t border-black/5 pt-8 lg:pt-[51.19px]"
+                  className="relative min-w-0 border-t border-transparent pt-8 lg:pt-[51.19px]"
                 >
+                  {/* The visible divider draws in over the reserved 1px border. */}
+                  <motion.span
+                    {...revealDraw}
+                    aria-hidden="true"
+                    className="absolute inset-x-0 -top-px h-px origin-left bg-black/5"
+                  />
                   <p
                     aria-hidden="true"
                     className="font-sans text-step font-semibold text-[#368B62]/10"
                   >
-                    {step.number}
+                    <RevealLines lines={[step.number]} />
                   </p>
-                  <h3 className="font-sans text-title font-semibold text-[#0f172a]">
+                  <motion.h3
+                    {...revealItem}
+                    className="font-sans text-title font-semibold text-[#0f172a]"
+                  >
                     {step.title}
-                  </h3>
-                  <p className="mt-[21.938px] font-sans text-body font-normal text-[#62748e]">
+                  </motion.h3>
+                  <motion.p
+                    {...revealItem}
+                    className="mt-[21.938px] font-sans text-body font-normal text-[#62748e]"
+                  >
                     {step.body}
-                  </p>
+                  </motion.p>
                 </motion.article>
               ))}
             </div>
@@ -565,34 +594,40 @@ function LandingPage({
         </section>
 
         <section className="site-container grid items-center gap-10 py-20 md:grid-cols-2 md:gap-20">
-          <motion.div {...reveal()} className="relative overflow-hidden rounded-lg">
-            <img
-              src={photos[0].image}
-              alt="A healthcare professional ready to support your team"
-              loading="lazy"
-              className="h-[380px] w-full object-cover object-top"
-            />
-            <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-[#fffffff2] p-5">
+          <motion.div
+            {...revealImage(reducedMotion)}
+            className="relative isolate overflow-hidden rounded-lg"
+          >
+            <ParallaxLayer distance={3}>
+              <img
+                src={photos[0].image}
+                alt="A healthcare professional ready to support your team"
+                loading="lazy"
+                className="h-[380px] w-full object-cover object-top"
+              />
+            </ParallaxLayer>
+            <motion.div
+              {...revealItem}
+              className="absolute bottom-5 left-5 right-5 rounded-lg bg-[#fffffff2] p-5"
+            >
               <p className="text-eyebrow font-semibold text-[#368B62]">
                 FOR THE PEOPLE BEHIND THE CARE
               </p>
               <p className="mt-2 font-display text-lead">Your next chapter starts here.</p>
-            </div>
+            </motion.div>
           </motion.div>
-          <motion.div {...reveal(0.1)}>
-            <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">
+          <motion.div {...revealGroup(reducedMotion, { delay: 0.1 })}>
+            <motion.p {...revealItem} className="mb-5 text-eyebrow font-semibold text-[#368B62]">
               HEALTHCARE PROFESSIONALS
-            </p>
+            </motion.p>
             <h2 className="font-display text-section font-normal">
-              A career that cares
-              <br />
-              for you, too.
+              <RevealLines lines={["A career that cares", "for you, too."]} />
             </h2>
-            <p className="mt-5 text-body text-[#68736e]">
+            <motion.p {...revealItem} className="mt-5 text-body text-[#68736e]">
               Looking for your next permanent role or the flexibility of locum work? We’ll help you
               find opportunities that fit your skills, your ambitions and your life.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
+            </motion.p>
+            <motion.div {...revealItem} className="mt-7 flex flex-wrap gap-3">
               <motion.button
                 {...buttonMotion}
                 onClick={() => onNavigate("recruitment-service")}
@@ -607,32 +642,30 @@ function LandingPage({
               >
                 Become a locum
               </motion.button>
-            </div>
+            </motion.div>
           </motion.div>
         </section>
 
         <section id="questions" className="border-t border-black/5 bg-[#fafaf8] py-16 md:py-20">
-          <motion.div
-            {...reveal()}
-            className="site-container grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-20"
-          >
-            <div>
-              <p className="mb-5 text-eyebrow font-semibold text-[#368B62]">GOOD TO KNOW</p>
+          <div className="site-container grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-20">
+            <motion.div {...revealGroup(reducedMotion)}>
+              <motion.p {...revealItem} className="mb-5 text-eyebrow font-semibold text-[#368B62]">
+                GOOD TO KNOW
+              </motion.p>
               <h2 className="font-display text-section font-normal">
-                A few questions.
-                <br />
-                Clear answers.
+                <RevealLines lines={["A few questions.", "Clear answers."]} />
               </h2>
-              <button
+              <motion.button
+                {...revealItem}
                 onClick={onBookDemo}
                 className="mt-7 flex items-center gap-2 text-control font-semibold"
               >
                 Talk to our team <ArrowRight size={15} />
-              </button>
-            </div>
-            <div>
+              </motion.button>
+            </motion.div>
+            <motion.div {...revealGroup(reducedMotion, { delay: 0.15, stagger: 0.08 })}>
               {faqs.map(([question, answer], index) => (
-                <div key={question} className="border-b border-black/5">
+                <motion.div {...revealItem} key={question} className="border-b border-black/5">
                   <button
                     aria-expanded={openFaq === index}
                     aria-controls={`faq-${index}`}
@@ -661,39 +694,37 @@ function LandingPage({
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </section>
 
         <section className="bg-[#173e30] py-16 md:py-20">
           <motion.div
-            {...reveal()}
+            {...revealGroup(reducedMotion)}
             className="site-container flex min-w-0 flex-wrap items-center justify-between gap-8"
           >
             <div>
-              <p className="mb-4 text-eyebrow font-medium text-[#b1ccbb]">
+              <motion.p {...revealItem} className="mb-4 text-eyebrow font-medium text-[#b1ccbb]">
                 LET’S MAKE BETTER HAPPEN
-              </p>
+              </motion.p>
               <h2 className="font-display text-section text-white font-normal">
-                Better healthcare starts
-                <br />
-                with a conversation.
+                <RevealLines lines={["Better healthcare starts", "with a conversation."]} />
               </h2>
             </div>
             <div>
-              <div className="flex flex-wrap gap-3">
+              <motion.div {...revealItem} className="flex flex-wrap gap-3">
                 <motion.button {...buttonMotion} onClick={onBookDemo} className={primaryButton}>
                   Book a demo <ArrowUpRight size={15} />
                 </motion.button>
                 <motion.button {...buttonMotion} onClick={onStartTrial} className={secondaryButton}>
                   Get started
                 </motion.button>
-              </div>
-              <p className="mt-4 text-caption text-[#b1ccbb]">
+              </motion.div>
+              <motion.p {...revealItem} className="mt-4 text-caption text-[#b1ccbb]">
                 Your people. Your purpose. Our partnership.
-              </p>
+              </motion.p>
             </div>
           </motion.div>
         </section>
