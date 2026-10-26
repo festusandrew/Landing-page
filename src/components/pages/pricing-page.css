@@ -191,9 +191,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--pricing-tint);
+  border: 1px solid rgb(0 0 0 / 5%);
   border-radius: var(--radius-lg);
-  padding: calc(var(--spacing) * 2);
+  /* Inset by the border width so the outlined tile keeps its previous footprint. */
+  padding: calc(var(--spacing) * 2 - 1px);
   min-height: calc(var(--spacing) * 10);
   transition: transform 0.22s var(--pricing-hover-ease);
 }

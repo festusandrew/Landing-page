@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { ArrowUpRight } from "lucide-react"
 import { UserRole } from "../types"
 import { MainNavigation } from "./MainNavigation"
+import { BrandLogo } from "./BrandLogo"
 import "./navbar.css"
 
 interface NavbarProps {
@@ -103,9 +104,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             type="button"
             onClick={() => (activeView === "home" ? section("overview") : navigate("home"))}
             aria-label="MployUs home"
-            className="shrink-0 font-sans text-brand font-bold text-[#233b35]"
+            className="shrink-0 text-brand"
           >
-            mploy<span className="text-[#368B62]">us.</span>
+            <BrandLogo />
           </button>
           <div
             className={

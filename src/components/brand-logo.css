@@ -1,0 +1,11 @@
+/* "mploy" uses the landing primary; "us." uses the recruitment dashboard primary. */
+.brand-logo {
+  color: #0e162a;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.brand-logo-accent {
+  color: #4f46e5;
+}

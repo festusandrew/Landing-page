@@ -156,12 +156,26 @@
 /* Keep focused content visible even if its scroll entrance has not completed. */
 #overview [data-home-reveal]:focus-within {
   opacity: 1 !important;
+  clip-path: none !important;
 }
 @media print {
   #overview [data-home-reveal] {
     opacity: 1 !important;
     transform: none !important;
+    clip-path: none !important;
   }
+}
+/* Heading lines rise out of their own clipped rows. The padding keeps display-face
+   ascenders, descenders and side bearings clear of the clip; the matching negative
+   margin leaves line spacing and wrapping unchanged. */
+.homepage-line-mask {
+  display: block;
+  overflow: hidden;
+  padding: 0.06em 0.04em 0.16em;
+  margin: -0.06em -0.04em -0.16em;
+}
+.homepage-line-mask > * {
+  display: block;
 }
 @media (max-width: 40rem) {
   .homepage-hero {

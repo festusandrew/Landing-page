@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router';
 import { LoginExperience } from '../PlatformExperiences';
 import VerticalMarqueeDemo from "@/components/ui/marquee-03";
 import { Footer } from '../Footer';
+import { BrandLogo } from '../BrandLogo';
 import imgLocumProfessional from '../../imports/locum-professional.jpg';
 import {
   Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, Building2,
@@ -557,8 +558,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <div className="site-container">
           <div className="flex items-center justify-between h-[70px]">
 
-            <button onClick={() => goto('home')} className="shrink-0">
-              <span className="flex items-baseline gap-2 text-title font-semibold tracking-tight text-[#24332d]">mployus<span className="text-caption font-medium tracking-normal text-[#368B62]">locums.</span></span>
+            <button onClick={() => goto('home')} className="shrink-0 text-brand">
+              <BrandLogo />
             </button>
 
             <nav className="hidden lg:flex items-center">
@@ -2042,7 +2043,6 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           FOOTER
       ══════════════════════════════════════ */}
 <Footer
-        brandSuffix="locums"
         description={<><p>Flexible shifts. More time for you.<br />Healthcare in Ireland &amp; the UK.</p><div className="mt-3 flex flex-wrap gap-3">{(Object.keys(REGIONS) as Region[]).map(country => <button key={country} onClick={() => applyRegion(country)} aria-pressed={region === country} className="text-control text-[#62748e] transition-colors hover:text-[#368B62] aria-pressed:text-[#368B62]"><span>{REGIONS[country].flag}</span> {REGIONS[country].country}</button>)}</div></>}
         tagline="Your expertise. Your schedule. Connected."
         onNavigate={view => view === 'home' ? onBackToHome() : goto(view as LocumPage)}

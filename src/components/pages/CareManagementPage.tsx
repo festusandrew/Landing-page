@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 import { Footer } from "../Footer"
 import { ProductPageNavigation } from "../ProductPageNavigation"
+import { BrandLogo } from "../BrandLogo"
 import careDashboard from "../../imports/Screenshot_2026-07-24_140316.png"
 import "./product-reference.css"
 import { PRODUCT_VISUALS } from "../../data/productVisuals"
@@ -99,10 +100,9 @@ export const CareManagementPage: React.FC<CareManagementPageProps> = ({
                 })
               }
               aria-label="MployUs care management home"
-              className="flex items-baseline gap-2 text-brand font-semibold tracking-tight"
+              className="text-brand"
             >
-              mployus
-              <span className="text-caption font-medium tracking-normal text-[#1d4ed8]">care.</span>
+              <BrandLogo />
             </button>
             <nav
               aria-label="Care management navigation"

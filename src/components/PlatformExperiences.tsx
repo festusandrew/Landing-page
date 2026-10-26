@@ -4,6 +4,7 @@ import { ArrowRight, Check, Eye, EyeOff, LockKeyhole, X } from "lucide-react"
 import { Link, useNavigate, useParams } from "react-router"
 import { LocumDialog } from "./LocumDialog"
 import { RecruitmentDialog } from "./RecruitmentDialog"
+import { BrandLogo } from "./BrandLogo"
 
 export function PeopleAnimation({ kind, image }: { kind: "recruitment" | "locum"; image: string }) {
   const reducedMotion = useReducedMotion()
@@ -684,8 +685,8 @@ export function PolicyPage() {
     <div className="marketing-typography min-h-screen bg-[#fafaf7] font-sans text-[#233b35]">
       <header className="border-b border-black/5 bg-white">
         <div className="site-container flex items-center justify-between py-6">
-          <Link to="/" className="text-brand font-bold">
-            mploy<span className="text-[#368B62]">us.</span>
+          <Link to="/" className="text-brand">
+            <BrandLogo />
           </Link>
           <button
             onClick={() => (window.history.length > 1 ? navigate(-1) : navigate("/"))}
