@@ -4,7 +4,10 @@ import "./brand-logo.css"
 export function BrandLogo() {
   return (
     <span className="brand-logo">
-      mploy<span className="brand-logo-accent">us.</span>
+      mploy
+      <span className="brand-logo-accent">
+        us<span className="brand-logo-dot">.</span>
+      </span>
     </span>
   )
 }
