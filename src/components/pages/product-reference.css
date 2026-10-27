@@ -24,17 +24,24 @@
   font-family: var(--font-sans);
   font-weight: var(--font-weight-medium);
 }
+/* Keeps its left edge on the hero grid and bleeds to the viewport's right edge: the hero gutter
+   plus the space beside the centred content. 100cqw is the hero's content box; unlike 100vw, it
+   excludes the scrollbar. */
 .product-reference-dashboard {
   position: relative;
   align-self: stretch;
   min-width: 0;
+  margin-right: calc(
+    -1 * (var(--site-gutter) + max(0px, (100cqw - var(--site-content-width)) / 2))
+  );
   overflow: hidden;
-  border-radius: calc(var(--spacing) * 6);
+  border-radius: calc(var(--spacing) * 6) 0 0 calc(var(--spacing) * 6);
 }
 .product-reference-dashboard img {
   display: block;
-  border-radius: 24px;
-  width: 100%;
+  /* Stacked layouts show the screenshot a quarter wider than the space so it runs off the edge. */
+  width: 125%;
+  max-width: none;
 }
 .product-reference :is(#care-overview, #recruitment-overview) > div {
   position: relative;
@@ -42,6 +49,8 @@
 .product-reference :is(#care-overview, #recruitment-overview) {
   /* Size the three-line heading to the viewport height as well as its width. */
   --text-hero: clamp(2.5rem, min(2rem + 4vw, 9svh), 5.5rem);
+  /* The dashboard measures its bleed against the hero rather than its grid column. */
+  container-type: inline-size;
   overflow: hidden;
 }
 .product-reference :is(#care-overview, #recruitment-overview) h1 {
@@ -73,11 +82,11 @@
 @media (min-width: 1024px) {
   .product-reference-dashboard img {
     position: absolute;
-    left: 0;
-    top: 0;
+    inset: 0;
+    width: 100%;
     height: 100%;
-    width: auto;
-    max-width: none;
+    object-fit: cover;
+    object-position: left top;
   }
   /* The section bar and hero share the first screen below the shared navbar, capped at the 1440 composition. */
   .product-reference-intro {
