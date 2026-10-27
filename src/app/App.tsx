@@ -37,9 +37,6 @@ import { Skeleton } from "./components/ui/skeleton"
 import recruitmentPhoto from "../imports/homepage-reference/6104b.png"
 import locumPhoto from "../imports/homepage-reference/09cba.png"
 import carePhoto from "../imports/homepage-reference/ca8d0.png"
-import trustedTeamOne from "../imports/homepage-reference/87c6c.png"
-import trustedTeamTwo from "../imports/homepage-reference/87c20.png"
-import trustedTeamThree from "../imports/homepage-reference/a08fb.png"
 
 import { HOME_VISUALS } from "../data/homeVisuals"
 
@@ -122,6 +119,13 @@ const WebDevelopmentPage = lazy(() =>
     default: module.WebDevelopmentPage,
   })),
 )
+
+// Corporate portraits from Unsplash, cropped around each face for the hero trust stack.
+const trustedTeamAvatars = [
+  "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=facearea&facepad=2.5&w=128&h=128&q=80",
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=facearea&facepad=2.5&w=128&h=128&q=80",
+  "https://images.unsplash.com/photo-1758691737605-69a0e78bd193?auto=format&fit=facearea&facepad=2.5&w=128&h=128&q=80",
+]
 
 const solutions = [
   {
@@ -287,29 +291,18 @@ function LandingPage({
                 className="homepage-hero-trust flex flex-wrap items-center justify-center gap-4"
               >
                 <div className="flex -space-x-[13px]" aria-hidden="true">
-                  <img
-                    src={trustedTeamOne}
-                    alt=""
-                    className="h-[43.327px] w-[43.327px] -scale-x-100 rounded-full object-cover"
-                  />
-                  <img
-                    src={trustedTeamTwo}
-                    alt=""
-                    className="h-[43.327px] w-[43.327px] rounded-full object-cover"
-                  />
-                  <span className="relative h-[43.327px] w-[43.327px] overflow-hidden rounded-full">
+                  {trustedTeamAvatars.map((src) => (
                     <img
-                      src={trustedTeamThree}
+                      key={src}
+                      src={src}
                       alt=""
-                      className="absolute -top-[8.08%] left-[-0.56%] h-[150%] w-full object-cover"
+                      className="h-[43.327px] w-[43.327px] rounded-full object-cover"
                     />
-                  </span>
+                  ))}
                 </div>
-                <p className="flex flex-wrap items-center justify-center gap-3 font-sans text-lead font-normal text-[#475569]">
+                <p className="flex flex-wrap items-baseline justify-center gap-3 font-sans text-lead font-normal text-[#475569]">
                   Trusted by{" "}
-                  <strong className="font-sans text-stat font-semibold tracking-tight text-[#0f172a]">
-                    2K+
-                  </strong>{" "}
+                  <strong className="font-display text-stat font-normal text-[#0f172a]">2K+</strong>{" "}
                   teams
                 </p>
               </motion.div>
