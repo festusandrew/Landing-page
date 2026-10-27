@@ -1,5 +1,7 @@
 /* Locum page surfaces only: dialogs intentionally retain their existing design. */
 .locum-reference { --locum-green: #368b62; }
+/* The wordmark's "us." takes the Locum green on this page; other pages keep the shared burgundy. */
+.locum-reference .brand-logo-accent { color: var(--locum-green); }
 .locum-reference .locum-surface {
   font-family: var(--font-sans);
 }
