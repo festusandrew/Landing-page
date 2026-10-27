@@ -6,6 +6,7 @@ import { LoginExperience } from '../PlatformExperiences';
 import VerticalMarqueeDemo from "@/components/ui/marquee-03";
 import { Footer } from '../Footer';
 import { BrandLogo } from '../BrandLogo';
+import { CountryFlag } from '../CountryFlag';
 import imgLocumProfessional from '../../imports/locum-professional.jpg';
 import {
   Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, Building2,
@@ -579,21 +580,20 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             </nav>
 
             <div className="hidden lg:flex items-center gap-2">
-              <div className="flex items-center bg-slate-50 border border-black/5 rounded-lg p-0.5 mr-1">
+              <div role="group" aria-label="Region" className="flex items-center bg-slate-50 border border-black/5 rounded-lg p-0.5 mr-1">
                 {(Object.keys(REGIONS) as Region[]).map(r => (
                   <button
                     key={r}
                     onClick={() => applyRegion(r)}
                     title={REGIONS[r].country}
-                    className={`w-8 h-7 rounded-md text-control flex items-center justify-center transition-all ${region === r ? 'bg-white' : 'opacity-40 hover:opacity-80'}`}
+                    aria-label={REGIONS[r].country}
+                    aria-pressed={region === r}
+                    className={`w-8 h-7 rounded-md flex items-center justify-center transition-all ${region === r ? 'bg-white' : 'opacity-40 hover:opacity-80'}`}
                   >
-                    {REGIONS[r].flag}
+                    <CountryFlag country={r} className="h-3.5 w-[21px]" />
                   </button>
                 ))}
               </div>
-              <button onClick={onBackToHome} className="text-control font-medium text-slate-400 hover:text-slate-600 mr-1 transition-colors">
-                MployUs.com ↗
-              </button>
               <button onClick={() => openAuth('signup')} className="rounded-full bg-[#368B62] px-5 py-2.5 text-control font-semibold text-white transition-colors hover:bg-[#286d4c]">
                 Register
               </button>
@@ -615,10 +615,10 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 {l.label}
               </button>
             ))}
-            <div className="flex gap-1.5 pt-3">
+            <div role="group" aria-label="Region" className="flex gap-1.5 pt-3">
               {(Object.keys(REGIONS) as Region[]).map(r => (
-                <button key={r} onClick={() => applyRegion(r)} className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-control font-semibold border transition-colors ${region === r ? 'bg-green-50 border-black/5 text-green-700' : 'bg-white border-black/5 text-slate-600'}`}>
-                  <span className="text-body">{REGIONS[r].flag}</span> {REGIONS[r].country}
+                <button key={r} onClick={() => applyRegion(r)} title={REGIONS[r].country} aria-label={REGIONS[r].country} aria-pressed={region === r} className={`flex-1 flex items-center justify-center py-2.5 rounded-lg border border-black/5 transition-colors ${region === r ? 'bg-green-50' : 'bg-white'}`}>
+                  <CountryFlag country={r} className={`h-4 w-6 transition-opacity ${region === r ? '' : 'opacity-50'}`} />
                 </button>
               ))}
             </div>
@@ -626,7 +626,6 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               <button onClick={() => openAuth('signup')} className="flex-1 py-2.5 text-control font-semibold border border-black/5 rounded-lg">Register</button>
               <button onClick={() => openAuth('signin')} className="flex-1 py-2.5 text-control font-semibold text-white bg-[#368B62] rounded-lg">Login</button>
             </div>
-            <button onClick={onBackToHome} className="block w-full text-left px-3 py-2 text-control text-slate-400">← Back to MployUs.com</button>
           </div>
         )}
       </header>
