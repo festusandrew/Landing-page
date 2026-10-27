@@ -1,5 +1,5 @@
 import { LOCUM_VISUALS } from "../../data/locumVisuals";
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useNavigate } from 'react-router';
 import { LoginExperience } from '../PlatformExperiences';
@@ -32,7 +32,8 @@ import imgLogoWhite from '../../imports/MacBookPro14372/b8700eda655f89d95fde6a9a
 import imgLogo from '../../imports/MacBookPro14372/b16ab5f34d40dbc6e584efa0666128eb7e0f9d4b.png';
 import { LocumRegistrationWizard } from './LocumRegistrationWizard';
 import { LocumJobDetails } from './LocumJobDetails';
-import { getPublicShiftDate, type PublicLocumShift } from '../../data/locumShiftPresentation';
+import { LocumShiftDetailsPanel, type LocumShiftDetailsPanelHandle } from './LocumShiftDetailsPanel';
+import { getPublicShiftDate, getShiftArea, type PublicLocumShift } from '../../data/locumShiftPresentation';
 import { LocumEmployerLanding } from './LocumEmployerLanding';
 import { LocumInsights } from './LocumInsights';
 import { LocumDialog } from '../LocumDialog';
@@ -60,8 +61,12 @@ const UK_WORK_REGIONS = WORK_REGIONS.filter(area => area.id !== 'IE').map(area =
 // Display order of the region chips on Locum Shifts.
 const REGION_FILTER_ORDER: WorkRegion[] = ['UK-eng', 'IE', 'UK-wal', 'UK-sco', 'UK-ni'];
 
+function shiftWorkRegion(location: string) {
+  return WORK_REGIONS.find(area => area.cities.some(city => location.includes(city))) ?? WORK_REGIONS[0];
+}
+
 function shiftRegion(location: string): WorkRegion {
-  return WORK_REGIONS.find(area => area.cities.some(city => location.includes(city)))?.id ?? 'IE';
+  return shiftWorkRegion(location).id;
 }
 
 // Region filters hold explicit selections; an empty selection shows every region.
@@ -394,12 +399,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   };
   useEffect(() => setSelectedShift(0), [filterRegions, searchLocation, searchProfession, filterSpecialisation, filterDate, filterExperience, filterUrgentOnly, sortBy]);
   const applyShift = shifts[selectedShift] ?? shifts[0];
-  // On desktop the details scroll inside their own panel, so a newly selected shift starts at its heading.
-  const shiftDetailsRef = useRef<HTMLDivElement>(null);
-  const shiftDetailsKey = applyShift ? `${applyShift.facility}-${applyShift.date}` : '';
-  useLayoutEffect(() => {
-    if (shiftDetailsRef.current) shiftDetailsRef.current.scrollTop = 0;
-  }, [shiftDetailsKey]);
+  const shiftDetailsPanel = useRef<LocumShiftDetailsPanelHandle>(null);
 
   const faqs: Record<string, { q: string; a: string }[]> = {
     Locum: [
@@ -1332,7 +1332,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
           {/* ── Main content: shift list + detail panel ── */}
           <div className="site-container py-6">
-            <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-[300px_minmax(0,1fr)] lg:grid-cols-[380px_minmax(0,1fr)] gap-6">
 
               {/* Left: shift list */}
               <div id="locum-shift-results" className="scroll-mt-24">
@@ -1360,10 +1360,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   {/* Selected/active shift — green card */}
                   {shifts.map((s, i) => {
                     const active = selectedShift === i;
+                    const area = shiftWorkRegion(s.location);
                     return (
                       <button
                         key={i}
-                        onClick={() => { setSelectedShift(i); if (window.matchMedia('(max-width: 1023px)').matches) requestAnimationFrame(() => document.getElementById('selected-locum-shift')?.scrollIntoView({ block: 'start', behavior: preferredScrollBehavior() })); }}
+                        onClick={() => { setSelectedShift(i); requestAnimationFrame(() => shiftDetailsPanel.current?.reveal()); }}
                         className={`w-full text-left transition-all border-b border-[#f1f1f1] ${active ? 'bg-[#368B62]' : 'bg-[rgba(245,245,245,0.6)] hover:bg-slate-50'}`}
                         style={active ? { borderColor: 'rgba(163,209,57,0.3)' } : {}}
                       >
@@ -1393,7 +1394,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                             </div>
                             <div className="flex items-center gap-1.5">
                               <MapPin className={`w-3 h-3 shrink-0 ${active ? 'text-[#c5e8d7]/80' : 'text-[#757575]'}`} />
-                              <span className={`text-control ${active ? 'text-white/80' : 'text-black'}`}>{s.location}</span>
+                              <span className={`text-control ${active ? 'text-white/80' : 'text-black'}`}>{getShiftArea(s.location)}<span className="sr-only">, {area.label}</span></span>
+                              <CountryFlag country={area.flag} className={`ml-0.5 h-3 w-[18px] ${active ? 'ring-1 ring-white/60' : ''}`} />
                             </div>
                           </div>
                         </div>
@@ -1409,18 +1411,20 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               {(() => {
                 const s = shifts[selectedShift] ?? shifts[0];
                 if (!s) return <div className="rounded-3xl bg-[#f4f8f5] p-10 text-center"><Search className="mx-auto mb-5 h-8 w-8 text-[#368B62]" /><h2 className="text-title font-semibold font-sans">No shifts match these filters</h2><p className="mt-3 text-body text-slate-500">Try another region or clear your filters. New shifts are added regularly.</p><button onClick={resetShiftFilters} className="mt-6 rounded-full bg-[#368B62] px-6 py-3 text-control font-semibold text-white">Show all shifts</button></div>;
+                const area = shiftWorkRegion(s.location);
                 return (
-                  <div id="selected-locum-shift" ref={shiftDetailsRef} className="locum-shift-details min-w-0 scroll-mt-24">
+                  <LocumShiftDetailsPanel ref={shiftDetailsPanel} resetKey={`${s.facility}-${s.date}`}>
                     <LocumJobDetails
                       key={`${s.facility}-${s.date}`}
                       shift={s}
-                      reference={`LOC-${shiftRegion(s.location)}-${String(allShifts.indexOf(s) + 1).padStart(3, '0')}`}
-                      region={WORK_REGIONS.find(area => area.id === shiftRegion(s.location))!.label}
+                      reference={`LOC-${area.id}-${String(allShifts.indexOf(s) + 1).padStart(3, '0')}`}
+                      region={area.label}
+                      flag={area.flag}
                       onBack={() => document.getElementById('locum-shift-results')?.scrollIntoView({ block: 'start', behavior: preferredScrollBehavior() })}
                       onApply={openApply}
                       onLogin={() => openAuth('signin')}
                     />
-                  </div>
+                  </LocumShiftDetailsPanel>
                 );
               })()}
             </div>
@@ -1437,7 +1441,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-caption text-slate-500">{applyShift.time}</p>
-                  <p className="text-caption text-slate-500 inline-flex items-center gap-1"><MapPin className="w-3 h-3" aria-hidden="true" />{applyShift.location}</p>
+                  <p className="text-caption text-slate-500 inline-flex items-center gap-1"><MapPin className="w-3 h-3" aria-hidden="true" />{getShiftArea(applyShift.location)}<span className="sr-only">, {shiftWorkRegion(applyShift.location).label}</span><CountryFlag country={shiftWorkRegion(applyShift.location).flag} className="ml-1 h-3 w-[18px]" /></p>
                 </div>
               </div>
 

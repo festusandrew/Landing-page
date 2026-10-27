@@ -27,6 +27,11 @@ const MONTHS: Record<string, string> = {
   Dec: "12",
 }
 
+/** The town or district without its country code, e.g. "Dublin 2, IE" becomes "Dublin 2". */
+export function getShiftArea(location: string) {
+  return location.replace(/,\s*(IE|UK|NI)$/, "")
+}
+
 export function getPublicShiftDate(date: string) {
   const [, day, month] = date.split(" ")
   const monthNumber = MONTHS[month]
