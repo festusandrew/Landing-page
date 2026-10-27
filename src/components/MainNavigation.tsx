@@ -16,7 +16,8 @@ interface MainNavigationProps {
   mobile?: boolean
 }
 
-// Each `accent` is the destination page's primary colour, used as its card's hover fill.
+// Each `accent` is the destination page's primary colour: the card's hover fill, and a light
+// tint on the overview panel while that card is previewed.
 const menus = {
   Products: [
     {
@@ -177,7 +178,8 @@ export function MainNavigation({
       }}
     >
       {Object.entries(menus).map(([name, links], index) => {
-        const activeLink = links.find((link) => link.id === activeItemId) ?? links[0]
+        const previewedLink = links.find((link) => link.id === activeItemId)
+        const activeLink = previewedLink ?? links[0]
         if (!activeLink) return null
         const overviewId = `main-${mobile ? "mobile" : "desktop"}-${name}-overview`
         return (
@@ -283,7 +285,17 @@ export function MainNavigation({
                 </div>
                 <aside
                   aria-labelledby={`${overviewId}-title`}
-                  className="flex min-h-64 min-w-0 flex-col justify-between rounded-[14px] border border-[#e6ebf2] bg-[#f6f7fa] p-[15px]"
+                  style={
+                    previewedLink
+                      ? ({ "--nav-accent": previewedLink.accent } as React.CSSProperties)
+                      : undefined
+                  }
+                  className={
+                    "flex min-h-64 min-w-0 flex-col justify-between rounded-[14px] border p-[15px] transition-colors motion-reduce:transition-none " +
+                    (previewedLink
+                      ? "border-(--nav-accent)/20 bg-(--nav-accent)/10"
+                      : "border-[#e6ebf2] bg-[#f6f7fa]")
+                  }
                 >
                   <div aria-live="polite" aria-atomic="true">
                     <p className="font-sans text-eyebrow font-bold uppercase text-[#0e162a]">
