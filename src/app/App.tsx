@@ -453,7 +453,7 @@ function LandingPage({
                     whileHover={
                       reducedMotion ? undefined : { y: -4, transition: { duration: 0.2 } }
                     }
-                    className="group flex flex-col rounded-lg border border-black/5 bg-white p-7 transition-colors hover:bg-[#fdfefc]"
+                    className="homepage-solution-card group flex flex-col rounded-lg border border-black/5 bg-white p-7 transition-colors"
                   >
                     <motion.div
                       {...revealPop}
