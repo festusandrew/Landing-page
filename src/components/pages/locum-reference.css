@@ -1,5 +1,5 @@
 /* Locum page surfaces only: dialogs intentionally retain their existing design. */
-.locum-reference { --locum-green: #368b62; }
+.locum-reference { --locum-green: #368b62; --locum-header-height: 70px; }
 /* The wordmark's "us." takes the Locum green on this page; other pages keep the shared burgundy. */
 .locum-reference .brand-logo-accent { color: var(--locum-green); }
 .locum-reference .locum-surface {
@@ -28,6 +28,24 @@
 .locum-faq > section:first-child h1 { font-family: var(--font-display); }
 .locum-faq > section:first-child + div { min-height: 850px; }
 .locum-shifts select { max-width: 100%; }
+/* Desktop: the selected shift scrolls in its own sticky panel. At either end, scrolling carries on to the page. */
+@media (min-width: 1024px) {
+  .locum-reference .locum-shift-details {
+    position: sticky;
+    top: calc(var(--locum-header-height) + 1.5rem);
+    align-self: start;
+    max-height: calc(100vh - var(--locum-header-height) - 3rem);
+    max-height: calc(100dvh - var(--locum-header-height) - 3rem);
+    /* Room for the offset focus rings of edge-to-edge buttons, without moving the content. */
+    margin-inline: -0.5rem;
+    padding-inline: 0.5rem;
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--locum-green) 50%, transparent) transparent;
+    scrollbar-gutter: stable;
+  }
+}
 .locum-employer > section:first-child h1 { font-family: var(--font-display); }
 .locum-cover-options h3 { font-family: var(--font-sans); }
 
@@ -53,6 +71,7 @@
   .locum-reference .locum-surface [class~="rounded-[28px]"] { border-radius: 37.859px; }
   .locum-reference .locum-surface [class~="rounded-[24px]"] { border-radius: 32.451px; }
   .locum-navigation > div > div:first-child { height: 94.648px; }
+  .locum-reference { --locum-header-height: 94.648px; }
   .locum-navigation button[class*="rounded-full"] { padding: 13.521px 27.042px; }
   .locum-reference :is(.locum-employer,.locum-journal,.locum-shifts,.locum-article,.locum-faq) { padding-top: 94.648px; }
   .locum-home > section:first-child { margin-top: 116.282px; }

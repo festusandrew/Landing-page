@@ -1,18 +1,18 @@
 import { LOCUM_VISUALS } from "../../data/locumVisuals";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useNavigate } from 'react-router';
 import { LoginExperience } from '../PlatformExperiences';
 import VerticalMarqueeDemo from "@/components/ui/marquee-03";
 import { Footer } from '../Footer';
 import { BrandLogo } from '../BrandLogo';
-import { CountryFlag } from '../CountryFlag';
+import { CountryFlag, type FlagCountry } from '../CountryFlag';
 import imgLocumProfessional from '../../imports/locum-professional.jpg';
 import {
   Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, Building2,
   Search, Calendar, Stethoscope, Briefcase, Mail, Lock, Linkedin, Phone,
   ChevronDown, ChevronRight, BookOpen, Cookie, Award,
-  PlusCircle, UserPlus, Check, Menu, X, Apple, Play, Bell, Zap, Wallet,
+  PlusCircle, UserPlus, Check, Menu, X, Apple, Play, Bell, Zap, Wallet, Globe,
   Plus, Minus, TrendingUp, Star, MoveRight, Smartphone
 } from 'lucide-react';
 
@@ -49,16 +49,35 @@ interface LocumProvisionPageProps {
 type Region = 'IE' | 'UK';
 type WorkRegion = 'IE' | 'UK-eng' | 'UK-wal' | 'UK-sco' | 'UK-ni';
 
-const WORK_REGIONS: { id: WorkRegion; label: string; cities: string[] }[] = [
-  { id: 'IE', label: 'Republic of Ireland', cities: ['Dublin', 'Cork', 'Galway', 'Limerick', 'Waterford'] },
-  { id: 'UK-eng', label: 'England', cities: ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Leeds', 'Bristol', 'Newcastle', 'Cumbria'] },
-  { id: 'UK-wal', label: 'Wales', cities: ['Cardiff', 'Swansea', 'Newport', 'Wrexham'] },
-  { id: 'UK-sco', label: 'Scotland', cities: ['Glasgow', 'Edinburgh', 'Aberdeen', 'Dundee', 'Inverness'] },
-  { id: 'UK-ni', label: 'Northern Ireland', cities: ['Belfast', 'Derry / Londonderry', 'Lisburn', 'Newry', 'Bangor'] },
+const WORK_REGIONS: { id: WorkRegion; label: string; flag: FlagCountry; cities: string[] }[] = [
+  { id: 'IE', label: 'Republic of Ireland', flag: 'IE', cities: ['Dublin', 'Cork', 'Galway', 'Limerick', 'Waterford'] },
+  { id: 'UK-eng', label: 'England', flag: 'ENG', cities: ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Leeds', 'Bristol', 'Newcastle', 'Cumbria'] },
+  { id: 'UK-wal', label: 'Wales', flag: 'WLS', cities: ['Cardiff', 'Swansea', 'Newport', 'Wrexham'] },
+  { id: 'UK-sco', label: 'Scotland', flag: 'SCT', cities: ['Glasgow', 'Edinburgh', 'Aberdeen', 'Dundee', 'Inverness'] },
+  { id: 'UK-ni', label: 'Northern Ireland', flag: 'UK', cities: ['Belfast', 'Derry / Londonderry', 'Lisburn', 'Newry', 'Bangor'] },
 ];
+const UK_WORK_REGIONS = WORK_REGIONS.filter(area => area.id !== 'IE').map(area => area.id);
+// Display order of the region chips on Locum Shifts.
+const REGION_FILTER_ORDER: WorkRegion[] = ['UK-eng', 'IE', 'UK-wal', 'UK-sco', 'UK-ni'];
 
 function shiftRegion(location: string): WorkRegion {
   return WORK_REGIONS.find(area => area.cities.some(city => location.includes(city)))?.id ?? 'IE';
+}
+
+// Region filters hold explicit selections; an empty selection shows every region.
+function regionsFor(region: Region): WorkRegion[] {
+  return region === 'IE' ? ['IE'] : UK_WORK_REGIONS;
+}
+
+// Adds the regions, or removes them when every one is already selected.
+function toggleRegions(selected: WorkRegion[], regions: WorkRegion[]): WorkRegion[] {
+  return regions.every(region => selected.includes(region))
+    ? selected.filter(region => !regions.includes(region))
+    : [...selected, ...regions.filter(region => !selected.includes(region))];
+}
+
+function preferredScrollBehavior(): ScrollBehavior {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 }
 
 const REGIONS: Record<Region, {
@@ -236,7 +255,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const [selectedShift, setSelectedShift] = useState(0);
   const [filterSpecialisation, setFilterSpecialisation] = useState('');
   const [filterDate, setFilterDate] = useState('');
-  const [filterCountry, setFilterCountry] = useState<'all' | 'UK' | WorkRegion>('IE');
+  const [filterRegions, setFilterRegions] = useState<WorkRegion[]>(['IE']);
   const [filterUrgentOnly, setFilterUrgentOnly] = useState(false);
   const [filterExperience, setFilterExperience] = useState('');
   const [sortBy, setSortBy] = useState<'date'>('date');
@@ -278,7 +297,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   useEffect(() => {
     const guess = detectRegionFromTimezone();
     setRegion(guess);
-    setFilterCountry(guess);
+    setFilterRegions(regionsFor(guess));
     setSearchLocation(REGIONS[guess].defaultCity);
     setFaqRegion(guess);
   }, []);
@@ -287,8 +306,20 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
     setRegion(r);
     setSearchLocation(REGIONS[r].defaultCity);
     setFaqRegion(r);
-    setFilterCountry(r);
+    setFilterRegions(regionsFor(r));
     setSelectedShift(0);
+  };
+
+  const selectFilterRegions = (selection: WorkRegion[]) => {
+    // Every region selected is the same as no filter, so it shows as "All".
+    const next = WORK_REGIONS.every(area => selection.includes(area.id)) ? [] : selection;
+    setFilterRegions(next);
+    setSearchLocation('');
+    setSelectedShift(0);
+    // The page-wide country follows the filter only when the selection sits within one country.
+    const ireland = next.includes('IE');
+    const uk = next.some(area => area !== 'IE');
+    if (ireland !== uk) setRegion(ireland ? 'IE' : 'UK');
   };
 
   const openAuth = (mode: 'signin' | 'signup') => {
@@ -342,7 +373,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   const allShifts = [...REGIONS.IE.shifts, ...REGIONS.UK.shifts];
   const shifts = allShifts.filter(shift => {
     const area = shiftRegion(shift.location);
-    const countryMatches = filterCountry === 'all' || (filterCountry === 'UK' ? area !== 'IE' : area === filterCountry);
+    const countryMatches = filterRegions.length === 0 || filterRegions.includes(area);
     const professionMatches = !searchProfession || searchProfession === 'Locum Pharmacist';
     const locationMatches = !searchLocation || shift.location.toLowerCase().includes(searchLocation.toLowerCase());
     const facts = getPublicShiftDate(shift.date);
@@ -353,14 +384,22 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
       && (!filterDate || facts.iso >= filterDate)
       && (!filterUrgentOnly || shift.urgent);
   }).sort((first, second) => getPublicShiftDate(first.date).iso.localeCompare(getPublicShiftDate(second.date).iso));
-  const filterCities = WORK_REGIONS.filter(area => filterCountry === 'all' || (filterCountry === 'UK' ? area.id !== 'IE' : area.id === filterCountry)).flatMap(area => area.cities);
+  const filterCities = WORK_REGIONS.filter(area => filterRegions.length === 0 || filterRegions.includes(area.id)).flatMap(area => area.cities);
+  const ukRegionsSelected = UK_WORK_REGIONS.filter(area => filterRegions.includes(area)).length;
+  const ukRegionsPressed: boolean | 'mixed' = ukRegionsSelected === UK_WORK_REGIONS.length ? true : ukRegionsSelected > 0 ? 'mixed' : false;
   const resetShiftFilters = () => {
-    setFilterCountry('all'); setSearchLocation(''); setSearchProfession('');
+    setFilterRegions([]); setSearchLocation(''); setSearchProfession('');
     setFilterSpecialisation(''); setFilterDate('');
     setFilterExperience(''); setFilterUrgentOnly(false); setSelectedShift(0);
   };
-  useEffect(() => setSelectedShift(0), [filterCountry, searchLocation, searchProfession, filterSpecialisation, filterDate, filterExperience, filterUrgentOnly, sortBy]);
+  useEffect(() => setSelectedShift(0), [filterRegions, searchLocation, searchProfession, filterSpecialisation, filterDate, filterExperience, filterUrgentOnly, sortBy]);
   const applyShift = shifts[selectedShift] ?? shifts[0];
+  // On desktop the details scroll inside their own panel, so a newly selected shift starts at its heading.
+  const shiftDetailsRef = useRef<HTMLDivElement>(null);
+  const shiftDetailsKey = applyShift ? `${applyShift.facility}-${applyShift.date}` : '';
+  useLayoutEffect(() => {
+    if (shiftDetailsRef.current) shiftDetailsRef.current.scrollTop = 0;
+  }, [shiftDetailsKey]);
 
   const faqs: Record<string, { q: string; a: string }[]> = {
     Locum: [
@@ -1260,35 +1299,33 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           {/* ── Country filter tabs ── */}
           <div className="border-b border-black/5 bg-white">
             <div className="site-container py-4 flex flex-col gap-2">
-              <div className="flex items-center justify-between gap-4"><p className="text-[#3d3d3d] text-body">Country &amp; region</p><button onClick={resetShiftFilters} className="text-control font-semibold text-[#368B62]">Clear all filters</button></div>
+              <div className="flex items-center justify-between gap-4"><p id="locum-region-filter-label" className="text-[#3d3d3d] text-body">Country &amp; region</p><button onClick={resetShiftFilters} className="text-control font-semibold text-[#368B62]">Clear all filters</button></div>
               <p className="text-caption text-slate-500">Sign in to see shift pay and to filter or sort by pay.</p>
-              <div className="flex flex-wrap gap-8 items-center">
+              <div role="group" aria-labelledby="locum-region-filter-label" className="flex flex-wrap gap-8 items-center">
                 {[
-                  { id: 'all', flag: '🌍', label: 'All' },
-                  { id: 'UK', flag: '🇬🇧', label: 'All UK regions' },
-                  { id: 'UK-eng', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', label: 'England' },
-                  { id: 'IE', flag: '🇮🇪', label: 'Republic of Ireland' },
-                  { id: 'UK-wal', flag: '🏴󠁧󠁢󠁷󠁬󠁳󠁿', label: 'Wales' },
-                  { id: 'UK-sco', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', label: 'Scotland' },
-                  { id: 'UK-ni', flag: '🇬🇧', label: 'Northern Ireland' },
-                ].map(c => {
-                  const active = filterCountry === c.id;
-                  return (
-                    <button
-                      key={c.id}
-                      onClick={() => { setFilterCountry(c.id as typeof filterCountry); setSearchLocation(''); setSelectedShift(0); if (c.id !== 'all') setRegion(c.id === 'IE' ? 'IE' : 'UK'); }}
-                      aria-pressed={active}
-                      aria-label={c.label}
-                      className="flex items-center gap-2 text-control text-black"
-                    >
-                      <div className={`w-[22px] h-[22px] rounded-full border border-black/5 flex items-center justify-center shrink-0 transition-colors ${active ? 'bg-[#368B62]' : 'bg-white'}`}>
-                        {active && <Check className="w-3 h-3 text-white" />}
-                      </div>
-                      <span className="text-lead">{c.flag}</span>
-                      <span>{c.label}</span>
-                    </button>
-                  );
-                })}
+                  { id: 'all', label: 'All', icon: <Globe aria-hidden="true" className="size-4 text-[#368B62]" />, pressed: filterRegions.length === 0, next: [] },
+                  { id: 'UK', label: 'All UK regions', icon: <CountryFlag country="UK" className="h-4 w-6" />, pressed: ukRegionsPressed, next: toggleRegions(filterRegions, UK_WORK_REGIONS) },
+                  ...REGION_FILTER_ORDER.map(id => {
+                    const area = WORK_REGIONS.find(region => region.id === id)!;
+                    return { id, label: area.label, icon: <CountryFlag country={area.flag} className="h-4 w-6" />, pressed: filterRegions.includes(id), next: toggleRegions(filterRegions, [id]) };
+                  }),
+                ].map(c => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => selectFilterRegions(c.next)}
+                    aria-pressed={c.pressed}
+                    aria-label={c.label}
+                    className="flex items-center gap-2 text-control text-black"
+                  >
+                    <span className={`size-5.5 rounded-sm border flex items-center justify-center shrink-0 transition-colors ${c.pressed === true ? 'bg-[#368B62] border-[#368B62]' : c.pressed === 'mixed' ? 'bg-white border-[#368B62]' : 'bg-white border-black/20'}`}>
+                      {c.pressed === true && <Check aria-hidden="true" className="size-3 text-white" />}
+                      {c.pressed === 'mixed' && <Minus aria-hidden="true" className="size-3 text-[#368B62]" />}
+                    </span>
+                    {c.icon}
+                    <span>{c.label}</span>
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -1326,7 +1363,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                     return (
                       <button
                         key={i}
-                        onClick={() => { setSelectedShift(i); if (window.matchMedia('(max-width: 1023px)').matches) requestAnimationFrame(() => document.getElementById('selected-locum-shift')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })); }}
+                        onClick={() => { setSelectedShift(i); if (window.matchMedia('(max-width: 1023px)').matches) requestAnimationFrame(() => document.getElementById('selected-locum-shift')?.scrollIntoView({ block: 'start', behavior: preferredScrollBehavior() })); }}
                         className={`w-full text-left transition-all border-b border-[#f1f1f1] ${active ? 'bg-[#368B62]' : 'bg-[rgba(245,245,245,0.6)] hover:bg-slate-50'}`}
                         style={active ? { borderColor: 'rgba(163,209,57,0.3)' } : {}}
                       >
@@ -1373,13 +1410,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 const s = shifts[selectedShift] ?? shifts[0];
                 if (!s) return <div className="rounded-3xl bg-[#f4f8f5] p-10 text-center"><Search className="mx-auto mb-5 h-8 w-8 text-[#368B62]" /><h2 className="text-title font-semibold font-sans">No shifts match these filters</h2><p className="mt-3 text-body text-slate-500">Try another region or clear your filters. New shifts are added regularly.</p><button onClick={resetShiftFilters} className="mt-6 rounded-full bg-[#368B62] px-6 py-3 text-control font-semibold text-white">Show all shifts</button></div>;
                 return (
-                  <div id="selected-locum-shift" className="min-w-0 scroll-mt-24">
+                  <div id="selected-locum-shift" ref={shiftDetailsRef} className="locum-shift-details min-w-0 scroll-mt-24">
                     <LocumJobDetails
                       key={`${s.facility}-${s.date}`}
                       shift={s}
                       reference={`LOC-${shiftRegion(s.location)}-${String(allShifts.indexOf(s) + 1).padStart(3, '0')}`}
                       region={WORK_REGIONS.find(area => area.id === shiftRegion(s.location))!.label}
-                      onBack={() => document.getElementById('locum-shift-results')?.scrollIntoView({ block: 'start', behavior: 'smooth' })}
+                      onBack={() => document.getElementById('locum-shift-results')?.scrollIntoView({ block: 'start', behavior: preferredScrollBehavior() })}
                       onApply={openApply}
                       onLogin={() => openAuth('signin')}
                     />
