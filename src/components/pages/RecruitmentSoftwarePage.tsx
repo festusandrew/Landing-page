@@ -115,184 +115,189 @@ export const RecruitmentSoftwarePage: React.FC<RecruitmentSoftwarePageProps> = (
   }
   return (
     <div className="product-reference product-reference-hire min-h-screen overflow-x-clip bg-white font-sans text-[#24332d] [&_button]:cursor-pointer motion-reduce:[&_*]:transition-none">
-      {showHeader ? (
-        <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-sm">
-          <div className="site-container flex h-[70px] items-center justify-between gap-6">
-            <button
-              onClick={() =>
-                window.scrollTo({
-                  top: 0,
-                  behavior: reducedMotion ? "auto" : "smooth",
-                })
-              }
-              aria-label="MployUs recruitment software home"
-              className="text-brand"
-            >
-              <BrandLogo />
-            </button>
-            <nav
-              aria-label="Recruitment software navigation"
-              className="hidden items-center gap-7 text-control text-[#4b5750] lg:flex"
-            >
+      <div className={showHeader ? undefined : "product-reference-intro"}>
+        {showHeader ? (
+          <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-sm">
+            <div className="site-container flex h-[70px] items-center justify-between gap-6">
               <button
-                onClick={() => scrollTo("recruitment-overview")}
-                className="hover:text-[#0e1629]"
+                onClick={() =>
+                  window.scrollTo({
+                    top: 0,
+                    behavior: reducedMotion ? "auto" : "smooth",
+                  })
+                }
+                aria-label="MployUs recruitment software home"
+                className="text-brand"
               >
-                Overview
+                <BrandLogo />
               </button>
-              <button
-                onClick={() => scrollTo("recruitment-features")}
-                className="hover:text-[#0e1629]"
+              <nav
+                aria-label="Recruitment software navigation"
+                className="hidden items-center gap-7 text-control text-[#4b5750] lg:flex"
               >
-                Features
-              </button>
-              <button
-                onClick={() => scrollTo("recruitment-preview")}
-                className="hover:text-[#0e1629]"
-              >
-                See it in action
-              </button>
-              <button
-                onClick={() => scrollTo("recruitment-onboarding")}
-                className="hover:text-[#0e1629]"
-              >
-                Getting started
-              </button>
-            </nav>
-            <div className="hidden items-center gap-5 lg:flex">
-              <button
-                onClick={onBackToHome}
-                className="text-control text-[#67716b] hover:text-[#24332d]"
-              >
-                MployUs.com ↗
-              </button>
-              <button
-                onClick={bookDemo}
-                className="rounded-full bg-[#0e1629] px-5 py-2.5 text-control font-semibold text-white transition-colors hover:bg-[#1c2942]"
-              >
-                Book a demo
-              </button>
-            </div>
-            <button
-              aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
-              aria-expanded={mobileOpen}
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="rounded-lg p-2 lg:hidden"
-            >
-              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
-          {mobileOpen && (
-            <nav
-              aria-label="Mobile recruitment software navigation"
-              className="space-y-3 border-t border-black/5 px-6 py-5 lg:hidden"
-            >
-              {[
-                ["Overview", "recruitment-overview"],
-                ["Features", "recruitment-features"],
-                ["See it in action", "recruitment-preview"],
-                ["Getting started", "recruitment-onboarding"],
-              ].map(([label, id]) => (
                 <button
-                  key={id}
-                  onClick={() => scrollTo(id)}
-                  className="block w-full py-1 text-left text-control"
+                  onClick={() => scrollTo("recruitment-overview")}
+                  className="hover:text-[#0e1629]"
                 >
-                  {label}
+                  Overview
                 </button>
-              ))}
+                <button
+                  onClick={() => scrollTo("recruitment-features")}
+                  className="hover:text-[#0e1629]"
+                >
+                  Features
+                </button>
+                <button
+                  onClick={() => scrollTo("recruitment-preview")}
+                  className="hover:text-[#0e1629]"
+                >
+                  See it in action
+                </button>
+                <button
+                  onClick={() => scrollTo("recruitment-onboarding")}
+                  className="hover:text-[#0e1629]"
+                >
+                  Getting started
+                </button>
+              </nav>
+              <div className="hidden items-center gap-5 lg:flex">
+                <button
+                  onClick={onBackToHome}
+                  className="text-control text-[#67716b] hover:text-[#24332d]"
+                >
+                  MployUs.com ↗
+                </button>
+                <button
+                  onClick={bookDemo}
+                  className="rounded-full bg-[#0e1629] px-5 py-2.5 text-control font-semibold text-white transition-colors hover:bg-[#1c2942]"
+                >
+                  Book a demo
+                </button>
+              </div>
               <button
-                onClick={() => {
-                  setMobileOpen(false)
-                  bookDemo()
-                }}
-                className={primaryButton}
+                aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
+                aria-expanded={mobileOpen}
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="rounded-lg p-2 lg:hidden"
               >
-                Book a demo
-              </button>
-              <button onClick={onBackToHome} className="ml-4 text-control text-[#67716b]">
-                Back to MployUs
-              </button>
-            </nav>
-          )}
-        </header>
-      ) : (
-        <ProductPageNavigation
-          product="Recruitment Software"
-          onBackToHome={onBackToHome}
-          onSelect={scrollTo}
-          sections={[
-            { label: "Overview", id: "recruitment-overview" },
-            { label: "Features", id: "recruitment-features" },
-            { label: "See it in action", id: "recruitment-preview" },
-            { label: "Getting started", id: "recruitment-onboarding" },
-          ]}
-        />
-      )}
-
-      <section
-        id="recruitment-overview"
-        className={
-          showHeader
-            ? "scroll-mt-[70px] bg-[#f5f6f8] px-6 pb-12 pt-[118px] sm:pb-16 sm:pt-[134px] lg:pb-20 lg:pt-[150px]"
-            : "scroll-mt-6 bg-[#f5f6f8] px-6 pb-12 pt-12 sm:pb-16 sm:pt-16 lg:pb-20 lg:pt-20"
-        }
-      >
-        <div className="site-content grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
-          <motion.div {...reveal}>
-            <div className="mb-7 flex items-center gap-3">
-              <span className="h-2 w-2 rounded-full bg-[#0e1629]" />
-              <p className="text-eyebrow font-semibold uppercase text-[#67716b]">
-                Connected hiring · Ireland &amp; UK
-              </p>
-            </div>
-            <h1 className="text-hero font-normal font-display">
-              Better hiring.
-              <br />
-              Less busywork.
-              <br />
-              <span className="text-[#0e1629]">More human.</span>
-            </h1>
-            <p className="mb-8 mt-6 max-w-[440px] text-body text-[#68716c]">
-              A more human way to recruit. Bring vacancies, candidates and hiring conversations
-              together — so your team can focus on finding the right people.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <button onClick={bookDemo} className={primaryButton}>
-                Book a dashboard demo
-                <img
-                  src={referenceAssets.arrow}
-                  alt=""
-                  className="product-reference-feature-icon"
-                />
-              </button>
-              <button onClick={onStartTrial} className={secondaryButton}>
-                Start a free trial
+                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
             </div>
-            <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-black/5 pt-6">
-              {["Candidate-first workflows", "Connected workflows", "Hiring insights"].map(
-                (label, index) => (
-                  <span key={label} className="flex items-center gap-2 text-caption text-[#68716c]">
-                    <img
-                      src={referenceAssets.checks[index]}
-                      alt=""
-                      className="product-reference-feature-icon"
-                    />
+            {mobileOpen && (
+              <nav
+                aria-label="Mobile recruitment software navigation"
+                className="space-y-3 border-t border-black/5 px-6 py-5 lg:hidden"
+              >
+                {[
+                  ["Overview", "recruitment-overview"],
+                  ["Features", "recruitment-features"],
+                  ["See it in action", "recruitment-preview"],
+                  ["Getting started", "recruitment-onboarding"],
+                ].map(([label, id]) => (
+                  <button
+                    key={id}
+                    onClick={() => scrollTo(id)}
+                    className="block w-full py-1 text-left text-control"
+                  >
                     {label}
-                  </span>
-                ),
-              )}
-            </div>
-          </motion.div>
-          <motion.div {...reveal} className="product-reference-dashboard">
-            <img
-              src={recruitmentDashboard}
-              alt="Recruitment dashboard showing applications, vacancies and hiring activity"
-            />
-          </motion.div>
-        </div>
-      </section>
+                  </button>
+                ))}
+                <button
+                  onClick={() => {
+                    setMobileOpen(false)
+                    bookDemo()
+                  }}
+                  className={primaryButton}
+                >
+                  Book a demo
+                </button>
+                <button onClick={onBackToHome} className="ml-4 text-control text-[#67716b]">
+                  Back to MployUs
+                </button>
+              </nav>
+            )}
+          </header>
+        ) : (
+          <ProductPageNavigation
+            product="Recruitment Software"
+            onBackToHome={onBackToHome}
+            onSelect={scrollTo}
+            sections={[
+              { label: "Overview", id: "recruitment-overview" },
+              { label: "Features", id: "recruitment-features" },
+              { label: "See it in action", id: "recruitment-preview" },
+              { label: "Getting started", id: "recruitment-onboarding" },
+            ]}
+          />
+        )}
+
+        <section
+          id="recruitment-overview"
+          className={
+            showHeader
+              ? "scroll-mt-[70px] bg-[#f5f6f8] px-6 pb-12 pt-[118px] sm:pb-16 sm:pt-[134px] lg:pb-20 lg:pt-[150px]"
+              : "scroll-mt-6 bg-[#f5f6f8] px-6 pb-12 pt-12 sm:pb-16 sm:pt-16"
+          }
+        >
+          <div className="site-content grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
+            <motion.div {...reveal}>
+              <div className="mb-7 flex items-center gap-3">
+                <span className="h-2 w-2 rounded-full bg-[#0e1629]" />
+                <p className="text-eyebrow font-semibold uppercase text-[#67716b]">
+                  Connected hiring · Ireland &amp; UK
+                </p>
+              </div>
+              <h1 className="text-hero font-normal font-display">
+                Better hiring.
+                <br />
+                Less busywork.
+                <br />
+                <span className="text-[#0e1629]">More human.</span>
+              </h1>
+              <p className="mb-8 mt-6 max-w-[440px] text-body text-[#68716c]">
+                A more human way to recruit. Bring vacancies, candidates and hiring conversations
+                together — so your team can focus on finding the right people.
+              </p>
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <button onClick={bookDemo} className={primaryButton}>
+                  Book a dashboard demo
+                  <img
+                    src={referenceAssets.arrow}
+                    alt=""
+                    className="product-reference-feature-icon"
+                  />
+                </button>
+                <button onClick={onStartTrial} className={secondaryButton}>
+                  Start a free trial
+                </button>
+              </div>
+              <div className="mt-10 flex flex-col gap-3 border-t border-black/5 pt-6 sm:flex-row sm:flex-wrap sm:gap-x-6">
+                {["Candidate-first workflows", "Connected workflows", "Hiring insights"].map(
+                  (label, index) => (
+                    <span
+                      key={label}
+                      className="flex items-center gap-2 text-caption text-[#68716c]"
+                    >
+                      <img
+                        src={referenceAssets.checks[index]}
+                        alt=""
+                        className="product-reference-feature-icon"
+                      />
+                      {label}
+                    </span>
+                  ),
+                )}
+              </div>
+            </motion.div>
+            <motion.div {...reveal} className="product-reference-dashboard">
+              <img
+                src={recruitmentDashboard}
+                alt="Recruitment dashboard showing applications, vacancies and hiring activity"
+              />
+            </motion.div>
+          </div>
+        </section>
+      </div>
 
       <div className="font-sans text-[#0f172a]">
         <section className="px-6 pb-4 pt-20 text-center">
