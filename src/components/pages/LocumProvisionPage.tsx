@@ -11,7 +11,7 @@ import imgLocumProfessional from '../../imports/locum-professional.jpg';
 import {
   Users, Clock, ShieldCheck, MapPin, CheckCircle2, ArrowRight, Building2,
   Search, Calendar, Stethoscope, Briefcase, Mail, Lock, Linkedin, Phone,
-  ChevronDown, ChevronRight, BookOpen, Cookie, Award,
+  ChevronDown, ChevronLeft, ChevronRight, BookOpen, Cookie, Award,
   PlusCircle, UserPlus, Check, Menu, X, Apple, Play, Bell, Zap, Wallet, Globe,
   Plus, Minus, TrendingUp, Star, MoveRight, Smartphone
 } from 'lucide-react';
@@ -236,6 +236,103 @@ const SectionLabel = ({ children }: { children: React.ReactNode }) => (
     {children}
   </span>
 );
+
+// ─── Who can join: profession cards moved with chevrons instead of a scrollbar ─
+const WhoCanJoinCarousel = () => {
+  const track = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ atStart: true, atEnd: false, active: 0 });
+  // The dots show progress from the first card to the last.
+  const measure = () => {
+    const el = track.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    const next = {
+      atStart: el.scrollLeft <= 1,
+      atEnd: el.scrollLeft >= max - 1,
+      active: Math.round((max > 1 ? el.scrollLeft / max : 0) * (WHO_CAN_JOIN.length - 1)),
+    };
+    setPosition(prev => prev.atStart === next.atStart && prev.atEnd === next.atEnd && prev.active === next.active ? prev : next);
+  };
+  useEffect(() => {
+    const el = track.current;
+    if (!el) return;
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  // One card per click. Near either end it goes all the way, so no click is just a sliver.
+  const move = (direction: 1 | -1) => {
+    const el = track.current;
+    if (!el) return;
+    const cards = Array.from(el.children) as HTMLElement[];
+    const origin = cards[0]?.offsetLeft ?? 0;
+    const step = (cards[1]?.offsetLeft ?? origin) - origin;
+    const max = el.scrollWidth - el.clientWidth;
+    const stops = [...cards.map(card => card.offsetLeft - origin).filter(left => left < max - step / 2), max];
+    const target = direction > 0
+      ? stops.find(left => left > el.scrollLeft + 1) ?? max
+      : stops.reverse().find(left => left < el.scrollLeft - 1) ?? 0;
+    el.scrollTo({ left: target, behavior: preferredScrollBehavior() });
+  };
+  const control = 'flex size-11 items-center justify-center rounded-full border border-black/10 bg-white text-[#368B62] transition-colors enabled:hover:border-[#368B62] enabled:hover:bg-[#368B62] enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-40';
+
+  return (
+    <>
+      <motion.div
+        ref={track}
+        id="locum-who-can-join"
+        onScroll={measure}
+        className="scrollbar-hide flex snap-x snap-mandatory gap-5 overflow-x-auto pt-2 pb-4"
+        variants={stagger(0.1)}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-40px' }}
+      >
+        {WHO_CAN_JOIN.map((item, i) => (
+          <motion.div
+            key={i}
+            className="group shrink-0 snap-start"
+            variants={{
+              hidden: { opacity: 0, y: 40, scale: 0.96 },
+              visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+            }}
+            whileHover={{ y: -6 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+          >
+            <div className="relative w-[280px] h-[360px] rounded-[24px] overflow-hidden ">
+              <motion.img
+                src={item.img}
+                alt={item.label}
+                className="w-full h-full object-cover"
+                whileHover={{ scale: 1.08 }}
+                transition={{ duration: 0.5 }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#20372b]/80 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <p className="inline-flex rounded-full bg-white px-4 py-2.5 text-[#24332d] font-medium text-body">{item.label}</p>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      <div className="mt-8 flex items-center justify-center gap-5">
+        <button type="button" onClick={() => move(-1)} disabled={position.atStart} aria-controls="locum-who-can-join" aria-label="Previous professions" className={control}>
+          <ChevronLeft aria-hidden="true" className="size-5" />
+        </button>
+        <div className="flex gap-2" aria-hidden="true">
+          {WHO_CAN_JOIN.map((_, i) => (
+            <span key={i} className={`h-2 rounded-full transition-all duration-300 ${i === position.active ? 'w-6 bg-[#368B62]' : 'w-2 bg-slate-200'}`} />
+          ))}
+        </div>
+        <button type="button" onClick={() => move(1)} disabled={position.atEnd} aria-controls="locum-who-can-join" aria-label="Next professions" className={control}>
+          <ChevronRight aria-hidden="true" className="size-5" />
+        </button>
+      </div>
+    </>
+  );
+};
 
 export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackToHome, onBookDemo }) => {
   const navigate = useNavigate();
@@ -830,47 +927,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </p>
             </Reveal>
 
-            <motion.div
-              className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide"
-              variants={stagger(0.1)}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-40px' }}
-            >
-              {WHO_CAN_JOIN.map((item, i) => (
-                <motion.div
-                  key={i}
-                  className="group shrink-0"
-                  variants={{
-                    hidden: { opacity: 0, y: 40, scale: 0.96 },
-                    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
-                  }}
-                  whileHover={{ y: -6 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-                >
-                  <div className="relative w-[280px] h-[360px] rounded-[24px] overflow-hidden ">
-                    <motion.img
-                      src={item.img}
-                      alt={item.label}
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.08 }}
-                      transition={{ duration: 0.5 }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#20372b]/80 via-transparent to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-5">
-                      
-                      <p className="inline-flex rounded-full bg-white px-4 py-2.5 text-[#24332d] font-medium text-body">{item.label}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            <div className="flex justify-center gap-2 mt-8">
-              {WHO_CAN_JOIN.map((_, i) => (
-                <div key={i} className={`rounded-full transition-all ${i === 1 ? 'w-6 h-2 bg-[#368B62]' : 'w-2 h-2 bg-slate-200'}`} />
-              ))}
-            </div>
+            <WhoCanJoinCarousel />
           </div>
         </section>
 

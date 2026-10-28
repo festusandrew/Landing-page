@@ -3,3 +3,11 @@
 @source '../../components/**/*.{ts,tsx}';
 
 @import 'tw-animate-css';
+
+/* Hides a scroller's scrollbar; it stays scrollable by touch, trackpad and its own controls. */
+@utility scrollbar-hide {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
