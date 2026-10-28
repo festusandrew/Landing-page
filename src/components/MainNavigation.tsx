@@ -16,6 +16,8 @@ interface MainNavigationProps {
   mobile?: boolean
 }
 
+// Each `accent` is the destination page's primary colour: the card's hover fill, and a light
+// tint on the overview panel while that card is previewed.
 const menus = {
   Products: [
     {
@@ -27,6 +29,7 @@ const menus = {
       details:
         "Bring job posting, candidate pipelines and onboarding together in one organised workspace for healthcare recruitment.",
       actionLabel: "Explore recruitment software",
+      accent: "#0e1629",
     },
     {
       id: "care-management",
@@ -37,6 +40,7 @@ const menus = {
       details:
         "Connect care plans, medication records, rotas and daily observations so your team can focus on the people behind the care.",
       actionLabel: "Explore care management",
+      accent: "#1d4ed8",
     },
   ],
   Services: [
@@ -49,6 +53,7 @@ const menus = {
       details:
         "Explore flexible temporary cover and locum opportunities across Ireland and the UK, for providers and healthcare professionals.",
       actionLabel: "Explore locum provision",
+      accent: "#368b62",
     },
     {
       id: "recruitment-service",
@@ -59,6 +64,7 @@ const menus = {
       details:
         "Find the right people for permanent and international healthcare roles, with specialist support throughout the hiring journey.",
       actionLabel: "Explore recruitment",
+      accent: "#810161",
     },
     {
       id: "product-design",
@@ -69,6 +75,7 @@ const menus = {
       details:
         "Shape clear, accessible healthcare interfaces, portals and product journeys through research, UI design and design systems.",
       actionLabel: "Explore product design",
+      accent: "#0e162a",
     },
     {
       id: "web-development",
@@ -79,6 +86,7 @@ const menus = {
       details:
         "Build responsive healthcare websites, portals and applications with front-end, back-end and integration development support.",
       actionLabel: "Explore web development",
+      accent: "#368b62",
     },
   ],
 }
@@ -170,7 +178,8 @@ export function MainNavigation({
       }}
     >
       {Object.entries(menus).map(([name, links], index) => {
-        const activeLink = links.find((link) => link.id === activeItemId) ?? links[0]
+        const previewedLink = links.find((link) => link.id === activeItemId)
+        const activeLink = previewedLink ?? links[0]
         if (!activeLink) return null
         const overviewId = `main-${mobile ? "mobile" : "desktop"}-${name}-overview`
         return (
@@ -242,14 +251,15 @@ export function MainNavigation({
                           closeMenu()
                           onNavigate(link.id)
                         }}
-                        className="group flex w-full items-start gap-3 rounded-[14px] p-[10px] text-left transition-colors hover:bg-[#f8fafc] focus-visible:bg-[#f8fafc] data-[preview-active=true]:bg-slate-50"
+                        style={{ "--nav-accent": link.accent } as React.CSSProperties}
+                        className="group flex w-full items-start gap-3 rounded-[14px] p-[10px] text-left transition-colors motion-reduce:transition-none hover:bg-(--nav-accent) focus-visible:bg-(--nav-accent) data-[preview-active=true]:[&:not(:hover,:focus-visible)]:bg-slate-50"
                       >
                         <span className="shrink-0 rounded-[10px] border border-black/5 bg-[#f1f5f9] p-[9px]">
                           <img src={link.icon} alt="" />
                         </span>
                         <span className="min-w-0 flex-1">
                           <span className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2">
-                            <span className="max-w-[155px] font-sans text-caption font-bold text-[#0f172b] group-hover:text-[#368B62]">
+                            <span className="max-w-[155px] font-sans text-caption font-bold text-[#0f172b] transition-colors motion-reduce:transition-none group-hover:text-white group-focus-visible:text-white">
                               {link.label}
                             </span>
                             {link.badge && (
@@ -265,7 +275,7 @@ export function MainNavigation({
                               </span>
                             )}
                           </span>
-                          <span className="mt-0.5 block font-sans text-caption font-normal text-[#62748e]">
+                          <span className="mt-0.5 block font-sans text-caption font-normal text-[#62748e] transition-colors motion-reduce:transition-none group-hover:text-white group-focus-visible:text-white">
                             {link.description}
                           </span>
                         </span>
@@ -275,7 +285,17 @@ export function MainNavigation({
                 </div>
                 <aside
                   aria-labelledby={`${overviewId}-title`}
-                  className="flex min-h-64 min-w-0 flex-col justify-between rounded-[14px] border border-[#e6ebf2] bg-[#f6f7fa] p-[15px]"
+                  style={
+                    previewedLink
+                      ? ({ "--nav-accent": previewedLink.accent } as React.CSSProperties)
+                      : undefined
+                  }
+                  className={
+                    "flex min-h-64 min-w-0 flex-col justify-between rounded-[14px] border p-[15px] transition-colors motion-reduce:transition-none " +
+                    (previewedLink
+                      ? "border-(--nav-accent)/20 bg-(--nav-accent)/10"
+                      : "border-[#e6ebf2] bg-[#f6f7fa]")
+                  }
                 >
                   <div aria-live="polite" aria-atomic="true">
                     <p className="font-sans text-eyebrow font-bold uppercase text-[#0e162a]">

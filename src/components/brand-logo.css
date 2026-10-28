@@ -1,4 +1,4 @@
-/* "mploy" uses the landing primary; "us." uses the recruitment dashboard primary. */
+/* "mploy" uses the landing primary; "us." uses the Recruitment Service page burgundy. */
 .brand-logo {
   color: #0e162a;
   font-family: var(--font-sans);
@@ -7,5 +7,11 @@
 }
 
 .brand-logo-accent {
-  color: #4f46e5;
+  color: #810161;
+}
+
+/* Oversized full stop; zero line-height stops it from enlarging the logo's line box. */
+.brand-logo-dot {
+  font-size: 1.5em;
+  line-height: 0;
 }

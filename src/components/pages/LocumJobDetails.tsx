@@ -16,14 +16,17 @@ import {
 } from "lucide-react"
 import {
   getPublicShiftDate,
+  getShiftArea,
   getShiftAreaMap,
   type PublicLocumShift,
 } from "../../data/locumShiftPresentation"
+import { CountryFlag, type FlagCountry } from "../CountryFlag"
 
 export function LocumJobDetails({
   shift,
   reference,
   region,
+  flag,
   onBack,
   onApply,
   onLogin,
@@ -31,13 +34,14 @@ export function LocumJobDetails({
   shift: PublicLocumShift
   reference: string
   region: string
+  flag?: FlagCountry
   onBack: () => void
   onApply: () => void
   onLogin: () => void
 }) {
   const date = getPublicShiftDate(shift.date)
   const map = getShiftAreaMap(shift.location)
-  const area = shift.location.replace(/,\s*(IE|UK|NI)$/, "")
+  const area = getShiftArea(shift.location)
   const CurrencyIcon = region === "Republic of Ireland" ? Euro : PoundSterling
   const [payInfoOpen, setPayInfoOpen] = useState(false)
   const payInfo = useRef<HTMLDivElement>(null)
@@ -55,7 +59,10 @@ export function LocumJobDetails({
     <section className="min-w-0 space-y-4" aria-label="Selected locum shift">
       <div className="flex items-center justify-between gap-3 text-caption text-slate-500">
         <span>Shift · {reference}</span>
-        <span>{region}</span>
+        <span className="inline-flex items-center gap-2">
+          {flag && <CountryFlag country={flag} className="h-3 w-[18px]" />}
+          {region}
+        </span>
       </div>
       <h2 className="text-title font-semibold text-[#24332d] font-sans">
         Locum Pharmacist in {area}, {region}

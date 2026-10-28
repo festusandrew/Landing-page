@@ -1,7 +1,8 @@
 import { useRef, useState } from "react"
 import { Link } from "react-router"
 import * as Dialog from "@radix-ui/react-dialog"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Pause, Play } from "lucide-react"
+import { useReducedMotion } from "motion/react"
 import "./studio-portfolio.css"
 import { ProjectEnquiryDialog } from "../modals/ProjectEnquiryDialog"
 import { StudioProjectCarousel } from "../StudioProjectCarousel"
@@ -26,6 +27,21 @@ type Project = {
   brief: string
   approach: string
   imageSrc?: string
+}
+
+/**
+ * Screen recordings of the live MployUs interfaces, keyed by product slug and
+ * shared by both studio pages. Each `.webp` poster is its recording's first frame.
+ */
+const PROJECT_DEMOS: Partial<Record<string, string>> = {
+  recruitment:
+    "the MployUs Recruit job board: filtering roles to Ireland, sorting by salary, opening a role and starting an application",
+  "locum-journal":
+    "the Locum Journal: filtering insights for the UK and for compliance, then opening the lead article",
+  "care-management":
+    "MployUs Care Management: jumping to the workflow preview and switching between the care plan, vitals and eMAR views",
+  "locum-shifts":
+    "the MployUs Locums shift finder: showing shifts across UK regions, opening a Manchester shift and starting an application",
 }
 
 const projects: Record<Discipline, Project[]> = {
@@ -194,11 +210,11 @@ const capabilities: Record<Discipline, [string, string][]> = {
     ],
     [
       "Research & prototyping",
-      "Journey mapping, usability testing and interactive prototypes to explore the right direction.",
+      "Journey mapping, usability testing and interactive prototypes that settle the right direction early, while changes cost least.",
     ],
     [
       "Design systems",
-      "Reusable components, clear typography and consistent interaction patterns.",
+      "Reusable components, clear typography and consistent interaction patterns that make every future feature quicker to deliver.",
     ],
     [
       "Brand & digital identity",
@@ -228,7 +244,7 @@ const capabilities: Record<Discipline, [string, string][]> = {
     ],
     [
       "Automation & ongoing support",
-      "Background jobs, workflow automation, maintenance and iterative improvements across the front end and back end.",
+      "Background jobs, workflow automation, maintenance and iterative improvements across the front end and back end, with support scoped to what you need.",
     ],
   ],
 }
@@ -252,6 +268,24 @@ export function StudioPortfolio({
   const returnFocus = useRef<HTMLElement | null>(null)
   // The closing project dialog must not steal focus from the enquiry opening next.
   const openingEnquiry = useRef(false)
+  // Recordings loop for longer than five seconds, so visitors can pause them;
+  // a reduced-motion preference starts on the still posters instead.
+  const reduceMotion = useReducedMotion() !== false
+  const [previewsPlaying, setPreviewsPlaying] = useState(!reduceMotion)
+  const previewToggle = (className = "") => (
+    <button
+      type="button"
+      className={`studio-preview-toggle ${className}`}
+      onClick={() => setPreviewsPlaying(!previewsPlaying)}
+    >
+      {previewsPlaying ? (
+        <Pause size={14} aria-hidden="true" />
+      ) : (
+        <Play size={14} aria-hidden="true" />
+      )}
+      <span>{previewsPlaying ? "Pause previews" : "Play previews"}</span>
+    </button>
+  )
   const filters = [
     "All work",
     ...new Set(work.map((project) => project.category)),
@@ -268,8 +302,25 @@ export function StudioPortfolio({
   }
   const projectImage = (project: Project) =>
     project.imageSrc || `/images/studio/${project.image}.png`
-  const projectScreen = (project: Project, alt: string, lazy = false) =>
-    project.id === "care" || project.id === "care-platform" ? (
+  const projectScreen = (project: Project, alt: string, lazy = false) => {
+    const demo = PROJECT_DEMOS[project.image]
+    // Recordings share the stills' 1.44:1 framing, so they skip the tall care crop.
+    if (demo)
+      return (
+        <img
+          src={`/images/studio/demos/${project.image}.${
+            previewsPlaying ? "gif" : "webp"
+          }`}
+          alt={`${
+            previewsPlaying ? "Screen recording" : "Still from a screen recording"
+          } of ${demo}`}
+          width={1280}
+          height={889}
+          loading={lazy ? "lazy" : undefined}
+          decoding="async"
+        />
+      )
+    return project.id === "care" || project.id === "care-platform" ? (
       <div
         className={`studio-reference-crop studio-reference-care-crop ${
           design ? "" : "studio-reference-web-care-crop"
@@ -288,6 +339,7 @@ export function StudioPortfolio({
         loading={lazy ? "lazy" : undefined}
       />
     )
+  }
   const sectionId = (section: string) => `${discipline}-${section}`
   function openProject(project: Project) {
     returnFocus.current = (document.activeElement as HTMLElement)
@@ -399,23 +451,23 @@ export function StudioPortfolio({
           <h1 id={`${discipline}-heading`}>
             {design ? (
               <>
-                Good design.
+                Designed for you.
                 <br />
-                <em>Better everyday.</em>
+                <em>Fast and fair.</em>
               </>
             ) : (
               <>
-                Thoughtfully built.
+                Built for you.
                 <br />
-                <em>Made to work.</em>
+                <em>Fast and fair.</em>
               </>
             )}
           </h1>
           <div className="studio-hero-description">
             <p>
               {design
-                ? "Thoughtful interfaces. Clearer journeys. Products that put people first. Explore the thinking and craft behind our in-house digital work."
-                : "From the interface to the infrastructure. Full-stack development with React, Node.js backends, APIs and databases — brought together around your business. Explore our digital work below."}
+                ? "Thoughtful interfaces and clearer journeys from one capable team — delivered at pace, never rushed, and priced for the value they create. Explore the craft behind our in-house work."
+                : "From the interface to the infrastructure — React, Node.js, APIs and databases, built by one capable team. Delivered at pace, never rushed, and priced for the value it creates. Explore our work below."}
             </p>
             <a className="studio-text-link" href={`#${sectionId("work")}`}>
               Explore our work{" "}
@@ -500,7 +552,7 @@ export function StudioPortfolio({
             </h2>
           </div>
           <p>
-            Real interfaces from the MployUs ecosystem.
+            Real MployUs interfaces, recorded in use.
             <br />
             Not stock mock-ups. Not invented client results.
           </p>
@@ -520,6 +572,7 @@ export function StudioPortfolio({
           <span aria-live="polite">
             {String(visible.length).padStart(2, "0")} projects
           </span>
+          {previewToggle()}
         </div>
         <div className="studio-project-grid">
           {featuredProject && projectCard(featuredProject, true)}
@@ -549,20 +602,20 @@ export function StudioPortfolio({
                   <>
                     Less guesswork.
                     <br />
-                    <em>More intention.</em>
+                    <em>More momentum.</em>
                   </>
                 ) : (
                   <>
                     Good foundations.
                     <br />
-                    <em>Better possibilities.</em>
+                    <em>Faster progress.</em>
                   </>
                 )}
               </h2>
             </div>
             <p>
-              Clear briefs. Collaborative decisions.
-              <br />A considered route from idea to delivery.
+              Clear scope. Clear quote. Visible progress.
+              <br />A focused route from idea to delivery.
             </p>
           </div>
           <div className="studio-process">
@@ -570,29 +623,29 @@ export function StudioPortfolio({
               ? [
                   [
                     "Understand",
-                    "Start with the people, the problem and the context. Agree what success should look like before choosing a direction.",
+                    "Start with the people, the problem and the context. Agree what success looks like, with a clear scope and quote before work begins.",
                   ],
                   [
                     "Explore",
-                    "Map journeys, test concepts and make the important decisions visible through practical prototypes.",
+                    "Share early concepts and practical prototypes quickly, so the important decisions are made together rather than discovered late.",
                   ],
                   [
                     "Refine",
-                    "Develop the visual language, check the details and document the experience for a confident handover.",
+                    "Develop the visual language, check the details and hand over documented, developer-ready designs.",
                   ],
                 ]
               : [
                   [
                     "Define",
-                    "Agree the scope, content, integrations and acceptance criteria. Choose the tools around the problem, not the trend.",
+                    "Agree the scope, integrations and acceptance criteria, with a clear quote before the build begins. Choose the tools around the problem, not the trend.",
                   ],
                   [
                     "Build",
-                    "Develop front-end interfaces, Node.js services, APIs and database models in useful increments, with reusable components and visible progress.",
+                    "Deliver working increments early — front-end interfaces, Node.js services, APIs and data models — so progress stays visible and feedback stays quick.",
                   ],
                   [
                     "Review",
-                    "Test end-to-end journeys and API behaviour, review accessibility and performance, and plan deployment, monitoring, handover and ongoing support.",
+                    "Moving quickly never means skipping checks. Test end-to-end journeys and API behaviour, review accessibility and performance, then plan deployment, monitoring, handover and ongoing support.",
                   ],
                 ]
             ).map(([title, text], index) => (
@@ -652,8 +705,8 @@ export function StudioPortfolio({
           </h2>
           <p>
             {design
-              ? "Product design, research, systems and identity — brought together around your brief."
-              : "End-to-end engineering: front-end experiences, Node.js backends, databases and cloud deployment. The stack is chosen around your project, not the other way round."}
+              ? "Product design, research, systems and identity — brought together around your brief, with a clear quote from the outset."
+              : "End-to-end engineering: front-end experiences, Node.js backends, databases and cloud deployment. The stack — and the quote — are shaped around your project, not the other way round."}
           </p>
           {!design && (
             <div className="studio-stack">
@@ -733,7 +786,7 @@ export function StudioPortfolio({
             <h2>
               Something in mind?
               <br />
-              <em>Let’s make it matter.</em>
+              <em>Let’s get it moving.</em>
             </h2>
             <div>
               <button className="studio-button" onClick={discuss}>
@@ -747,9 +800,9 @@ export function StudioPortfolio({
                 }
               </button>
               <p>
-                A conversation about your brief.
+                A clear, fair quote shaped around your brief.
                 <br />
-                No one-size-fits-all pitch.
+                No one-size-fits-all pricing.
               </p>
             </div>
           </div>
@@ -810,6 +863,8 @@ export function StudioPortfolio({
                   selected,
                   `Interface for ${selected.name}`,
                 )}
+                {PROJECT_DEMOS[selected.image] &&
+                  previewToggle("studio-dialog-preview-toggle")}
               </div>
               <div className="studio-dialog-tags">
                 {selected.deliverables.map((deliverable) => (

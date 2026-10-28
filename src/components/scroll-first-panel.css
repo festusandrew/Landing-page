@@ -1,0 +1,13 @@
+/* Soft edges on ScrollFirstPanel while it scrolls on its own, showing more content above or below. */
+@property --scroll-first-fade-top { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --scroll-first-fade-bottom { syntax: "<length>"; inherits: false; initial-value: 0px; }
+.scroll-first-panel[data-overflowing="true"] {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 var(--scroll-first-fade-top), #000 calc(100% - var(--scroll-first-fade-bottom)), transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 var(--scroll-first-fade-top), #000 calc(100% - var(--scroll-first-fade-bottom)), transparent);
+  transition: --scroll-first-fade-top 200ms ease-out, --scroll-first-fade-bottom 200ms ease-out;
+}
+.scroll-first-panel[data-overflowing="true"][data-at-start="false"] { --scroll-first-fade-top: 1.5rem; }
+.scroll-first-panel[data-overflowing="true"][data-at-end="false"] { --scroll-first-fade-bottom: 3rem; }
+@media (prefers-reduced-motion: reduce) {
+  .scroll-first-panel { transition: none; }
+}

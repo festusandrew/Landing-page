@@ -42,9 +42,6 @@
 .homepage-magenta [class~="bg-[#f6f7f3]"] {
   background-color: #f6f7fa;
 }
-.homepage-magenta [class~="hover:bg-[#fdfefc]"]:hover {
-  background-color: #fafbff;
-}
 .homepage-magenta [class~="bg-[#fafaf8]"] {
   background-color: #f9fafc;
 }
@@ -115,6 +112,35 @@
 }
 #overview.homepage-magenta > section:last-of-type [class~="text-[#b1ccbb]"] {
   color: white;
+}
+/* Solution cards fill with the homepage primary on hover. Their copy and line icons switch to
+   light tones to stay legible; the pastel icon tiles keep their colours. */
+@media (hover: hover) {
+  .homepage-magenta .homepage-solution-card:hover {
+    border-color: var(--homepage-accent);
+    background-color: var(--homepage-accent);
+  }
+  .homepage-magenta .homepage-solution-card:hover :is(h3, button) {
+    color: white;
+  }
+  .homepage-magenta .homepage-solution-card:hover :is(p, li) {
+    color: var(--homepage-light-text);
+  }
+  .homepage-magenta .homepage-solution-card:hover :is(li, button) > img {
+    filter: brightness(0) invert(1);
+  }
+}
+/* Content fades in step with the card's `transition-colors`; `translate` keeps the arrow's slide. */
+@media (prefers-reduced-motion: no-preference) {
+  .homepage-solution-card :is(h3, p, li, button) {
+    transition: color var(--default-transition-duration, 150ms)
+      var(--default-transition-timing-function, ease);
+  }
+  .homepage-solution-card :is(li, button) > img {
+    transition-property: filter, translate;
+    transition-duration: var(--default-transition-duration, 150ms);
+    transition-timing-function: var(--default-transition-timing-function, ease);
+  }
 }
 
 /* The header takes its natural height; the hero fills the remaining viewport. */
