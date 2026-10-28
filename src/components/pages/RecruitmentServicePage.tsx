@@ -9,6 +9,8 @@ import { RecruitmentDialog } from '../RecruitmentDialog';
 import { RecruitmentCVDialog } from '../RecruitmentCVDialog';
 import { RecruitmentArticle, type RecruitmentStory } from './RecruitmentArticle';
 import { RecruitmentRoleDetails } from './RecruitmentRoleDetails';
+import { ScrollFirstPanel, type ScrollFirstPanelHandle } from '../ScrollFirstPanel';
+import { CountryFlag, type FlagCountry } from '../CountryFlag';
 import { RECRUITMENT_JOB_REGIONS as JOB_REGIONS, getRoleReference, type RecruitmentRole } from '../../data/recruitmentRoleDetails';
 import './recruitment-article.css';
 import './recruitment-reference.css';
@@ -142,6 +144,14 @@ const ALL_ROLES = [
 ];
 
 const LOCATIONS = ['All Locations', 'Dublin', 'Cork', 'Galway', 'Limerick', 'Kilkenny', 'Athlone', 'Belfast', 'Manchester', 'Cardiff', 'Edinburgh'];
+// Region chips on For Jobseekers. Northern Ireland has no official flag of its own, so it uses the Union Flag.
+const JOB_REGION_FILTERS: { region: string; flag: FlagCountry }[] = [
+  { region: 'Ireland', flag: 'IE' },
+  { region: 'Northern Ireland', flag: 'UK' },
+  { region: 'England', flag: 'ENG' },
+  { region: 'Wales', flag: 'WLS' },
+  { region: 'Scotland', flag: 'SCT' },
+];
 const findRoleFromUrl = () => {
   const reference = new URLSearchParams(window.location.search).get('recruitment-role');
   return ALL_ROLES.find(role => getRoleReference(role, ALL_ROLES) === reference) || null;
@@ -228,7 +238,8 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   }, [page, activeRole]);
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [sortBy, setSortBy] = useState<'title' | 'salary' | 'location' | 'added'>('title');
-  const [filterRegion, setFilterRegion] = useState('All regions');
+  // Region filters hold explicit selections; an empty selection shows every region.
+  const [filterRegions, setFilterRegions] = useState<string[]>([]);
 
   // Contact modal
   const [contactOpen, setContactOpen]   = useState(false);
@@ -285,7 +296,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   const [jobType,     setJobType]     = useState('All Types');
   const [openRoleIdx, setOpenRoleIdx] = useState<number | null>(null);
   const [showFilters, setShowFilters] = useState(false);
-  const jobFilterKey = JSON.stringify([jobKeyword, jobLocation, jobSector, jobType, filterRegion, sortBy]);
+  const jobFilterKey = JSON.stringify([jobKeyword, jobLocation, jobSector, jobType, filterRegions, sortBy]);
   const previousJobFilters = useRef(jobFilterKey);
   useEffect(() => {
     if (previousJobFilters.current === jobFilterKey) return;
@@ -295,14 +306,13 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   }, [jobFilterKey]);
 
   const goTo = (p: Page) => { setPage(p); setMobileOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
-  const readRole = (role: RecruitmentRole, fromList = false) => {
+  const rolePanel = useRef<ScrollFirstPanelHandle>(null);
+  const readRole = (role: RecruitmentRole) => {
     setActiveRole(role);
     setPage('jobseekers');
     requestAnimationFrame(() => {
       document.getElementById('recruit-role-heading')?.focus({ preventScroll: true });
-      if (!fromList || window.matchMedia('(max-width: 1023px)').matches) {
-        document.getElementById('recruitment-role-panel')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-      }
+      rolePanel.current?.reveal();
     });
   };
   useEffect(() => {
@@ -592,9 +602,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
   // ── FOR JOBSEEKERS ────────────────────────────────────────────────────────────
   const JobseekersPage = () => {
     const sorted = (() => {
-      let list = filteredRoles.filter(r => {
-        return filterRegion === 'All regions' || (filterRegion === 'United Kingdom' ? Boolean(JOB_REGIONS[r.location]) : (JOB_REGIONS[r.location] || 'Ireland') === filterRegion);
-      });
+      let list = filteredRoles.filter(r => filterRegions.length === 0 || filterRegions.includes(JOB_REGIONS[r.location] || 'Ireland'));
       if (sortBy === 'salary') list = [...list].sort((a, b) => parseInt(b.salary.replace(/[^0-9]/g, '')) - parseInt(a.salary.replace(/[^0-9]/g, '')));
       if (sortBy === 'location') list = [...list].sort((a, b) => a.location.localeCompare(b.location));
       if (sortBy === 'title') list = [...list].sort((a, b) => a.title.localeCompare(b.title));
@@ -602,6 +610,13 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
     })();
 
     const sel = activeRole ?? sorted[selectedIdx] ?? sorted[0];
+    const selectJobRegion = (region: string) => {
+      const next = region === 'All regions' ? [] : filterRegions.includes(region) ? filterRegions.filter(item => item !== region) : [...filterRegions, region];
+      // Every region selected is the same as no filter, so it shows as "All regions".
+      setFilterRegions(next.length === JOB_REGION_FILTERS.length ? [] : next);
+      setJobLocation('All Locations');
+      setSelectedIdx(0);
+    };
 
     return (
     <Fade className="recruit-surface recruit-jobseekers">
@@ -668,36 +683,36 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
         </div>
       </div>
 
-      {/* Region tabs */}
+      {/* Region filters: any combination can be ticked. */}
       <div className="border-b border-black/5 bg-white">
         <div className="site-container py-4 flex flex-col gap-2">
-          <p className="text-[#3d3d3d] text-body">Filter by region</p>
-          <div className="flex flex-wrap gap-8 items-center">
-            {['All regions', 'Ireland', 'Northern Ireland', 'England', 'Wales', 'Scotland'].map(label => ({ id: label, label, flag: label === 'Ireland' ? '🇮🇪' : label === 'All regions' ? '🌍' : '🇬🇧' })).map(c => {
-              const active = filterRegion === c.id;
-              return (
-                <button key={c.id} aria-pressed={active} onClick={() => { setFilterRegion(c.id); setJobLocation('All Locations'); setSelectedIdx(0); }}
-                  className="flex items-center gap-2 text-control text-black">
-                  <div className="w-[22px] h-[22px] rounded-full border flex items-center justify-center shrink-0 transition-colors"
-                    style={{ backgroundColor: active ? P : 'white', borderColor: BD }}>
-                    {active && <Check className="w-3 h-3 text-white" />}
-                  </div>
-                  <span className="text-lead">{c.flag}</span>
-                  <span>{c.label}</span>
-                </button>
-              );
-            })}
+          <p id="recruit-region-filter-label" className="text-[#3d3d3d] text-body">Filter by region</p>
+          <div role="group" aria-labelledby="recruit-region-filter-label" className="flex flex-wrap gap-8 items-center">
+            {[
+              { region: 'All regions', icon: <Globe aria-hidden="true" className="size-4 text-[#810161]" />, pressed: filterRegions.length === 0 },
+              ...JOB_REGION_FILTERS.map(area => ({ region: area.region, icon: <CountryFlag country={area.flag} className="h-4 w-6" />, pressed: filterRegions.includes(area.region) })),
+            ].map(c => (
+              <button key={c.region} type="button" aria-pressed={c.pressed} onClick={() => selectJobRegion(c.region)}
+                className="flex items-center gap-2 text-control text-black">
+                <span className="flex size-5.5 shrink-0 items-center justify-center rounded-sm border transition-colors"
+                  style={{ backgroundColor: c.pressed ? P : 'white', borderColor: c.pressed ? P : 'rgba(0,0,0,0.2)' }}>
+                  {c.pressed && <Check aria-hidden="true" className="size-3 text-white" />}
+                </span>
+                {c.icon}
+                <span>{c.region}</span>
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Two-column: list + detail */}
       <div className="site-container py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-[300px_minmax(0,1fr)] lg:grid-cols-[380px_minmax(0,1fr)] gap-6">
 
           {/* Left: job list */}
           <div id="recruitment-job-search" className="scroll-mt-24">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-3">
               <p className="text-[#757575] text-body">{sorted.length} role{sorted.length !== 1 ? 's' : ''} available</p>
               {/* Sort pills */}
               <div className="flex items-center gap-0.5 bg-white border border-black/5 rounded-full px-0.5 py-0.5">
@@ -729,7 +744,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 {sorted.map((r, i) => {
                   const active = sel === r;
                   return (
-                    <motion.button key={r.title + r.location} aria-pressed={active} onClick={() => { setSelectedIdx(i); readRole(r, true); }}
+                    <motion.button key={r.title + r.location} aria-pressed={active} onClick={() => { setSelectedIdx(i); readRole(r); }}
                       className="w-full text-left border-b border-black/5 last:border-0"
                       style={{ backgroundColor: active ? P : i % 2 === 0 ? 'rgba(245,245,245,0.5)' : 'white' }}
                       whileHover={{ backgroundColor: active ? P : 'rgba(129,1,97,0.03)' }}
@@ -765,9 +780,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             <p className="mt-4 text-center text-caption text-slate-500">Showing all matching roles</p>
           </div>
 
-          {/* Complete role content stays alongside the search results. */}
+          {/* Complete role content stays alongside the search results and scrolls before the page. */}
           {sel && (
-            <div id="recruitment-role-panel" className="min-w-0 scroll-mt-24">
+            <ScrollFirstPanel ref={rolePanel} id="recruitment-role-panel" className="recruit-role-panel min-w-0 scroll-mt-24" resetKey={getRoleReference(sel, ALL_ROLES)}>
               {activeRole && !sorted.includes(activeRole) && <p className="mb-3 rounded-lg bg-[#fbf5f9] p-3 text-caption text-slate-600">This related role is outside your current filters. Your search results and filter selections are unchanged.</p>}
               <RecruitmentRoleDetails
                 key={getRoleReference(sel, ALL_ROLES)}
@@ -777,7 +792,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 onBack={() => document.getElementById('recruitment-job-search')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}
                 onApply={openApply}
               />
-            </div>
+            </ScrollFirstPanel>
           )}
         </div>
       </div>

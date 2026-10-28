@@ -94,7 +94,8 @@
 .recruit-role-embedded .recruit-role-recommendations { margin-top: 24px; padding: 28px 0; background: transparent; }
 .recruit-role-embedded .recruit-role-recommended-header { flex-wrap: wrap; }
 .recruit-role-embedded .recruit-role-recommended-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-@media (max-width: 1023px) {
+/* The inline "Back to results" link is only needed when the role sits below the list. */
+@media (max-width: 767px) {
   .recruit-role-inline-back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px; color: var(--role-brand); }
 }
 @media (max-width: 560px) {

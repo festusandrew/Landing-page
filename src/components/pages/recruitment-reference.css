@@ -1,5 +1,5 @@
 /* Page-scoped design tokens keep Recruitment distinct from Locum and software. */
-.recruit-reference { --recruit-accent: #810161; --recruit-tint: #faf5f8; }
+.recruit-reference { --recruit-accent: #810161; --recruit-tint: #faf5f8; --recruit-header-height: 68px; }
 .recruit-reference :is(.recruit-surface, .recruit-navigation) {
   font-family: var(--font-sans);
 }
@@ -19,8 +19,26 @@
 .recruit-reference-icon { display: inline-block; flex-shrink: 0; align-self: center; max-width: none; }
 .recruit-reference-icon.self-start { align-self: flex-start; }
 .recruit-faq-toggle[aria-expanded="true"] img { filter: brightness(0) invert(1); }
+/* Two columns: the selected role scrolls in its own sticky panel. ScrollFirstPanel scrolls it before the page. */
+@media (min-width: 768px) {
+  .recruit-reference .recruit-role-panel {
+    position: sticky;
+    top: calc(var(--recruit-header-height) + 1.5rem);
+    align-self: start;
+    max-height: calc(100vh - var(--recruit-header-height) - 3rem);
+    max-height: calc(100dvh - var(--recruit-header-height) - 3rem);
+    /* Room for the offset focus rings of edge-to-edge buttons, without moving the content. */
+    margin-inline: -0.5rem;
+    padding-inline: 0.5rem;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--recruit-accent) 45%, transparent) transparent;
+    scrollbar-gutter: stable;
+  }
+}
 
 @media (min-width: 1440px) {
+  .recruit-reference { --recruit-header-height: 91.944px; }
   .recruit-reference > main { padding-top: 91.944px; }
   .recruit-reference .recruit-surface .max-w-4xl { max-width: 1211.493px; }
   .recruit-reference .recruit-surface .max-w-3xl { max-width: 1038.423px; }

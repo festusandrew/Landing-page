@@ -32,7 +32,7 @@ import imgLogoWhite from '../../imports/MacBookPro14372/b8700eda655f89d95fde6a9a
 import imgLogo from '../../imports/MacBookPro14372/b16ab5f34d40dbc6e584efa0666128eb7e0f9d4b.png';
 import { LocumRegistrationWizard } from './LocumRegistrationWizard';
 import { LocumJobDetails } from './LocumJobDetails';
-import { LocumShiftDetailsPanel, type LocumShiftDetailsPanelHandle } from './LocumShiftDetailsPanel';
+import { ScrollFirstPanel, type ScrollFirstPanelHandle } from '../ScrollFirstPanel';
 import { getPublicShiftDate, getShiftArea, type PublicLocumShift } from '../../data/locumShiftPresentation';
 import { LocumEmployerLanding } from './LocumEmployerLanding';
 import { LocumInsights } from './LocumInsights';
@@ -399,7 +399,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
   };
   useEffect(() => setSelectedShift(0), [filterRegions, searchLocation, searchProfession, filterSpecialisation, filterDate, filterExperience, filterUrgentOnly, sortBy]);
   const applyShift = shifts[selectedShift] ?? shifts[0];
-  const shiftDetailsPanel = useRef<LocumShiftDetailsPanelHandle>(null);
+  const shiftDetailsPanel = useRef<ScrollFirstPanelHandle>(null);
 
   const faqs: Record<string, { q: string; a: string }[]> = {
     Locum: [
@@ -1413,7 +1413,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                 if (!s) return <div className="rounded-3xl bg-[#f4f8f5] p-10 text-center"><Search className="mx-auto mb-5 h-8 w-8 text-[#368B62]" /><h2 className="text-title font-semibold font-sans">No shifts match these filters</h2><p className="mt-3 text-body text-slate-500">Try another region or clear your filters. New shifts are added regularly.</p><button onClick={resetShiftFilters} className="mt-6 rounded-full bg-[#368B62] px-6 py-3 text-control font-semibold text-white">Show all shifts</button></div>;
                 const area = shiftWorkRegion(s.location);
                 return (
-                  <LocumShiftDetailsPanel ref={shiftDetailsPanel} resetKey={`${s.facility}-${s.date}`}>
+                  <ScrollFirstPanel ref={shiftDetailsPanel} id="selected-locum-shift" className="locum-shift-details min-w-0 scroll-mt-24" resetKey={`${s.facility}-${s.date}`}>
                     <LocumJobDetails
                       key={`${s.facility}-${s.date}`}
                       shift={s}
@@ -1424,7 +1424,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                       onApply={openApply}
                       onLogin={() => openAuth('signin')}
                     />
-                  </LocumShiftDetailsPanel>
+                  </ScrollFirstPanel>
                 );
               })()}
             </div>

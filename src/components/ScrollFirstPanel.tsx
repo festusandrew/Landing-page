@@ -1,7 +1,8 @@
 import { useImperativeHandle, useLayoutEffect, useRef, type ReactNode, type Ref } from "react"
+import "./scroll-first-panel.css"
 
-export type LocumShiftDetailsPanelHandle = {
-  /** Brings the selected shift's details fully into view. */
+export type ScrollFirstPanelHandle = {
+  /** Brings the panel fully into view, e.g. after a new item is selected. */
   reveal: () => void
 }
 
@@ -56,7 +57,7 @@ function createController(panel: HTMLElement, content: HTMLElement): Controller 
   const panelLimit = () => panel.scrollHeight - panel.clientHeight
   const pageLimit = () => document.documentElement.scrollHeight - window.innerHeight
 
-  // Drives the edge fades in locum-reference.css.
+  // Drives the edge fades in scroll-first-panel.css.
   const updateEdges = () => {
     const limit = panelLimit()
     panel.dataset.overflowing = String(limit > SLACK)
@@ -139,7 +140,7 @@ function createController(panel: HTMLElement, content: HTMLElement): Controller 
 
     const panelFrom = panelGlide?.target ?? panel.scrollTop
     const panelRoom = delta > 0 ? panelLimit() - panelFrom : panelFrom
-    // The details are fully scrolled in this direction, so the page takes the wheel.
+    // The panel is fully scrolled in this direction, so the page takes the wheel.
     if (panelRoom <= SLACK) {
       pageGlide = null
       return
@@ -155,7 +156,7 @@ function createController(panel: HTMLElement, content: HTMLElement): Controller 
     if (passed || (approaching && !onScreen)) return
 
     event.preventDefault()
-    // The page carries the panel to the pin line, then holds while the details scroll.
+    // The page carries the panel to the pin line, then holds while the panel scrolls.
     const pageStep = !approaching ? 0 : delta > 0 ? Math.min(delta, toPin) : Math.max(delta, toPin)
     if (pageStep !== 0) glidePage(pageFrom + pageStep)
     const rest = delta - pageStep
@@ -204,18 +205,23 @@ function createController(panel: HTMLElement, content: HTMLElement): Controller 
 }
 
 /**
- * Holds the selected shift. In the two-column layout it is a sticky panel with its own
- * scroll: wheel scrolling anywhere on the page first carries the panel up to its pinned
- * position, then scrolls the shift details with an eased glide while the page holds
- * still, and only then moves the page. Scrolling up rewinds the details the same way.
+ * Details panel beside a list (Locum shifts, Recruitment roles). When the page's CSS
+ * makes it sticky with its own overflow (the two-column layouts), wheel scrolling
+ * anywhere on the page first carries the panel up to its pinned position, then scrolls
+ * its content with an eased glide while the page holds still, and only then moves the
+ * page. Scrolling up rewinds it the same way. In a single column it is part of the page.
  */
-export function LocumShiftDetailsPanel({
+export function ScrollFirstPanel({
   ref,
+  id,
+  className = "",
   resetKey,
   children,
 }: {
-  ref?: Ref<LocumShiftDetailsPanelHandle>
-  /** Changes when another shift is selected, so its details start from the top. */
+  ref?: Ref<ScrollFirstPanelHandle>
+  id?: string
+  className?: string
+  /** Changes when another item is selected, so its details start from the top. */
   resetKey: string
   children: ReactNode
 }) {
@@ -240,11 +246,7 @@ export function LocumShiftDetailsPanel({
   useImperativeHandle(ref, () => ({ reveal: () => controller.current?.reveal() }), [])
 
   return (
-    <div
-      id="selected-locum-shift"
-      ref={panelRef}
-      className="locum-shift-details min-w-0 scroll-mt-24"
-    >
+    <div id={id} ref={panelRef} className={`scroll-first-panel ${className}`}>
       <div ref={contentRef}>{children}</div>
     </div>
   )

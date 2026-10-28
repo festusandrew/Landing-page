@@ -28,9 +28,7 @@
 .locum-faq > section:first-child h1 { font-family: var(--font-display); }
 .locum-faq > section:first-child + div { min-height: 850px; }
 .locum-shifts select { max-width: 100%; }
-/* Two columns: the selected shift scrolls in its own sticky panel. LocumShiftDetailsPanel scrolls it before the page. */
-@property --locum-fade-top { syntax: "<length>"; inherits: false; initial-value: 0px; }
-@property --locum-fade-bottom { syntax: "<length>"; inherits: false; initial-value: 0px; }
+/* Two columns: the selected shift scrolls in its own sticky panel. ScrollFirstPanel scrolls it before the page. */
 @media (min-width: 768px) {
   .locum-reference .locum-shift-details {
     position: sticky;
@@ -46,16 +44,7 @@
     scrollbar-width: thin;
     scrollbar-color: color-mix(in srgb, var(--locum-green) 50%, transparent) transparent;
     scrollbar-gutter: stable;
-    /* Soft edges where more of the shift is out of view above or below. */
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 var(--locum-fade-top), #000 calc(100% - var(--locum-fade-bottom)), transparent);
-    mask-image: linear-gradient(to bottom, transparent, #000 var(--locum-fade-top), #000 calc(100% - var(--locum-fade-bottom)), transparent);
-    transition: --locum-fade-top 200ms ease-out, --locum-fade-bottom 200ms ease-out;
   }
-  .locum-reference .locum-shift-details[data-at-start="false"] { --locum-fade-top: 1.5rem; }
-  .locum-reference .locum-shift-details[data-overflowing="true"][data-at-end="false"] { --locum-fade-bottom: 3rem; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .locum-reference .locum-shift-details { transition: none; }
 }
 .locum-employer > section:first-child h1 { font-family: var(--font-display); }
 .locum-cover-options h3 { font-family: var(--font-sans); }
