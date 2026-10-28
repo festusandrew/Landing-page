@@ -32,8 +32,6 @@ import imgBlog1        from '@/src/imports/RecruitmentLandingPage/91cecfeff21bc6
 import imgBlog2        from '@/src/imports/RecruitmentLandingPage/7941db92e4d97482ed49a8f1a6fe4be0fca9562d.png';
 import imgBlog3        from '@/src/imports/RecruitmentLandingPage/aaf772a81b05c538b61b11fa0d9c097a44c4309c.png';
 import imgSarah        from '@/src/imports/RecruitmentLandingPage/40b658c00757bb1aeede15376b9e7b2d32234f5c.png';
-import imgJames        from '@/src/imports/RecruitmentLandingPage/99891f367ad1c536e61556060274079b908b6cc0.png';
-import imgMichael      from '@/src/imports/RecruitmentLandingPage/ca27e31ef2c2e6763717010455537962ccdd0fe8.png';
 import imgMployUs      from '@/src/imports/RecruitmentLandingPage/afa262f7bab0644138f6a6848b0032c4e2a7d048.png';
 import imgHiring       from '@/src/imports/RecruitmentLandingPage/d7b4f06932544d5c20501c4962c2946b7d37b4f0.png';
 
@@ -172,16 +170,17 @@ const ARTICLES = [
 ]);
 
 const TESTIMONIALS = [
-  { img: imgSarah,   quote: '"MployUs cut our hiring timeline from eight weeks to twelve days. The candidates they presented actually understood our industry."', name: 'Sarah Jenkins',  role: 'HR Director, TechFlow Solutions' },
-  { img: imgJames,   quote: '"Finding a Home Manager with the right clinical background and leadership skills is notoriously hard. MployUs delivered a shortlist in under two weeks."', name: 'Dr. James Wilson', role: 'Clinical Director, Sláinte Care Group' },
-  { img: imgMichael, quote: '"We needed 14 warehouse operatives ahead of peak season. MployUs had them placed, vetted, and inducted within ten days."', name: 'Michael Chen',   role: 'Operations Manager, FastFreight IE' },
+  { quote: '"MployUs cut our hiring timeline from eight weeks to twelve days. The candidates they presented actually understood our industry."', name: 'Sarah Jenkins',  role: 'HR Director, TechFlow Solutions' },
+  { quote: '"Finding a Home Manager with the right clinical background and leadership skills is notoriously hard. MployUs delivered a shortlist in under two weeks."', name: 'Dr. James Wilson', role: 'Clinical Director, Sláinte Care Group' },
+  { quote: '"We needed 14 warehouse operatives ahead of peak season. MployUs had them placed, vetted, and inducted within ten days."', name: 'Michael Chen',   role: 'Operations Manager, FastFreight IE' },
 ];
 
+// Icons match the same services on the Hire talent page.
 const SERVICES = [
-  { n: '01', type: 'Permanent',  title: 'Permanent Placement',              desc: "Long-term hires for core roles. We identify, screen, and present candidates who'll grow with your organisation." },
-  { n: '02', type: 'Contract',   title: 'Contract Staffing',                desc: 'Flexible staff for project-based work, seasonal peaks, or maternity cover without the overhead of permanent hires.' },
-  { n: '03', type: 'Talent Solutions', title: 'Talent Solutions', desc: 'From workforce planning to volume hiring, we embed in your process and work as an extension of your HR team.' },
-  { n: '04', type: 'Executive',  title: 'Executive Search',                 desc: "Discreet headhunting for C-suite and senior leadership. We access networks that job boards can't reach." },
+  { icon: Users,     type: 'Permanent',  title: 'Permanent Placement',              desc: "Long-term hires for core roles. We identify, screen, and present candidates who'll grow with your organisation." },
+  { icon: Clock,     type: 'Contract',   title: 'Contract Staffing',                desc: 'Flexible staff for project-based work, seasonal peaks, or maternity cover without the overhead of permanent hires.' },
+  { icon: Briefcase, type: 'Talent Solutions', title: 'Talent Solutions', desc: 'From workforce planning to volume hiring, we embed in your process and work as an extension of your HR team.' },
+  { icon: Target,    type: 'Executive',  title: 'Executive Search',                 desc: "Discreet headhunting for C-suite and senior leadership. We access networks that job boards can't reach." },
 ];
 
 const FAQS = [
@@ -402,12 +401,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
               transition={{ type: 'spring', stiffness: 380, damping: 26 }}
             >
               <p className="text-body flex-1" style={{ color: TN }}>{t.quote}</p>
-              <div className="flex items-center gap-3">
-                <img src={t.img} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
-                <div>
-                  <p className="text-body font-medium" style={{ color: P }}>{t.name}</p>
-                  <p className="text-caption" style={{ color: TT }}>{t.role}</p>
-                </div>
+              <div>
+                <p className="text-body font-medium" style={{ color: P }}>{t.name}</p>
+                <p className="text-caption" style={{ color: TT }}>{t.role}</p>
               </div>
             </motion.div>
           ))}
@@ -501,16 +497,16 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 { icon: Check,   label: 'Right-Fit Matching',    desc: 'Our sourcing process goes beyond CVs. We evaluate culture fit, technical skills, and long-term potential.' },
                 { icon: Clock,   label: 'Faster Time-to-Hire',   desc: 'Streamlined workflows and a pre-vetted talent pool mean you fill roles in days, not months.' },
               ].map(({ icon: Icon, label, desc }, index) => (
+                // Hover fills the card with the primary colour; text and icon switch to white.
                 <motion.div key={label} variants={fadeUp}
-                  className="bg-white p-8 flex flex-col gap-6 group cursor-default"
-                  whileHover={{ backgroundColor: 'rgba(129,1,97,0.02)' }}
+                  className="group bg-white p-8 flex flex-col gap-6 cursor-default transition-colors duration-300 hover:bg-[#810161]"
                 >
                   <motion.div whileHover={{ scale: 1.1, rotate: 3 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-                    <img src={RECRUITMENT_VISUALS.home.features[index]} alt="" className="recruit-reference-icon" />
+                    <img src={RECRUITMENT_VISUALS.home.features[index]} alt="" className="recruit-reference-icon transition-[filter] duration-300 group-hover:brightness-0 group-hover:invert" />
                   </motion.div>
                   <div>
-                    <p className="text-body font-medium mb-2" style={{ color: P }}>{label}</p>
-                    <p className="text-body" style={{ color: TM }}>{desc}</p>
+                    <p className="text-body font-medium mb-2 text-[#810161] transition-colors duration-300 group-hover:text-white">{label}</p>
+                    <p className="text-body text-[#68716c] transition-colors duration-300 group-hover:text-white/80">{desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -539,17 +535,19 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
           >
             <motion.div variants={fadeUp}><Eyebrow>How we help</Eyebrow></motion.div>
             <motion.div variants={fadeUp}><H2 className="mb-8">Tailored hiring solutions for every stage of growth</H2></motion.div>
-            {SERVICES.map(s => (
-              <motion.div key={s.n} variants={fadeUp}
-                className="flex gap-5 p-6 bg-white rounded-xl border border-black/5"
-                whileHover={{ x: 3, borderColor: 'rgba(0,0,0,0.05)' }}
+            {SERVICES.map(({ icon: Icon, ...s }) => (
+              <motion.div key={s.title} variants={fadeUp}
+                className="group flex gap-5 p-6 bg-white rounded-xl border border-black/5 transition-colors duration-300 hover:bg-[#810161]"
+                whileHover={{ x: 3 }}
                 transition={{ type: 'spring', stiffness: 380, damping: 26 }}
               >
-                <div className="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center text-control border border-black/5" style={{ backgroundColor: BGL, color: TT }}>{s.n}</div>
+                <div className="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center border border-black/5 bg-[#f8f8f5] transition-colors duration-300 group-hover:border-white/20 group-hover:bg-white/15">
+                  <Icon aria-hidden="true" className="size-5 text-[#810161] transition-colors duration-300 group-hover:text-white" />
+                </div>
                 <div>
-                  <p className="text-eyebrow uppercase mb-1" style={{ color: TT }}>{s.type}</p>
-                  <p className="text-body font-medium mb-1.5" style={{ color: P }}>{s.title}</p>
-                  <p className="text-body" style={{ color: TM }}>{s.desc}</p>
+                  <p className="text-eyebrow uppercase mb-1 text-[#67716b] transition-colors duration-300 group-hover:text-white/70">{s.type}</p>
+                  <p className="text-body font-medium mb-1.5 text-[#810161] transition-colors duration-300 group-hover:text-white">{s.title}</p>
+                  <p className="text-body text-[#68716c] transition-colors duration-300 group-hover:text-white/80">{s.desc}</p>
                 </div>
               </motion.div>
             ))}
