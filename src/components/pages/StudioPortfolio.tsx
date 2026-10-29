@@ -2,7 +2,6 @@ import { useRef, useState } from "react"
 import { Link } from "react-router"
 import * as Dialog from "@radix-ui/react-dialog"
 import { ArrowLeft, Pause, Play } from "lucide-react"
-import { useReducedMotion } from "motion/react"
 import "./studio-portfolio.css"
 import { ProjectEnquiryDialog } from "../modals/ProjectEnquiryDialog"
 import { StudioProjectCarousel } from "../StudioProjectCarousel"
@@ -272,10 +271,9 @@ export function StudioPortfolio({
   const returnFocus = useRef<HTMLElement | null>(null)
   // The closing project dialog must not steal focus from the enquiry opening next.
   const openingEnquiry = useRef(false)
-  // Recordings loop for longer than five seconds, so visitors can pause them;
-  // a reduced-motion preference starts on the still posters instead.
-  const reduceMotion = useReducedMotion() !== false
-  const [previewsPlaying, setPreviewsPlaying] = useState(!reduceMotion)
+  // Recordings play and loop automatically for every visitor. They run for
+  // longer than five seconds, so the pause control stays available.
+  const [previewsPlaying, setPreviewsPlaying] = useState(true)
   const previewToggle = (className = "") => (
     <button
       type="button"
@@ -529,7 +527,12 @@ export function StudioPortfolio({
                 <img src={careDesignImage} alt="" />
               </div>
             ) : (
-              <img src={`/images/studio/demos/${work[1].image}.webp`} alt="" />
+              <img
+                src={`/images/studio/demos/${work[1].image}.${
+                  previewsPlaying ? "gif" : "webp"
+                }`}
+                alt=""
+              />
             )}
           </div>
           <span className="studio-stage-caption">
