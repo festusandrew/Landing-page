@@ -38,7 +38,8 @@ import { LocumEmployerLanding } from './LocumEmployerLanding';
 import { LocumInsights } from './LocumInsights';
 import { LocumDialog } from '../LocumDialog';
 import locumHeroOverlay from '../../imports/locum-reference/38d30.png';
-import locumPhones from '../../imports/locum-reference/2aa6b.png';
+import locumPhones from '../../imports/locum-reference/locum-app-phones-1600.webp';
+import locumPhonesSmall from '../../imports/locum-reference/locum-app-phones-800.webp';
 import './locum-reference.css';
 
 interface LocumProvisionPageProps {
@@ -1085,7 +1086,16 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </div>
 
               <div className="locum-phone-composition">
-                <img src={locumPhones} alt="MployUs Locums mobile app on two phones" />
+                <img
+                  src={locumPhones}
+                  srcSet={`${locumPhonesSmall} 800w, ${locumPhones} 1600w`}
+                  sizes="(min-width: 1024px) 50vw, (min-width: 640px) 36rem, 100vw"
+                  width={1600}
+                  height={1119}
+                  loading="lazy"
+                  decoding="async"
+                  alt="MployUs Locums app on two phones, showing a shift dashboard and a list of available shifts"
+                />
               </div>
             </div>
           </div>

@@ -16,8 +16,13 @@
 .locum-reference-icon.mt-1,
 .locum-reference-icon.mt-0\.5,
 .locum-reference-icon.mt-auto { align-self: flex-start; }
-.locum-phone-composition { min-width: 0; position: relative; min-height: 420px; }
-.locum-phone-composition img { position: absolute; width: 150%; max-width: none; height: auto; left: -25%; bottom: -15%; }
+.locum-phone-composition { min-width: 0; padding: 0 1rem 2.5rem; }
+/* The artwork's right edge is a fading floor shadow, so nudge it right to optically centre the phones. */
+.locum-phone-composition img { display: block; width: min(100%, 36rem); height: auto; margin-inline: auto; translate: 7% 0; }
+@media (min-width: 1024px) {
+  .locum-phone-composition { position: relative; padding: 0; }
+  .locum-phone-composition img { position: absolute; top: 50%; left: -2%; width: 108%; max-width: none; margin: 0; translate: 0 -50%; }
+}
 .locum-app-section > div { overflow: hidden; }
 .locum-journal > header > div { padding-top: 0; }
 .locum-journal > header h1 { font-family: var(--font-display); }
@@ -113,7 +118,6 @@
   .locum-reference > footer { padding-block: 86.535px 64.901px; }
 }
 @media (max-width: 767px) {
-  .locum-phone-composition { min-height: 320px; }
-  .locum-phone-composition img { width: 115%; left: -7.5%; bottom: -15%; }
+  .locum-phone-composition { padding: 0 0 2rem; }
   .locum-faq > section:first-child + div { min-height: 0; }
 }
