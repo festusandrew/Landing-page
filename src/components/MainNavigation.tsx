@@ -218,10 +218,11 @@ export function MainNavigation({
                 id={`main-${mobile ? "mobile" : "desktop"}-${name}`}
                 onPointerEnter={cancelPendingClose}
                 className={
-                  "z-50 grid max-h-[calc(100dvh-160px)] grid-cols-1 gap-4 overflow-y-auto rounded-2xl border border-black/5 bg-white p-[17px] animate-fade-in motion-reduce:animate-none sm:grid-cols-[7fr_5fr] " +
+                  "z-50 grid grid-cols-1 gap-4 rounded-2xl border border-black/5 bg-white p-[17px] animate-fade-in motion-reduce:animate-none " +
+                  // In the mobile menu the panel flows inline and scrolls with the menu.
                   (mobile
                     ? "mt-2"
-                    : `absolute left-0 top-full w-full sm:left-1/2 ${
+                    : `absolute left-0 top-full max-h-[calc(100dvh-160px)] w-full overflow-y-auto sm:left-1/2 sm:grid-cols-[7fr_5fr] ${
                         name === "Products"
                           ? "sm:w-[min(560px,calc(100vw-48px))]"
                           : "sm:w-[min(600px,calc(100vw-48px))]"
@@ -291,7 +292,9 @@ export function MainNavigation({
                       : undefined
                   }
                   className={
-                    "flex min-h-64 min-w-0 flex-col justify-between rounded-[14px] border p-[15px] transition-colors motion-reduce:transition-none " +
+                    // The mobile menu lists the links only; each one opens its page directly.
+                    (mobile ? "hidden " : "flex ") +
+                    "min-h-64 min-w-0 flex-col justify-between rounded-[14px] border p-[15px] transition-colors motion-reduce:transition-none " +
                     (previewedLink
                       ? "border-(--nav-accent)/20 bg-(--nav-accent)/10"
                       : "border-[#e6ebf2] bg-[#f6f7fa]")

@@ -397,7 +397,7 @@ export function StudioPortfolio({
         <span>
           {project.category}
           <br />
-          <small>In-house project</small>
+          <small>{design ? "In-house project" : "Product dashboard"}</small>
         </span>
       </div>
     </button>

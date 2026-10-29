@@ -345,7 +345,7 @@ function LandingPage({
 
         <section
           aria-label="Our healthcare services"
-          className="site-inset grid gap-[3px] sm:grid-cols-3"
+          className="site-inset grid gap-[3px] sm:grid-cols-2 lg:grid-cols-3"
         >
           {photos.map((photo, index) => (
             <motion.button
@@ -353,7 +353,10 @@ function LandingPage({
               {...buttonMotion}
               key={photo.id}
               onClick={() => onNavigate(photo.id)}
-              className="group relative min-h-[350px] overflow-hidden text-left md:min-h-[400px]"
+              className={`group relative min-h-[350px] overflow-hidden text-left md:min-h-[400px] ${
+                // On tablets the third card spans the row beneath the first two.
+                index === photos.length - 1 ? "sm:col-span-2 lg:col-span-1" : ""
+              }`}
             >
               <ParallaxLayer className="absolute inset-0">
                 <img

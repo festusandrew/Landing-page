@@ -263,7 +263,7 @@ export function LocumEmployerLanding({
             brief that fits.
           </p>
         </motion.div>
-        <div className="locum-cover-options grid gap-4 md:grid-cols-3">
+        <div className="locum-cover-options grid gap-4 lg:grid-cols-3">
           {[
             {
               icon: Zap,

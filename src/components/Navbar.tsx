@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Menu, X } from "lucide-react"
 import { UserRole } from "../types"
 import { MainNavigation } from "./MainNavigation"
 import { BrandLogo } from "./BrandLogo"
@@ -25,7 +25,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   const slotRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLElement>(null)
   const markerRef = useRef<HTMLSpanElement>(null)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
   const [pinned, setPinned] = useState(false)
+  // Below the lg breakpoint the navigation and actions move into this menu.
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const slot = slotRef.current
@@ -56,6 +59,31 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   }, [])
 
+  useEffect(() => {
+    if (!menuOpen) return
+    const closeOutside = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) setMenuOpen(false)
+    }
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return
+      setMenuOpen(false)
+      menuButtonRef.current?.focus()
+    }
+    // The desktop layout has no menu, so widening the window closes it.
+    const desktop = window.matchMedia("(min-width: 1024px)")
+    const closeOnDesktop = () => {
+      if (desktop.matches) setMenuOpen(false)
+    }
+    document.addEventListener("pointerdown", closeOutside)
+    document.addEventListener("keydown", closeOnEscape)
+    desktop.addEventListener("change", closeOnDesktop)
+    return () => {
+      document.removeEventListener("pointerdown", closeOutside)
+      document.removeEventListener("keydown", closeOnEscape)
+      desktop.removeEventListener("change", closeOnDesktop)
+    }
+  }, [menuOpen])
+
   const navigate = (view: string) => {
     onNavigate(view)
   }
@@ -79,6 +107,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     "inline-flex items-center justify-center rounded-sm bg-[#368B62] px-5 py-3 text-control font-semibold text-white transition-colors hover:bg-[#286d4c]"
   const secondaryButton =
     "inline-flex items-center justify-center gap-2 rounded-sm border border-black/5 bg-white px-5 py-3 text-control font-semibold text-[#233b35] transition-colors hover:bg-[#edf5ef]"
+  const closeMenu = () => setMenuOpen(false)
   return (
     <div ref={slotRef} className="main-navigation-slot" data-pinned={pinned}>
       <span
@@ -96,13 +125,17 @@ export const Navbar: React.FC<NavbarProps> = ({
           aria-label="Main navigation"
           className={
             embedded
-              ? "site-container reference-main-navbar grid grid-cols-1 items-center justify-items-center gap-4 py-4 sm:grid-cols-[auto_minmax(0,1fr)_auto]"
-              : "site-container flex flex-wrap items-center justify-between gap-4 py-4"
+              ? "site-container reference-main-navbar flex items-center justify-between gap-4 py-3 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:justify-items-center lg:py-4"
+              : "site-container flex items-center justify-between gap-4 py-3 lg:flex-wrap lg:py-4"
           }
         >
           <button
             type="button"
-            onClick={() => (activeView === "home" ? section("overview") : navigate("home"))}
+            onClick={() => {
+              closeMenu()
+              if (activeView === "home") section("overview")
+              else navigate("home")
+            }}
             aria-label="MployUs home"
             className="shrink-0 text-brand"
           >
@@ -111,17 +144,41 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div
             className={
               embedded
-                ? "min-w-0 w-full [&>div]:justify-center [&>div]:gap-x-4 xl:[&>div]:gap-x-6"
-                : "order-3 w-full border-t border-black/5 pt-3 xl:order-none xl:w-auto xl:flex-1 xl:border-0 xl:pt-0"
+                ? "hidden min-w-0 w-full lg:block [&>div]:justify-center [&>div]:gap-x-4 xl:[&>div]:gap-x-6"
+                : "order-3 hidden w-full border-t border-black/5 pt-3 lg:block xl:order-none xl:w-auto xl:flex-1 xl:border-0 xl:pt-0"
             }
           >
             <MainNavigation onNavigate={navigate} onSection={section} onBookDemo={demo} />
           </div>
+          {/* Phones and tablets: a demo shortcut (from sm) and the menu button. */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <button
+              type="button"
+              onClick={() => {
+                closeMenu()
+                demo()
+              }}
+              className="hidden items-center justify-center rounded-sm bg-[#368B62] px-4 py-2.5 text-control font-semibold whitespace-nowrap text-white transition-colors hover:bg-[#286d4c] sm:inline-flex"
+            >
+              Book a demo
+            </button>
+            <button
+              ref={menuButtonRef}
+              type="button"
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-expanded={menuOpen}
+              aria-controls="main-navigation-menu"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              className="flex size-11 items-center justify-center rounded-sm border border-black/5 text-[#233b35] transition-colors hover:bg-[#edf5ef]"
+            >
+              {menuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+            </button>
+          </div>
           <div
             className={
               embedded
-                ? "flex flex-row flex-nowrap items-center justify-center gap-3"
-                : "ml-auto flex flex-row flex-nowrap items-center gap-3"
+                ? "hidden flex-row flex-nowrap items-center justify-center gap-3 lg:flex"
+                : "ml-auto hidden flex-row flex-nowrap items-center gap-3 lg:flex"
             }
           >
             <button type="button" onClick={demo} className={primaryButton}>
@@ -133,6 +190,45 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
         </nav>
+        {menuOpen && (
+          <div
+            id="main-navigation-menu"
+            className="absolute inset-x-0 top-full z-40 border-y border-black/5 bg-white shadow-[0_24px_40px_-28px_rgb(15_23_42/0.35)] animate-in fade-in slide-in-from-top-2 duration-200 motion-reduce:animate-none lg:hidden"
+          >
+            <div className="site-container max-h-[calc(100dvh-var(--main-navigation-height,72px))] overflow-y-auto overscroll-contain pb-6">
+              <MainNavigation
+                mobile
+                onNavigate={navigate}
+                onSection={section}
+                onBookDemo={demo}
+                onAction={closeMenu}
+              />
+              <div className="grid gap-3 border-t border-black/5 pt-5 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeMenu()
+                    demo()
+                  }}
+                  className={primaryButton}
+                >
+                  Book a demo
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeMenu()
+                    trial()
+                  }}
+                  className={secondaryButton}
+                >
+                  Start free trial
+                  <ArrowUpRight size={15} />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
     </div>
   )

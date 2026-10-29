@@ -390,7 +390,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       <div className="site-container">
         <Reveal><Eyebrow>Client stories</Eyebrow><H2 className="mb-10 max-w-sm">Trusted by companies across Ireland</H2></Reveal>
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-6"
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-56px' }}
           variants={staggerGrid(0.12)}
         >
@@ -625,48 +625,48 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       <p className="bg-[#fbf5f9] px-6 py-3 text-center text-caption text-[#810161]">Unconfirmed listings · Availability, pay and full terms require employer confirmation.</p>
       <div className="bg-white border-b border-black/5">
         <div className="site-container py-5 flex flex-wrap items-end justify-between gap-4">
-          <div className="flex flex-wrap gap-5 items-end">
+          <div className="grid w-full grid-cols-2 items-end gap-x-3 gap-y-4 sm:grid-cols-4 lg:flex lg:w-auto lg:flex-wrap lg:gap-5">
             {/* Keyword */}
-            <div className="flex flex-col gap-1.5">
+            <div className="col-span-2 flex min-w-0 flex-col gap-1.5 sm:col-span-1">
               <label className="text-[#757575] text-control">Keyword / Job Title</label>
               <div className="relative">
                 <Search className="w-4 h-4 text-[#757575] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input placeholder="e.g. Nurse, Warehouse…" value={jobKeyword} onChange={e => setJobKeyword(e.target.value)}
-                  className="bg-white border border-black/5 rounded pl-9 pr-3.5 py-2.5 text-control text-slate-700 outline-none w-[220px]"
+                  className="bg-white border border-black/5 rounded pl-9 pr-3.5 py-2.5 text-control text-slate-700 outline-none w-full lg:w-[220px]"
                   style={{ '--tw-ring-color': P } as React.CSSProperties} />
               </div>
             </div>
             {/* Sector */}
-            <div className="flex flex-col gap-1.5">
+            <div className="flex min-w-0 flex-col gap-1.5">
               <label className="text-[#757575] text-control">Sector</label>
               <div className="relative">
                 <Briefcase className="w-4 h-4 text-[#757575] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <select value={jobSector} onChange={e => setJobSector(e.target.value)}
-                  className="appearance-none bg-white border border-black/5 rounded pl-9 pr-8 py-2.5 text-control text-slate-700 outline-none w-[200px] cursor-pointer">
+                  className="appearance-none bg-white border border-black/5 rounded pl-9 pr-8 py-2.5 text-control text-slate-700 outline-none w-full lg:w-[200px] cursor-pointer">
                   {SECTORS.map(s => <option key={s}>{s}</option>)}
                 </select>
                 <ChevronRight className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
               </div>
             </div>
             {/* Location */}
-            <div className="flex flex-col gap-1.5">
+            <div className="flex min-w-0 flex-col gap-1.5">
               <label className="text-[#757575] text-control">Location</label>
               <div className="relative">
                 <MapPin className="w-4 h-4 text-[#757575] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <select value={jobLocation} onChange={e => setJobLocation(e.target.value)}
-                  className="appearance-none bg-white border border-black/5 rounded pl-9 pr-8 py-2.5 text-control text-slate-700 outline-none w-[200px] cursor-pointer">
+                  className="appearance-none bg-white border border-black/5 rounded pl-9 pr-8 py-2.5 text-control text-slate-700 outline-none w-full lg:w-[200px] cursor-pointer">
                   {LOCATIONS.map(l => <option key={l}>{l}</option>)}
                 </select>
                 <ChevronRight className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
               </div>
             </div>
             {/* Type */}
-            <div className="flex flex-col gap-1.5">
+            <div className="flex min-w-0 flex-col gap-1.5">
               <label className="text-[#757575] text-control">Job Type</label>
               <div className="relative">
                 <Clock className="w-4 h-4 text-[#757575] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <select value={jobType} onChange={e => setJobType(e.target.value)}
-                  className="appearance-none bg-white border border-black/5 rounded pl-9 pr-8 py-2.5 text-control text-slate-700 outline-none w-[170px] cursor-pointer">
+                  className="appearance-none bg-white border border-black/5 rounded pl-9 pr-8 py-2.5 text-control text-slate-700 outline-none w-full lg:w-[170px] cursor-pointer">
                   {JOB_TYPES.map(t => <option key={t}>{t}</option>)}
                 </select>
                 <ChevronRight className="w-4 h-4 text-[#757575] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
@@ -674,7 +674,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
             </div>
           </div>
           <button onClick={() => setSelectedIdx(0)}
-            className="text-white font-semibold text-control px-8 py-2.5 rounded-lg transition-opacity hover:opacity-90 shrink-0"
+            className="w-full text-white font-semibold text-control px-8 py-2.5 rounded-lg transition-opacity hover:opacity-90 shrink-0 lg:w-auto"
             style={{ backgroundColor: P }}>
             Search
           </button>
@@ -685,7 +685,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       <div className="border-b border-black/5 bg-white">
         <div className="site-container py-4 flex flex-col gap-2">
           <p id="recruit-region-filter-label" className="text-[#3d3d3d] text-body">Filter by region</p>
-          <div role="group" aria-labelledby="recruit-region-filter-label" className="flex flex-wrap gap-8 items-center">
+          <div role="group" aria-labelledby="recruit-region-filter-label" className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:gap-x-8">
             {[
               { region: 'All regions', icon: <Globe aria-hidden="true" className="size-4 text-[#810161]" />, pressed: filterRegions.length === 0 },
               ...JOB_REGION_FILTERS.map(area => ({ region: area.region, icon: <CountryFlag country={area.flag} className="h-4 w-6" />, pressed: filterRegions.includes(area.region) })),

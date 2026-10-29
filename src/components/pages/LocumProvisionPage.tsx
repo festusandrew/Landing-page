@@ -667,7 +667,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
 
   const SearchBar = ({ dark = false }: { dark?: boolean }) => (
     <div
-      className={`rounded-2xl ${dark ? 'bg-white/10 backdrop-blur-xl border border-black/5 p-2' : 'bg-white border border-black/5 p-2'} grid grid-cols-1 md:grid-cols-4 gap-2`}
+      className={`rounded-2xl ${dark ? 'bg-white/10 backdrop-blur-xl border border-black/5 p-2' : 'bg-white border border-black/5 p-2'} grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4`}
       onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setDropdownOpen(null); }}
     >
       <SearchDropdown id="profession" icon={Stethoscope} value={searchProfession} options={PROFESSIONS.map(p => p.name)} onChange={setSearchProfession} dark={dark} />
@@ -797,7 +797,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         <Reveal className="mx-auto max-w-[1000px] px-6 pb-12 pt-20 text-center"><p className="text-eyebrow font-medium uppercase text-[#a5b9ad]">Care is personal.<br />Your working life should be, too.</p><p className="mx-auto mt-7 max-w-[630px] text-body text-[#68716c]">Find the opportunities that fit your expertise, your schedule and your ambitions. We connect healthcare professionals and facilities, with thoughtful support along the way.</p></Reveal>
         {/* ── STATS RIBBON ── */}
         <section className="site-container">
-          <div ref={statsRef} className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
+          <div ref={statsRef} className="grid grid-cols-2 gap-3 md:gap-5 lg:grid-cols-4">
             {STATS.map((stat, i) => {
               const Icon = stat.icon;
               return (
@@ -1249,15 +1249,15 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
           {/* ── Filter bar ── */}
           <div className="bg-white border-b border-black/5">
             <div className="site-container py-6 flex flex-wrap items-end justify-between gap-4">
-              <div className="flex flex-wrap gap-6 items-end">
+              <div className="grid w-full grid-cols-2 items-end gap-x-3 gap-y-4 sm:grid-cols-3 lg:flex lg:w-auto lg:flex-wrap lg:gap-6">
                 {/* Profession */}
-                <div className="flex flex-col gap-1.5">
+                <div className="flex min-w-0 flex-col gap-1.5">
                   <label className="text-[#757575] text-control font-normal">Profession</label>
                   <div className="relative">
                     <select
                       value={searchProfession}
                       onChange={e => setSearchProfession(e.target.value)}
-                      className="appearance-none bg-white border border-black/5 rounded px-3.5 py-2.5 pr-8 text-control text-slate-700 outline-none focus:border-green-500 w-[244px] cursor-pointer"
+                      className="appearance-none bg-white border border-black/5 rounded px-3.5 py-2.5 pr-8 text-control text-slate-700 outline-none focus:border-green-500 w-full lg:w-[244px] cursor-pointer"
                     >
                       <option value="">Choose profession</option>
                       {PROFESSIONS.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
@@ -1266,13 +1266,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   </div>
                 </div>
                 {/* Specialisation */}
-                <div className="flex flex-col gap-1.5">
+                <div className="flex min-w-0 flex-col gap-1.5">
                   <label className="text-[#757575] text-control font-normal">Specialisation</label>
                   <div className="relative">
                     <select
                       value={filterSpecialisation}
                       onChange={e => setFilterSpecialisation(e.target.value)}
-                      className="appearance-none bg-white border border-black/5 rounded px-3.5 py-2.5 pr-8 text-control text-slate-700 outline-none focus:border-green-500 w-[240px] cursor-pointer"
+                      className="appearance-none bg-white border border-black/5 rounded px-3.5 py-2.5 pr-8 text-control text-slate-700 outline-none focus:border-green-500 w-full lg:w-[240px] cursor-pointer"
                     >
                       <option value="">Choose Specialization</option>
                       <option>Community Pharmacy</option>
@@ -1284,13 +1284,13 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   </div>
                 </div>
                 {/* Shift Location */}
-                <div className="flex flex-col gap-1.5">
+                <div className="flex min-w-0 flex-col gap-1.5">
                   <label className="text-[#757575] text-control font-normal">Shift Location</label>
                   <div className="relative">
                     <select
                       value={searchLocation}
                       onChange={e => setSearchLocation(e.target.value)}
-                      className="appearance-none bg-white border border-black/5 rounded px-3.5 py-2.5 pr-8 text-control text-slate-700 outline-none focus:border-green-500 w-[236px] cursor-pointer"
+                      className="appearance-none bg-white border border-black/5 rounded px-3.5 py-2.5 pr-8 text-control text-slate-700 outline-none focus:border-green-500 w-full lg:w-[236px] cursor-pointer"
                     >
                       <option value="">Choose location</option>
                       {filterCities.map(city => <option key={city}>{city}</option>)}
@@ -1299,29 +1299,29 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   </div>
                 </div>
                 {/* Start Date */}
-                <div className="flex flex-col gap-1.5">
+                <div className="flex min-w-0 flex-col gap-1.5">
                   <label className="text-[#757575] text-control font-normal">Earliest Start Date</label>
                   <div className="relative">
                     <input
                       type="date"
                       value={filterDate}
                       onChange={e => setFilterDate(e.target.value)}
-                      className="bg-white border border-black/5 rounded px-3.5 py-2.5 text-control text-slate-700 outline-none focus:border-green-500 w-[200px] cursor-pointer"
+                      className="bg-white border border-black/5 rounded px-3.5 py-2.5 text-control text-slate-700 outline-none focus:border-green-500 w-full lg:w-[200px] cursor-pointer"
                     />
                   </div>
                 </div>
-                <div className="flex flex-col gap-1.5">
+                <div className="col-span-2 flex min-w-0 flex-col gap-1.5 sm:col-span-1">
                   <label className="text-[#757575] text-control font-normal">Pay information</label>
-                  <button onClick={() => openAuth('signin')} className="inline-flex items-center gap-2 rounded-lg border border-black/5 bg-white px-4 py-2.5 text-control font-semibold text-[#368B62]"><Lock size={14} />Account required</button>
+                  <button onClick={() => openAuth('signin')} className="inline-flex w-full items-center gap-2 rounded-lg border border-black/5 bg-white px-4 py-2.5 text-control font-semibold whitespace-nowrap text-[#368B62] lg:w-auto"><Lock size={14} />Account required</button>
                 </div>
                 {/* Experience */}
-                <div className="flex flex-col gap-1.5">
+                <div className="flex min-w-0 flex-col gap-1.5">
                   <label className="text-[#757575] text-control font-normal">Experience Level</label>
                   <div className="relative">
                     <select
                       value={filterExperience}
                       onChange={e => setFilterExperience(e.target.value)}
-                      className="appearance-none bg-white border border-black/5 rounded px-3.5 py-2.5 pr-8 text-control text-slate-700 outline-none focus:border-green-500 w-[180px] cursor-pointer"
+                      className="appearance-none bg-white border border-black/5 rounded px-3.5 py-2.5 pr-8 text-control text-slate-700 outline-none focus:border-green-500 w-full lg:w-[180px] cursor-pointer"
                     >
                       <option value="">Any level</option>
                       <option>Newly qualified</option>
@@ -1333,11 +1333,11 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   </div>
                 </div>
                 {/* Urgent only toggle */}
-                <div className="flex flex-col gap-1.5">
+                <div className="flex min-w-0 flex-col gap-1.5">
                   <label className="text-[#757575] text-control font-normal">Availability</label>
                   <button
                     onClick={() => setFilterUrgentOnly(v => !v)}
-                    className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded border text-control font-medium transition-colors ${filterUrgentOnly ? 'bg-red-50 border-red-200 text-red-700' : 'bg-white border-black/5 text-slate-600'}`}
+                    className={`flex items-center gap-2.5 px-3 py-2.5 rounded border text-control font-medium whitespace-nowrap transition-colors lg:px-3.5 ${filterUrgentOnly ? 'bg-red-50 border-red-200 text-red-700' : 'bg-white border-black/5 text-slate-600'}`}
                   >
                     <span className={`w-2 h-2 rounded-full ${filterUrgentOnly ? 'bg-red-500 animate-pulse' : 'bg-slate-300'}`} />
                     Urgent shifts only
@@ -1346,7 +1346,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               </div>
               <button
                 onClick={() => setSelectedShift(0)}
-                className="bg-[#368B62] hover:bg-[#276647] text-white font-semibold text-control px-8 py-3 rounded-lg transition-colors shrink-0"
+                className="w-full bg-[#368B62] hover:bg-[#276647] text-white font-semibold text-control px-8 py-3 rounded-lg transition-colors shrink-0 lg:w-auto"
               >
                 Search
               </button>
@@ -1358,7 +1358,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
             <div className="site-container py-4 flex flex-col gap-2">
               <div className="flex items-center justify-between gap-4"><p id="locum-region-filter-label" className="text-[#3d3d3d] text-body">Country &amp; region</p><button onClick={resetShiftFilters} className="text-control font-semibold text-[#368B62]">Clear all filters</button></div>
               <p className="text-caption text-slate-500">Sign in to see shift pay and to filter or sort by pay.</p>
-              <div role="group" aria-labelledby="locum-region-filter-label" className="flex flex-wrap gap-8 items-center">
+              <div role="group" aria-labelledby="locum-region-filter-label" className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:gap-x-8">
                 {[
                   { id: 'all', label: 'All', icon: <Globe aria-hidden="true" className="size-4 text-[#368B62]" />, pressed: filterRegions.length === 0, next: [] },
                   { id: 'UK', label: 'All UK regions', icon: <CountryFlag country="UK" className="h-4 w-6" />, pressed: ukRegionsPressed, next: toggleRegions(filterRegions, UK_WORK_REGIONS) },

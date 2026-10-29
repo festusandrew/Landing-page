@@ -71,24 +71,27 @@ export function LocumInsights({
           <div className="flex flex-wrap items-center justify-between gap-5">
             <div
               aria-label="Filter insights by country"
-              className="flex flex-wrap gap-2 rounded-full bg-[#f2f5ef] p-1.5"
+              className="grid w-full grid-cols-3 gap-1 rounded-full bg-[#f2f5ef] p-1.5 sm:flex sm:w-auto sm:flex-wrap sm:gap-2"
             >
               {([
-                { id: "all", label: "All insights" },
-                { id: "IE", label: "Insights for Ireland" },
-                { id: "UK", label: "Insights for UK" },
+                { id: "all", label: "All insights", short: "All" },
+                { id: "IE", label: "Insights for Ireland", short: "Ireland" },
+                { id: "UK", label: "Insights for UK", short: "UK" },
               ] as const).map((option) => (
                 <button
                   key={option.id}
                   onClick={() => onAudience(option.id)}
                   aria-pressed={audience === option.id}
+                  aria-label={option.label}
                   className={`rounded-full px-4 py-2.5 text-control font-medium transition-colors ${
                     audience === option.id
                       ? "bg-[#368B62] text-white"
                       : "text-[#53685b] hover:bg-[#e6ede3]"
                   }`}
                 >
-                  {option.label}
+                  {/* Short labels keep the three options on one row on phones. */}
+                  <span className="sm:hidden">{option.short}</span>
+                  <span className="hidden sm:inline">{option.label}</span>
                 </button>
               ))}
             </div>

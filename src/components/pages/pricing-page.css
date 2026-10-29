@@ -354,16 +354,36 @@
   color: #62748e;
 }
 @media (max-width: 1000px) {
+  /* Tablets: plans in pairs, with an odd last plan centred beneath. */
   .pricing-reference-grid {
-    grid-template-columns: 1fr;
-    max-width: var(--pricing-stacked-card-width);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: calc(var(--pricing-stacked-card-width) * 2 + var(--pricing-gap));
     margin-inline: auto;
     gap: calc(var(--spacing) * 6);
   }
+  .pricing-reference-grid > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 100%;
+    max-width: var(--pricing-stacked-card-width);
+  }
   .pricing-reference-enterprise {
     grid-template-columns: 1fr;
-    max-width: var(--pricing-stacked-card-width);
+    max-width: calc(var(--pricing-stacked-card-width) * 2 + var(--pricing-gap));
     margin-inline: auto;
+  }
+}
+@media (max-width: 700px) {
+  .pricing-reference-grid {
+    grid-template-columns: 1fr;
+    max-width: var(--pricing-stacked-card-width);
+  }
+  .pricing-reference-grid > :last-child:nth-child(odd) {
+    grid-column: auto;
+    max-width: none;
+  }
+  .pricing-reference-enterprise {
+    max-width: var(--pricing-stacked-card-width);
   }
 }
 @media (max-width: 600px) {
