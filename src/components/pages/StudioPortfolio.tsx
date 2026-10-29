@@ -8,7 +8,6 @@ import { ProjectEnquiryDialog } from "../modals/ProjectEnquiryDialog"
 import { StudioProjectCarousel } from "../StudioProjectCarousel"
 import { STUDIO_VISUALS } from "../../data/studioVisuals"
 import { WEB_STUDIO_VISUALS } from "../../data/webStudioVisuals"
-import webShiftImage from "../../imports/web-studio-reference/4daaa.png"
 import careDesignImage from "../../imports/studio-reference/dd653.png"
 import "./studio-design-reference.css"
 import "./studio-web-reference.css"
@@ -21,27 +20,64 @@ type Project = {
   summary: string
   image: string
   tone: string
-  href: string
-  linkLabel: string
+  // Product pages to explore; projects without one show no explore link.
+  href?: string
+  linkLabel?: string
   deliverables: string[]
   brief: string
   approach: string
   imageSrc?: string
 }
 
+type ProjectDemo = { description: string; width: number; height: number }
+
 /**
- * Screen recordings of the live MployUs interfaces, keyed by product slug and
- * shared by both studio pages. Each `.webp` poster is its recording's first frame.
+ * Screen recordings keyed by `Project.image`, played as GIFs from
+ * /images/studio/demos. Each `.webp` poster is its recording's first frame.
  */
-const PROJECT_DEMOS: Partial<Record<string, string>> = {
-  recruitment:
-    "the MployUs Recruit job board: filtering roles to Ireland, sorting by salary, opening a role and starting an application",
-  "locum-journal":
-    "the Locum Journal: filtering insights for the UK and for compliance, then opening the lead article",
-  "care-management":
-    "MployUs Care Management: jumping to the workflow preview and switching between the care plan, vitals and eMAR views",
-  "locum-shifts":
-    "the MployUs Locums shift finder: showing shifts across UK regions, opening a Manchester shift and starting an application",
+const PROJECT_DEMOS: Partial<Record<string, ProjectDemo>> = {
+  recruitment: {
+    description:
+      "the MployUs Recruit job board: filtering roles to Ireland, sorting by salary, opening a role and starting an application",
+    width: 1280,
+    height: 889,
+  },
+  "locum-journal": {
+    description:
+      "the Locum Journal: filtering insights for the UK and for compliance, then opening the lead article",
+    width: 1280,
+    height: 889,
+  },
+  "care-management": {
+    description:
+      "MployUs Care Management: jumping to the workflow preview and switching between the care plan, vitals and eMAR views",
+    width: 1280,
+    height: 889,
+  },
+  "locum-shifts": {
+    description:
+      "the MployUs Locums shift finder: showing shifts across UK regions, opening a Manchester shift and starting an application",
+    width: 1280,
+    height: 889,
+  },
+  compliance: {
+    description:
+      "a compliance dashboard: moving from the audit trail to the document register, then the overview of compliance by category and active alerts",
+    width: 800,
+    height: 480,
+  },
+  reports: {
+    description:
+      "a reporting dashboard: browsing insight cards, client revenue and profitability charts, and saved reports with their schedules",
+    width: 800,
+    height: 480,
+  },
+  crm: {
+    description:
+      "a CRM pipeline: dragging a deal from New Lead to Qualified, then adding a new deal as a project, service, product or bid",
+    width: 800,
+    height: 480,
+  },
 }
 
 const projects: Record<Discipline, Project[]> = {
@@ -126,78 +162,46 @@ const projects: Record<Discipline, Project[]> = {
   ],
   development: [
     {
-      imageSrc: webShiftImage,
-      id: "shifts",
-      name: "The right shift. Less friction.",
-      category: "Web apps",
+      id: "compliance",
+      name: "Compliance, always in view.",
+      category: "Compliance",
       summary:
-        "MployUs Locums — a responsive, filterable shift-finding experience.",
-      image: "locum-shifts",
+        "A compliance dashboard that brings scoring, document registers, alerts and the audit trail into one place.",
+      image: "compliance",
       tone: "sage",
-      href: "/locum-provision",
-      linkLabel: "Explore the Locum platform",
-      deliverables: ["React interfaces", "Regional filtering", "Guided forms"],
+      deliverables: ["Compliance scoring", "Document register", "Audit trail"],
       brief:
-        "Help healthcare professionals explore opportunities by location and inspect the practical details before starting an application.",
+        "Give a business one clear view of its compliance position across areas such as data protection, security and HR, and surface expiring or overdue items before they become risks.",
       approach:
-        "Reusable React interfaces, Ireland and UK-nation filters, detailed shift briefs and multi-step applications. Responsive layouts keep the core actions accessible on smaller screens.",
+        "An overview that scores compliance by category and lists active alerts, a document register with clear statuses for valid, expiring, expired and required items, and a chronological audit trail of every review, filing and update.",
     },
     {
-      id: "recruit-site",
-      name: "From first visit to next step.",
-      category: "Websites",
+      id: "reports",
+      name: "Insight, not just numbers.",
+      category: "Reporting",
       summary:
-        "MployUs Recruit — a connected website for candidates and employers.",
-      image: "recruitment",
-      tone: "rose",
-      href: "/recruitment-service",
-      linkLabel: "Explore Recruitment",
-      deliverables: ["Responsive website", "Article views", "Form validation"],
-      brief:
-        "Create a connected digital front door for recruitment, serving both people looking for work and teams looking to hire.",
-      approach:
-        "A React website with job and insight filters, article detail views and validated front-end forms. Shared patterns make the experience consistent across employer enquiries, applications and accounts.",
-    },
-    {
-      imageSrc: careDesignImage,
-      id: "care-platform",
-      name: "Complexity, considered.",
-      category: "Platforms",
-      summary:
-        "MployUs Care — a modular front-end for a connected care platform.",
-      image: "care-management",
+        "A reporting dashboard that turns revenue, client, operations and workforce data into clear insights and scheduled reports.",
+      image: "reports",
       tone: "sand",
-      href: "/care-management",
-      linkLabel: "Explore Care Management",
-      deliverables: [
-        "Component architecture",
-        "Responsive layouts",
-        "Platform navigation",
-      ],
+      deliverables: ["Insight cards", "Client profitability", "Scheduled reports"],
       brief:
-        "Present a broad care-management offering through a modular interface that can evolve as the product grows.",
+        "Help a growing business see what is changing across revenue, clients, delivery and people, and where to act first.",
       approach:
-        "Component-based layouts, focused product sections and reusable navigation patterns.",
+        "Colour-coded insight cards with headline figures and trend lines, client revenue and profitability views, and saved reports that can be run, scheduled, paused and exported.",
     },
     {
-      id: "journal-site",
-      name: "Useful knowledge. Easy to find.",
-      category: "Websites",
+      id: "crm",
+      name: "Every deal, in motion.",
+      category: "CRM",
       summary:
-        "The Locum Journal — a responsive editorial experience for healthcare professionals.",
-      image: "locum-journal",
-      tone: "sage",
-      href: "/locum-provision",
-      linkLabel: "Explore the Locum platform",
-      deliverables: [
-        "Editorial layouts",
-        "Content filters",
-        "Article navigation",
-      ],
+        "A CRM pipeline where deals move between stages with drag and drop, from first lead to won.",
+      image: "crm",
+      tone: "rose",
+      deliverables: ["Drag-and-drop pipeline", "Deal tracking", "Typed deal forms"],
       brief:
-        "Connect professionals with practical, location-relevant articles through a clear, accessible browsing experience.",
+        "Give a sales team a live view of every opportunity, from first lead to won deal, with the numbers that matter at a glance.",
       approach:
-        "Responsive article layouts, Ireland/UK and topic filters, and reusable content patterns.",
+        "A kanban pipeline with drag and drop between stages, showing value, win probability and recent activity on every card. New deals can be added as projects, services, products or bids, each with the fields it needs.",
     },
   ],
 }
@@ -304,7 +308,7 @@ export function StudioPortfolio({
     project.imageSrc || `/images/studio/${project.image}.png`
   const projectScreen = (project: Project, alt: string, lazy = false) => {
     const demo = PROJECT_DEMOS[project.image]
-    // Recordings share the stills' 1.44:1 framing, so they skip the tall care crop.
+    // Recordings are shown whole, so they skip the tall care crop.
     if (demo)
       return (
         <img
@@ -313,9 +317,9 @@ export function StudioPortfolio({
           }`}
           alt={`${
             previewsPlaying ? "Screen recording" : "Still from a screen recording"
-          } of ${demo}`}
-          width={1280}
-          height={889}
+          } of ${demo.description}`}
+          width={demo.width}
+          height={demo.height}
           loading={lazy ? "lazy" : undefined}
           decoding="async"
         />
@@ -360,7 +364,9 @@ export function StudioPortfolio({
             <span />
             <span />
             <span />
-            <p>mployus / {project.image}</p>
+            <p>
+              {design ? "mployus" : "dashboard"} / {project.image}
+            </p>
           </div>
           {projectScreen(
             project,
@@ -486,23 +492,27 @@ export function StudioPortfolio({
           onClick={() => openProject(work[0])}
           aria-label={`View project notes: ${work[0].name}`}
         >
-          <span className="studio-stage-label">IN-HOUSE PROJECT / 01</span>
+          <span className="studio-stage-label">
+            {design ? "IN-HOUSE PROJECT" : "PRODUCT DASHBOARD"} / 01
+          </span>
           <div className="studio-browser studio-hero-browser">
             <div className="studio-browser-bar">
               <span />
               <span />
               <span />
-              <p>{design ? "mployus / recruitment" : "mployus / locums"}</p>
+              <p>
+                {design ? "mployus / recruitment" : `dashboard / ${work[0].image}`}
+              </p>
             </div>
-            <img
-              src={projectImage(work[0])}
-              alt={
-                design
-                  ? "Actual MployUs recruitment website interface"
-                  : "Actual MployUs locum shift finder interface"
-              }
-              fetchPriority="high"
-            />
+            {design ? (
+              <img
+                src={projectImage(work[0])}
+                alt="Actual MployUs recruitment website interface"
+                fetchPriority="high"
+              />
+            ) : (
+              projectScreen(work[0], work[0].summary)
+            )}
           </div>
           <div
             className="studio-mini-browser studio-browser"
@@ -512,14 +522,14 @@ export function StudioPortfolio({
               <span />
               <span />
               <span />
-              <p>mployus / care</p>
+              <p>{design ? "mployus / care" : `dashboard / ${work[1].image}`}</p>
             </div>
             {design ? (
               <div className="studio-reference-crop studio-reference-hero-crop">
                 <img src={careDesignImage} alt="" />
               </div>
             ) : (
-              <img src="/images/studio/care-management.png" alt="" />
+              <img src={`/images/studio/demos/${work[1].image}.webp`} alt="" />
             )}
           </div>
           <span className="studio-stage-caption">
@@ -539,7 +549,11 @@ export function StudioPortfolio({
         </button>
         <div className="studio-hero-meta">
           <span>Independent thinking. Connected experiences.</span>
-          <span>In-house work · MployUs products</span>
+          <span>
+            {design
+              ? "In-house work · MployUs products"
+              : "Product dashboards · Real recordings"}
+          </span>
         </div>
       </section>
 
@@ -552,7 +566,9 @@ export function StudioPortfolio({
             </h2>
           </div>
           <p>
-            Real MployUs interfaces, recorded in use.
+            {design
+              ? "Real MployUs interfaces, recorded in use."
+              : "Real product dashboards, recorded in use."}
             <br />
             Not stock mock-ups. Not invented client results.
           </p>
@@ -848,7 +864,8 @@ export function StudioPortfolio({
                 }
               </Dialog.Close>
               <p className="studio-eyebrow">
-                {selected.category} / IN-HOUSE PROJECT
+                {selected.category} /{" "}
+                {design ? "IN-HOUSE PROJECT" : "PRODUCT DASHBOARD"}
               </p>
               <Dialog.Title className="studio-dialog-title">
                 {selected.name}
@@ -884,20 +901,22 @@ export function StudioPortfolio({
                 </section>
               </div>
               <div className="studio-dialog-actions">
-                <Link
-                  to={selected.href}
-                  className="studio-button"
-                  onClick={() => setSelected(null)}
-                >
-                  {selected.linkLabel}
-                  {
-                    <img
-                      src={visuals.notes.explore[0]}
-                      alt=""
-                      className="studio-reference-icon"
-                    />
-                  }
-                </Link>
+                {selected.href && selected.linkLabel && (
+                  <Link
+                    to={selected.href}
+                    className="studio-button"
+                    onClick={() => setSelected(null)}
+                  >
+                    {selected.linkLabel}
+                    {
+                      <img
+                        src={visuals.notes.explore[0]}
+                        alt=""
+                        className="studio-reference-icon"
+                      />
+                    }
+                  </Link>
+                )}
                 <button
                   className="studio-text-link"
                   onClick={() => {
