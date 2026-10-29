@@ -829,7 +829,8 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
       <section className="py-16 bg-white border-b border-black/5">
         <div className="site-container">
           <Reveal><Eyebrow>Insights &amp; resources</Eyebrow></Reveal>
-          <Reveal delay={0.06}><H1 className="mb-4 max-w-xl font-display font-normal">Fresh perspectives. Ireland &amp; the UK.</H1></Reveal>
+          {/* "perspectives." needs a slightly smaller size to fit the narrowest phones. */}
+          <Reveal delay={0.06}><H1 className="mb-4 max-w-xl font-display font-normal max-[359px]:text-[2.375rem]">Fresh perspectives. Ireland &amp; the UK.</H1></Reveal>
           <Reveal delay={0.12}>
             <p className="text-body max-w-lg" style={{ color: TM }}>
               Market trends, hiring advice, compliance updates, and salary reports — written by our consultants.
@@ -1111,7 +1112,9 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
           {mobileOpen && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:hidden bg-white border-t border-black/5 px-6 py-4 space-y-1 overflow-hidden">
+              className="lg:hidden bg-white border-t border-black/5 overflow-hidden">
+              {/* The header is fixed, so on short screens the menu scrolls within the viewport. */}
+              <div className="max-h-[calc(100dvh-var(--recruit-header-height))] overflow-y-auto overscroll-contain px-6 py-4 space-y-1">
               {NAV.map(({ label, p }) => (
                 <button key={label} onClick={() => goTo(p)}
                   className="block w-full text-left py-2.5 text-control border-b border-black/5 last:border-0"
@@ -1123,6 +1126,7 @@ export const RecruitmentServicePage: React.FC<Props> = ({ onBackToHome, onBookDe
                 <button onClick={() => openAuth('login')} className="flex-1 py-2.5 border border-black/5 rounded-lg text-control" style={{ color: TN }}>Login</button>
                 <button onClick={() => openAuth('register')} className="flex-1 py-2.5 border border-black/5 rounded-lg text-control" style={{ color: P }}>Get started</button>
                 <button onClick={openContact} className="flex-1 py-2.5 rounded-lg text-white text-control" style={{ backgroundColor: P }}>Request talent</button>
+              </div>
               </div>
             </motion.div>
           )}

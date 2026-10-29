@@ -745,7 +745,8 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
         </div>
 
         {mobileNavOpen && (
-          <div className="lg:hidden border-t border-black/5 bg-white/98 backdrop-blur-xl px-4 py-4 space-y-1">
+          // The header is fixed, so on short screens the menu scrolls within the viewport.
+          <div className="lg:hidden max-h-[calc(100dvh-var(--locum-header-height))] overflow-y-auto overscroll-contain border-t border-black/5 bg-white/98 backdrop-blur-xl px-4 py-4 space-y-1">
             {navLinks.map(l => (
               <button key={l.id} onClick={() => goto(l.id)} className={`block w-full text-left px-3 py-2.5 rounded-lg text-control font-semibold ${page === l.id ? 'bg-green-50 text-green-700' : 'text-slate-700 hover:bg-slate-50'}`}>
                 {l.label}
@@ -803,7 +804,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
               return (
                 <motion.div
                   key={stat.label}
-                  className={`flex min-h-[220px] flex-col rounded-[24px] p-6 sm:min-h-[260px] sm:p-8 ${["bg-[#dceee4]", "bg-[#eef0f1]", "bg-[#faf0e1]", "bg-[#e3eff4]"][i % 4]}`}
+                  className={`flex min-h-[220px] flex-col rounded-[24px] p-4 min-[360px]:p-6 sm:min-h-[260px] sm:p-8 ${["bg-[#dceee4]", "bg-[#eef0f1]", "bg-[#faf0e1]", "bg-[#e3eff4]"][i % 4]}`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
@@ -1337,7 +1338,7 @@ export const LocumProvisionPage: React.FC<LocumProvisionPageProps> = ({ onBackTo
                   <label className="text-[#757575] text-control font-normal">Availability</label>
                   <button
                     onClick={() => setFilterUrgentOnly(v => !v)}
-                    className={`flex items-center gap-2.5 px-3 py-2.5 rounded border text-control font-medium whitespace-nowrap transition-colors lg:px-3.5 ${filterUrgentOnly ? 'bg-red-50 border-red-200 text-red-700' : 'bg-white border-black/5 text-slate-600'}`}
+                    className={`flex items-center gap-2.5 px-3 py-2.5 rounded border text-left text-control font-medium leading-tight transition-colors lg:px-3.5 ${filterUrgentOnly ? 'bg-red-50 border-red-200 text-red-700' : 'bg-white border-black/5 text-slate-600'}`}
                   >
                     <span className={`w-2 h-2 rounded-full ${filterUrgentOnly ? 'bg-red-500 animate-pulse' : 'bg-slate-300'}`} />
                     Urgent shifts only

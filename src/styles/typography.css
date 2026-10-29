@@ -3,7 +3,8 @@
   --font-sans: "DM Sans", "DM Sans:Regular", sans-serif;
   --font-display: "Libre Caslon Display:Regular", "Libre Caslon Display", Georgia, serif;
 
-  --text-hero: clamp(3rem, 2rem + 4vw, 5.5rem);
+  /* The 2.5rem floor only applies below 400px wide, so long words fit on the smallest phones. */
+  --text-hero: clamp(2.5rem, 2rem + 4vw, 5.5rem);
   --text-hero--line-height: 1.08;
   --text-hero--letter-spacing: -0.025em;
   --text-section: clamp(2.25rem, 1.75rem + 2vw, 3.5rem);

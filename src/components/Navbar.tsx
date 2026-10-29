@@ -27,7 +27,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const markerRef = useRef<HTMLSpanElement>(null)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
   const [pinned, setPinned] = useState(false)
-  // Below the lg breakpoint the navigation and actions move into this menu.
+  // Below 1100px (where the full navigation stops fitting on one row) it moves into this menu.
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       menuButtonRef.current?.focus()
     }
     // The desktop layout has no menu, so widening the window closes it.
-    const desktop = window.matchMedia("(min-width: 1024px)")
+    const desktop = window.matchMedia("(min-width: 1100px)")
     const closeOnDesktop = () => {
       if (desktop.matches) setMenuOpen(false)
     }
@@ -125,8 +125,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           aria-label="Main navigation"
           className={
             embedded
-              ? "site-container reference-main-navbar flex items-center justify-between gap-4 py-3 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:justify-items-center lg:py-4"
-              : "site-container flex items-center justify-between gap-4 py-3 lg:flex-wrap lg:py-4"
+              ? "site-container reference-main-navbar flex items-center justify-between gap-4 py-3 min-[1100px]:grid min-[1100px]:grid-cols-[auto_minmax(0,1fr)_auto] min-[1100px]:justify-items-center min-[1100px]:py-4"
+              : "site-container flex items-center justify-between gap-4 py-3 min-[1100px]:flex-wrap min-[1100px]:py-4"
           }
         >
           <button
@@ -144,14 +144,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div
             className={
               embedded
-                ? "hidden min-w-0 w-full lg:block [&>div]:justify-center [&>div]:gap-x-4 xl:[&>div]:gap-x-6"
-                : "order-3 hidden w-full border-t border-black/5 pt-3 lg:block xl:order-none xl:w-auto xl:flex-1 xl:border-0 xl:pt-0"
+                ? "hidden min-w-0 w-full min-[1100px]:block [&>div]:justify-center [&>div]:gap-x-4 xl:[&>div]:gap-x-6"
+                : "order-3 hidden w-full border-t border-black/5 pt-3 min-[1100px]:block xl:order-none xl:w-auto xl:flex-1 xl:border-0 xl:pt-0"
             }
           >
             <MainNavigation onNavigate={navigate} onSection={section} onBookDemo={demo} />
           </div>
           {/* Phones and tablets: a demo shortcut (from sm) and the menu button. */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-2 min-[1100px]:hidden">
             <button
               type="button"
               onClick={() => {
@@ -177,8 +177,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div
             className={
               embedded
-                ? "hidden flex-row flex-nowrap items-center justify-center gap-3 lg:flex"
-                : "ml-auto hidden flex-row flex-nowrap items-center gap-3 lg:flex"
+                ? "hidden flex-row flex-nowrap items-center justify-center gap-3 min-[1100px]:flex"
+                : "ml-auto hidden flex-row flex-nowrap items-center gap-3 min-[1100px]:flex"
             }
           >
             <button type="button" onClick={demo} className={primaryButton}>
@@ -193,7 +193,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         {menuOpen && (
           <div
             id="main-navigation-menu"
-            className="absolute inset-x-0 top-full z-40 border-y border-black/5 bg-white shadow-[0_24px_40px_-28px_rgb(15_23_42/0.35)] animate-in fade-in slide-in-from-top-2 duration-200 motion-reduce:animate-none lg:hidden"
+            className="absolute inset-x-0 top-full z-40 border-y border-black/5 bg-white shadow-[0_24px_40px_-28px_rgb(15_23_42/0.35)] animate-in fade-in slide-in-from-top-2 duration-200 motion-reduce:animate-none min-[1100px]:hidden"
           >
             <div className="site-container max-h-[calc(100dvh-var(--main-navigation-height,72px))] overflow-y-auto overscroll-contain pb-6">
               <MainNavigation
